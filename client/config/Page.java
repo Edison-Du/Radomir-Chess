@@ -1,5 +1,6 @@
 package config;
 
+// rename later lol
 public enum Page {
     PAGE_1,
     PAGE_2,

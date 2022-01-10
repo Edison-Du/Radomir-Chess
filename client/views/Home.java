@@ -2,7 +2,7 @@ package views;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import config.Consts;
+import config.GraphicConsts;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -14,10 +14,10 @@ public class Home extends JPanel {
     
     public Home() {
         this.setBackground(Color.WHITE);
-        this.setBounds(Consts.NAVBAR_WIDTH, 0,  Consts.CONTENT_WIDTH, Consts.WINDOW_HEIGHT);
+        this.setBounds(GraphicConsts.NAVBAR_WIDTH, 0,  GraphicConsts.CONTENT_WIDTH, GraphicConsts.WINDOW_HEIGHT);
 
         title.setFont(new Font("Serif", Font.ITALIC, 36));
-        title.setText(Consts.WINDOW_TITLE);
+        title.setText(GraphicConsts.WINDOW_TITLE);
         this.add(title);
 
         profile.setFont(new Font("Serif", Font.ITALIC, 36));

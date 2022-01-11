@@ -28,7 +28,6 @@ public class NavigationLink extends JButton {
         this.setBorder(GraphicConsts.NAVBAR_BUTTON_MARGIN);
         this.setBackground(GraphicConsts.NAVBAR_COLOUR);
 
-
         this.isActive = false;
         this.reference = page;
     }

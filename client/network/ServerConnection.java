@@ -59,6 +59,8 @@ public class ServerConnection {
         instance.writeText(request.getText());
 
         // Get response
+        String response = instance.readText();
+        System.out.println("Response received: " + response);
     }
 
     public void writeText(String text) {

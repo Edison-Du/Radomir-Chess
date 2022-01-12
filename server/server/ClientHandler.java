@@ -41,7 +41,21 @@ public class ClientHandler extends Thread{
             while (true) {
                 if (input.ready()) {
                     String msg = input.readLine();
-                    System.out.println("Message received from client #" + clientNum + ":" + msg);
+
+                    Response request = Response.parse(msg);
+                    
+                    System.out.println("Message received from client #" + clientNum + ":");
+                    System.out.println("TYPE:  " + request.getType());
+                    for (int i = 0; i < request.getNumParams(); i++) {
+                        System.out.println("PARAM: " + request.getParam(i));
+                    }
+
+                    Response response = new Response("SUCCESS");
+                    response.addParam("I got your msg.");
+
+                    // Make separate method
+                    output.println(response.getText());
+                    output.flush();
                 }
             }
 

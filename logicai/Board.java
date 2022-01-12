@@ -1,3 +1,5 @@
+package logicai;
+
 /**
  * A class for a board
  * Contains the player to move and all the tiles

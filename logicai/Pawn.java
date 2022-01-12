@@ -1,3 +1,5 @@
+package logicai;
+
 /**
  * Class for a pawn
  * @author Leo Guan

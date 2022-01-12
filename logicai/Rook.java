@@ -1,3 +1,5 @@
+package logicai;
+
 /**
  * Class for a rook
  * @author Leo Guan

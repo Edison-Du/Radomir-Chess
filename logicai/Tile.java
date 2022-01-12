@@ -1,3 +1,5 @@
+package logicai;
+
 /**
  * Class for a tile
  * @author Leo Guan

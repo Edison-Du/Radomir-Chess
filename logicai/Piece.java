@@ -1,3 +1,5 @@
+package logicai;
+
 /**
  * Class for a generic piece
  * @author Leo Guan

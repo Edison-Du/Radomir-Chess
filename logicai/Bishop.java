@@ -1,3 +1,5 @@
+package logicai;
+
 /**
  * Class for a bishop
  * @author Leo Guan

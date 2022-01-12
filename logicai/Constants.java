@@ -1,3 +1,5 @@
+package logicai;
+
 /**
  * Class for constants and specific maps
  * @author Leo Guan

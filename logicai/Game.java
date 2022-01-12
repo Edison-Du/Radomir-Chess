@@ -1,3 +1,5 @@
+package logicai;
+
 /**
  * Class for a game of chess
  * Also holds main method
@@ -9,7 +11,7 @@ import java.util.Stack;
 import java.util.Scanner;
 import java.util.HashSet;
 
-class Game {
+public class Game {
     private Stack<Board> moves;
     private Board current;
     

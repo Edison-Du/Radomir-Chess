@@ -38,11 +38,13 @@ public class ClientHandler extends Thread{
     @Override   
     public void run() {
         try {
-            if (input.ready()) {
-                String msg = input.readLine();
-                System.out.println("Message received from client #" + clientNum + ":");
-                System.out.println(msg);
+            while (true) {
+                if (input.ready()) {
+                    String msg = input.readLine();
+                    System.out.println("Message received from client #" + clientNum + ":" + msg);
+                }
             }
+
         } catch (Exception e) {
             System.out.println("Failed to receive message from client #" + clientNum);
             e.printStackTrace();

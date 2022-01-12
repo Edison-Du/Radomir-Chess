@@ -2,6 +2,9 @@ package views;
 
 import javax.swing.JPanel;
 import config.GraphicConsts;
+import network.Request;
+import network.ServerConnection;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -14,6 +17,18 @@ public class Home extends JPanel {
     public Home() {
         this.setBackground(Color.WHITE);
         this.setBounds(GraphicConsts.NAVBAR_WIDTH, 0,  GraphicConsts.CONTENT_WIDTH, GraphicConsts.WINDOW_HEIGHT);
+
+        // Testing request functionality
+        try {
+            Request test = new Request("TEST");
+            test.addParam("Super Idol");
+            test.addParam("De xiao rong");
+            
+            ServerConnection.sendRequest(test);
+
+        } catch (Exception e) {
+            System.out.println("??");
+        }
     }
 
     @Override

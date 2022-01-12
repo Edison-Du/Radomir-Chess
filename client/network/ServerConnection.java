@@ -56,7 +56,6 @@ public class ServerConnection {
 
         // Debugging code
         System.out.println("Sending request to server: " + request.getText());
-        
         instance.writeText(request.getText());
 
         // Get response

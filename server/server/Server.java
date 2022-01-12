@@ -27,7 +27,6 @@ public class Server {
     private boolean acceptConnection() {
         try {
             Socket socket = serverSocket.accept();
-            // Later we may want to assign ID to each client
             Thread thread = new ClientHandler(socket);
             thread.start();
             return true;

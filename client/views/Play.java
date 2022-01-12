@@ -4,6 +4,9 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import config.GraphicConsts;
+import network.Request;
+import network.ServerConnection;
+
 import java.awt.Rectangle;
 import java.awt.Color;
 import java.awt.Font;
@@ -31,5 +34,17 @@ public class Play extends JPanel {
 
         //Play Buttons
         againstAI.setBounds(buttonBounds);
+
+
+        try {
+            Request test = new Request("JEFFERY");
+            test.addParam("xu");
+            test.addParam("100 euclid, band leader, clarinet leader, 100 ap math, 100 chemistry, 100 * 3 iq,");
+            
+            ServerConnection.sendRequest(test);
+
+        } catch (Exception e) {
+            System.out.println("??");
+        }
     }
 }

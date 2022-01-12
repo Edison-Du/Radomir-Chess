@@ -1,3 +1,4 @@
+import network.Request;
 import network.ServerConnection;
 import views.Window;
 

@@ -28,7 +28,8 @@ public class NavigationBar extends JPanel {
 
             this.add(button);
 
-            if (currentPage == Page.PAGE_1) {
+            // Default page
+            if (currentPage == Page.PLAY) {
                 button.doClick();
             }
         }

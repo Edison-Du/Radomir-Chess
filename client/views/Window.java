@@ -18,7 +18,8 @@ public class Window extends JFrame {
 
         navigationBar = new NavigationBar(this);
         
-        this.changePage(Page.PAGE_1);
+        // Default page
+        this.changePage(Page.PLAY);
 
         this.setSize(GraphicConsts.WINDOW_WIDTH, GraphicConsts.WINDOW_HEIGHT);
         this.setTitle(GraphicConsts.WINDOW_TITLE);
@@ -42,18 +43,15 @@ public class Window extends JFrame {
             this.remove(content);
         }
         // This is terrible
-        if (currentPage == Page.PAGE_1) {
-            content = new Home();
-        } else if (currentPage == Page.PAGE_2) {
+        if (currentPage == Page.PLAY) {
             content = new Play();
-        } else if (currentPage == Page.PAGE_3) {
+        } else if (currentPage == Page.SETTINGS) {
+        } else if (currentPage == Page.ABOUT) {
+        } else if (currentPage == Page.LOGIN) {
             content = new Login();
-        } else if (currentPage == Page.PAGE_4) {
-            content = new Register();
-        } else if (currentPage == Page.PAGE_5) {
-        } else if (currentPage == Page.PAGE_6) {
-        }
-
+        } else if (currentPage == Page.QUIT) {
+            System.exit(0);
+        } 
         content.revalidate();
         this.add(content);
         this.repaint();

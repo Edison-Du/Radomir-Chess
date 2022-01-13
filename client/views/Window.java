@@ -6,9 +6,7 @@ import javax.swing.JPanel;
 import config.GraphicConsts;
 import config.Page;
 import views.navigation.NavigationBar;
-import views.pages.Game;
-import views.pages.Home;
-import views.pages.Login;
+import views.pages.*;
 
 public class Window extends JFrame {
 
@@ -47,10 +45,11 @@ public class Window extends JFrame {
         }
         // This is terrible
         if (currentPage == Page.PLAY) {
-            content = new Game();
+            content = new Play();
         } else if (currentPage == Page.SETTINGS) {
             content = new Home(); // Just testing request
         } else if (currentPage == Page.ABOUT) {
+            content = new Game(); // just putting here for no reason
         } else if (currentPage == Page.LOGIN) {
             content = new Login();
         } else if (currentPage == Page.QUIT) {

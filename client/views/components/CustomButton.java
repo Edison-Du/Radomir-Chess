@@ -7,11 +7,13 @@ import java.awt.Graphics;
 public class CustomButton extends JButton {
 
     private Color hoverColor, pressedColor;
+    private boolean isRound;
 
     public CustomButton (String text) {
         super(text);
         super.setContentAreaFilled(false);
         this.setFocusable(false);
+        isRound = false;
     }
 
     public void setHoverColor(Color color) {
@@ -30,6 +32,10 @@ public class CustomButton extends JButton {
         return this.pressedColor;
     }
 
+    public void setRound(boolean isRound) {
+        this.isRound = isRound;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
 
@@ -43,7 +49,15 @@ public class CustomButton extends JButton {
         } else {
             g.setColor(getBackground());
         }
-        g.fillRect(0, 0, getWidth(), getHeight());
+        if (isRound) {
+            // use constants
+            g.fillRoundRect(0, 0, getWidth(), getHeight(), 50, 50);
+        } else {
+            g.fillRoundRect(0, 0, getWidth(), getHeight(), 50, 50);
+
+            // g.fillRect(0, 0, getWidth(), getHeight());
+
+        }
         super.paintComponent(g);
     }
 }

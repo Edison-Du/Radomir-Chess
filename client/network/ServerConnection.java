@@ -50,17 +50,20 @@ public class ServerConnection {
     }
 
     // Just testing for now, change this later to have a return message (not void).
-    public static void sendRequest(Request request) {
+    public static void sendMessage(Message message) {
         // Make sure that an instance is active
         createInstance();
 
         // Debugging code
-        System.out.println("Sending request to server: " + request.getText());
-        instance.writeText(request.getText());
+        System.out.println("Sending message to server: " + message.getText());
+        instance.writeText(message.getText());
+    }
 
-        // Get response
-        String response = instance.readText();
-        System.out.println("Response received: " + response);
+    public static Message getMessage() {
+        createInstance();
+
+        Message message = Message.parse(instance.readText());
+        return message;
     }
 
     public void writeText(String text) {

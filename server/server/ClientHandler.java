@@ -42,7 +42,7 @@ public class ClientHandler extends Thread{
                 if (input.ready()) {
                     String msg = input.readLine();
 
-                    Response request = Response.parse(msg);
+                    Message request = Message.parse(msg);
                     
                     System.out.println("Message received from client #" + clientNum + ":");
                     System.out.println("TYPE:  " + request.getType());
@@ -50,7 +50,7 @@ public class ClientHandler extends Thread{
                         System.out.println("PARAM: " + request.getParam(i));
                     }
 
-                    Response response = new Response("SUCCESS");
+                    Message response = new Message("SUCCESS");
                     response.addParam("I got your msg.");
 
                     // Make separate method

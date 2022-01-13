@@ -46,6 +46,7 @@ public class Window extends JFrame {
         if (currentPage == Page.PLAY) {
             content = new Play();
         } else if (currentPage == Page.SETTINGS) {
+            content = new Home(); // Just testing request
         } else if (currentPage == Page.ABOUT) {
         } else if (currentPage == Page.LOGIN) {
             content = new Login();

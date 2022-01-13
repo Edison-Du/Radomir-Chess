@@ -4,7 +4,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import config.GraphicConsts;
-import network.Request;
+import network.Message;
 import network.ServerConnection;
 
 import java.awt.Rectangle;

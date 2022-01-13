@@ -1,4 +1,4 @@
-import network.Request;
+import network.Message;
 import network.ServerConnection;
 import views.Window;
 

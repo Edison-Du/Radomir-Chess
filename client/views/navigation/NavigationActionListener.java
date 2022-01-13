@@ -15,6 +15,7 @@ public class NavigationActionListener implements ActionListener{
         this.currentButton = null;
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) { 
         if (e.getSource() instanceof NavigationLink) {
             NavigationLink button = (NavigationLink) e.getSource();

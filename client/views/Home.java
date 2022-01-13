@@ -2,7 +2,7 @@ package views;
 
 import javax.swing.JPanel;
 import config.GraphicConsts;
-import network.Request;
+import network.Message;
 import network.ServerConnection;
 
 import java.awt.Color;
@@ -20,11 +20,13 @@ public class Home extends JPanel {
 
         // Testing request functionality
         try {
-            Request test = new Request("TEST");
+            Message test = new Message("TEST");
             test.addParam("Super Idol");
             test.addParam("De xiao rong");
             
-            ServerConnection.sendRequest(test);
+            ServerConnection.sendMessage(test);
+
+            System.out.println(ServerConnection.getMessage().getText());
 
         } catch (Exception e) {
             System.out.println("??");

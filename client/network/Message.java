@@ -1,16 +1,16 @@
-package server;
+package network;
 
 import java.util.ArrayList;
 
 /**
- * Requests have types and parameters, when turned into text,
+ * messages have types and parameters, when turned into text,
  * they look like this:
  * {type}{param1}{param2}{param3}...
  * 
  * As such, the type and param cannot contain curly brackets.
  */
 
-public class Response {
+public class Message {
 
     private static char SEPARATOR_START = '{';
     private static char SEPARATOR_END = '}';
@@ -18,12 +18,12 @@ public class Response {
     private String type;
     private ArrayList<String> parameters;
 
-    public Response(String type) throws InvalidResponseException {
+    public Message(String type) throws InvalidMessageException {
         if (validateString(type)) {
             this.type = type;
             parameters = new ArrayList<>();
         } else {
-            throw new InvalidResponseException("Invalid characters used in request type. You must not use '" + SEPARATOR_START + "' or '" + SEPARATOR_END + "'.");
+            throw new InvalidMessageException("Invalid characters used in message type. You must not use '" + SEPARATOR_START + "' or '" + SEPARATOR_END + "'.");
         }
     }
 
@@ -78,15 +78,15 @@ public class Response {
         return text.toString();
     }
 
-    // Null if invalid request
-    public static Response parse(String requestText){
+    // Null if invalid message
+    public static Message parse(String messageText){
         // Stores index in the string for the last curly bracket
         int lastIndex = -1;
         ArrayList<String> params = new ArrayList<>();
 
-        for (int i = 0; i < requestText.length(); i++) {
+        for (int i = 0; i < messageText.length(); i++) {
 
-            char currentChar = requestText.charAt(i);
+            char currentChar = messageText.charAt(i);
 
             // There are characters not inside the curly brackets, invalid.
             if (lastIndex == -1 && currentChar != SEPARATOR_START) {
@@ -100,7 +100,7 @@ public class Response {
                 lastIndex = i;
 
             } else if (currentChar == SEPARATOR_END) {
-                params.add(requestText.substring(lastIndex+1, i));
+                params.add(messageText.substring(lastIndex+1, i));
                 lastIndex = -1;
 
             }
@@ -111,16 +111,16 @@ public class Response {
 
         }
         try {
-            Response request = new Response(params.get(0));
+            Message message = new Message(params.get(0));
 
             for (int i = 1; i < params.size(); i++) {
-                request.addParam(params.get(i));
+                message.addParam(params.get(i));
             }
 
-            return request;
+            return message;
 
-        } catch (InvalidResponseException e) {
-            System.out.println("Invalid request");
+        } catch (InvalidMessageException e) {
+            System.out.println("Invalid message");
             e.printStackTrace();
             return null;
         }

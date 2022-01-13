@@ -1,4 +1,4 @@
-package network;
+package server;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * As such, the type and param cannot contain curly brackets.
  */
 
-public class Request {
+public class Message {
 
     private static char SEPARATOR_START = '{';
     private static char SEPARATOR_END = '}';
@@ -18,12 +18,12 @@ public class Request {
     private String type;
     private ArrayList<String> parameters;
 
-    public Request(String type) throws InvalidRequestException {
+    public Message(String type) throws InvalidMessageException {
         if (validateString(type)) {
             this.type = type;
             parameters = new ArrayList<>();
         } else {
-            throw new InvalidRequestException("Invalid characters used in request type. You must not use '" + SEPARATOR_START + "' or '" + SEPARATOR_END + "'.");
+            throw new InvalidMessageException("Invalid characters used in request type. You must not use '" + SEPARATOR_START + "' or '" + SEPARATOR_END + "'.");
         }
     }
 
@@ -79,7 +79,7 @@ public class Request {
     }
 
     // Null if invalid request
-    public static Request parse(String requestText){
+    public static Message parse(String requestText){
         // Stores index in the string for the last curly bracket
         int lastIndex = -1;
         ArrayList<String> params = new ArrayList<>();
@@ -111,7 +111,7 @@ public class Request {
 
         }
         try {
-            Request request = new Request(params.get(0));
+            Message request = new Message(params.get(0));
 
             for (int i = 1; i < params.size(); i++) {
                 request.addParam(params.get(i));
@@ -119,7 +119,7 @@ public class Request {
 
             return request;
 
-        } catch (InvalidRequestException e) {
+        } catch (InvalidMessageException e) {
             System.out.println("Invalid request");
             e.printStackTrace();
             return null;

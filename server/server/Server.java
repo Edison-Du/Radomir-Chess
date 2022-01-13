@@ -4,17 +4,21 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import config.Consts;
+import game.Lobby;
+
 import java.util.*;
 
 public class Server {
 
     private ServerSocket serverSocket;
-    private HashMap<String, String> database;
+    private LobbyManager lobbyManager;
+    private Database database;
 
     public Server() {
         try {
-            database = new HashMap<String, String>();
             serverSocket = new ServerSocket(Consts.PORT);
+            lobbyManager = new LobbyManager();
+            database = new Database();
 
             System.out.println("Server has started.");
             
@@ -26,12 +30,13 @@ public class Server {
             System.out.println("Error starting server.");
             e.printStackTrace();
         }
+
     }
 
     private boolean acceptConnection() {
         try {
             Socket socket = serverSocket.accept();
-            Thread thread = new ClientHandler(socket);
+            Thread thread = new ClientHandler(this, socket);
             thread.start();
             return true;
 
@@ -40,5 +45,13 @@ public class Server {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public LobbyManager getLobbyManager() {
+        return this.lobbyManager;
+    }
+
+    public Database getDatabase() {
+        return this.database;
     }
 }

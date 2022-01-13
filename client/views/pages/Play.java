@@ -1,6 +1,9 @@
 package views.pages;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.event.ActionListener;
@@ -10,6 +13,10 @@ import views.components.ContentPanel;
 import views.components.CustomButton;
 
 import config.GraphicConsts;
+import config.MessageTypes;
+import network.InvalidMessageException;
+import network.Message;
+import network.ServerConnection;
 
 public class Play extends ContentPanel implements ActionListener {
     
@@ -21,6 +28,10 @@ public class Play extends ContentPanel implements ActionListener {
     private PlayMenuButton playBotBtn;
 
     private PlayMenuButton[] buttons;
+
+    private final JLabel joinLobbyLabel= new JLabel();
+    private final JTextField joinLobbyField = new JTextField();
+    private String joinLobbyCode;
 
     private String[] buttonText = {
         "Join Game",
@@ -37,6 +48,14 @@ public class Play extends ContentPanel implements ActionListener {
             GraphicConsts.MENU_BUTTON_MARGIN * 2 + GraphicConsts.MENU_BUTTON_WIDTH,
             GraphicConsts.MENU_BUTTON_MARGIN
         );
+        joinGameBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(joinLobbyField.getText());
+                joinLobbyCode = joinLobbyField.getText();
+            }
+        });
+
         browseGameBtn = new PlayMenuButton(
             buttonText[2], 
             GraphicConsts.MENU_BUTTON_MARGIN,
@@ -60,38 +79,59 @@ public class Play extends ContentPanel implements ActionListener {
             this.add(button);
         }
 
-            // this.add(joinGameBtn);
-            // this.add(createGameBtn);
-            // this.add(browseGameBtn);
-            // this.add(playBotBtn);
+        joinLobbyLabel.setText("Join Lobby:");
+        joinLobbyLabel.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 300, 150, 25);
+        this.add(joinLobbyLabel);
 
-        // buttons[i].setBackground(GraphicConsts.MENU_BUTTON_COLOUR);
-            // buttons[i].setBounds(
-            //     GraphicConsts.MENU_BUTTON_MARGIN,
-            //     GraphicConsts.MENU_BUTTON_Y_OFFSET + GraphicConsts.MENU_BUTTON_GAP * i,
-            //     GraphicConsts.MENU_BUTTON_WIDTH,
-            //     GraphicConsts.MENU_BUTTON_HEIGHT
-            // );
-            // buttons[i].setHoverColor(GraphicConsts.MENU_BUTTON_HIGHLIGHT);
-            // buttons[i].setPressedColor(GraphicConsts.MENU_BUTTON_HIGHLIGHT.brighter());
-
-            // buttons[i].setRound(true);
-            // buttons[i].setBorder(new EmptyBorder(0,0,0,0));
-            // buttons[i].addActionListener(this);
+        joinLobbyField.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 320, 150, 25);
+        this.add(joinLobbyField);
     }
 
     //@Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == joinGameBtn) {
             System.out.println("Join game");
+            try {
+				Message joinLobby = new Message(MessageTypes.JOIN_GAME);
+                // joinLobby.addParam(this.getjoinLobbyCode());
+                joinLobby.addParam("1000");
+                ServerConnection.sendMessage(joinLobby);
 
+                Message response = ServerConnection.getMessage();
+                System.out.println(response.getText());
+
+			} catch (InvalidMessageException ex) {
+				ex.printStackTrace();
+			}
         } else if (e.getSource() == createGameBtn) {
             System.out.println("Create game");
+            try {
+				Message createLobby = new Message(MessageTypes.CREATE_GAME);
+                ServerConnection.sendMessage(createLobby);
+
+                Message response = ServerConnection.getMessage();
+                System.out.println(response.getText());
+
+
+			} catch (InvalidMessageException ex) {
+				ex.printStackTrace();
+			}
 
         } else if (e.getSource() == browseGameBtn) {
+            try {
+				Message browseGames = new Message(MessageTypes.BROWSE_GAMES);
+                ServerConnection.sendMessage(browseGames);
 
+                Message response = ServerConnection.getMessage();
+                System.out.println(response.getText());
+			} catch (InvalidMessageException ex) {
+				ex.printStackTrace();
+			}
         } else if (e.getSource() == playBotBtn) {
-
+        
         }
+    }
+    public String getjoinLobbyCode() {
+        return this.joinLobbyCode;
     }
 }

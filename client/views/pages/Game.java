@@ -17,6 +17,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.KeyAdapter;
 import java.awt.Graphics;
 
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import game.Pieces;
 
 public class Game extends ContentPanel {
@@ -64,6 +66,14 @@ public class Game extends ContentPanel {
     }
 
     public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D)g;
+        
+        g2d.addRenderingHints(
+            new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+            RenderingHints.VALUE_ANTIALIAS_ON)
+        );
+
+
         drawBoard(g);
         drawPieces(g);
     }

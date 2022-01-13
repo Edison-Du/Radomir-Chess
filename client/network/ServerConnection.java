@@ -74,7 +74,6 @@ public class ServerConnection {
     public String readText() {
         try {
             return this.input.readLine();
-
         } catch (Exception e) {
             System.out.println("Unable to read message from server.");
             e.printStackTrace();

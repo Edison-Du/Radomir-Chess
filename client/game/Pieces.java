@@ -10,12 +10,12 @@ public class Pieces {
 	public static Color WHITECOLOR = Color.WHITE;
 	public static Color BLACKCOLOR = Color.BLACK;
 	
-	public static String PAWN = "♟";
-	public static String ROOK = "♜";
-	public static String KNIGHT = "♞";
-	public static String BISHOP = "♝";
-	public static String QUEEN = "♛";
-	public static String KING = "♚";
+	// public static String PAWN = "♟";
+	// public static String ROOK = "♜";
+	// public static String KNIGHT = "♞";
+	// public static String BISHOP = "♝";
+	// public static String QUEEN = "♛";
+	// public static String KING = "♚";
 	
 	public static Image bBishop;
 	public static Image bKing;

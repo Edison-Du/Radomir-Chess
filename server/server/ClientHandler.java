@@ -5,18 +5,28 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import config.MessageTypes;
+import game.Lobby;
+
 public class ClientHandler extends Thread{
     
     private static int numClients = 0;
     private int clientNum;
+    private boolean userActive;
 
     private Socket clientSocket;
     private BufferedReader input;
     private PrintWriter output;
 
+    private Server server;
+
     // Later we may want to assign ID to each client
-    public ClientHandler(Socket socket) {
+    public ClientHandler(Server server, Socket socket) {
         clientSocket = socket;
+
+        this.server = server;
+        this.userActive = true;
+
         clientNum = ++ClientHandler.numClients;
         
         try {
@@ -35,27 +45,19 @@ public class ClientHandler extends Thread{
         }
     }
 
+    public int getClientNum() {
+        return clientNum;
+    }
+
     @Override   
     public void run() {
         try {
-            while (true) {
+            while (userActive) {
                 if (input.ready()) {
                     String msg = input.readLine();
-
                     Message request = Message.parse(msg);
                     
-                    System.out.println("Message received from client #" + clientNum + ":");
-                    System.out.println("TYPE:  " + request.getType());
-                    for (int i = 0; i < request.getNumParams(); i++) {
-                        System.out.println("PARAM: " + request.getParam(i));
-                    }
-
-                    Message response = new Message("SUCCESS");
-                    response.addParam("I got your msg.");
-
-                    // Make separate method
-                    output.println(response.getText());
-                    output.flush();
+                    evalRequest(request);
                 }
             }
 
@@ -65,15 +67,66 @@ public class ClientHandler extends Thread{
         }
     }
 
-    public String evalRequest(Message request){
-        if (request.getType() == "LOGIN"){
-            String username = request.getParam(0);
-            String password = request.getParam(1);
-            
-        }
+    public void sendMessage(Message message) {
+        output.println(message.getText());
+        output.flush();
     }
 
-    public int getClientNum() {
-        return clientNum;
+    public String registerRequest(String username, String password){
+        return "Hey";
+    }
+
+    public void evalRequest(Message request){
+        // Register
+        if (request.getType().equals(MessageTypes.REGISTER)){
+            String username = request.getParam(0);
+            String password = request.getParam(1);
+            registerRequest(username, password);
+        } else if (request.getType().equals(MessageTypes.LOGIN)){
+            // do stuff
+        } else if (request.getType().equals(MessageTypes.JOIN_GAME)) {
+            // This is bad
+            int code = Integer.parseInt(request.getParam(0));
+            Lobby lobby = server.getLobbyManager().getLobby(code);
+
+            try {
+
+                if (lobby == null) {
+                    Message message = new Message("BAD");
+                    this.sendMessage(message);
+
+                } else {
+                    lobby.setGuest(this);
+
+                    Message message = new Message("GOOD");
+                    this.sendMessage(message);
+                }
+
+                server.getLobbyManager().print();
+
+            } catch (Exception e) {
+
+            }
+
+        } else if (request.getType().equals(MessageTypes.CREATE_GAME)) {
+            Lobby lobby = server.getLobbyManager().createLobby();
+            lobby.setHost(this);
+            try {
+                Message message = new Message("GOOD");
+                this.sendMessage(message);
+            } catch (Exception e) {
+
+            }
+
+        } else if (request.getType().equals(MessageTypes.BROWSE_GAMES)) {
+            try {
+                Message message = new Message(server.getLobbyManager().getActiveGames().toString());
+                this.sendMessage(message);
+            } catch (Exception e) {
+
+            }
+        } else if (request.getType().equals(MessageTypes.EXIT_PROGRAM)) {
+            this.userActive = false;
+        }
     }
 }

@@ -1,5 +1,7 @@
 package views;
 
+import javax.swing.BoxLayout;
+import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -22,15 +24,18 @@ public class Window extends JFrame {
         // Default page
         this.changePage(Page.PLAY);
 
-        this.setSize(GraphicConsts.WINDOW_WIDTH, GraphicConsts.WINDOW_HEIGHT);
+        // this.setSize(GraphicConsts.WINDOW_WIDTH, GraphicConsts.WINDOW_HEIGHT);
         this.setTitle(GraphicConsts.WINDOW_TITLE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.setLayout(null);
+        this.setLayout(new BorderLayout());
+
+        this.getContentPane().add(navigationBar, BorderLayout.WEST);
+        this.getContentPane().add(content);
+        
         this.setVisible(true);
 
-        this.add(navigationBar);
-        this.add(content);
+        this.pack();
     }
 
     // change to Boolean probably

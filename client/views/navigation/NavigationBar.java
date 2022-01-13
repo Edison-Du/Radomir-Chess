@@ -1,5 +1,7 @@
 package views.navigation;
 
+import java.awt.Dimension;
+
 import javax.swing.JPanel;
 
 import views.Window;
@@ -13,6 +15,9 @@ public class NavigationBar extends JPanel {
     public NavigationBar (Window window) {
 
         this.setBackground(GraphicConsts.NAVBAR_COLOUR);
+        this.setPreferredSize(
+            new Dimension(GraphicConsts.NAVBAR_WIDTH, GraphicConsts.WINDOW_HEIGHT)
+        );
         this.setBounds(0, 0,  GraphicConsts.NAVBAR_WIDTH, GraphicConsts.WINDOW_HEIGHT);
         this.setLayout(null);
 

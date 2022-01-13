@@ -17,6 +17,9 @@ public class GraphicConsts {
     public static final int CONTENT_WIDTH = WINDOW_WIDTH - NAVBAR_WIDTH;
 
     public static final int NAVBAR_BUTTON_HEIGHT = 60;
+
+    //Right Panel
+    public static final Color FRAME_COLOUR = new Color(235, 235, 235);
     
     // Navbar
     public static final Color NAVBAR_COLOUR = new Color(25,26,31);
@@ -25,9 +28,15 @@ public class GraphicConsts {
     public static final Border NAVBAR_BUTTON_HOVER_MARGIN = new EmptyBorder(0, 30, 0, 0);
 
     // Play page
-    public static final int MENU_BUTTON_MARGIN = 150;
-    public static final int MENU_BUTTON_HEIGHT = 100;
-    public static final int MENU_BUTTON_WIDTH = CONTENT_WIDTH - MENU_BUTTON_MARGIN * 2;
+    public static final int MENU_BUTTON_MARGIN = 70;
+    // public static final int MENU_BUTTON_Y_OFFSET = 100;
+    public static final int MENU_BUTTON_HEIGHT = WINDOW_HEIGHT / 2 - (int) (MENU_BUTTON_MARGIN * 1.5);
+    public static final int MENU_BUTTON_WIDTH = CONTENT_WIDTH / 2 - (int) (MENU_BUTTON_MARGIN * 1.5);
+    // public static final int MENU_BUTTON_GAP = MENU_BUTTON_HEIGHT + 25;
+
+    public static final Color MENU_BUTTON_COLOUR = new Color(128, 164, 84);
+    public static final Color MENU_BUTTON_HIGHLIGHT = new Color(144, 186, 93);
+    public static final int MENU_BUTTON_RADIUS = 20;
     
     private GraphicConsts() {}
 }

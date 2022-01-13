@@ -4,14 +4,18 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import config.Consts;
+import java.util.*;
 
 public class Server {
 
     private ServerSocket serverSocket;
+    private HashMap<String, String> database;
 
     public Server() {
         try {
+            database = new HashMap<String, String>();
             serverSocket = new ServerSocket(Consts.PORT);
+
             System.out.println("Server has started.");
             
             while (true) {

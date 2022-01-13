@@ -65,6 +65,14 @@ public class ClientHandler extends Thread{
         }
     }
 
+    public String evalRequest(Message request){
+        if (request.getType() == "LOGIN"){
+            String username = request.getParam(0);
+            String password = request.getParam(1);
+            
+        }
+    }
+
     public int getClientNum() {
         return clientNum;
     }

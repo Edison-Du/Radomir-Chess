@@ -1,22 +1,21 @@
-package views;
+package views.pages;
 
 import javax.swing.JPanel;
 import config.GraphicConsts;
 import network.Message;
 import network.ServerConnection;
+import views.components.ContentPanel;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-public class Home extends JPanel {
+public class Home extends ContentPanel {
     private final int TITLE_X = 200;
     private final int TITLE_Y = 200;
     private final int TITLE_FONT_SIZE = 50;
     
     public Home() {
-        this.setBackground(Color.WHITE);
-        this.setBounds(GraphicConsts.NAVBAR_WIDTH, 0,  GraphicConsts.CONTENT_WIDTH, GraphicConsts.WINDOW_HEIGHT);
 
         // Testing request functionality
         try {

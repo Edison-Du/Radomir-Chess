@@ -1,4 +1,4 @@
-package views;
+package views.pages;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import config.GraphicConsts;
 import network.Message;
 import network.ServerConnection;
+import views.components.ContentPanel;
 
 import java.awt.Rectangle;
 import java.awt.Color;
@@ -18,7 +19,7 @@ import java.awt.Graphics;
 
 import game.Pieces;
 
-public class Play extends JPanel {
+public class Game extends ContentPanel {
     private final JLabel title = new JLabel();
     private final JLabel profile = new JLabel();
 
@@ -42,11 +43,7 @@ public class Play extends JPanel {
         {"wr", "wn", "wb", "wq", "wk", "wb", "wn", "wr"}
     };
 
-    public Play() {
-        this.setBackground(Color.WHITE);
-        this.setBounds(GraphicConsts.NAVBAR_WIDTH, 0,  GraphicConsts.CONTENT_WIDTH, GraphicConsts.WINDOW_HEIGHT);
-        this.setLayout(null);
-
+    public Game() {
         title.setFont(new Font("Serif", Font.ITALIC, 36));
         title.setText(GraphicConsts.WINDOW_TITLE);
         title.setSize(new Dimension(280, 80));

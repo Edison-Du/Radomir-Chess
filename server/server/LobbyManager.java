@@ -7,14 +7,18 @@ import javax.swing.Action;
 import game.Lobby;
 
 public class LobbyManager {
-    private HashMap<Integer, Lobby> activeGames;
+    private HashMap<String, Lobby> activeGames;
     
     public LobbyManager() {
         activeGames = new HashMap<>();
     }
 
-    public boolean lobbyExists(int code) {
+    public boolean lobbyExists(String code) {
         return activeGames.get(code) != null;
+    }
+
+    public Lobby getLobby(String code) {
+        return activeGames.get(code);
     }
 
     public Lobby createLobby() {
@@ -32,15 +36,7 @@ public class LobbyManager {
         return lobby;
     }
 
-    public Lobby getLobby(int code) {
-        return activeGames.get(code);
-    }
-
-    public void print() {
-        System.out.println(activeGames);
-    }
-
-    public HashMap<Integer, Lobby> getActiveGames() {
+    public HashMap<String, Lobby> getActiveGames() {
         return this.activeGames;
     }
 }

@@ -15,8 +15,8 @@ public class NavigationLink extends JButton {
     private Page reference;
     private boolean isActive;
 
-    public NavigationLink(int x, int y, String text, Page page) {
-        super(text);
+    public NavigationLink(int x, int y, Page page) {
+        super(page.name());
         super.setContentAreaFilled(false);
 
         this.setFocusable(false);
@@ -38,6 +38,11 @@ public class NavigationLink extends JButton {
 
     public void toggleActive() {
         isActive = !isActive;
+    }
+
+    public void changePage(Page page) {
+        this.reference = page;
+        this.setText(page.name());
     }
 
     @Override

@@ -79,12 +79,12 @@ public class Play extends ContentPanel implements ActionListener {
             this.add(button);
         }
 
-        joinLobbyLabel.setText("Join Lobby:");
-        joinLobbyLabel.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 300, 150, 25);
-        this.add(joinLobbyLabel);
+        // joinLobbyLabel.setText("Join Lobby:");
+        // joinLobbyLabel.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 300, 150, 25);
+        // this.add(joinLobbyLabel);
 
-        joinLobbyField.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 320, 150, 25);
-        this.add(joinLobbyField);
+        // joinLobbyField.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 320, 150, 25);
+        // this.add(joinLobbyField);
     }
 
     //@Override
@@ -104,18 +104,7 @@ public class Play extends ContentPanel implements ActionListener {
 				ex.printStackTrace();
 			}
         } else if (e.getSource() == createGameBtn) {
-            System.out.println("Create game");
-            try {
-				Message createLobby = new Message(MessageTypes.CREATE_GAME);
-                ServerConnection.sendMessage(createLobby);
-
-                Message response = ServerConnection.getMessage();
-                System.out.println(response.getText());
-
-
-			} catch (InvalidMessageException ex) {
-				ex.printStackTrace();
-			}
+            createGame();
 
         } else if (e.getSource() == browseGameBtn) {
             try {
@@ -133,5 +122,19 @@ public class Play extends ContentPanel implements ActionListener {
     }
     public String getjoinLobbyCode() {
         return this.joinLobbyCode;
+    }
+
+    public void createGame() {
+        System.out.println("Create game");
+        try {
+            Message createLobby = new Message(MessageTypes.CREATE_GAME);
+            ServerConnection.sendMessage(createLobby);
+
+            // Message response = ServerConnection.getMessage();
+            // System.out.println(response.getText());
+
+        } catch (InvalidMessageException ex) {
+            ex.printStackTrace();
+        }
     }
 }

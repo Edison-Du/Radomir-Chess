@@ -5,7 +5,7 @@ import server.ClientHandler;
 public class Lobby {
     
     private ClientHandler host, guest;
-    private int code;
+    private String code;
 
     public Lobby() {
         generateCode();
@@ -18,13 +18,21 @@ public class Lobby {
     public void setGuest(ClientHandler guest) {
         this.guest = guest;
     }
+    
+    public ClientHandler getHost() {
+        return this.host;
+    }
 
-    public int getCode() {
+    public ClientHandler getGuest() {
+        return this.guest;
+    }
+
+    public String getCode() {
         return code;
     }
 
     private void generateCode() {
         // Temporary
-        this.code = (int) (Math.random() * (9999 - 1000)) + 1000;
+        this.code = Integer.toString((int) (Math.random() * (9999 - 1000)) + 1000);
     }
 }

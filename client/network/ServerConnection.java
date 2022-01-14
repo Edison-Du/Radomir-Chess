@@ -26,22 +26,23 @@ public class ServerConnection {
 
         try {
             InputStreamReader stream;
-            String msg;
 
             socket = new Socket(Consts.SERVER_ADDRESS, Consts.SERVER_PORT);
             
             stream = new InputStreamReader(socket.getInputStream());
             input = new BufferedReader(stream);
             output = new PrintWriter(socket.getOutputStream());    
-            
-            msg = input.readLine();
-            System.out.println(msg);
 
+            System.out.println("Connected to server.");
+            
         } catch (Exception e) {
             System.out.println("Couldn't connect to server.");
             e.printStackTrace();
         }
     }
+
+
+    // Static methods
 
     public static void createInstance() {
         if (instance == null) {
@@ -49,35 +50,67 @@ public class ServerConnection {
         }
     }
 
-    // Just testing for now, change this later to have a return message (not void).
     public static void sendMessage(Message message) {
+
+        if (message == null) {
+            return;
+        }
+
         // Make sure that an instance is active
         createInstance();
 
         // Debugging code
         System.out.println("Sending message to server: " + message.getText());
-        instance.writeText(message.getText());
+
+        instance.getOutput().println(message.getText());
+        instance.getOutput().flush();
     }
 
     public static Message getMessage() {
         createInstance();
 
-        Message message = Message.parse(instance.readText());
-        return message;
-    }
-
-    public void writeText(String text) {
-        this.output.println(text);
-        this.output.flush();
-    }
-
-    public String readText() {
         try {
-            return this.input.readLine();
+            String text = instance.getInput().readLine();
+            Message message = Message.parse(text);
+            return message;
+
         } catch (Exception e) {
             System.out.println("Unable to read message from server.");
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static boolean hasMessage() {
+
+        try {
+            createInstance();
+            return instance.getInput().ready();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static void close() {
+        try {
+            instance.getInput().close();
+            instance.getOutput().close();
+            instance = null;
+            
+        } catch (Exception e) {
+            System.out.println("Unable to close input and output streams");
+            e.printStackTrace();
+        }
+    }
+
+    // Instance methods
+    public BufferedReader getInput() {
+        return this.input;
+    }
+
+    public PrintWriter getOutput() {
+        return this.output;
     }
 }

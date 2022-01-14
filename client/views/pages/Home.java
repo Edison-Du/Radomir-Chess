@@ -25,7 +25,7 @@ public class Home extends ContentPanel {
             
             ServerConnection.sendMessage(test);
 
-            System.out.println(ServerConnection.getMessage().getText());
+            // System.out.println(ServerConnection.getMessage().getText());
 
         } catch (Exception e) {
             System.out.println("??");

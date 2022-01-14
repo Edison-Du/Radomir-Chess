@@ -3,6 +3,9 @@ package views.pages;
 import javax.swing.*;
 import config.GraphicConsts;
 import views.components.ContentPanel;
+import network.Message;
+import network.ServerConnection;
+import config.MessageTypes;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -15,7 +18,7 @@ public class Login extends ContentPanel implements ActionListener{
     private final JLabel usernameLabel= new JLabel();
     private final JTextField usernameField = new JTextField();
     private final JLabel passwordLabel = new JLabel();
-    private final JTextField passwordField = new JPasswordField();
+    private final JPasswordField passwordField = new JPasswordField();
     private final JButton registerButton = new JButton("Register");
     private final JButton loginButton = new JButton("Login");
     
@@ -57,11 +60,25 @@ public class Login extends ContentPanel implements ActionListener{
 
     }
 
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == loginButton){
-            System.out.println("Login");
-        } else if (e.getSource() == registerButton){
-            System.out.println("Register");
+    public void actionPerformed(ActionEvent e){
+        String username = usernameField.getText();
+        String password = String.valueOf(passwordField.getPassword());
+        try{
+            if (e.getSource() == loginButton){
+                Message m = new Message(MessageTypes.LOGIN);
+                m.addParam(username);
+                m.addParam(password);
+                ServerConnection.sendMessage(m);
+            } else if (e.getSource() == registerButton){
+                Message m = new Message(MessageTypes.REGISTER);
+                m.addParam(username);
+                m.addParam(password);
+                ServerConnection.sendMessage(m);
+                System.out.println("Register");
+            }
+        } catch (Exception ex){
+            System.out.println("User has inputed bad stuff");
+            ex.printStackTrace();
         }
     }
 }

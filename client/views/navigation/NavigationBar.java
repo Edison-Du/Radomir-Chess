@@ -11,6 +11,15 @@ import config.Page;
 public class NavigationBar extends JPanel {
     
     private NavigationActionListener navigationActionListener;
+
+    private final Page[] navbarPages = {
+        Page.PLAY,
+        Page.SETTINGS,
+        Page.ABOUT,
+        Page.LOGIN,
+        Page.QUIT
+    };
+
     
     public NavigationBar (Window window) {
 
@@ -23,12 +32,12 @@ public class NavigationBar extends JPanel {
 
         navigationActionListener = new NavigationActionListener(window);
 
-        for (int i = 0; i < Page.values().length; i++) {
+        for (int i = 0; i < navbarPages.length; i++) {
             int x = 0;
             int y = i * GraphicConsts.NAVBAR_BUTTON_HEIGHT;
-            Page currentPage = Page.values()[i];
+            Page currentPage = navbarPages[i];
 
-            NavigationLink button = new NavigationLink(x, y, currentPage.name(), currentPage);
+            NavigationLink button = new NavigationLink(x, y, currentPage);
             button.addActionListener(navigationActionListener);
 
             this.add(button);

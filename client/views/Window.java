@@ -12,10 +12,12 @@ import views.pages.*;
 
 public class Window extends JFrame {
 
-    NavigationBar navigationBar;
-    JPanel content;
+    private NavigationBar navigationBar;
 
-    Page currentPage;
+    // Make getters and setters
+    private JPanel content;
+
+    private Page currentPage;
 
     public Window () {
 
@@ -32,7 +34,7 @@ public class Window extends JFrame {
 
         this.getContentPane().add(navigationBar, BorderLayout.WEST);
         this.getContentPane().add(content);
-        
+
         this.setVisible(true);
 
         this.pack();
@@ -40,7 +42,6 @@ public class Window extends JFrame {
 
     // change to Boolean probably
     public void changePage(Page page) {
-        // This might nt even need to be used
 
         if (currentPage == page) return;
         currentPage = page;
@@ -48,7 +49,7 @@ public class Window extends JFrame {
         if (content != null) {
             this.remove(content);
         }
-        // This is terrible
+        // Change all pages into permanet variables to be reused, instead of ocnstrcut new
         if (currentPage == Page.PLAY) {
             content = new Play();
         } else if (currentPage == Page.SETTINGS) {

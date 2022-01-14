@@ -81,17 +81,22 @@ public class Message {
     // Null if invalid message
     public static Message parse(String messageText){
         // Stores index in the string for the last curly bracket
+
         int lastIndex = -1;
         ArrayList<String> params = new ArrayList<>();
+
+        
+        if (messageText == null) {
+            return null;
+        }
+
 
         for (int i = 0; i < messageText.length(); i++) {
 
             char currentChar = messageText.charAt(i);
-
             // There are characters not inside the curly brackets, invalid.
             if (lastIndex == -1 && currentChar != SEPARATOR_START) {
                 return null;
-            
             // Double starting separators
             } else if (lastIndex != -1 && currentChar == SEPARATOR_START) {
                 return null;
@@ -102,21 +107,18 @@ public class Message {
             } else if (currentChar == SEPARATOR_END) {
                 params.add(messageText.substring(lastIndex+1, i));
                 lastIndex = -1;
-
             }
         }
 
         if (params.size() == 0) {
             return null;
-
         }
+
         try {
             Message message = new Message(params.get(0));
-
             for (int i = 1; i < params.size(); i++) {
                 message.addParam(params.get(i));
             }
-
             return message;
 
         } catch (InvalidMessageException e) {

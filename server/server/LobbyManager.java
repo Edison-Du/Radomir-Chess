@@ -2,8 +2,6 @@ package server;
 
 import java.util.HashMap;
 
-import javax.swing.Action;
-
 import game.Lobby;
 
 public class LobbyManager {

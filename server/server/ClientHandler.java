@@ -5,34 +5,48 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import org.omg.CORBA.DynAnyPackage.Invalid;
-
 import config.MessageTypes;
 import game.Lobby;
 
+/**
+ * [ClientHandler.java]
+ * An individual thread manager a client socket, sending
+ * and receiving messages with the client.
+ */
 public class ClientHandler extends Thread{
     
+    // General information
     private static int numClients = 0;
     private int clientNum;
     private boolean userActive;
 
+    // Server and Socket I/O related
     private Socket clientSocket;
     private BufferedReader input;
     private PrintWriter output;
-
     private Server server;
 
+    // Game related
     private Lobby lobby;
 
+    /**
+     * ClientHandler
+     * Creates input and output streams for the client's socket, generates
+     * general information about the client (unique number associated with client)
+     * @param server The server object containing the server this handler is on 
+     * @param socket The client's socket
+     */
     public ClientHandler(Server server, Socket socket) {
+
         clientSocket = socket;
-
         this.server = server;
-        this.userActive = true;
 
+        // Setting general information about this client
+        this.userActive = true;
         clientNum = ++ClientHandler.numClients;
         
         try {
+            // Creating socket I/O streams
             InputStreamReader stream = new InputStreamReader(socket.getInputStream());
             input = new BufferedReader(stream);
             output = new PrintWriter(clientSocket.getOutputStream());
@@ -45,15 +59,30 @@ public class ClientHandler extends Thread{
         }
     }
 
+    /**
+     * getClientNum
+     * Getter for client number
+     * @return the client number
+     */
     public int getClientNum() {
         return clientNum;
     }
 
+    /**
+     * sendMessage
+     * Sends a message to the client
+     * @param message the message to send
+     */
     public void sendMessage(Message message) {
         output.println(message.getText());
         output.flush();
     }
 
+    /**
+     * run
+     * Continuously receives messages send by the client
+     * and performs tasks depending on the message type.
+     */
     @Override   
     public void run() {
         try {
@@ -64,6 +93,8 @@ public class ClientHandler extends Thread{
                     evalRequest(request);
                 }
             }
+
+            // Close streams once finished
             input.close();
             output.close();
 
@@ -73,8 +104,13 @@ public class ClientHandler extends Thread{
         }
     }
 
+    /**
+     * evalRequest
+     * Performs tasks depending on the type of message sent by the client
+     * @param request The message sent by the client
+     */
     public void evalRequest(Message request){
-        // Register
+        
         if (request == null) {
             return;
     
@@ -103,6 +139,11 @@ public class ClientHandler extends Thread{
 
         System.out.println(request.getText());
     }
+
+
+    /*================================================================================================== */
+    /*-----------------The methods below handle each type of message sent by the client------------------*/
+    /*================================================================================================== */
 
     private void registerUser(Message message) throws InvalidMessageException{
         try{
@@ -164,7 +205,7 @@ public class ClientHandler extends Thread{
         lobby.setHost(this);
 
         try {
-            Message message = new Message(MessageTypes.CREATE_GAME);
+            Message message = new Message(MessageTypes.GAME_CREATED);
             message.addParam(lobby.getCode());
             this.sendMessage(message);
 

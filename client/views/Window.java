@@ -1,6 +1,5 @@
 package views;
 
-import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,16 +12,27 @@ import views.pages.*;
 public class Window extends JFrame {
 
     private NavigationBar navigationBar;
-
-    // Make getters and setters
-    private JPanel content;
-
     private Page currentPage;
 
+    private JPanel content;
+
+    // Different pages
+    public Play playPanel;
+    public Game gamePanel;
+    public Login loginPanel;
+
+
     public Window () {
+        
+        // Initialize panels
+        playPanel = new Play();
+        gamePanel = new Game();
+        loginPanel = new Login();
 
         navigationBar = new NavigationBar(this);
-        
+
+
+
         // Default page
         this.changePage(Page.PLAY);
 
@@ -51,13 +61,19 @@ public class Window extends JFrame {
         }
         // Change all pages into permanet variables to be reused, instead of ocnstrcut new
         if (currentPage == Page.PLAY) {
-            content = new Play();
+            content = playPanel;
+
+        } else if (currentPage == Page.GAME) {
+            content = gamePanel;
+
         } else if (currentPage == Page.SETTINGS) {
-            content = new Home(); // Just testing request
+            content = new Board(); // testing
+
         } else if (currentPage == Page.ABOUT) {
-            content = new Game(); // just putting here for no reason
+
         } else if (currentPage == Page.LOGIN) {
-            content = new Login();
+            content = loginPanel;
+
         } else if (currentPage == Page.QUIT) {
             System.exit(0);
         } 

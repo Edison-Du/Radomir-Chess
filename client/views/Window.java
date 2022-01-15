@@ -24,8 +24,7 @@ public class Window extends JFrame {
     // Different pages
     public Play playPanel;
     public JoinGame joinGamePanel;
-    public CreateGame createGamePanel;
-    public BrowseGames browzeGamesPanel;
+    public BrowseGames browseGamesPanel;
     public PlayBot playBotPanel;
 
     public Game gamePanel;
@@ -37,9 +36,8 @@ public class Window extends JFrame {
         // Initialize panels
         playPanel = new Play(this);
         joinGamePanel = new JoinGame();
-        // createGamePanel = new CreateGame();
-        // browseGamesPanel = new BrowseGames();
-        // playBotPanel = new PlayBot();
+        browseGamesPanel = new BrowseGames();
+        playBotPanel = new PlayBot();
 
         gamePanel = new Game();
         loginPanel = new Login();
@@ -80,9 +78,6 @@ public class Window extends JFrame {
     
         } else if (currentPage == Page.JOIN_GAME) {
             content = joinGamePanel;
-
-        } else if (currentPage == Page.CREATE_GAME) {
-            content = createGamePanel;
         
         } else if (currentPage == Page.BROWSE_GAMES) {
             content = browseGamesPanel;

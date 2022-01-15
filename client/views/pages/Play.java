@@ -110,8 +110,7 @@ public class Play extends ContentPanel implements ActionListener {
 			// 	ex.printStackTrace();
 			// }
         } else if (e.getSource() == createGameBtn) {
-            window.changePage(Page.CREATE_GAME);
-            //createGame();
+            createGame();
 
         } else if (e.getSource() == browseGameBtn) {
             // try {
@@ -123,7 +122,7 @@ public class Play extends ContentPanel implements ActionListener {
 			// } catch (InvalidMessageException ex) {
 			// 	ex.printStackTrace();
 			// }
-            window.changePage(Page.BROWSE_GAMES)
+            window.changePage(Page.BROWSE_GAMES);
         } else if (e.getSource() == playBotBtn) {
             window.changePage(Page.PLAY_BOT);
         }

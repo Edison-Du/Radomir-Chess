@@ -18,17 +18,9 @@ import network.InvalidMessageException;
 import network.Message;
 import network.ServerConnection;
 
-public class BrowseGames {
-    // Constants
-    private final JLabel titleLabel = new JLabel();
+public class PlayBot extends ContentPanel {
 
-    public BrowseGames() {
-
-        titleLabel.setFont(UserInterface.JOIN_GAME_FONT_1);
-        titleLabel.setText("sussy wussy");
-        titleLabel.setForeground(UserInterface.TEXT_COLOUR);
-        titleLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 50, UserInterface.WINDOW_HEIGHT / 2 + 20, 210, 30);
-        this.add(titleLabel);
+    public PlayBot() {
     }
 
     //@Override

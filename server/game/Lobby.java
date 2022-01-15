@@ -1,6 +1,9 @@
 package game;
 
+import config.MessageTypes;
+import javafx.scene.shape.Mesh;
 import server.ClientHandler;
+import server.Message;
 
 public class Lobby {
     
@@ -17,6 +20,14 @@ public class Lobby {
 
     public void setGuest(ClientHandler guest) {
         this.guest = guest;
+        // New guest message
+        try {
+            Message message = new Message(MessageTypes.GUEST_JOINED);
+            
+            guest.sendMessage(message);
+        } catch (Exception e) {
+            System.out.println("Could not send message to guest: client #" + guest.getClientNum());
+        }
     }
     
     public ClientHandler getHost() {

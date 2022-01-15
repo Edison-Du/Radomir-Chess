@@ -1,7 +1,7 @@
 package views.pages;
 
 import javax.swing.*;
-import config.GraphicConsts;
+import config.UserInterface;
 import views.components.ContentPanel;
 import network.Message;
 import network.ServerConnection;
@@ -25,9 +25,9 @@ public class Login extends ContentPanel implements ActionListener{
     public Login() {
 
         title.setFont(new Font("Serif", Font.ITALIC, 36));
-        title.setText(GraphicConsts.WINDOW_TITLE);
+        title.setText(UserInterface.WINDOW_TITLE);
         title.setSize(new Dimension(280, 80));
-        title.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - title.getWidth() / 2, 0, title.getWidth(), title.getHeight());
+        title.setBounds(UserInterface.CONTENT_WIDTH / 2 - title.getWidth() / 2, 0, title.getWidth(), title.getHeight());
         this.add(title);
 
         profile.setFont(new Font("Serif", Font.ITALIC, 36));
@@ -35,25 +35,25 @@ public class Login extends ContentPanel implements ActionListener{
         this.add(profile);
 
         usernameLabel.setText("Username: ");
-        usernameLabel.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 300, 150, 25);
+        usernameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 300, 150, 25);
         this.add(usernameLabel);
 
-        usernameField.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 320, 150, 25);
+        usernameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 320, 150, 25);
         this.add(usernameField);
 
         passwordLabel.setText("Password: ");
-        passwordLabel.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 350, 150, 25);
+        passwordLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 350, 150, 25);
         this.add(passwordLabel);
 
-        passwordField.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 370, 150, 25);
+        passwordField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 370, 150, 25);
         this.add(passwordField);
 
-        loginButton.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 400, 150, 25);
+        loginButton.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 400, 150, 25);
         loginButton.addActionListener(this);
         loginButton.setFocusable(false);
         this.add(loginButton);
 
-        registerButton.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 450, 150, 25);
+        registerButton.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 450, 150, 25);
         registerButton.addActionListener(this);
         registerButton.setFocusable(false);
         this.add(registerButton);

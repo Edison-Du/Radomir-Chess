@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import views.components.ContentPanel;
 import views.components.CustomButton;
 
-import config.GraphicConsts;
+import config.UserInterface;
 import config.MessageTypes;
 import network.InvalidMessageException;
 import network.Message;
@@ -42,11 +42,11 @@ public class Play extends ContentPanel implements ActionListener {
 
     public Play() {
 
-        joinGameBtn = new PlayMenuButton(buttonText[0], GraphicConsts.MENU_BUTTON_MARGIN, GraphicConsts.MENU_BUTTON_MARGIN);
+        joinGameBtn = new PlayMenuButton(buttonText[0], UserInterface.MENU_BUTTON_MARGIN, UserInterface.MENU_BUTTON_MARGIN);
         createGameBtn = new PlayMenuButton(
             buttonText[1], 
-            GraphicConsts.MENU_BUTTON_MARGIN * 2 + GraphicConsts.MENU_BUTTON_WIDTH,
-            GraphicConsts.MENU_BUTTON_MARGIN
+            UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_WIDTH,
+            UserInterface.MENU_BUTTON_MARGIN
         );
         joinGameBtn.addActionListener(new ActionListener() {
             @Override
@@ -58,13 +58,13 @@ public class Play extends ContentPanel implements ActionListener {
 
         browseGameBtn = new PlayMenuButton(
             buttonText[2], 
-            GraphicConsts.MENU_BUTTON_MARGIN,
-            GraphicConsts.MENU_BUTTON_MARGIN * 2 + GraphicConsts.MENU_BUTTON_HEIGHT
+            UserInterface.MENU_BUTTON_MARGIN,
+            UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_HEIGHT
         );
         playBotBtn = new PlayMenuButton(
             buttonText[3], 
-            GraphicConsts.MENU_BUTTON_MARGIN * 2 + GraphicConsts.MENU_BUTTON_WIDTH,
-            GraphicConsts.MENU_BUTTON_MARGIN * 2 + GraphicConsts.MENU_BUTTON_HEIGHT
+            UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_WIDTH,
+            UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_HEIGHT
         );
 
         buttons = new PlayMenuButton[]{

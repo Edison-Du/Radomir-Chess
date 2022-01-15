@@ -2,18 +2,17 @@ package views.components;
 
 import javax.swing.JPanel;
 
-import config.GraphicConsts;
+import config.UserInterface;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
 public class ContentPanel extends JPanel {
     public ContentPanel() {
-        this.setBackground(GraphicConsts.FRAME_COLOUR);
+        this.setBackground(UserInterface.FRAME_COLOUR);
         this.setPreferredSize(
-            new Dimension(GraphicConsts.CONTENT_WIDTH, GraphicConsts.WINDOW_HEIGHT)
+            new Dimension(UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT)
         );
-        this.setBounds(GraphicConsts.NAVBAR_WIDTH, 0,  GraphicConsts.CONTENT_WIDTH, GraphicConsts.WINDOW_HEIGHT);
+        this.setBounds(UserInterface.NAVBAR_WIDTH, 0,  UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT);
         this.setLayout(null);
     }
 }

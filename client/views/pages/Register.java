@@ -5,7 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import config.GraphicConsts;
+import config.UserInterface;
 import views.components.ContentPanel;
 
 import java.awt.Color;
@@ -30,9 +30,9 @@ public class Register extends ContentPanel {
     
     public Register() {
         title.setFont(new Font("Serif", Font.ITALIC, 36));
-        title.setText(GraphicConsts.WINDOW_TITLE);
+        title.setText(UserInterface.WINDOW_TITLE);
         title.setSize(new Dimension(280, 80));
-        title.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - title.getWidth() / 2, 0, title.getWidth(), title.getHeight());
+        title.setBounds(UserInterface.CONTENT_WIDTH / 2 - title.getWidth() / 2, 0, title.getWidth(), title.getHeight());
         this.add(title);
 
         profile.setFont(new Font("Serif", Font.ITALIC, 36));
@@ -40,20 +40,20 @@ public class Register extends ContentPanel {
         this.add(profile);
 
         usernameLabel.setText("Username: ");
-        usernameLabel.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 300, 150, 25);
+        usernameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 300, 150, 25);
         this.add(usernameLabel);
 
-        usernameField.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 320, 150, 25);
+        usernameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 320, 150, 25);
         this.add(usernameField);
 
         passwordLabel.setText("Password: ");
-        passwordLabel.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 350, 150, 25);
+        passwordLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 350, 150, 25);
         this.add(passwordLabel);
 
-        passwordField.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 370, 150, 25);
+        passwordField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 370, 150, 25);
         this.add(passwordField);
 
-        registerButton.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 400, 150, 25);
+        registerButton.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 400, 150, 25);
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

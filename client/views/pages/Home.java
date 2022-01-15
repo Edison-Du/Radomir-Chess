@@ -1,7 +1,6 @@
 package views.pages;
 
-import javax.swing.JPanel;
-import config.GraphicConsts;
+import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
 import views.components.ContentPanel;
@@ -38,6 +37,6 @@ public class Home extends ContentPanel {
 
         g.setColor(new Color(22, 22, 22));
         g.setFont(new Font("TimesRoman", Font.PLAIN, TITLE_FONT_SIZE));
-        g.drawString(GraphicConsts.WINDOW_TITLE, TITLE_X, TITLE_Y);
+        g.drawString(UserInterface.WINDOW_TITLE, TITLE_X, TITLE_Y);
     }
 }

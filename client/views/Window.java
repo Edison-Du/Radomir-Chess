@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import config.GraphicConsts;
+import config.UserInterface;
 import config.Page;
 import views.navigation.NavigationBar;
 import views.pages.*;
@@ -27,7 +27,7 @@ public class Window extends JFrame {
         this.changePage(Page.PLAY);
 
         // this.setSize(GraphicConsts.WINDOW_WIDTH, GraphicConsts.WINDOW_HEIGHT);
-        this.setTitle(GraphicConsts.WINDOW_TITLE);
+        this.setTitle(UserInterface.WINDOW_TITLE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setLayout(new BorderLayout());

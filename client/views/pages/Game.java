@@ -3,7 +3,7 @@ package views.pages;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import config.GraphicConsts;
+import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
 import views.components.ContentPanel;
@@ -31,8 +31,8 @@ public class Game extends ContentPanel {
     private final JButton pvp = new JButton();
 
     //link to logic when done i just wanted to see how it looked
-    private final int BOARD_CORNER_WIDTH = GraphicConsts.CONTENT_WIDTH / 2 - 200;
-    private final int BOARD_CORNER_HEIGHT = GraphicConsts.WINDOW_HEIGHT / 2 - 200;
+    private final int BOARD_CORNER_WIDTH = UserInterface.CONTENT_WIDTH / 2 - 200;
+    private final int BOARD_CORNER_HEIGHT = UserInterface.WINDOW_HEIGHT / 2 - 200;
     private final int GRID_LENGTH = 50;
     private String[][] temp = {
         {"br", "bn", "bb", "bq", "bk", "bb", "bn", "br"},
@@ -47,9 +47,9 @@ public class Game extends ContentPanel {
 
     public Game() {
         title.setFont(new Font("Serif", Font.ITALIC, 36));
-        title.setText(GraphicConsts.WINDOW_TITLE);
+        title.setText(UserInterface.WINDOW_TITLE);
         title.setSize(new Dimension(280, 80));
-        title.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - title.getWidth() / 2, 0, title.getWidth(), title.getHeight());
+        title.setBounds(UserInterface.CONTENT_WIDTH / 2 - title.getWidth() / 2, 0, title.getWidth(), title.getHeight());
         this.add(title);
 
         profile.setFont(new Font("Serif", Font.ITALIC, 36));

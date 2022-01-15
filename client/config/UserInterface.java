@@ -4,7 +4,7 @@ import java.awt.Color;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-public class GraphicConsts {
+public class UserInterface {
     
     // JFrame related
     public static final String WINDOW_TITLE = "Radomir Chess";
@@ -38,5 +38,5 @@ public class GraphicConsts {
     public static final Color MENU_BUTTON_HIGHLIGHT = new Color(144, 186, 93);
     public static final int MENU_BUTTON_RADIUS = 20;
     
-    private GraphicConsts() {}
+    private UserInterface() {}
 }

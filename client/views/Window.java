@@ -2,13 +2,18 @@ package views;
 
 import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import config.UserInterface;
+import logicai.Game;
 import config.Page;
+import views.chess.MouseEventListener;
 import views.navigation.NavigationBar;
 import views.pages.*;
+
+import java.io.IOException;
 
 public class Window extends JFrame {
 
@@ -19,7 +24,7 @@ public class Window extends JFrame {
 
     private Page currentPage;
 
-    public Window () {
+    public Window () throws IOException {
 
         navigationBar = new NavigationBar(this);
         
@@ -41,7 +46,7 @@ public class Window extends JFrame {
     }
 
     // change to Boolean probably
-    public void changePage(Page page) {
+    public void changePage(Page page) throws IOException {
 
         if (currentPage == page) return;
         currentPage = page;
@@ -55,7 +60,8 @@ public class Window extends JFrame {
         } else if (currentPage == Page.SETTINGS) {
             content = new Home(); // Just testing request
         } else if (currentPage == Page.ABOUT) {
-            content = new Game(); // just putting here for no reason
+            Game game = new Game();
+            content = new GamePanel(game); // just putting here for no reason
         } else if (currentPage == Page.LOGIN) {
             content = new Login();
         } else if (currentPage == Page.QUIT) {
@@ -63,6 +69,6 @@ public class Window extends JFrame {
         } 
         content.revalidate();
         this.add(content);
-        this.repaint();
+        // this.repaint();
     }
 }

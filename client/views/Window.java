@@ -23,6 +23,8 @@ public class Window extends JFrame {
 
     // Different pages
     public Play playPanel;
+    public JoinGame joinGamePanel;
+
     public Game gamePanel;
     public Login loginPanel;
 
@@ -30,7 +32,9 @@ public class Window extends JFrame {
     public Window () throws IOException {
         
         // Initialize panels
-        playPanel = new Play();
+        playPanel = new Play(this);
+        joinGamePanel = new JoinGame();
+
         gamePanel = new Game();
         loginPanel = new Login();
 
@@ -67,7 +71,10 @@ public class Window extends JFrame {
         // Change all pages into permanet variables to be reused, instead of ocnstrcut new
         if (currentPage == Page.PLAY) {
             content = playPanel;
-
+    
+        } else if (currentPage == Page.JOIN_GAME) {
+            content = joinGamePanel;
+        
         } else if (currentPage == Page.GAME) {
             content = gamePanel;
 

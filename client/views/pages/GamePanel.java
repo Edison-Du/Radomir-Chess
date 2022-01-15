@@ -109,9 +109,9 @@ public class GamePanel extends ContentPanel {
                     int xPos = x * tileSize;
                     int yPos = (checkerBoard[0].length - y)*tileSize - 60;
                     if (x%2-y%2==0) {
-                        g.setColor(Color.LIGHT_GRAY);
-                    } else {
                         g.setColor(Color.DARK_GRAY);
+                    } else {
+                        g.setColor(Color.LIGHT_GRAY);
                     }
                     g.fillRect(xPos, yPos, tileSize, tileSize);
 

@@ -17,11 +17,13 @@ import config.MessageTypes;
 import network.InvalidMessageException;
 import network.Message;
 import network.ServerConnection;
+import views.Window;
+import config.Page;
 
 public class Play extends ContentPanel implements ActionListener {
     
-    // Constants
-    
+    private Window window;
+
     private PlayMenuButton joinGameBtn;
     private PlayMenuButton createGameBtn;
     private PlayMenuButton browseGameBtn;
@@ -40,7 +42,8 @@ public class Play extends ContentPanel implements ActionListener {
         "Play Bot"
     };
 
-    public Play() {
+    public Play(Window window) {
+        this.window = window;
 
         joinGameBtn = new PlayMenuButton(buttonText[0], UserInterface.MENU_BUTTON_MARGIN, UserInterface.MENU_BUTTON_MARGIN);
         createGameBtn = new PlayMenuButton(
@@ -90,32 +93,34 @@ public class Play extends ContentPanel implements ActionListener {
     //@Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == joinGameBtn) {
-            System.out.println("Join game");
-            try {
-				Message joinLobby = new Message(MessageTypes.JOIN_GAME);
-                // joinLobby.addParam(this.getjoinLobbyCode());
-                joinLobby.addParam("1000");
-                ServerConnection.sendMessage(joinLobby);
+            // System.out.println("Join game");
+            // try {
+			// 	Message joinLobby = new Message(MessageTypes.JOIN_GAME);
+            //     // joinLobby.addParam(this.getjoinLobbyCode());
+            //     joinLobby.addParam("1000");
+            //     ServerConnection.sendMessage(joinLobby);
 
-                Message response = ServerConnection.getMessage();
-                System.out.println(response.getText());
+            window.changePage(Page.JOIN_GAME);
 
-			} catch (InvalidMessageException ex) {
-				ex.printStackTrace();
-			}
+            // Message response = ServerConnection.getMessage();
+            // System.out.println(response.getText());
+
+			// } catch (InvalidMessageException ex) {
+			// 	ex.printStackTrace();
+			// }
         } else if (e.getSource() == createGameBtn) {
             createGame();
 
         } else if (e.getSource() == browseGameBtn) {
-            try {
-				Message browseGames = new Message(MessageTypes.BROWSE_GAMES);
-                ServerConnection.sendMessage(browseGames);
+            // try {
+			// 	Message browseGames = new Message(MessageTypes.BROWSE_GAMES);
+            //     ServerConnection.sendMessage(browseGames);
 
-                Message response = ServerConnection.getMessage();
-                System.out.println(response.getText());
-			} catch (InvalidMessageException ex) {
-				ex.printStackTrace();
-			}
+            //     Message response = ServerConnection.getMessage();
+            //     System.out.println(response.getText());
+			// } catch (InvalidMessageException ex) {
+			// 	ex.printStackTrace();
+			// }
         } else if (e.getSource() == playBotBtn) {
         
         }

@@ -79,6 +79,7 @@ public class Play extends ContentPanel implements ActionListener {
 
         for (PlayMenuButton button : buttons) {
             button.addActionListener(this);
+            button.setFont(UserInterface.PLAY_BUTTONS_FONT);
             this.add(button);
         }
 
@@ -109,7 +110,8 @@ public class Play extends ContentPanel implements ActionListener {
 			// 	ex.printStackTrace();
 			// }
         } else if (e.getSource() == createGameBtn) {
-            createGame();
+            window.changePage(Page.CREATE_GAME);
+            //createGame();
 
         } else if (e.getSource() == browseGameBtn) {
             // try {
@@ -121,8 +123,9 @@ public class Play extends ContentPanel implements ActionListener {
 			// } catch (InvalidMessageException ex) {
 			// 	ex.printStackTrace();
 			// }
+            window.changePage(Page.BROWSE_GAMES)
         } else if (e.getSource() == playBotBtn) {
-        
+            window.changePage(Page.PLAY_BOT);
         }
     }
     public String getjoinLobbyCode() {

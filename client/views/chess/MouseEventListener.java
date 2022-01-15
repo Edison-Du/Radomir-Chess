@@ -123,7 +123,7 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
     public void mouseDragged(MouseEvent e) {
 
         if (SwingUtilities.isLeftMouseButton(e)) {
-            System.out.println("DRAG");
+            // System.out.println("DRAG");
             // Initialize mouse coordinates
             mouseX = e.getX();
             mouseY = e.getY();

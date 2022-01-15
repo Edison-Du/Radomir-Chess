@@ -39,6 +39,12 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.GAME_CREATED)) { 
             createGame(message);
 
+        } else if (message.getType().equals(MessageTypes.JOINED_GAME)) {
+            joinGame(message);
+
+        } else if (message.getType().equals(MessageTypes.GAME_NOT_FOUND)) {
+
+
         } else if (message.getType().equals(MessageTypes.EXIT_PROGRAM)) {
             isActive = false;
             ServerConnection.close();
@@ -48,6 +54,11 @@ public class ConnectionHandler extends Thread {
     }   
 
     public void createGame(Message message) {
+        window.changePage(Page.GAME);
+        window.gamePanel.setLobbyCode(message.getParam(0));
+    }
+
+    public void joinGame(Message message) {
         window.changePage(Page.GAME);
         window.gamePanel.setLobbyCode(message.getParam(0));
     }

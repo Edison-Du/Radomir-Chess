@@ -1,0 +1,47 @@
+package views.pages;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import views.components.ContentPanel;
+import views.components.CustomButton;
+
+import config.UserInterface;
+import config.MessageTypes;
+import network.InvalidMessageException;
+import network.Message;
+import network.ServerConnection;
+
+public class CreateGame extends ContentPanel implements ActionListener {
+    
+    // Constants
+    private final JLabel createGameLabel= new JLabel();
+    private final JLabel gameCodeLabel= new JLabel();
+
+    public CreateGame() {
+        createGameLabel.setFont(UserInterface.JOIN_GAME_FONT_1);
+        createGameLabel.setText("Room Code: ");
+        createGameLabel.setForeground(UserInterface.TEXT_COLOUR);
+        createGameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 100, UserInterface.WINDOW_HEIGHT / 2 - 70, 210, 30);
+        this.add(createGameLabel);
+
+        //Idk what to do for game code generation
+
+        gameCodeLabel.setFont(UserInterface.JOIN_GAME_FONT_1);
+        gameCodeLabel.setText("6969");
+        gameCodeLabel.setForeground(UserInterface.TEXT_COLOUR);
+        gameCodeLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 50, UserInterface.WINDOW_HEIGHT / 2 + 20, 210, 30);
+        this.add(gameCodeLabel);
+    }
+
+    //@Override
+    public void actionPerformed(ActionEvent e) {
+        
+    }
+}

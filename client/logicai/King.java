@@ -86,7 +86,7 @@ class King extends Piece {
             for(int i = 0; i < 4; i++) {
                 while(curX + vecX < 8 && curX + vecX >= 0 && curY + vecY < 8 && curY + vecY >= 0 
                           && b.getTiles()[curX + vecX][curY + vecY].getPiece() == null) {
-                    output.add(b.getTiles()[curX + vecX][curX + vecY]);
+                    output.add(b.getTiles()[curX + vecX][curY + vecY]);
                     curX += vecX;
                     curY += vecY;
                 }

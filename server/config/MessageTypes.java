@@ -16,4 +16,6 @@ public class MessageTypes {
     public static final String GAME_NOT_FOUND = "GAME_NOT_FOUND";
     public static final String CREATE_GAME = "CREATE_GAME";
     public static final String GAME_CREATED = "GAME_CREATED";
+
+    public static final String GUEST_JOINED = "GUEST_JOINED";
 }

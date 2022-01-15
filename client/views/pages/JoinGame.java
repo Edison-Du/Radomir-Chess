@@ -26,14 +26,18 @@ public class JoinGame extends ContentPanel implements ActionListener {
     private final CustomButton joinGameButton = new CustomButton("Join");
 
     public JoinGame() {
+        joinGameLabel.setFont(UserInterface.JOIN_GAME_FONT_1);
         joinGameLabel.setText("Room Code: ");
-        joinGameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 300, 150, 25);
+        joinGameLabel.setForeground(UserInterface.TEXT_COLOUR);
+        joinGameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 100, UserInterface.WINDOW_HEIGHT / 2 - 70, 210, 30);
         this.add(joinGameLabel);
 
-        joinGameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 320, 150, 25);
+        joinGameField.setFont(UserInterface.JOIN_GAME_FONT_2);
+        joinGameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 100, UserInterface.WINDOW_HEIGHT / 2 - 15, 200, 30);
         this.add(joinGameField);
 
-        joinGameButton.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 350, 150, 25);
+        joinGameButton.setFont(UserInterface.JOIN_GAME_FONT_2);
+        joinGameButton.setBounds(UserInterface.CONTENT_WIDTH / 2 - 100, UserInterface.WINDOW_HEIGHT / 2 + 50, 200, 30);
         // joinGameButton.setHoverColor();
         // joinGameButton.setBorder(new EmptyBorder(0, 0, 0, 0));
         // joinGameButton.setBackground(new Color());

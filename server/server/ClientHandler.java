@@ -176,28 +176,28 @@ public class ClientHandler extends Thread{
     }
 
     private void joinGame(Message message) {
-        // int code = Integer.parseInt(request.getParam(0));
-        // Lobby lobby = server.getLobbyManager().getLobby(code);
 
-        // try {
+        String code = message.getParam(0);
+        Lobby lobby = server.getLobbyManager().getLobby(code);
 
-        //     if (lobby == null) {
-        //         Message message = new Message("BAD");
-        //         this.sendMessage(message);
+        try {
+            if (lobby == null) {
+                // Return error message
+                Message errorMessage = new Message(MessageTypes.GAME_NOT_FOUND);
+                sendMessage(errorMessage);
 
-        //     } else {
-        //         lobby.setGuest(this);
-
-        //         Message message = new Message("GOOD");
-        //         this.sendMessage(message);
-        //     }
-
-
-        // } catch (Exception e) {
-
-        // }
-
-
+            } else {
+                Message joinedMessage = new Message(MessageTypes.JOINED_GAME);
+                joinedMessage.addParam(lobby.getCode());
+                joinedMessage.addParam(Integer.toString(lobby.getHost().getClientNum()));
+                lobby.setGuest(this);
+                
+                sendMessage(joinedMessage);
+            }
+        } catch (Exception e) {
+            System.out.println("Could not connect client to a game.");
+            e.printStackTrace();
+        }
     }
 
     private void createGame() {

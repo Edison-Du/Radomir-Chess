@@ -1,7 +1,6 @@
 import java.io.IOException;
 
 import network.ConnectionHandler;
-import network.Message;
 import network.ServerConnection;
 import network.ShutdownHook;
 import views.Window;

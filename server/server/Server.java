@@ -4,16 +4,26 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import config.Consts;
-import game.Lobby;
 
-import java.util.*;
-
+/**
+ * [Server.java]
+ * This class represents a server with a server socket on a chosen port,
+ * it continuously accepts connections from clients and adds a new thread
+ * to handle each client.
+ * 
+ * It also manages a lobby system for chess games, and a database for users.
+ */
 public class Server {
 
     private ServerSocket serverSocket;
     private LobbyManager lobbyManager;
     private Database database;
 
+    /**
+     * Server
+     * Creates server socket, lobby manager and database
+     * and continuousely accepts connections
+     */
     public Server() {
         try {
             serverSocket = new ServerSocket(Consts.PORT);
@@ -22,6 +32,7 @@ public class Server {
 
             System.out.println("Server has started.");
             
+            // Continuously accept connections
             while (true) {
                 this.acceptConnection();
             }
@@ -33,8 +44,14 @@ public class Server {
 
     }
 
+    /**
+     * acceptConnection
+     * Accepts a client and creates a new thread for that client
+     * @return Whether or not the connection was accepted
+     */
     private boolean acceptConnection() {
         try {
+            // Accept socket and create new thread
             Socket socket = serverSocket.accept();
             Thread thread = new ClientHandler(this, socket);
             thread.start();
@@ -47,10 +64,20 @@ public class Server {
         }
     }
 
+    /**
+     * getLobbyManager
+     * Getter for lobby manager object
+     * @return the lobby manager object
+     */
     public LobbyManager getLobbyManager() {
         return this.lobbyManager;
     }
 
+    /**
+     * getDatabase
+     * Getter for database object
+     * @return the database object
+     */
     public Database getDatabase() {
         return this.database;
     }

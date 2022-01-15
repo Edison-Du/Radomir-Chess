@@ -1,6 +1,7 @@
 package network;
 
 import config.MessageTypes;
+import config.Page;
 import views.Window;
 
 public class ConnectionHandler extends Thread {
@@ -19,6 +20,7 @@ public class ConnectionHandler extends Thread {
             while (isActive) {
                 if (ServerConnection.hasMessage()) {
                     Message message = ServerConnection.getMessage();
+                    System.out.println("Received message: " + message.getText());
                     evalMessage(message);
                 }
             }
@@ -34,14 +36,19 @@ public class ConnectionHandler extends Thread {
         if (message == null) {
             return;
 
-        } else if (message.getType() == MessageTypes.EXIT_PROGRAM) {
+        } else if (message.getType().equals(MessageTypes.GAME_CREATED)) { 
+            createGame(message);
+
+        } else if (message.getType().equals(MessageTypes.EXIT_PROGRAM)) {
             isActive = false;
             ServerConnection.close();
         }
-        System.out.println(message.getText());
         
-        // else if (message.getType() == MessageTypes.GAME_CREATED) {
-
-        // }
+        
     }   
+
+    public void createGame(Message message) {
+        window.changePage(Page.GAME);
+        window.gamePanel.setLobbyCode(message.getParam(0));
+    }
 }

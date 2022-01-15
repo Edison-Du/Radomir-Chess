@@ -33,7 +33,7 @@ public class ConnectionHandler extends Thread {
 
         if (message == null) {
             return;
-            
+
         } else if (message.getType() == MessageTypes.EXIT_PROGRAM) {
             isActive = false;
             ServerConnection.close();
@@ -43,5 +43,5 @@ public class ConnectionHandler extends Thread {
         // else if (message.getType() == MessageTypes.GAME_CREATED) {
 
         // }
-    }
+    }   
 }

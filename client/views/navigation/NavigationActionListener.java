@@ -1,6 +1,7 @@
 package views.navigation;
 
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 import views.Window;
@@ -26,7 +27,9 @@ public class NavigationActionListener implements ActionListener{
             currentButton = button;
 
             currentButton.toggleActive();
+
             window.changePage(currentButton.getReference());
+
         }
     }
 }

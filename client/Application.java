@@ -1,3 +1,4 @@
+import java.io.IOException;
 
 import network.ConnectionHandler;
 import network.ServerConnection;
@@ -8,7 +9,7 @@ public class Application {
 
     public static Window window;
     public static ConnectionHandler connectionHandler;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         // Socket connecting to server
         ServerConnection.createInstance();
@@ -22,5 +23,10 @@ public class Application {
 
         // This thread listens to messages from server
         connectionHandler.start();
+
+        while(true) {
+            window.repaint();
+            Thread.sleep(25);
+        }
     }
 }

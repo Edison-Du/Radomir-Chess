@@ -1,13 +1,18 @@
 package views;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import config.UserInterface;
+import logicai.ChessGame;
 import config.Page;
+import views.chess.MouseEventListener;
 import views.navigation.NavigationBar;
 import views.pages.*;
+
+import java.io.IOException;
 
 public class Window extends JFrame {
 
@@ -22,7 +27,7 @@ public class Window extends JFrame {
     public Login loginPanel;
 
 
-    public Window () {
+    public Window () throws IOException {
         
         // Initialize panels
         playPanel = new Play();
@@ -70,7 +75,13 @@ public class Window extends JFrame {
             content = new Board(); // testing
 
         } else if (currentPage == Page.ABOUT) {
-
+            try {
+            ChessGame game = new ChessGame();
+            content = new GamePanel(game); // just putting here for no reason
+            } catch (Exception e){
+                System.out.println("Cannot create chess game.");
+                e.printStackTrace();
+            }
         } else if (currentPage == Page.LOGIN) {
             content = loginPanel;
 
@@ -79,6 +90,6 @@ public class Window extends JFrame {
         } 
         content.revalidate();
         this.add(content);
-        this.repaint();
+        // this.repaint();
     }
 }

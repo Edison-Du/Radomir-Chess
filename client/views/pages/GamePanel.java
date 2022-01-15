@@ -103,22 +103,22 @@ public class GamePanel extends ContentPanel {
     public void drawBoard(Graphics g) {
 		Tile[][] checkerBoard = game.getCurrentPos().getTiles();
 
-            // traverse entire maze and draw coloured square for each symbol in maze
-            for (int x = 0; x < checkerBoard.length; x++) {
-                for (int y = 0; y < checkerBoard[0].length; y++) {
-                    int xPos = x * tileSize;
-                    int yPos = (checkerBoard[0].length - y)*tileSize - 60;
-                    if (x%2-y%2==0) {
-                        g.setColor(Color.DARK_GRAY);
-                    } else {
-                        g.setColor(Color.LIGHT_GRAY);
-                    }
-                    g.fillRect(xPos, yPos, tileSize, tileSize);
+        // traverse entire maze and draw coloured square for each symbol in maze
+        for (int x = 0; x < checkerBoard.length; x++) {
+            for (int y = 0; y < checkerBoard[0].length; y++) {
+                int xPos = x * tileSize;
+                int yPos = (checkerBoard[0].length - y)*tileSize - 60;
+                if (x%2-y%2==0) {
+                    g.setColor(Color.DARK_GRAY);
+                } else {
+                    g.setColor(Color.LIGHT_GRAY);
+                }
+                g.fillRect(xPos, yPos, tileSize, tileSize);
 
-                    if(checkerBoard[x][y].getPiece() != null && checkerBoard[x][y].getPiece() != MouseEventListener.getSelectedPiece()) {
-                        g.drawImage(checkerBoard[x][y].getPiece().getImage(), xPos, yPos, this);
-                    }
+                if(checkerBoard[x][y].getPiece() != null && checkerBoard[x][y].getPiece() != MouseEventListener.getSelectedPiece()) {
+                    g.drawImage(checkerBoard[x][y].getPiece().getImage(), xPos, yPos, this);
                 }
             }
+        }
 	}
 }

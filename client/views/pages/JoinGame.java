@@ -23,19 +23,45 @@ public class JoinGame extends ContentPanel implements ActionListener {
     // Constants
     private final JLabel joinGameLabel= new JLabel();
     private final JTextField joinGameField = new JTextField();
-    private String joinGameCode;
+    private final CustomButton joinGameButton = new CustomButton("Join");
 
     public JoinGame() {
-        joinGameLabel.setText("Username: ");
+        joinGameLabel.setText("Room Code: ");
         joinGameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 300, 150, 25);
         this.add(joinGameLabel);
 
         joinGameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 320, 150, 25);
         this.add(joinGameField);
+
+        joinGameButton.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 350, 150, 25);
+        // joinGameButton.setHoverColor();
+        // joinGameButton.setBorder(new EmptyBorder(0, 0, 0, 0));
+        // joinGameButton.setBackground(new Color());
+        joinGameButton.addActionListener(this);
+        joinGameButton.setFocusable(false);
+        this.add(joinGameButton);
     }
 
     //@Override
     public void actionPerformed(ActionEvent e) {
-       
+        String joinGameCode = joinGameField.getText();
+
+        //Validates code
+        if (joinGameCode.length() != 4) {
+            return;
+        }
+        for (int i = 0; i < 4; i++) {
+            if (!Character.isDigit(joinGameCode.charAt(i))) {
+                return;
+            }
+        }
+
+        try{
+            Message m = new Message(MessageTypes.JOIN_GAME);
+            m.addParam(joinGameCode);
+            ServerConnection.sendMessage(m);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.io.IOException;
 import java.util.HashSet;
 
-public class Game {
+public class ChessGame {
     private Stack<Board> moves;
     private Board current;
     
@@ -20,7 +20,7 @@ public class Game {
      * Create a game
      * @throws IOException
      */
-    public Game() throws IOException {
+    public ChessGame() throws IOException {
         current = new Board();
         moves = new Stack<Board>();
     }
@@ -89,7 +89,7 @@ public class Game {
         String t1;
         String t2;
         int[] forPromotions;
-        Game g = new Game();
+        ChessGame g = new ChessGame();
         RandomBot bot = new RandomBot();
         String botMove;
         System.out.println("RADOMIRCHESS");

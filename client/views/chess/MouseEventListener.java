@@ -9,7 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 
-import logicai.Game;
+import logicai.ChessGame;
 import logicai.Piece;
 
 import java.awt.image.BufferedImage;
@@ -24,7 +24,7 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
     String t1 = "";
     String t2 = "";
 
-    Game game;
+    ChessGame game;
 
     BufferedImage heldPieceImage = null;
 
@@ -36,7 +36,7 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
 
     static Piece selectedPiece = null;
 
-    public MouseEventListener(Game game) {
+    public MouseEventListener(ChessGame game) {
         this.game = game;
     }
 

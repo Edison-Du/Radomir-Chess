@@ -27,12 +27,9 @@ public class NavigationActionListener implements ActionListener{
             currentButton = button;
 
             currentButton.toggleActive();
-            try {
-                window.changePage(currentButton.getReference());
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
+
+            window.changePage(currentButton.getReference());
+
         }
     }
 }

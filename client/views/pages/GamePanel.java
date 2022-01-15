@@ -23,7 +23,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 // import game.Pieces;
 
-import logicai.Game;
+import logicai.ChessGame;
 import logicai.Tile;
 
 import java.awt.image.BufferedImage;
@@ -52,13 +52,13 @@ public class GamePanel extends ContentPanel {
     //     {"wr", "wn", "wb", "wq", "wk", "wb", "wn", "wr"}
     // };
 
-    Game game;
+    ChessGame game;
     final int tileSize = 60;
 
     private MouseEventListener mouseEventListener;
     BufferedImage heldPieceImage;
 
-    public GamePanel(Game game) {
+    public GamePanel(ChessGame game) {
         this.game = game;
 
         mouseEventListener = new MouseEventListener(game);

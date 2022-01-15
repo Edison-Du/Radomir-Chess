@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import config.UserInterface;
-import logicai.Game;
+import logicai.ChessGame;
 import config.Page;
 import views.chess.MouseEventListener;
 import views.navigation.NavigationBar;
@@ -56,7 +56,7 @@ public class Window extends JFrame {
     }
 
     // change to Boolean probably
-    public void changePage(Page page) throws IOException {
+    public void changePage(Page page) {
 
         if (currentPage == page) return;
         currentPage = page;
@@ -69,14 +69,19 @@ public class Window extends JFrame {
             content = playPanel;
 
         } else if (currentPage == Page.GAME) {
-            // content = gamePanel;
+            content = gamePanel;
 
         } else if (currentPage == Page.SETTINGS) {
             content = new Board(); // testing
 
         } else if (currentPage == Page.ABOUT) {
-            Game game = new Game();
+            try {
+            ChessGame game = new ChessGame();
             content = new GamePanel(game); // just putting here for no reason
+            } catch (Exception e){
+                System.out.println("Cannot create chess game.");
+                e.printStackTrace();
+            }
         } else if (currentPage == Page.LOGIN) {
             content = loginPanel;
 

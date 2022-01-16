@@ -190,6 +190,11 @@ public class ClientHandler extends Thread{
                 errorMessage.addParam("Game not found");
                 sendMessage(errorMessage);
 
+            } else if (lobby.isFull()) {
+                Message gameFull = new Message(MessageTypes.GAME_FULL);
+
+                sendMessage(gameFull);
+
             } else {
                 Message joinedMessage = new Message(MessageTypes.JOINED_GAME);
                 joinedMessage.addParam(lobby.getCode());

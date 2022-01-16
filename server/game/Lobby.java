@@ -30,6 +30,10 @@ public class Lobby {
             System.out.println("Could not send message to guest: client #" + guest.getClientNum());
         }
     }
+
+    public boolean isFull() {
+        return this.guest != null;
+    }
     
     public ClientHandler getHost() {
         return this.host;
@@ -62,7 +66,7 @@ public class Lobby {
         if (receiver == null) {
             return;
         }
-        
+
         System.out.println("Host: " + host.getClientNum() + ", " + "Guest: " + guest.getClientNum());
 
         receiver.sendMessage(message);

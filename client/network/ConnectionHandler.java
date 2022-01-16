@@ -53,8 +53,18 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.EXIT_PROGRAM)) {
             isActive = false;
             ServerConnection.close();
+        } else if (message.getType().equals(MessageTypes.LOGIN_ACCEPTED)){
+            login();
+        } else if (message.getType().equals(MessageTypes.LOGIN_FAILED)){
+            window.loginPanel.displayError();
         }
     }   
+
+    public void login(){
+        window.changeLoginStatus();
+        window.changePage(Page.PLAY);
+    }
+
 
     public void createGame(Message message) {
         String code = message.getParam(0);

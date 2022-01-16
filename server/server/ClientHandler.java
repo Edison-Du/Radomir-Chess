@@ -115,10 +115,10 @@ public class ClientHandler extends Thread{
             return;
     
         } else if (request.getType().equals(MessageTypes.REGISTER)){
-            // registerUser(request);
+            registerUser(request);
     
         } else if (request.getType().equals(MessageTypes.LOGIN)){
-            // do stuff
+            loginUser(request);
 
         } else if (request.getType().equals(MessageTypes.JOIN_GAME)) {
             joinGame(request);
@@ -148,14 +148,14 @@ public class ClientHandler extends Thread{
     /*-----------------The methods below handle each type of message sent by the client------------------*/
     /*================================================================================================== */
 
-    private void registerUser(Message message) throws InvalidMessageException{
+    private void registerUser(Message message){
         try{
             String username = message.getParam(0);
             String password = message.getParam(1);
             if (server.getDatabase().addUser(username, password)){
-                sendMessage(new Message(MessageTypes.REGISTER_ACCEPTED)); // Success
+                sendMessage(new Message(MessageTypes.LOGIN_ACCEPTED)); // Success
             } else{
-                sendMessage(new Message(MessageTypes.REGISTER_FAILED)); // Failiure
+                sendMessage(new Message(MessageTypes.LOGIN_FAILED)); // Failiure
             }
         } catch (Exception e){
             System.out.println("nice one Eddison Ddu");
@@ -167,7 +167,7 @@ public class ClientHandler extends Thread{
         try{
             String username = message.getParam(0);
             String password = message.getParam(1);
-            if (server.getDatabase().addUser(username, password)){
+            if (server.getDatabase().validateUser(username, password)){
                 sendMessage(new Message(MessageTypes.LOGIN_ACCEPTED)); // Success
             } else{
                 sendMessage(new Message(MessageTypes.LOGIN_FAILED)); // Failiure

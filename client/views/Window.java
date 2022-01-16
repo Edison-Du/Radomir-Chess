@@ -20,6 +20,8 @@ public class Window extends JFrame {
     private JPanel content;
     
     private boolean inGame = false;
+    private boolean loggedIn = false;
+    private String username;
 
     // Different pages
     public Play playPanel;
@@ -38,7 +40,7 @@ public class Window extends JFrame {
         joinGamePanel = new JoinGame();
         browseGamesPanel = new BrowseGames();
         gamePanel = new Game();
-        loginPanel = new Login();
+        loginPanel = new Login(this);
 
         // Navigation bar
         navigationBar = new NavigationBar(this);
@@ -77,6 +79,14 @@ public class Window extends JFrame {
             System.out.println("Window update thread interrupted.");
             e.printStackTrace();
         }
+    }
+
+    public void changeLoginStatus(){
+        this.loggedIn = true;
+    }
+
+    public boolean getLogIn(){
+        return this.loggedIn;
     }
 
     // change to Boolean probably

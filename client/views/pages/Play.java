@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.HyperlinkEvent;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -32,6 +33,7 @@ public class Play extends ContentPanel implements ActionListener {
     private PlayMenuButton[] buttons;
 
     private final JLabel joinLobbyLabel= new JLabel();
+    private final JLabel username = new JLabel();
     private final JTextField joinLobbyField = new JTextField();
     private String joinLobbyCode;
 
@@ -127,9 +129,18 @@ public class Play extends ContentPanel implements ActionListener {
             window.changePage(Page.PLAY_BOT);
         }
     }
+
     public String getjoinLobbyCode() {
         return this.joinLobbyCode;
     }
+
+    // public void displayUserName(){
+    //     System.out.println(window.loginPanel.getUsername());
+    //     username.setForeground(UserInterface.TEXT_COLOUR);
+    //     username.setText(window.loginPanel.getUsername());
+    //     username.setBounds(0, 0, 200, 25);
+    //     this.add(username);
+    // }
 
     public void createGame() {
         System.out.println("Create game");

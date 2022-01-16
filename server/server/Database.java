@@ -29,24 +29,17 @@ public class Database {
     }
 
     public boolean addUser(String username, String password){
-        if (!this.storage.containsKey(username)) return false;
+        if (this.storage.containsKey(username)) return false;
         else {
-            try {
-                PrintWriter out = new PrintWriter(data);
-                out.println(username + " " + password);
-                this.storage.put(username, password);
-                return true;
-            } catch (FileNotFoundException e){
-                System.out.println("Database not found");
-                e.printStackTrace();
-                return false;
-            }
+            this.storage.put(username, password);
+            return true;
         }
     }
 
     public boolean validateUser(String username, String password){
         if (!this.storage.containsKey(username)) return false;
         else if (this.storage.get(username).equals(password)) return true;
+        System.out.println("Started from the bottom now im here");
         return false;
     }
 }

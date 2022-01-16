@@ -89,6 +89,7 @@ public class ChessGame {
         return this.moves;
     }
     
+<<<<<<< HEAD
     public void undo() {
         if(!this.stringMoves.isEmpty()) {
             Tile t = this.current.getTile(this.stringMoves.peek().substring(2, 4));
@@ -111,6 +112,15 @@ public class ChessGame {
         }
     }
     
+=======
+    // dummy program
+    public int getColour(String username) {
+        if(username.equals("user")) {
+            return 0;
+        } else { return 1;}
+    }
+
+>>>>>>> 77360716b0866938441f0834578f00c29532afa1
     //main method
     public static void main(String[] args) throws IOException {
         Scanner s = new Scanner(System.in);
@@ -162,5 +172,4 @@ public class ChessGame {
         }
         s.close();
     }
-    
 }

@@ -9,8 +9,11 @@ import config.MessageTypes;
 
 import java.awt.*;
 import java.awt.event.*;
+import views.Window;
 
 public class Login extends ContentPanel implements ActionListener{
+
+    private Window window;
     
     private final JLabel title = new JLabel();
     private final JLabel profile = new JLabel();
@@ -21,8 +24,11 @@ public class Login extends ContentPanel implements ActionListener{
     private final JPasswordField passwordField = new JPasswordField();
     private final JButton registerButton = new JButton("Register");
     private final JButton loginButton = new JButton("Login");
+    private final JLabel errorMessage = new JLabel();
     
-    public Login() {
+    public Login(Window window) {
+
+        this.window = window;
 
         title.setFont(new Font("Serif", Font.ITALIC, 36));
         title.setText(UserInterface.WINDOW_TITLE);
@@ -34,6 +40,7 @@ public class Login extends ContentPanel implements ActionListener{
         profile.setText("Register");
         this.add(profile);
 
+        usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
         usernameLabel.setText("Username: ");
         usernameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 300, 150, 25);
         this.add(usernameLabel);
@@ -41,6 +48,7 @@ public class Login extends ContentPanel implements ActionListener{
         usernameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 320, 150, 25);
         this.add(usernameField);
 
+        passwordLabel.setForeground(UserInterface.TEXT_COLOUR);
         passwordLabel.setText("Password: ");
         passwordLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 350, 150, 25);
         this.add(passwordLabel);
@@ -57,7 +65,13 @@ public class Login extends ContentPanel implements ActionListener{
         registerButton.addActionListener(this);
         registerButton.setFocusable(false);
         this.add(registerButton);
+    }
 
+    public void displayError(){
+        errorMessage.setForeground(UserInterface.TEXT_COLOUR);
+        errorMessage.setText("Hey man your username or password is incorrect. Are you mentally slow or something?");
+        errorMessage.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 500, 500, 100);
+        this.add(errorMessage);
     }
 
     public void actionPerformed(ActionEvent e){
@@ -74,7 +88,6 @@ public class Login extends ContentPanel implements ActionListener{
                 m.addParam(username);
                 m.addParam(password);
                 ServerConnection.sendMessage(m);
-                System.out.println("Register");
             }
         } catch (Exception ex){
             System.out.println("User has inputed bad stuff");

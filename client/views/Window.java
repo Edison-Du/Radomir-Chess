@@ -20,6 +20,8 @@ public class Window extends JFrame {
     private JPanel content;
     
     private boolean inGame = false;
+    private boolean loggedIn = false;
+    private String username;
 
     // Different pages
     public Play playPanel;
@@ -37,9 +39,8 @@ public class Window extends JFrame {
         playPanel = new Play(this);
         joinGamePanel = new JoinGame();
         browseGamesPanel = new BrowseGames();
-        playBotPanel = new PlayBot();
         gamePanel = new Game();
-        loginPanel = new Login();
+        loginPanel = new Login(this);
 
         // Navigation bar
         navigationBar = new NavigationBar(this);
@@ -80,6 +81,14 @@ public class Window extends JFrame {
         }
     }
 
+    public void changeLoginStatus(){
+        this.loggedIn = true;
+    }
+
+    public boolean getLogIn(){
+        return this.loggedIn;
+    }
+
     // change to Boolean probably
     public void changePage(Page page) {
 
@@ -106,7 +115,13 @@ public class Window extends JFrame {
             content = browseGamesPanel;
         
         } else if (currentPage == Page.PLAY_BOT) {
-            content = playBotPanel;
+            try {
+                ChessGame game = new ChessGame();
+                content = new PlayBot(game);
+            } catch (Exception e){
+                System.out.println("Cannot create chess game.");
+                e.printStackTrace();
+            }
         
         } else if (currentPage == Page.GAME) {
             content = gamePanel;
@@ -118,7 +133,7 @@ public class Window extends JFrame {
         } else if (currentPage == Page.ABOUT) {
             try {
             ChessGame game = new ChessGame();
-            content = new GamePanel(game); // just putting here for no reason
+            content = new GamePanel(game);
             } catch (Exception e){
                 System.out.println("Cannot create chess game.");
                 e.printStackTrace();

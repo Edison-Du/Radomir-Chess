@@ -120,6 +120,9 @@ public class ClientHandler extends Thread{
         } else if (request.getType().equals(MessageTypes.LOGIN)){
             loginUser(request);
 
+        } else if (request.getType().equals(MessageTypes.LOGOUT)){
+            logoutUser(request);
+
         } else if (request.getType().equals(MessageTypes.JOIN_GAME)) {
             joinGame(request);
 
@@ -139,7 +142,7 @@ public class ClientHandler extends Thread{
         System.out.println(request.getText());
     }
 
-
+    
     /*================================================================================================== */
     /*-----------------The methods below handle each type of message sent by the client------------------*/
     /*================================================================================================== */
@@ -160,7 +163,7 @@ public class ClientHandler extends Thread{
     }
 
     private void loginUser(Message message){
-        try{
+        try {
             String username = message.getParam(0);
             String password = message.getParam(1);
             if (server.getDatabase().validateUser(username, password)){
@@ -168,8 +171,17 @@ public class ClientHandler extends Thread{
             } else{
                 sendMessage(new Message(MessageTypes.LOGIN_FAILED)); // Failiure
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("nice one Eddison Ddu");
+            e.printStackTrace();
+        }
+    }
+
+    private void logoutUser(Message message) {
+        try {
+            sendMessage(message);
+        } catch (Exception e) {
+            System.out.println("Logout failed");
             e.printStackTrace();
         }
     }

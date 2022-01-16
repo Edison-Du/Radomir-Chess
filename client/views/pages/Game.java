@@ -74,7 +74,7 @@ public class Game extends ContentPanel implements ActionListener {
     // Not sure if this will be redisgned when we get to chess
     // For texting purposes this works.
     public void addOther(int client) {
-        this.otherClient = otherClient;
+        this.otherClient = client;
 
         if (isHost) {
             otherClientLabel.setText("Client #" + client + " is in this lobby.");
@@ -97,7 +97,6 @@ public class Game extends ContentPanel implements ActionListener {
             Message message = new Message(MessageTypes.SENT_TEXT);
             message.addParam(userMessage);
             ServerConnection.sendMessage(message);
-            
 
             allTexts.addElement("You: " + userMessage);
             

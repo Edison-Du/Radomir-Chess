@@ -1,7 +1,6 @@
 package game;
 
 import config.MessageTypes;
-import javafx.scene.shape.Mesh;
 import server.ClientHandler;
 import server.Message;
 
@@ -52,12 +51,19 @@ public class Lobby {
     public void sendMessage(ClientHandler from, Message message) {
         
         ClientHandler receiver;
+
         
         if (from == host) {
             receiver = guest;
         } else {
             receiver = host;
         }
+
+        if (receiver == null) {
+            return;
+        }
+        
+        System.out.println("Host: " + host.getClientNum() + ", " + "Guest: " + guest.getClientNum());
 
         receiver.sendMessage(message);
     }

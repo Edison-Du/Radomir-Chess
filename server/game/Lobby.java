@@ -10,8 +10,9 @@ public class Lobby {
     private ClientHandler host, guest;
     private String code;
 
-    public Lobby() {
+    public Lobby(ClientHandler host) {
         generateCode();
+        this.host = host;
     }
 
     public void setHost(ClientHandler host) {
@@ -20,11 +21,12 @@ public class Lobby {
 
     public void setGuest(ClientHandler guest) {
         this.guest = guest;
-        // New guest message
+        // Alert host that a guest has joined
         try {
             Message message = new Message(MessageTypes.GUEST_JOINED);
-            
-            guest.sendMessage(message);
+            message.addParam(Integer.toString(guest.getClientNum()));
+            host.sendMessage(message);
+
         } catch (Exception e) {
             System.out.println("Could not send message to guest: client #" + guest.getClientNum());
         }

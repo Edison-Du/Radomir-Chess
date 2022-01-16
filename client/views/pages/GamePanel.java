@@ -115,7 +115,7 @@ public class GamePanel extends ContentPanel {
                 }
                 g.fillRect(xPos, yPos, tileSize, tileSize);
 
-                if(checkerBoard[x][y].getPiece() != null && checkerBoard[x][y].getPiece() != MouseEventListener.getSelectedPiece()) {
+                if(checkerBoard[x][y].getPiece() != null && checkerBoard[x][y].getPiece() != mouseEventListener.getSelectedPiece()) {
                     g.drawImage(checkerBoard[x][y].getPiece().getImage(), xPos, yPos, this);
                 }
             }

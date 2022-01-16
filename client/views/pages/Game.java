@@ -1,5 +1,6 @@
 package views.pages;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JLabel;
@@ -15,6 +16,7 @@ public class Game extends ContentPanel {
         codeLabel = new JLabel(lobbyCode);
         // Temporary
         codeLabel.setFont(new Font("Serif", Font.ITALIC, 36));
+        codeLabel.setForeground(Color.WHITE);
         codeLabel.setBounds(100, 0, 100, 100);
         this.add(codeLabel);
     }

@@ -18,8 +18,9 @@ public class Window extends JFrame {
 
     private NavigationBar navigationBar;
     private Page currentPage;
-
     private JPanel content;
+    
+    private boolean inGame = false;
 
     // Different pages
     public Play playPanel;
@@ -74,7 +75,13 @@ public class Window extends JFrame {
         }
         // Change all pages into permanet variables to be reused, instead of ocnstrcut new
         if (currentPage == Page.PLAY) {
-            content = playPanel;
+            if (inGame) {
+                content = gamePanel;
+                currentPage = Page.GAME;
+
+            } else {
+                content = playPanel;
+            }
     
         } else if (currentPage == Page.JOIN_GAME) {
             content = joinGamePanel;
@@ -87,6 +94,7 @@ public class Window extends JFrame {
         
         } else if (currentPage == Page.GAME) {
             content = gamePanel;
+            inGame = true;
 
         } else if (currentPage == Page.SETTINGS) {
             // content = new Board(); // testing

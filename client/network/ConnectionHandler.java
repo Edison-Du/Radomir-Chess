@@ -42,7 +42,7 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.JOINED_GAME)) {
             joinGame(message);
 
-        } else if (message.getType().equals(MessageTypes.GAME_NOT_FOUND)) {
+        } else if (message.getType().equals(MessageTypes.JOIN_ERROR)) {
 
 
         } else if (message.getType().equals(MessageTypes.EXIT_PROGRAM)) {

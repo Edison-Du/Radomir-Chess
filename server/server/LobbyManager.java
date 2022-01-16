@@ -19,14 +19,13 @@ public class LobbyManager {
         return activeGames.get(code);
     }
 
-    public Lobby createLobby() {
-        Lobby lobby = new Lobby();
+    public Lobby createLobby(ClientHandler host) {
+        Lobby lobby = new Lobby(host);
 
         // This is terrible but works for now
         // We may implement smarter algorithm later
         while (lobbyExists(lobby.getCode())) {
-            lobby = new Lobby();
-            
+            lobby = new Lobby(host);
         }
 
         activeGames.put(lobby.getCode(), lobby);

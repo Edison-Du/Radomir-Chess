@@ -183,7 +183,8 @@ public class ClientHandler extends Thread{
         try {
             if (lobby == null) {
                 // Return error message
-                Message errorMessage = new Message(MessageTypes.GAME_NOT_FOUND);
+                Message errorMessage = new Message(MessageTypes.JOIN_ERROR);
+                errorMessage.addParam("Game not found");
                 sendMessage(errorMessage);
 
             } else {
@@ -201,8 +202,8 @@ public class ClientHandler extends Thread{
     }
 
     private void createGame() {
-        lobby = server.getLobbyManager().createLobby();
-        lobby.setHost(this);
+        lobby = server.getLobbyManager().createLobby(this);
+        // lobby.setHost(this);
 
         try {
             Message message = new Message(MessageTypes.GAME_CREATED);

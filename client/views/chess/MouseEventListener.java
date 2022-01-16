@@ -34,7 +34,7 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
     int posX = 0;
     int posY = 0;
 
-    static Piece selectedPiece = null;
+    Piece selectedPiece = null;
 
     public MouseEventListener(ChessGame game) {
         this.game = game;
@@ -55,6 +55,8 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
             if (mouseX < 480 && mouseY < 480) {
                 if (game.getCurrentPos().getTiles()[posX][posY].getPiece() != null) {
                     t1 = String.valueOf((char) (posX + 97)) + "" + (posY + 1);
+                    selectedPiece = game.getCurrentPos().getTiles()[posX][posY].getPiece();
+                    heldPieceImage = selectedPiece.getImage();
                     isSelected = true;
                     System.out.print(t1);
                 }
@@ -122,20 +124,14 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
     @Override
     public void mouseDragged(MouseEvent e) {
 
-        if (SwingUtilities.isLeftMouseButton(e)) {
+        if (SwingUtilities.isLeftMouseButton(e) && isSelected) {
             // System.out.println("DRAG");
             // Initialize mouse coordinates
             mouseX = e.getX();
             mouseY = e.getY();
 
-            selectedPiece = game.getCurrentPos().getTiles()[posX][posY].getPiece();
 
-            try {
-                heldPieceImage = ImageIO.read(new File("logicai/" + selectedPiece.getName() + selectedPiece.getColour()+".png"));
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
+
         }
     }
 
@@ -145,7 +141,7 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
         
     }
 
-    public static Piece getSelectedPiece() {
+    public Piece getSelectedPiece() {
         return selectedPiece;
     }
 }

@@ -9,7 +9,6 @@ import javax.swing.JButton;
 import views.chess.MouseEventListener;
 import views.components.ContentPanel;
 
-import java.awt.Rectangle;
 import java.awt.Color;
 // import java.awt.Dimension;
 // import java.awt.Font;

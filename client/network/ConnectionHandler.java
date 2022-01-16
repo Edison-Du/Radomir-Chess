@@ -44,22 +44,47 @@ public class ConnectionHandler extends Thread {
 
         } else if (message.getType().equals(MessageTypes.JOIN_ERROR)) {
 
+        } else if (message.getType().equals(MessageTypes.GUEST_JOINED)) {
+            guestJoined(message);
+
+        } else if (message.getType().equals(MessageTypes.SENT_TEXT)) {
+            addTextMessage(message);
 
         } else if (message.getType().equals(MessageTypes.EXIT_PROGRAM)) {
             isActive = false;
             ServerConnection.close();
         }
-        
-        
     }   
 
     public void createGame(Message message) {
+        String code = message.getParam(0);
+
         window.changePage(Page.GAME);
-        window.gamePanel.setLobbyCode(message.getParam(0));
+        window.gamePanel.setLobbyCode(code);
+        window.gamePanel.setHost(true);
     }
 
+
+    public void guestJoined(Message message) {
+        int guest = Integer.parseInt(message.getParam(0));
+
+        window.gamePanel.addOther(guest);
+    }
+
+
     public void joinGame(Message message) {
+        String code = message.getParam(0);
+        int host = Integer.parseInt(message.getParam(1));
+
         window.changePage(Page.GAME);
-        window.gamePanel.setLobbyCode(message.getParam(0));
+        window.gamePanel.setLobbyCode(code);
+        window.gamePanel.setHost(false);
+        window.gamePanel.addOther(host);
+    }
+
+    public void addTextMessage(Message message) {
+        String text = message.getParam(0);
+
+        window.gamePanel.addTextMessageFromOther(text);
     }
 }

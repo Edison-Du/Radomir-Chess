@@ -3,22 +3,17 @@ package views.chess;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 
 import logicai.ChessGame;
 import logicai.Piece;
 
 import java.awt.image.BufferedImage;
-import java.awt.Graphics;
 
 public class MouseEventListener implements MouseListener, MouseMotionListener {
 
-    private final int MOUSE_X_OFFSET = 0;
-    private final int MOUSE_Y_OFFSET = 0;
     boolean isSelected = false;
 
     String t1 = "";

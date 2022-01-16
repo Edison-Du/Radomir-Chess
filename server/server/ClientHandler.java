@@ -126,6 +126,9 @@ public class ClientHandler extends Thread{
         } else if (request.getType().equals(MessageTypes.CREATE_GAME)) {
             createGame();
 
+        } else if (request.getType().equals(MessageTypes.SENT_TEXT)) {
+            sendText(request);
+
         } else if (request.getType().equals(MessageTypes.BROWSE_GAMES)) {
             // try {
             //     Message message = new Message(server.getLobbyManager().getActiveGames().toString());
@@ -178,7 +181,7 @@ public class ClientHandler extends Thread{
     private void joinGame(Message message) {
 
         String code = message.getParam(0);
-        Lobby lobby = server.getLobbyManager().getLobby(code);
+        lobby = server.getLobbyManager().getLobby(code);
 
         try {
             if (lobby == null) {
@@ -216,6 +219,11 @@ public class ClientHandler extends Thread{
 
         }
     }
+
+    private void sendText(Message message) {
+        lobby.sendMessage(this, message);
+    }
+
 
     private void disconnectClient(Message message) {
         this.userActive = false; // stops this thread

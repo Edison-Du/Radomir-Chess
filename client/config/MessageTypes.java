@@ -13,9 +13,10 @@ public class MessageTypes {
     // Lobby related
     public static final String JOIN_GAME = "JOIN_GAME";
     public static final String JOIN_ERROR = "JOIN_ERROR";
-    public static final String JOINED_GAME = "GAME_EXISTS";
+    public static final String JOINED_GAME = "JOINED_GAME";
     public static final String CREATE_GAME = "CREATE_GAME";
     public static final String GAME_CREATED = "GAME_CREATED";
 
     public static final String GUEST_JOINED = "GUEST_JOINED";
+    public static final String SENT_TEXT = "SENT_TEXT";
 }

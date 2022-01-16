@@ -1,7 +1,5 @@
 package network;
 
-import java.applet.Applet;
-
 import config.MessageTypes;
 
 public class ShutdownHook extends Thread {

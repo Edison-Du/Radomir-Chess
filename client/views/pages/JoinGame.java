@@ -23,7 +23,6 @@ public class JoinGame extends ContentPanel implements ActionListener {
     // Constants
     private final JLabel joinGameLabel= new JLabel();
     private final JTextField joinGameField = new JTextField();
-    private final CustomButton joinGameButton = new CustomButton("Join");
 
     public JoinGame() {
         joinGameLabel.setFont(UserInterface.JOIN_GAME_FONT_1);
@@ -34,16 +33,8 @@ public class JoinGame extends ContentPanel implements ActionListener {
 
         joinGameField.setFont(UserInterface.JOIN_GAME_FONT_2);
         joinGameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 100, UserInterface.WINDOW_HEIGHT / 2 - 15, 200, 30);
+        joinGameField.addActionListener(this);
         this.add(joinGameField);
-
-        joinGameButton.setFont(UserInterface.JOIN_GAME_FONT_2);
-        joinGameButton.setBounds(UserInterface.CONTENT_WIDTH / 2 - 100, UserInterface.WINDOW_HEIGHT / 2 + 50, 200, 30);
-        // joinGameButton.setHoverColor();
-        // joinGameButton.setBorder(new EmptyBorder(0, 0, 0, 0));
-        // joinGameButton.setBackground(new Color());
-        joinGameButton.addActionListener(this);
-        joinGameButton.setFocusable(false);
-        this.add(joinGameButton);
     }
 
     //@Override

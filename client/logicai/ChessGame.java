@@ -10,7 +10,6 @@ package logicai;
 import java.util.Stack;
 import java.util.Scanner;
 import java.io.IOException;
-import java.util.HashSet;
 
 public class ChessGame {
     private Stack<Board> moves;

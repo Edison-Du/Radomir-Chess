@@ -48,4 +48,17 @@ public class Lobby {
         // Temporary
         this.code = Integer.toString((int) (Math.random() * (9999 - 1000)) + 1000);
     }
+
+    public void sendMessage(ClientHandler from, Message message) {
+        
+        ClientHandler receiver;
+        
+        if (from == host) {
+            receiver = guest;
+        } else {
+            receiver = host;
+        }
+
+        receiver.sendMessage(message);
+    }
 }

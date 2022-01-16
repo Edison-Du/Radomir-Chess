@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import config.UserInterface;
 import logicai.ChessGame;
 import config.Page;
-import views.chess.MouseEventListener;
 import views.navigation.NavigationBar;
 import views.pages.*;
 
@@ -68,6 +67,7 @@ public class Window extends JFrame {
         frameUpdateThread.start();
     }
 
+    // Repainting
     private void updateFrame() {
         try {
             while (true) {

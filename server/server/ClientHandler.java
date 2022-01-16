@@ -130,12 +130,8 @@ public class ClientHandler extends Thread{
             sendText(request);
 
         } else if (request.getType().equals(MessageTypes.BROWSE_GAMES)) {
-            // try {
-            //     Message message = new Message(server.getLobbyManager().getActiveGames().toString());
-            //     this.sendMessage(message);
-            // } catch (Exception e) {
+            browseGames();
 
-            // }
         } else if (request.getType().equals(MessageTypes.EXIT_PROGRAM)) {
             disconnectClient(request);
         }
@@ -229,6 +225,16 @@ public class ClientHandler extends Thread{
         lobby.sendMessage(this, message);
     }
 
+    private void browseGames() {
+        try {
+            Message message = new Message(MessageTypes.DISPLAY_GAMES);
+            String lobbies = server.getLobbyManager().getActiveGames().toString();
+            message.addParam(lobbies.substring(1, lobbies.length() - 1));
+            this.sendMessage(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void disconnectClient(Message message) {
         this.userActive = false; // stops this thread

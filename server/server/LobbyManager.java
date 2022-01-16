@@ -27,9 +27,7 @@ public class LobbyManager {
         while (lobbyExists(lobby.getCode())) {
             lobby = new Lobby(host);
         }
-
         activeGames.put(lobby.getCode(), lobby);
-
         return lobby;
     }
 

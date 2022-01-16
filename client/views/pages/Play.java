@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 
 import views.components.ContentPanel;
@@ -115,16 +116,8 @@ public class Play extends ContentPanel implements ActionListener {
             createGame();
 
         } else if (e.getSource() == browseGameBtn) {
-            // try {
-			// 	Message browseGames = new Message(MessageTypes.BROWSE_GAMES);
-            //     ServerConnection.sendMessage(browseGames);
+            browseGames();
 
-            //     Message response = ServerConnection.getMessage();
-            //     System.out.println(response.getText());
-			// } catch (InvalidMessageException ex) {
-			// 	ex.printStackTrace();
-			// }
-            window.changePage(Page.BROWSE_GAMES);
         } else if (e.getSource() == playBotBtn) {
             window.changePage(Page.PLAY_BOT);
         }
@@ -154,5 +147,19 @@ public class Play extends ContentPanel implements ActionListener {
         } catch (InvalidMessageException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void browseGames() {
+        try {
+            Message browseGames = new Message(MessageTypes.BROWSE_GAMES);
+            ServerConnection.sendMessage(browseGames);
+
+            Message response = ServerConnection.getMessage();
+            System.out.println(response.getParam(1));
+            
+        } catch (InvalidMessageException ex) {
+            ex.printStackTrace();
+        }
+        window.changePage(Page.BROWSE_GAMES);
     }
 }

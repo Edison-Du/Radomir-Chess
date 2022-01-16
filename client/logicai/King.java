@@ -18,10 +18,10 @@ class King extends Piece {
     /**
      * Create a king
      * @param col colour of king
-     * @throws IOException
+     * @
      */
-    public King(int col) throws IOException {
-        super(col, "K", 0, ImageIO.read(new File("logicai/" + "K"+col+".png")));
+    public King(int col) {
+        super(col, "K", 0, getImage("K", col));
     }
     
     @Override

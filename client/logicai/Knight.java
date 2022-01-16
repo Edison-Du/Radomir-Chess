@@ -17,10 +17,10 @@ class Knight extends Piece {
     /**
      * Create a knight
      * @param col colour of the knight
-     * @throws IOException
+     * @
      */
-    public Knight(int col) throws IOException {
-        super(col, "N", 3, ImageIO.read(new File("logicai/" + "N"+col+".png")));
+    public Knight(int col) {
+        super(col, "N", 3, getImage("N", col));
     }
     
     @Override

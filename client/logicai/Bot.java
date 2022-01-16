@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.HashSet;
 
-abstract class Bot {
+public abstract class Bot {
     
-    public ArrayList<String> legalMoves(Board b) throws IOException {
+    public ArrayList<String> legalMoves(Board b)  {
         ArrayList<String> output = new ArrayList<String>();
         HashSet<String> tempSet;
         Iterator<String> tempIt;
@@ -37,6 +37,6 @@ abstract class Bot {
         return output;
     }
     
-    abstract String nextMove(ChessGame g) throws IOException;
+    public abstract String nextMove(ChessGame g) ;
     
 }

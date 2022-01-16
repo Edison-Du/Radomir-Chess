@@ -22,9 +22,9 @@ public class Board {
     
     /**
      * Create a new chessboard (the default starting position)
-     * @throws IOException
+     * @
      */
-    public Board() throws IOException {
+    public Board()  {
         this.turn = 1;
         this.toMove = 0;
         this.tiles = new Tile[8][8];
@@ -152,10 +152,9 @@ public class Board {
      * @param p1 position of piece that will move in chess notation (e.g. a1, b5, etc.)
      * @param p2 position of place that the piece will move in chess notation
      * @return true if the move is legal
-     * @throws IOException
+     * @
      */
-    public boolean legal(String p1, String p2) throws IOException {
-        long startTime = System.nanoTime();
+    public boolean legal(String p1, String p2)  {
         int[] pos1 = Constants.chessToCoord(p1);
         int[] pos2 = Constants.chessToCoord(p2);
         //check if the position is on the board
@@ -181,8 +180,6 @@ public class Board {
         }
         //check if this move places the king in check
         Board check = this.copy();
-        long endTime = System.nanoTime();
-        System.out.println("Time elapsed: " + (endTime - startTime));
         if(check.getTiles()[pos1[0]][pos1[1]].getPiece().getName().equals("p") && pos2[0] != pos1[0] && check.getTiles()[pos2[0]][pos2[1]].getPiece() == null) { //remove a piece for en passant
             if(this.toMove == Constants.WHITE) {
                 check.getTiles()[pos2[0]][pos2[1] - 1].setPiece(null);
@@ -207,15 +204,15 @@ public class Board {
         return true;
     }
     
-    public boolean promotingMove(String t1, String t2) throws IOException {
+    public boolean promotingMove(String t1, String t2)  {
         return getTile(t1).getPiece() != null && getTile(t1).getPiece().getName().equals("p") && Constants.chessToCoord(t2)[1] == 7*(1 - toMove);
     }
     
-    public boolean validPromotion(String p) throws IOException {
+    public boolean validPromotion(String p)  {
         return p!= null && (p.equals("Q") || p.equals("R") || p.equals("B") || p.equals("N"));
     }
     
-    public void promotePawn(Tile t, String p) throws IOException {
+    public void promotePawn(Tile t, String p)  {
         if(p.equals("Q")) {
             t.setPiece(new Queen(toMove));
         }
@@ -234,9 +231,9 @@ public class Board {
      * return the set of all legal moves of a piece on a given position (taking into account whose turn it is)
      * @param tile the tile the piece is on
      * @return read description
-     * @throws IOException
+     * @
      */
-    public HashSet<String> legalMoves(Tile tile) throws IOException {
+    public HashSet<String> legalMoves(Tile tile)  {
         if(tile.getPiece() == null) {
             return null;
         }
@@ -261,9 +258,9 @@ public class Board {
     /**
      * check if there are any legal moves from the current position
      * @return true if there are legal moves, false otherwise
-     * @throws IOException
+     * @
      */
-    public boolean ended() throws IOException {
+    public boolean ended()  {
         int counter = 63*this.toMove;
         int direction  = 1 - 2*this.toMove;
         while(counter >= 0 && counter < 64) {
@@ -278,9 +275,10 @@ public class Board {
     /**
      * make a copy of the board
      * @return a distinct copy of this board
-     * @throws IOException
+     * @
      */
-    public Board copy() throws IOException {
+    public Board copy() {
+        long startTime = System.nanoTime();
         Board out = new Board();
         out.setKingTiles(new Tile[2]);
         for(int i = 0; i < 8; i++) {
@@ -293,6 +291,8 @@ public class Board {
         }
         out.setTurn(this.turn);
         out.setToMove(this.toMove);
+        long endTime = System.nanoTime();
+        System.out.println("Time elapsed to copy board: " + (endTime - startTime));
         return out;
     }
     

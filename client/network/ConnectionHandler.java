@@ -50,30 +50,44 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.SENT_TEXT)) {
             addTextMessage(message);
 
+        } else if (message.getType().equals(MessageTypes.DISPLAY_GAMES)) {
+            displayGames(message);
         } else if (message.getType().equals(MessageTypes.EXIT_PROGRAM)) {
             isActive = false;
             ServerConnection.close();
-        } else if (message.getType().equals(MessageTypes.LOGIN_ACCEPTED)){
+        } else if (message.getType().equals(MessageTypes.LOGIN_ACCEPTED)) {
             login();
-        } else if (message.getType().equals(MessageTypes.LOGIN_FAILED)){
+
+        } else if (message.getType().equals(MessageTypes.LOGIN_FAILED)) {
             window.loginPanel.displayError();
+        
+        } else if (message.getType().equals(MessageTypes.LOGOUT)){
+            logout();
         }
     }   
 
     public void login(){
-        window.changeLoginStatus();
+        window.setLoggedIn(true);;
         window.changePage(Page.PLAY);
     }
 
+    public void logout() {
+        window.setLoggedIn(false);
+        window.changePage(Page.LOGIN);
+    }
 
     public void createGame(Message message) {
         String code = message.getParam(0);
-
-        window.changePage(Page.GAME);
+        System.out.println(code);
+        
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(true);
     }
 
+    public void displayGames(Message message) {
+        String games = message.getParam(0);
+        window.browseGamesPanel.setLobbyList(games);
+    }
 
     public void guestJoined(Message message) {
         int guest = Integer.parseInt(message.getParam(0));

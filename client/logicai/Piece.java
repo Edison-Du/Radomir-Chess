@@ -7,7 +7,12 @@ package logicai;
  */
 
 import java.util.HashSet;
+
+import javax.imageio.ImageIO;
+
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public abstract class Piece {
     private int colour;
@@ -45,7 +50,20 @@ public abstract class Piece {
         curPos.setPiece(null);
         nextPos.setPiece(this);
     }
-    
+
+    /**
+     * return the image of the piece
+     * @return BufferedImage of piece
+     */
+    public static BufferedImage getImage(String piece, int colour) {
+        try {
+            return ImageIO.read(new File("logicai/" + piece + colour +".png"));
+        } catch(IOException e) {
+            System.out.println("Piece file not found");
+        }
+        return null;
+    }
+
     /**
      * get the name of this piece
      * @return the name of the piece

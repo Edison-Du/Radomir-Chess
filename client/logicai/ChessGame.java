@@ -18,9 +18,9 @@ public class ChessGame {
     
     /**
      * Create a game
-     * @throws IOException
+     * @
      */
-    public ChessGame() throws IOException {
+    public ChessGame()  {
         current = new Board();
         moves = new Stack<Board>();
         stringMoves = new Stack<String>();
@@ -31,9 +31,9 @@ public class ChessGame {
      * Does nothing if the move is illegal
      * @param t1 position of piece to move
      * @param t2 position to move to
-     * @throws IOException
+     * @
      */
-    public void move(String t1, String t2, String p) throws IOException {
+    public void move(String t1, String t2, String p)  {
         this.current.legal(t1, t2);
         if(this.current.legal(t1, t2) && !(this.current.promotingMove(t1, t2) && !this.current.validPromotion(p))) {
             int[] pos1 = Constants.chessToCoord(t1);
@@ -88,8 +88,7 @@ public class ChessGame {
     public Stack<Board> getMoves() {
         return this.moves;
     }
-    
-<<<<<<< HEAD
+
     public void undo() {
         if(!this.stringMoves.isEmpty()) {
             Tile t = this.current.getTile(this.stringMoves.peek().substring(2, 4));
@@ -112,7 +111,6 @@ public class ChessGame {
         }
     }
     
-=======
     // dummy program
     public int getColour(String username) {
         if(username.equals("user")) {
@@ -120,9 +118,8 @@ public class ChessGame {
         } else { return 1;}
     }
 
->>>>>>> 77360716b0866938441f0834578f00c29532afa1
     //main method
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)  {
         Scanner s = new Scanner(System.in);
         String t1;
         String t2;

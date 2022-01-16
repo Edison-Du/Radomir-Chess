@@ -1,6 +1,5 @@
 package config;
 
-// rename later lol
 public enum Page {
     PLAY,
     JOIN_GAME,
@@ -10,6 +9,6 @@ public enum Page {
     SETTINGS,
     ABOUT,
     LOGIN,
-    // LOGOUT,
+    LOGOUT,
     QUIT
 }

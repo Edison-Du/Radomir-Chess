@@ -13,14 +13,14 @@ import java.util.HashSet;
 import javax.imageio.ImageIO;
 
 class Bishop extends Piece {
-    
+
     /**
      * create a bishop
      * @param col colour to create it in
-     * @throws IOException
+     * @
      */
-    public Bishop(int col) throws IOException {
-        super(col, "B", 3, ImageIO.read(new File("logicai/" + "B"+col+".png")));
+    public Bishop(int col) {
+        super(col, "B", 3, getImage("B", col));
     }
     
     @Override

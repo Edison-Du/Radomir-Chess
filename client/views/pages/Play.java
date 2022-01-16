@@ -113,10 +113,22 @@ public class Play extends ContentPanel implements ActionListener {
 			// 	ex.printStackTrace();
 			// }
         } else if (e.getSource() == createGameBtn) {
-            createGame();
+            try {
+                Message createLobby = new Message(MessageTypes.CREATE_GAME);
+                ServerConnection.sendMessage(createLobby);
+            } catch (InvalidMessageException ex) {
+                ex.printStackTrace();
+            }
+            window.changePage(Page.GAME);
 
         } else if (e.getSource() == browseGameBtn) {
-            browseGames();
+            try {
+                Message browseGames = new Message(MessageTypes.BROWSE_GAMES);
+                ServerConnection.sendMessage(browseGames);
+            } catch (InvalidMessageException ex) {
+                ex.printStackTrace();
+            }
+            window.changePage(Page.BROWSE_GAMES);
 
         } else if (e.getSource() == playBotBtn) {
             window.changePage(Page.PLAY_BOT);
@@ -134,32 +146,4 @@ public class Play extends ContentPanel implements ActionListener {
     //     username.setBounds(0, 0, 200, 25);
     //     this.add(username);
     // }
-
-    public void createGame() {
-        System.out.println("Create game");
-        try {
-            Message createLobby = new Message(MessageTypes.CREATE_GAME);
-            ServerConnection.sendMessage(createLobby);
-
-            // Message response = ServerConnection.getMessage();
-            // System.out.println(response.getText());
-
-        } catch (InvalidMessageException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void browseGames() {
-        try {
-            Message browseGames = new Message(MessageTypes.BROWSE_GAMES);
-            ServerConnection.sendMessage(browseGames);
-
-            Message response = ServerConnection.getMessage();
-            System.out.println(response.getParam(1));
-            
-        } catch (InvalidMessageException ex) {
-            ex.printStackTrace();
-        }
-        window.changePage(Page.BROWSE_GAMES);
-    }
 }

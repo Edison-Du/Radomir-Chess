@@ -11,10 +11,10 @@ class Pawn extends Piece {
     /**
      * Create a pawn
      * @param col colour of the pawn
-     * @throws IOException
+     * @
      */
-    public Pawn(int col) throws IOException {
-        super(col, "p", 1, ImageIO.read(new File("logicai/" + "p"+col+".png")));
+    public Pawn(int col) {
+        super(col, "p", 1, getImage("p", col));
     }
     
     @Override

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class RandomBot extends Bot {
     
     @Override
-    public String nextMove(ChessGame g) throws IOException {
+    public String nextMove(ChessGame g)  {
         ArrayList<String> temp = this.legalMoves(g.getCurrentPos());
         Random r = new Random();
         int num;

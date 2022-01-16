@@ -1,21 +1,20 @@
 package logicai;
 
 import java.util.ArrayList;
-import java.io.IOException;
 
-class DepthSearchBotP1 extends Bot {
+public class DepthSearchBotP1 extends Bot {
     
     private int depth;
     private int side;
     private int countOperations;
     
-    public DepthSearchBotP1(int depth, int side) throws IOException {
+    public DepthSearchBotP1(int depth, int side)  {
         this.depth = depth;
         this.side = side;
         this.countOperations = 0;
     }
     
-    private int score(Board b) throws IOException {
+    private int score(Board b)  {
         if(b.ended()) {
             if(b.getKings()[Constants.WHITE].isChecked(b, b.getKingTiles()[Constants.WHITE])) {
                 return -60;
@@ -39,7 +38,7 @@ class DepthSearchBotP1 extends Bot {
     }
     
     @Override
-    public String nextMove(ChessGame g) throws IOException {
+    public String nextMove(ChessGame g)  {
         ArrayList<String> possibleMoves = legalMoves(g.getCurrentPos());
         int[] bestScore;
         int[] temp;
@@ -55,13 +54,14 @@ class DepthSearchBotP1 extends Bot {
                 bestScore = temp;
                 bestMove = possibleMoves.get(i);
             }
+            System.out.println("Iterated once in nextMove, DepthSearchBotP1");
         }
         System.out.println("Called average " + this.countOperations + " times");
         this.countOperations = 0;
         return bestMove;
     }
     
-    private int[] average(ChessGame g, int tail) throws IOException {
+    private int[] average(ChessGame g, int tail)  {
         this.countOperations++;
         if(tail == 0) {
             int[] out = new int[2];
@@ -76,6 +76,7 @@ class DepthSearchBotP1 extends Bot {
             return out;
         }
         else {
+            System.out.println("Calling legalMoves from average");
             ArrayList<String> possibleMoves = legalMoves(g.getCurrentPos());
             int curScore = 0;
             int leafCount = 0;
@@ -95,7 +96,7 @@ class DepthSearchBotP1 extends Bot {
         }
     }
     
-    private int[] average(ChessGame g) throws IOException {
+    private int[] average(ChessGame g)  {
         return average(g, depth);
     }
     

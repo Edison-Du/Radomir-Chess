@@ -17,10 +17,10 @@ class Rook extends Piece {
     /**
      * Create a rook
      * @param col colour of the rook
-     * @throws IOException
+     * @
      */
-    public Rook(int col) throws IOException {
-        super(col, "R", 5, ImageIO.read(new File("logicai/" + "R"+col+".png")));
+    public Rook(int col) {
+        super(col, "R", 5, getImage("R", col));
     }
     
     @Override

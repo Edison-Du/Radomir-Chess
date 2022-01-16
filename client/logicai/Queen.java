@@ -17,10 +17,10 @@ class Queen extends Piece {
     /**
      * create a queen
      * @param col colour of the queen
-     * @throws IOException
+     * @
      */
-    public Queen(int col) throws IOException {
-        super(col, "Q", 9, ImageIO.read(new File("logicai/" + "Q"+col+".png")));
+    public Queen(int col) {
+        super(col, "Q", 9, getImage("Q", col));
     }
     
     @Override

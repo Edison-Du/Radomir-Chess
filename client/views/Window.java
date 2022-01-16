@@ -11,11 +11,15 @@ import config.Page;
 import views.navigation.NavigationBar;
 import views.pages.*;
 
+import config.MessageTypes;
+import network.ServerConnection;
+import network.Message;
+
 import java.io.IOException;
 
 public class Window extends JFrame {
 
-    private NavigationBar navigationBar;
+    public NavigationBar navigationBar;
     private Page currentPage;
     private JPanel content;
     
@@ -30,16 +34,18 @@ public class Window extends JFrame {
     public PlayBot playBotPanel;
 
     public Game gamePanel;
+    public Settings settingsPanel;
     public Login loginPanel;
 
 
-    public Window () throws IOException {
+    public Window ()  {
         
         // Initialize panels
         playPanel = new Play(this);
         joinGamePanel = new JoinGame();
         browseGamesPanel = new BrowseGames();
         gamePanel = new Game();
+        settingsPanel = new Settings();
         loginPanel = new Login(this);
 
         // Navigation bar
@@ -81,11 +87,12 @@ public class Window extends JFrame {
         }
     }
 
-    public void changeLoginStatus(){
-        this.loggedIn = true;
+    public void setLoggedIn(boolean isLoggedIn) {
+        this.loggedIn = isLoggedIn;
+        this.navigationBar.setLoggedIn(isLoggedIn);
     }
 
-    public boolean getLogIn(){
+    public boolean isLoggedIn(){
         return this.loggedIn;
     }
 
@@ -128,7 +135,7 @@ public class Window extends JFrame {
             inGame = true;
 
         } else if (currentPage == Page.SETTINGS) {
-            // content = new Board(); // testing
+            content = settingsPanel;
 
         } else if (currentPage == Page.ABOUT) {
             try {
@@ -140,6 +147,14 @@ public class Window extends JFrame {
             }
         } else if (currentPage == Page.LOGIN) {
             content = loginPanel;
+
+        } else if (currentPage == Page.LOGOUT) {
+            try {
+                Message message = new Message(MessageTypes.LOGOUT);
+                ServerConnection.sendMessage(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } else if (currentPage == Page.QUIT) {
             System.exit(0);

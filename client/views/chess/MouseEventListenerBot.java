@@ -30,7 +30,8 @@ public class MouseEventListenerBot implements MouseListener, MouseMotionListener
 
     Piece selectedPiece = null;
 
-    RandomBot bot = new RandomBot();
+    Bot depthSearchBot = new DepthSearchBotP1(1, 1);
+
     String botMove;
 
     public MouseEventListenerBot(ChessGame game) {
@@ -59,7 +60,7 @@ public class MouseEventListenerBot implements MouseListener, MouseMotionListener
                         heldPieceImage = selectedPiece.getImage();
                         isSelected = true;
                         System.out.print(t1);
-                    } else {System.out.println("that's not your piece dummy!");}
+                    }
                 }
             }
         }
@@ -79,23 +80,22 @@ public class MouseEventListenerBot implements MouseListener, MouseMotionListener
         t2 = String.valueOf((char) (posX + 97)) + "" + (posY + 1);
 
         if (isSelected) {
-            try {
-                isSelected = false;
-                selectedPiece = null;
-                heldPieceImage = null;
-                System.out.println(", " + t2);
+            isSelected = false;
+            selectedPiece = null;
+            heldPieceImage = null;
+            System.out.println(", " + t2);
 
-                if(game.getCurrentPos().legal(t1, t2)) {
-                    game.move(t1, t2);
-
-                    // bot code
-                    botMove = bot.nextMove(game.getCurrentPos());
-                    System.out.println("Bot moved " + botMove.substring(0, 2) + ", " + botMove.substring(2, 4));
-                    game.move(botMove.substring(0, 2), botMove.substring(2, 4));
+            if(game.getCurrentPos().legal(t1, t2)) {
+                if(game.getCurrentPos().promotingMove(t1, t2)) {
+                    game.move(t1, t2, "Q");
                 }
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+                else {
+                    game.move(t1, t2, null);
+                }
+                // bot code
+                botMove = depthSearchBot.nextMove(game);
+                System.out.println("Bot moved " + botMove.substring(0, 2) + ", " + botMove.substring(2, 4));
+                game.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
             }
         }
         // reset t1 and t2

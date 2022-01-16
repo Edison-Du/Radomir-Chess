@@ -73,16 +73,16 @@ public class MouseEventListener implements MouseListener, MouseMotionListener {
         t2 = String.valueOf((char) (posX + 97)) + "" + (posY + 1);
 
         if (isSelected) {
-            try {
-                game.move(t1, t2);
-                isSelected = false;
-                selectedPiece = null;
-                heldPieceImage = null;
-                System.out.println(", " + t2);
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+            if(game.getCurrentPos().promotingMove(t1, t2)) {
+                game.move(t1, t2, "Q");
             }
+            else {
+                game.move(t1, t2, null);
+            }
+            isSelected = false;
+            selectedPiece = null;
+            heldPieceImage = null;
+            System.out.println(", " + t2);
         }
         // reset t1 and t2
         t1 = "";

@@ -113,28 +113,25 @@ public class Board {
      * @return the board as a string
      */
     public String toString() {
-        String out = "";
-        char letter;
+        StringBuilder out = new StringBuilder();
         for(int i = 7; i >= 0; i--) {
-            out = out + (i + 1) + " ";
+            out.append((i + 1) + " ");
             for(int j = 0; j < 8; j++) {
                 if(this.tiles[j][i].getPiece() == null) {
-                    out = out + "_";
+                    out.append("_");
                 }
                 else {
-                    out = out + this.tiles[j][i].getPiece().getName();
+                    out.append(this.tiles[j][i].getPiece().getName());
                 }
-                out = out + " ";
+                out.append(" ");
             }
-            out = out + "\n" + "\n";
+            out.append("\n\n");
         }
-        out = out + " ";
-        for(int i = 97; i < 105; i++) {
-            out = out + " ";
-            letter = (char) i;
-            out = out + letter;
+        out.append(" ");
+        for(int i = 'a'; i <= 'h' ; i++) {
+            out.append(" " + (char) i);
         }
-        return out;
+        return out.toString();
     }
     
     /**

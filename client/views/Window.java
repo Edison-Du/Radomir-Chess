@@ -39,29 +39,45 @@ public class Window extends JFrame {
         joinGamePanel = new JoinGame();
         browseGamesPanel = new BrowseGames();
         playBotPanel = new PlayBot();
-
         gamePanel = new Game();
         loginPanel = new Login();
 
+        // Navigation bar
         navigationBar = new NavigationBar(this);
-
-
 
         // Default page
         this.changePage(Page.PLAY);
 
-        // this.setSize(GraphicConsts.WINDOW_WIDTH, GraphicConsts.WINDOW_HEIGHT);
         this.setTitle(UserInterface.WINDOW_TITLE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setLayout(new BorderLayout());
-
         this.getContentPane().add(navigationBar, BorderLayout.WEST);
         this.getContentPane().add(content);
-
         this.setVisible(true);
-
         this.pack();
+
+        // Repainting thread
+        Thread frameUpdateThread = new Thread(
+            new Runnable() {
+                public void run() {
+                    updateFrame();
+                }
+            }
+        );
+        frameUpdateThread.start();
+    }
+
+    private void updateFrame() {
+        try {
+            while (true) {
+                this.repaint();
+                Thread.sleep(UserInterface.UPDATE_RATE);
+            }
+        } catch (Exception e) {
+            System.out.println("Window update thread interrupted.");
+            e.printStackTrace();
+        }
     }
 
     // change to Boolean probably

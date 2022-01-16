@@ -9,6 +9,7 @@ public class UserInterface {
     
     // JFrame related
     public static final String WINDOW_TITLE = "Radomir Chess";
+    public static final int UPDATE_RATE = 10;
 
     // Subject to change, not sure if we want any full screening or anything
     public static final int WINDOW_WIDTH  = 1280;

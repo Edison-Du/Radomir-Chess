@@ -23,10 +23,5 @@ public class Application {
 
         // This thread listens to messages from server
         connectionHandler.start();
-
-        while(true) {
-            window.repaint();
-            Thread.sleep(25);
-        }
     }
 }

@@ -33,7 +33,7 @@ class Pawn extends Piece {
         }
         if(b.getTiles()[pos.getX()][pos.getY() + 1 - 2*this.getColour()].getPiece() == null) {
             output.add(b.getTiles()[pos.getX()][pos.getY() + 1 - 2*this.getColour()]);
-            if(b.getTiles()[pos.getX()][pos.getY() + 2 - 4*this.getColour()].getPiece() == null && !this.hasMoved()) {
+            if(!this.hasMoved() && b.getTiles()[pos.getX()][pos.getY() + 2 - 4*this.getColour()].getPiece() == null) {
                 output.add(b.getTiles()[pos.getX()][pos.getY() + 2 - 4*this.getColour()]);
             }
         }

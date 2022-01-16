@@ -21,7 +21,7 @@ class King extends Piece {
      * @throws IOException
      */
     public King(int col) throws IOException {
-        super(col, "K", 0, ImageIO.read(new File("logicai/" + "K"+col+".png")));
+        super(col, "K", ImageIO.read(new File("logicai/" + "K"+col+".png")));
     }
     
     @Override

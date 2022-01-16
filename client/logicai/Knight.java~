@@ -1,7 +1,7 @@
 package logicai;
 
 /**
- * Class for a queen
+ * Class for a knight
  * @author Leo Guan
  * @version 1.0, Jan. 2022
  */
@@ -12,15 +12,15 @@ import java.util.HashSet;
 
 import javax.imageio.ImageIO;
 
-class Queen extends Piece {
+class Knight extends Piece {
     
     /**
-     * create a queen
-     * @param col colour of the queen
+     * Create a knight
+     * @param col colour of the knight
      * @throws IOException
      */
-    public Queen(int col) throws IOException {
-        super(col, "Q", 9, ImageIO.read(new File("logicai/" + "Q"+col+".png")));
+    public Knight(int col) throws IOException {
+        super(col, "N", ImageIO.read(new File("logicai/" + "N"+col+".png")));
     }
     
     @Override
@@ -32,32 +32,26 @@ class Queen extends Piece {
      */
     public HashSet<Tile> range(Board b, Tile pos) {
         HashSet<Tile> output = new HashSet<Tile>();
-        int vecX = 1;
+        int vecX = 2;
         int vecY = 1;
-        int curX = pos.getX();
-        int curY = pos.getY();
         output.add(pos);
         for(int j = 0; j < 2; j++) {
             for(int i = 0; i < 4; i++) {
-                while(curX + vecX < 8 && curX + vecX >= 0 && curY + vecY < 8 && curY + vecY >= 0 
-                          && b.getTiles()[curX + vecX][curY + vecY].getPiece() == null) {
-                    output.add(b.getTiles()[curX + vecX][curY + vecY]);
-                    curX += vecX;
-                    curY += vecY;
+                if(pos.getX() + vecX < 8 && pos.getX() + vecX >= 0 && pos.getY() + vecY < 8 && pos.getY() + vecY >= 0 
+                       && b.getTiles()[pos.getX() + vecX][pos.getY() + vecY].getPiece() == null) {
+                    output.add(b.getTiles()[pos.getX() + vecX][pos.getY() + vecY]);
                 }
-                if(curX + vecX < 8 && curX + vecX >= 0 && curY + vecY < 8 && curY + vecY >= 0 
-                       && b.getTiles()[curX + vecX][curY + vecY].getPiece().getColour() != this.getColour()) {
-                    output.add(b.getTiles()[curX + vecX][curY + vecY]);
+                else if(pos.getX() + vecX < 8 && pos.getX() + vecX >= 0 && pos.getY() + vecY < 8 && pos.getY() + vecY >= 0 
+                            && b.getTiles()[pos.getX() + vecX][pos.getY() + vecY].getPiece().getColour() != this.getColour()) {
+                    output.add(b.getTiles()[pos.getX() + vecX][pos.getY() + vecY]);
                 }
                 vecX = vecX + vecY;
                 vecY = vecX - vecY;
                 vecX = vecX - vecY;
                 vecX = -vecX;
-                curX = pos.getX();
-                curY = pos.getY();
             }
-            vecX = 0;
-            vecY = 1;
+            vecX = 1;
+            vecY = 2;
         }
         return output;
     }

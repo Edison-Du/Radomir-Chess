@@ -34,6 +34,7 @@ abstract class Bot {
                 }
             }
         }
+        System.out.println(output);
         return output;
     }
     

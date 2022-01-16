@@ -20,7 +20,7 @@ class Bishop extends Piece {
      * @throws IOException
      */
     public Bishop(int col) throws IOException {
-        super(col, "B", 3, ImageIO.read(new File("logicai/" + "B"+col+".png")));
+        super(col, "B", ImageIO.read(new File("logicai/" + "B"+col+".png")));
     }
     
     @Override

@@ -20,7 +20,7 @@ class Rook extends Piece {
      * @throws IOException
      */
     public Rook(int col) throws IOException {
-        super(col, "R", ImageIO.read(new File("logicai/" + "R"+col+".png")));
+        super(col, "R", 5, ImageIO.read(new File("logicai/" + "R"+col+".png")));
     }
     
     @Override

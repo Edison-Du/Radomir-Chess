@@ -20,7 +20,7 @@ class Queen extends Piece {
      * @throws IOException
      */
     public Queen(int col) throws IOException {
-        super(col, "Q", 9, ImageIO.read(new File("logicai/" + "Q"+col+".png")));
+        super(col, "Q", ImageIO.read(new File("logicai/" + "Q"+col+".png")));
     }
     
     @Override

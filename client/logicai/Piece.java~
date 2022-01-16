@@ -14,14 +14,13 @@ public abstract class Piece {
     private int turnMoved;
     private String name;
     private BufferedImage image;
-    private int points;
     
     /**
      * Create a piece
      * @param col colour of the piece
      * @param name name of the piece (fixed depending on the type of piece)
      */
-    Piece(int col, String name, int points, BufferedImage image) {
+    Piece(int col, String name, BufferedImage image) {
         this.colour = col;
         this.name = name;
         this.image = image;
@@ -60,10 +59,6 @@ public abstract class Piece {
      */
     public int getColour() {
         return this.colour;
-    }
-    
-    public int getPoints() {
-        return this.points;
     }
 
     /**

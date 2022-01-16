@@ -158,14 +158,12 @@ public class Board {
      * @throws IOException
      */
     public boolean legal(String p1, String p2) throws IOException {
-        long startTime = System.nanoTime();
         int[] pos1 = Constants.chessToCoord(p1);
         int[] pos2 = Constants.chessToCoord(p2);
         //check if the position is on the board
         if(pos1[0] < 0 || pos1[0] > 7 || pos2[0] < 0 || pos2[0] > 7 || pos1[1] < 0 || pos1[1] > 7 || pos2[1] < 0 || pos2[1] > 7) {
             return false;
         }
-
         //check if the positions are the same
         if(p1.equals(p2)) {
             return false;
@@ -184,8 +182,6 @@ public class Board {
         }
         //check if this move places the king in check
         Board check = this.copy();
-        long endTime = System.nanoTime();
-        System.out.println("Time elapsed: " + (endTime - startTime));
         if(check.getTiles()[pos1[0]][pos1[1]].getPiece().getName().equals("p") && pos2[0] != pos1[0] && check.getTiles()[pos2[0]][pos2[1]].getPiece() == null) { //remove a piece for en passant
             if(this.toMove == Constants.WHITE) {
                 check.getTiles()[pos2[0]][pos2[1] - 1].setPiece(null);
@@ -211,7 +207,7 @@ public class Board {
     }
     
     public boolean promotingMove(String t1, String t2) throws IOException {
-        return getTile(t1).getPiece() != null && getTile(t1).getPiece().getName().equals("p") && Constants.chessToCoord(t2)[1] == 7*(1 - toMove);
+        return legal(t1, t2) && getTile(t1).getPiece().getName().equals("p") && Constants.chessToCoord(t2)[1] == 7*(1 - toMove);
     }
     
     public boolean validPromotion(String p) throws IOException {

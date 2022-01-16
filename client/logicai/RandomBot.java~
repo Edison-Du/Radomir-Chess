@@ -7,15 +7,15 @@ import java.util.ArrayList;
 class RandomBot extends Bot {
     
     @Override
-    public String nextMove(ChessGame g) throws IOException {
-        ArrayList<String> temp = this.legalMoves(g.getCurrentPos());
+    public String nextMove(Board b) throws IOException {
+        ArrayList<String> temp = this.legalMoves(b);
         Random r = new Random();
         int num;
         num = r.nextInt(temp.size());
         return temp.get(num);
     }
     
-    public String promotePawn(ChessGame g) {
+    public String promotePawn(Board b) {
         Random r = new Random();
         int num = r.nextInt(4);
         if(num == 0) {

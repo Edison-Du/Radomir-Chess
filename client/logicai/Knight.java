@@ -20,7 +20,7 @@ class Knight extends Piece {
      * @throws IOException
      */
     public Knight(int col) throws IOException {
-        super(col, "N", ImageIO.read(new File("logicai/" + "N"+col+".png")));
+        super(col, "N", 3, ImageIO.read(new File("logicai/" + "N"+col+".png")));
     }
     
     @Override

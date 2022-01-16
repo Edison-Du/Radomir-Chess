@@ -34,13 +34,12 @@ public class ChessGame {
      * @throws IOException
      */
     public void move(String t1, String t2, String p) throws IOException {
-        this.current.legal(t1, t2);
         if(this.current.legal(t1, t2) && !(this.current.promotingMove(t1, t2) && !this.current.validPromotion(p))) {
             int[] pos1 = Constants.chessToCoord(t1);
             int[] pos2 = Constants.chessToCoord(t2);
             moves.push(current.copy());
             stringMoves.push(t1 + t2);
-            if(current.getTiles()[pos1[0]][pos1[1]].getPiece().getName().equals("p") && pos2[0] != pos1[0] && current.getTiles()[pos2[0]][pos2[1]].getPiece() == null) { //remove a piece for en passant
+            if(current.getTile(t1).getPiece().getName().equals("p") && pos2[0] != pos1[0] && current.getTile(t2).getPiece() == null) { //remove a piece for en passant
                 if(current.getToMove() == Constants.WHITE) {
                     current.getTiles()[pos2[0]][pos2[1] - 1].setPiece(null);
                 }
@@ -123,6 +122,8 @@ public class ChessGame {
         System.out.println("RADOMIRCHESS");
         System.out.println("Enter the square that the piece you want to move is on, followed by the square that you want the piece to move to, separated by a space");
         System.out.println("Example: e2 e4");
+        //botMove = bot.nextMove(g);
+        //g.move(botMove.substring(0, 2), botMove.substring(2, 4));
         while(!g.getCurrentPos().ended()) {
             System.out.println(g.getCurrentPos());
             if(g.getCurrentPos().getToMove() == Constants.WHITE) {
@@ -148,8 +149,6 @@ public class ChessGame {
                 p = null;
             }
             g.move(t1, t2, p);
-            System.out.println("done moving");
-            /*
             if(!g.getCurrentPos().ended()) {
                 botMove = bot.nextMove(g);
                 System.out.println("Bot moved " + botMove.substring(0, 2) + " to " + botMove.substring(2, 4));
@@ -158,7 +157,7 @@ public class ChessGame {
                 }
                 g.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4, 5));
             }
-            */
+            
         }
         s.close();
     }

@@ -4,7 +4,7 @@ import java.util.Random;
 import java.io.IOException;
 import java.util.ArrayList;
 
-class RandomBot extends Bot {
+public class RandomBot extends Bot {
     
     @Override
     public String nextMove(Board b) throws IOException {

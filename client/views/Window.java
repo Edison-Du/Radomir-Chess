@@ -37,7 +37,6 @@ public class Window extends JFrame {
         playPanel = new Play(this);
         joinGamePanel = new JoinGame();
         browseGamesPanel = new BrowseGames();
-        playBotPanel = new PlayBot();
         gamePanel = new Game();
         loginPanel = new Login();
 
@@ -106,7 +105,13 @@ public class Window extends JFrame {
             content = browseGamesPanel;
         
         } else if (currentPage == Page.PLAY_BOT) {
-            content = playBotPanel;
+            try {
+                ChessGame game = new ChessGame();
+                content = new PlayBot(game);
+            } catch (Exception e){
+                System.out.println("Cannot create chess game.");
+                e.printStackTrace();
+            }
         
         } else if (currentPage == Page.GAME) {
             content = gamePanel;
@@ -118,7 +123,7 @@ public class Window extends JFrame {
         } else if (currentPage == Page.ABOUT) {
             try {
             ChessGame game = new ChessGame();
-            content = new GamePanel(game); // just putting here for no reason
+            content = new GamePanel(game);
             } catch (Exception e){
                 System.out.println("Cannot create chess game.");
                 e.printStackTrace();

@@ -82,6 +82,13 @@ public class ChessGame {
         return this.moves;
     }
     
+    // dummy program
+    public int getColour(String username) {
+        if(username.equals("user")) {
+            return 0;
+        } else { return 1;}
+    }
+
     //main method
     public static void main(String[] args) throws IOException {
         Scanner s = new Scanner(System.in);
@@ -154,5 +161,4 @@ public class ChessGame {
         }
         s.close();
     }
-    
 }

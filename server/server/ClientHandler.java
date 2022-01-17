@@ -131,6 +131,9 @@ public class ClientHandler extends Thread{
 
         } else if (request.getType().equals(MessageTypes.SENT_TEXT)) {
             sendText(request);
+        
+        } else if (request.getType().equals(MessageTypes.CHESS_MOVE)) {
+            sendChessMove(request);
 
         } else if (request.getType().equals(MessageTypes.BROWSE_GAMES)) {
             browseGames();
@@ -200,16 +203,20 @@ public class ClientHandler extends Thread{
 
             } else if (lobby.isFull()) {
                 Message gameFull = new Message(MessageTypes.GAME_FULL);
-
                 sendMessage(gameFull);
 
             } else {
                 Message joinedMessage = new Message(MessageTypes.JOINED_GAME);
                 joinedMessage.addParam(lobby.getCode());
                 joinedMessage.addParam(Integer.toString(lobby.getHost().getClientNum()));
+
                 lobby.setGuest(this);
-                
-                sendMessage(joinedMessage);
+                this.sendMessage(joinedMessage);
+
+                // Player Colour
+                Message colourMessage = new Message(MessageTypes.PLAYER_COLOUR);
+                colourMessage.addParam(Integer.toString(lobby.getGuestColour()));
+                this.sendMessage(colourMessage);
             }
         } catch (Exception e) {
             System.out.println("Could not connect client to a game.");
@@ -222,9 +229,15 @@ public class ClientHandler extends Thread{
         // lobby.setHost(this);
 
         try {
+            // Create lobby
             Message message = new Message(MessageTypes.GAME_CREATED);
             message.addParam(lobby.getCode());
             this.sendMessage(message);
+
+            // Player colour
+            Message colourMessage = new Message(MessageTypes.PLAYER_COLOUR);
+            colourMessage.addParam(Integer.toString(lobby.getHostColour()));
+            this.sendMessage(colourMessage);
 
             System.out.println(message.getText());
 
@@ -236,6 +249,11 @@ public class ClientHandler extends Thread{
     private void sendText(Message message) {
         lobby.sendMessage(this, message);
     }
+
+    private void sendChessMove(Message message) {
+        lobby.sendMessage(this, message);
+    }
+
 
     private void browseGames() {
         try {

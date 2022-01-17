@@ -47,14 +47,22 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.GUEST_JOINED)) {
             guestJoined(message);
 
+        } else if (message.getType().equals(MessageTypes.PLAYER_COLOUR)) {
+            setPlayerColour(message);
+
         } else if (message.getType().equals(MessageTypes.SENT_TEXT)) {
             addTextMessage(message);
 
+        } else if (message.getType().equals(MessageTypes.CHESS_MOVE)) {
+            processOpponentChessMove(message);
+
         } else if (message.getType().equals(MessageTypes.DISPLAY_GAMES)) {
             displayGames(message);
+
         } else if (message.getType().equals(MessageTypes.EXIT_PROGRAM)) {
             isActive = false;
             ServerConnection.close();
+
         } else if (message.getType().equals(MessageTypes.LOGIN_ACCEPTED)) {
             login();
 
@@ -105,6 +113,21 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.setHost(false);
         window.gamePanel.addOther(host);
     }
+
+    public void setPlayerColour(Message message) {
+        int colour = Integer.parseInt(message.getParam(0));
+        
+        window.gamePanel.subPanel.setPlayerColour(colour);
+    }
+
+    public void processOpponentChessMove(Message message) {
+        String t1 = message.getParam(0);
+        String t2 = message.getParam(1);
+        String p = message.getParam(2);
+
+        window.gamePanel.subPanel.makeOpponentMove(t1, t2, p);
+    }
+
 
     public void addTextMessage(Message message) {
         String text = message.getParam(0);

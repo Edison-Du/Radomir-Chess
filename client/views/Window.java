@@ -31,7 +31,7 @@ public class Window extends JFrame {
     public Play playPanel;
     public JoinGame joinGamePanel;
     public BrowseGames browseGamesPanel;
-    public PlayBot playBotPanel;
+    public BotPanel playBotPanel;
 
     public Game gamePanel;
     public Settings settingsPanel;
@@ -124,7 +124,7 @@ public class Window extends JFrame {
         } else if (currentPage == Page.PLAY_BOT) {
             try {
                 ChessGame game = new ChessGame();
-                content = new PlayBot(game);
+                content = new BotPanel(game);
             } catch (Exception e){
                 System.out.println("Cannot create chess game.");
                 e.printStackTrace();

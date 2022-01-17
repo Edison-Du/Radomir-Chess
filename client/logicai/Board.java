@@ -292,7 +292,7 @@ public class Board {
         out.setTurn(this.turn);
         out.setToMove(this.toMove);
         long endTime = System.nanoTime();
-        System.out.println("Time elapsed to copy board: " + (endTime - startTime));
+        // System.out.println("Time elapsed to copy board: " + (endTime - startTime));
         return out;
     }
     

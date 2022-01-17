@@ -110,13 +110,6 @@ public class ChessGame {
             this.stringMoves.pop();
         }
     }
-    
-    // dummy program
-    public int getColour(String username) {
-        if(username.equals("user")) {
-            return 0;
-        } else { return 1;}
-    }
 
     //main method
     public static void main(String[] args)  {
@@ -169,4 +162,8 @@ public class ChessGame {
         }
         s.close();
     }
+
+	public int getColour(String string) {
+		return 0;
+	}
 }

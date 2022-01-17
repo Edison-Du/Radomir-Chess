@@ -8,12 +8,16 @@ public class Lobby {
     
     private ClientHandler host, guest;
     private String code;
+    private int hostColour;
 
     public Lobby(ClientHandler host) {
         generateCode();
         this.host = host;
+
+        this.hostColour = (int)(Math.random() * 2);
     }
 
+// Participants
     public void setHost(ClientHandler host) {
         this.host = host;
     }
@@ -31,10 +35,6 @@ public class Lobby {
         }
     }
 
-    public boolean isFull() {
-        return this.guest != null;
-    }
-    
     public ClientHandler getHost() {
         return this.host;
     }
@@ -42,6 +42,23 @@ public class Lobby {
     public ClientHandler getGuest() {
         return this.guest;
     }
+
+
+// Colours
+    public int getHostColour() {
+        return this.hostColour;
+    }
+
+    public int getGuestColour() {
+        return (this.hostColour + 1) % 2; 
+    }
+
+
+    public boolean isFull() {
+        return this.guest != null;
+    }
+    
+
 
     public String getCode() {
         return code;
@@ -70,5 +87,23 @@ public class Lobby {
         System.out.println("Host: " + host.getClientNum() + ", " + "Guest: " + guest.getClientNum());
 
         receiver.sendMessage(message);
+    }
+
+
+    public void sendChessMove(ClientHandler from, Message move) {
+        
+        ClientHandler receiver;
+        
+        if (from == host) {
+            receiver = guest;
+        } else {
+            receiver = host;
+        }
+
+        if (receiver == null) {
+            return;
+        }
+
+        receiver.sendMessage(move);
     }
 }

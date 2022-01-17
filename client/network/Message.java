@@ -52,6 +52,11 @@ public class Message {
     }
 
     public boolean validateString(String str) {
+
+        if (str == null) {
+            return false;
+        }
+
         for (int i = 0; i < str.length(); i++) {
             char currentChar = str.charAt(i);
             

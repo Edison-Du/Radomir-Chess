@@ -11,7 +11,7 @@ public class ContentPanel extends JPanel {
         this.setBackground(UserInterface.FRAME_COLOUR);
         this.setPreferredSize(
             new Dimension(UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT)
-        );
+            );
         this.setBounds(UserInterface.NAVBAR_WIDTH, 0,  UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT);
         this.setLayout(null);
     }

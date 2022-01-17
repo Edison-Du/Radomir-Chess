@@ -10,9 +10,11 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import config.MessageTypes;
+import logicai.ChessGame;
 import network.Message;
 import network.ServerConnection;
 import views.components.ContentPanel;
@@ -32,29 +34,39 @@ public class Game extends ContentPanel implements ActionListener {
     private JList<String> messageList;
     private DefaultListModel<String> allTexts = new DefaultListModel<>();
 
+    // subpanel chess game
+    public MultiPanel subPanel;
+
     public Game() {
+
+        // CHESS GAME HERE???
+        ChessGame chessGame = new ChessGame();
+        subPanel = new MultiPanel(chessGame); // sub-panel 1
+        this.add(subPanel);
+
+        subPanel.setBounds(120,120,480,480);
 
         // Lobby code
         codeLabel = new JLabel(lobbyCode);
         codeLabel.setFont(new Font("Serif", Font.ITALIC, 36));
         codeLabel.setForeground(Color.WHITE);
-        codeLabel.setBounds(100, 0, 100, 100);
+        codeLabel.setBounds(660, 30, 100, 100);
         this.add(codeLabel);
 
         // Showing lobby status (who is in and not)
         otherClientLabel = new JLabel("You are alone in this lobby.");
         otherClientLabel.setForeground(Color.WHITE);
-        otherClientLabel.setBounds(200, 0,500, 100);
+        otherClientLabel.setBounds(760, 30,500, 100);
         this.add(otherClientLabel);
 
         // Texting field
         messageField = new JTextField();
-        messageField.setBounds(100, 100, 500, 40);
+        messageField.setBounds(660, 570, 240, 30);
         messageField.addActionListener(this);
         this.add(messageField);
 
         messageList = new JList<>(allTexts);
-        messageList.setBounds(100, 150, 500, 400);
+        messageList.setBounds(660,120,240,420);
         this.add(messageList);
     }
 

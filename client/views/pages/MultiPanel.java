@@ -6,7 +6,7 @@ import javax.swing.JButton;
 // import config.UserInterface;
 // import network.Message;
 // import network.ServerConnection;
-import views.chess.MouseEventListenerBot;
+import views.chess.MouseEventListenerMulti;
 import views.components.ContentPanel;
 
 import java.awt.Color;
@@ -27,24 +27,26 @@ import logicai.Tile;
 
 import java.awt.image.BufferedImage;
 
-public class PlayBot extends ContentPanel {
+public class MultiPanel extends ContentPanel {
 
     ChessGame game;
     final int tileSize = 60;
 
-    private MouseEventListenerBot mouseEventListenerBot;
+    private MouseEventListenerMulti mouseEventListenerMulti;
     BufferedImage heldPieceImage;
 
-    int colour;
+    public int playerColour;
 
-    public PlayBot(ChessGame game) {
+    public MultiPanel(ChessGame game) {
         this.game = game;
+        
+        // playerColour = (int)(Math.random()*2);
         // temporary assuming colour
-        colour = 0;
-
-        mouseEventListenerBot = new MouseEventListenerBot(game);
-        addMouseListener(mouseEventListenerBot);
-        addMouseMotionListener(mouseEventListenerBot);
+        // playerColour = 0;
+        
+        mouseEventListenerMulti = new MouseEventListenerMulti(game, playerColour);
+        addMouseListener(mouseEventListenerMulti);
+        addMouseMotionListener(mouseEventListenerMulti);
         
         /*
         title.setFont(new Font("Serif", Font.ITALIC, 36));
@@ -65,6 +67,17 @@ public class PlayBot extends ContentPanel {
         */
     }
 
+    public void setPlayerColour(int colour) {
+        this.playerColour = colour;
+        mouseEventListenerMulti.setPlayerColour(colour);
+    }
+    
+    public void makeOpponentMove(String t1, String t2, String p) {
+        this.game.move(t1, t2, p);
+        mouseEventListenerMulti.setTurn(true);
+    }
+
+
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
         
@@ -73,11 +86,11 @@ public class PlayBot extends ContentPanel {
             RenderingHints.VALUE_ANTIALIAS_ON)
         );
         drawBoard(g);
-        heldPieceImage = mouseEventListenerBot.getHeldPieceImage();
+        heldPieceImage = mouseEventListenerMulti.getHeldPieceImage();
         // System.out.println(heldPieceImage);
         if(heldPieceImage != null) {
             // System.out.println(mouseEventListener.getMouseX() + ", " + mouseEventListener.getMouseY());
-            g.drawImage(heldPieceImage, mouseEventListenerBot.getMouseX()-tileSize/2, mouseEventListenerBot.getMouseY()-tileSize/2, this);
+            g.drawImage(heldPieceImage, mouseEventListenerMulti.getMouseX()-tileSize/2, mouseEventListenerMulti.getMouseY()-tileSize/2, this);
         }
     }
 
@@ -87,8 +100,12 @@ public class PlayBot extends ContentPanel {
         // traverse entire maze and draw coloured square for each symbol in maze
         for (int x = 0; x < checkerBoard.length; x++) {
             for (int y = 0; y < checkerBoard[0].length; y++) {
-                int xPos = x * tileSize;
-                int yPos = (checkerBoard[0].length - y)*tileSize - 60;
+
+                // flip board
+                int xPos = (7 * playerColour + (1 - 2 * playerColour) * x) * tileSize;
+                int yPos = (7 * (1 - playerColour) + (2 * playerColour - 1) * y) * tileSize;
+                
+                // checkerboard code
                 if (x%2-y%2==0) {
                     g.setColor(Color.DARK_GRAY);
                 } else {
@@ -96,7 +113,8 @@ public class PlayBot extends ContentPanel {
                 }
                 g.fillRect(xPos, yPos, tileSize, tileSize);
 
-                if(checkerBoard[x][y].getPiece() != null && checkerBoard[x][y].getPiece() != mouseEventListenerBot.getSelectedPiece()) {
+                // change based on playerColour
+                if(checkerBoard[x][y].getPiece() != null && checkerBoard[x][y].getPiece() != mouseEventListenerMulti.getSelectedPiece()) {
                     g.drawImage(checkerBoard[x][y].getPiece().getImage(), xPos, yPos, this);
                 }
             }

@@ -140,7 +140,7 @@ public class Window extends JFrame {
         } else if (currentPage == Page.ABOUT) {
             try {
             ChessGame game = new ChessGame();
-            content = new GamePanel(game);
+            content = new BoardPanel(game);
             } catch (Exception e){
                 System.out.println("Cannot create chess game.");
                 e.printStackTrace();
@@ -161,6 +161,5 @@ public class Window extends JFrame {
         } 
         content.revalidate();
         this.add(content);
-        // this.repaint();
     }
 }

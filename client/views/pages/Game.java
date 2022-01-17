@@ -13,6 +13,7 @@ import javax.swing.JList;
 import javax.swing.JTextField;
 
 import config.MessageTypes;
+import logicai.ChessGame;
 import network.Message;
 import network.ServerConnection;
 import views.components.ContentPanel;
@@ -30,7 +31,11 @@ public class Game extends ContentPanel implements ActionListener {
     private JLabel otherClientLabel;
     private JTextField messageField;
     private JList<String> messageList;
+    private JButton leaveLobby;
     private DefaultListModel<String> allTexts = new DefaultListModel<>();
+
+    private BoardPanel board;
+    private ChessGame chessGame;
 
     public Game() {
 
@@ -49,14 +54,32 @@ public class Game extends ContentPanel implements ActionListener {
 
         // Texting field
         messageField = new JTextField();
-        messageField.setBounds(100, 100, 500, 40);
+        messageField.setBounds(600, 100, 300, 40);
         messageField.addActionListener(this);
         this.add(messageField);
 
+        // Message list
         messageList = new JList<>(allTexts);
-        messageList.setBounds(100, 150, 500, 400);
+        messageList.setBounds(600, 150, 300, 400);
         this.add(messageList);
+
+        // Leave lobby
+        leaveLobby = new JButton("Leave");
+        leaveLobby.setBounds(600, 550, 200, 50);
+        leaveLobby.addActionListener(this);
+        this.add(leaveLobby);
+
+        // Game board
+        board = new BoardPanel(chessGame);
+        
+
+        this.add(board);
+
     }
+
+
+
+
 
     public void setLobbyCode(String code) {
         this.lobbyCode = code;
@@ -90,19 +113,32 @@ public class Game extends ContentPanel implements ActionListener {
     // Text input
     @Override
     public void actionPerformed(ActionEvent e) {
-        String userMessage = messageField.getText();
-        messageField.setText("");
 
-        try {
-            Message message = new Message(MessageTypes.SENT_TEXT);
-            message.addParam(userMessage);
-            ServerConnection.sendMessage(message);
+        if (e.getSource() == messageField) {
+            String userMessage = messageField.getText();
+            messageField.setText("");
 
-            allTexts.addElement("You: " + userMessage);
+            try {
+                Message message = new Message(MessageTypes.SENT_TEXT);
+                message.addParam(userMessage);
+                ServerConnection.sendMessage(message);
+
+                allTexts.addElement("You: " + userMessage);
+                
+            } catch(Exception ex) {
+                System.out.println("Failed to create message");
+                ex.printStackTrace();
+            }
+        } else if (e.getSource() == leaveLobby) {
             
-        } catch(Exception ex) {
-            System.out.println("Failed to create message");
-            ex.printStackTrace();
+            try {
+                Message message = new Message(MessageTypes.LEAVE_GAME);
+                ServerConnection.sendMessage(message);
+
+            } catch (Exception ex) {
+                System.out.println("Failed to create message");
+                ex.printStackTrace();
+            }
         }
     } 
 }

@@ -1,5 +1,3 @@
-import java.io.IOException;
-
 import network.ConnectionHandler;
 import network.ServerConnection;
 import network.ShutdownHook;
@@ -10,7 +8,6 @@ public class Application {
     public static Window window;
     public static ConnectionHandler connectionHandler;
     public static void main(String[] args) {
-
         // Socket connecting to server
         ServerConnection.createInstance();
 

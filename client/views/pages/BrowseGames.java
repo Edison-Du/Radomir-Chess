@@ -49,6 +49,7 @@ public class BrowseGames extends ContentPanel implements ActionListener {
     }
 
     public void setLobbyList(String lobbies) {
+        allLobbies.clear();
         this.lobbies = lobbies.split(", ");
         for (String lobby : this.lobbies) {
             allLobbies.addElement(lobby);

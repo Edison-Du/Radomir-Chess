@@ -97,21 +97,8 @@ public class Play extends ContentPanel implements ActionListener {
     //@Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == joinGameBtn) {
-            // System.out.println("Join game");
-            // try {
-			// 	Message joinLobby = new Message(MessageTypes.JOIN_GAME);
-            //     // joinLobby.addParam(this.getjoinLobbyCode());
-            //     joinLobby.addParam("1000");
-            //     ServerConnection.sendMessage(joinLobby);
-
             window.changePage(Page.JOIN_GAME);
 
-            // Message response = ServerConnection.getMessage();
-            // System.out.println(response.getText());
-
-			// } catch (InvalidMessageException ex) {
-			// 	ex.printStackTrace();
-			// }
         } else if (e.getSource() == createGameBtn) {
             try {
                 Message createLobby = new Message(MessageTypes.CREATE_GAME);
@@ -131,6 +118,7 @@ public class Play extends ContentPanel implements ActionListener {
             window.changePage(Page.BROWSE_GAMES);
 
         } else if (e.getSource() == playBotBtn) {
+            
             window.changePage(Page.PLAY_BOT);
         }
     }

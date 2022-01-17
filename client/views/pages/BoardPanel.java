@@ -27,7 +27,7 @@ import logicai.Tile;
 
 import java.awt.image.BufferedImage;
 
-public class GamePanel extends ContentPanel {
+public class BoardPanel extends ContentPanel {
     // private final JLabel title = new JLabel();
     // private final JLabel profile = new JLabel();
 
@@ -57,8 +57,10 @@ public class GamePanel extends ContentPanel {
     private MouseEventListener mouseEventListener;
     BufferedImage heldPieceImage;
 
-    public GamePanel(ChessGame game) {
+    public BoardPanel(ChessGame game) {
         this.game = game;
+
+        this.setBounds(0, 0,tileSize * 8, tileSize * 8);
 
         mouseEventListener = new MouseEventListener(game);
         addMouseListener(mouseEventListener);

@@ -59,10 +59,6 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.DISPLAY_GAMES)) {
             displayGames(message);
 
-        } else if (message.getType().equals(MessageTypes.EXIT_PROGRAM)) {
-            isActive = false;
-            ServerConnection.close();
-
         } else if (message.getType().equals(MessageTypes.LOGIN_ACCEPTED)) {
             login();
 
@@ -71,6 +67,10 @@ public class ConnectionHandler extends Thread {
         
         } else if (message.getType().equals(MessageTypes.LOGOUT)){
             logout();
+
+        } else if (message.getType().equals(MessageTypes.EXIT_PROGRAM)) {
+            isActive = false;
+            ServerConnection.close();
         }
     }   
 
@@ -86,7 +86,6 @@ public class ConnectionHandler extends Thread {
 
     public void createGame(Message message) {
         String code = message.getParam(0);
-        System.out.println(code);
         
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(true);

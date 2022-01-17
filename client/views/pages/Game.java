@@ -32,6 +32,7 @@ public class Game extends ContentPanel implements ActionListener {
     private JLabel otherClientLabel;
     private JTextField messageField;
     private JList<String> messageList;
+    private JButton leaveLobby;
     private DefaultListModel<String> allTexts = new DefaultListModel<>();
 
     // subpanel chess game
@@ -65,10 +66,21 @@ public class Game extends ContentPanel implements ActionListener {
         messageField.addActionListener(this);
         this.add(messageField);
 
+        // Message list
         messageList = new JList<>(allTexts);
         messageList.setBounds(660,120,240,420);
         this.add(messageList);
+
+        // Leave lobby
+        leaveLobby = new JButton("Leave");
+        leaveLobby.setBounds(600, 550, 200, 50);
+        leaveLobby.addActionListener(this);
+        this.add(leaveLobby);
     }
+
+
+
+
 
     public void setLobbyCode(String code) {
         this.lobbyCode = code;
@@ -102,19 +114,32 @@ public class Game extends ContentPanel implements ActionListener {
     // Text input
     @Override
     public void actionPerformed(ActionEvent e) {
-        String userMessage = messageField.getText();
-        messageField.setText("");
 
-        try {
-            Message message = new Message(MessageTypes.SENT_TEXT);
-            message.addParam(userMessage);
-            ServerConnection.sendMessage(message);
+        if (e.getSource() == messageField) {
+            String userMessage = messageField.getText();
+            messageField.setText("");
 
-            allTexts.addElement("You: " + userMessage);
+            try {
+                Message message = new Message(MessageTypes.SENT_TEXT);
+                message.addParam(userMessage);
+                ServerConnection.sendMessage(message);
+
+                allTexts.addElement("You: " + userMessage);
+                
+            } catch(Exception ex) {
+                System.out.println("Failed to create message");
+                ex.printStackTrace();
+            }
+        } else if (e.getSource() == leaveLobby) {
             
-        } catch(Exception ex) {
-            System.out.println("Failed to create message");
-            ex.printStackTrace();
+            try {
+                Message message = new Message(MessageTypes.LEAVE_GAME);
+                ServerConnection.sendMessage(message);
+
+            } catch (Exception ex) {
+                System.out.println("Failed to create message");
+                ex.printStackTrace();
+            }
         }
     } 
 }

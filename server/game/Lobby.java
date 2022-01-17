@@ -17,7 +17,19 @@ public class Lobby {
         this.hostColour = (int)(Math.random() * 2);
     }
 
+<<<<<<< HEAD
 // Participants
+=======
+    public String getCode() {
+        return code;
+    }
+
+    private void generateCode() {
+        // Temporary
+        this.code = Integer.toString((int) (Math.random() * (9999 - 1000)) + 1000);
+    }
+
+>>>>>>> ddfd27f58c5a7605d893b710695d9853d11bb65b
     public void setHost(ClientHandler host) {
         this.host = host;
     }
@@ -34,7 +46,11 @@ public class Lobby {
             System.out.println("Could not send message to guest: client #" + guest.getClientNum());
         }
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> ddfd27f58c5a7605d893b710695d9853d11bb65b
     public ClientHandler getHost() {
         return this.host;
     }
@@ -43,6 +59,7 @@ public class Lobby {
         return this.guest;
     }
 
+<<<<<<< HEAD
 
 // Colours
     public int getHostColour() {
@@ -62,12 +79,32 @@ public class Lobby {
 
     public String getCode() {
         return code;
+=======
+    public boolean isFull() {
+        return this.guest != null;
+>>>>>>> ddfd27f58c5a7605d893b710695d9853d11bb65b
     }
 
-    private void generateCode() {
-        // Temporary
-        this.code = Integer.toString((int) (Math.random() * (9999 - 1000)) + 1000);
-    }
+    public void leaveLobby(ClientHandler client) {
+        if (client == this.guest) {
+            this.guest = null;
+            // Guest has left lobby
+
+        } else {
+            this.host = this.guest;
+
+            // Empty lobby, delete it
+            if (this.host == null) {
+
+                
+            // Host has left lobby, you are the host now
+            } else {
+
+            }
+        }
+    } 
+
+
 
     public void sendMessage(ClientHandler from, Message message) {
         

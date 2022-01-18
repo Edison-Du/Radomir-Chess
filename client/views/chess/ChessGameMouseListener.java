@@ -6,8 +6,8 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.SwingUtilities;
 
+import chesslogic.*;
 import config.MessageTypes;
-import logicai.*;
 import network.Message;
 import network.ServerConnection;
 import views.pages.AbstractGamePanel;

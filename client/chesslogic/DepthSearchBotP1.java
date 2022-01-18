@@ -1,15 +1,18 @@
-package logicai;
+package chesslogic;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class DepthSearchBotP1 extends Bot {
     
     private int depth;
     private int side;
+    private Random rand;
     
     public DepthSearchBotP1(int depth, int side)  {
         this.depth = depth;
         this.side = side;
+        rand = new Random();
     }
     
     private int score(Board b)  {
@@ -41,6 +44,7 @@ public class DepthSearchBotP1 extends Bot {
         int[] bestScore;
         int[] temp;
         String bestMove;
+        int rando;
         bestMove = possibleMoves.get(0);
         g.move(possibleMoves.get(0).substring(0, 2), possibleMoves.get(0).substring(2, 4), possibleMoves.get(0).substring(4, 5));
         bestScore = average(g);
@@ -48,7 +52,8 @@ public class DepthSearchBotP1 extends Bot {
         for(int i = 1; i < possibleMoves.size(); i++) {
             g.move(possibleMoves.get(0).substring(0, 2), possibleMoves.get(0).substring(2, 4), possibleMoves.get(i).substring(4, 5));
             temp = average(g);
-            if(temp[0]*bestScore[1] > temp[1]*bestScore[0]) {
+            rando = rand.nextInt(1000);
+            if(temp[0]*bestScore[1] >= temp[1]*bestScore[0] && rando == 0) {
                 bestScore = temp;
                 bestMove = possibleMoves.get(i);
             }

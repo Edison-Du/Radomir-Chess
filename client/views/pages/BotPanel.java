@@ -6,10 +6,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
-import logicai.Bot;
-import logicai.ChessGame;
-import logicai.DepthSearchBotP1;
-import logicai.Tile;
+import chesslogic.Bot;
+import chesslogic.ChessGame;
+import chesslogic.DepthSearchBotP1;
+import chesslogic.Tile;
 
 public class BotPanel extends AbstractGamePanel {
 
@@ -27,7 +27,7 @@ public class BotPanel extends AbstractGamePanel {
 
         this.boardPanel.setPlayerColour(playerColour);
 
-        depthSearchBot = new DepthSearchBotP1(2, (playerColour + 1) % 2);
+        depthSearchBot = new DepthSearchBotP1(3, (playerColour + 1) % 2);
 
         // Bot goes first
         if (playerColour == 1) {

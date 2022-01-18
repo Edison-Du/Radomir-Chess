@@ -1,4 +1,4 @@
-package logicai;
+package chesslogic;
 
 /**
  * Class for a tile

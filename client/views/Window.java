@@ -5,8 +5,8 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import chesslogic.ChessGame;
 import config.UserInterface;
-import logicai.ChessGame;
 import config.Page;
 import views.navigation.NavigationBar;
 import views.pages.*;
@@ -119,18 +119,11 @@ public class Window extends JFrame {
             content = browseGamesPanel;
         
         } else if (currentPage == Page.PLAY_BOT) {
-
             content = new BotPanel();
-
-            // try {
-            //     ChessGame game = new ChessGame();
-            //     content = new BotPanel(game);
-            // } catch (Exception e){
-            //     System.out.println("Cannot create chess game.");
-            //     e.printStackTrace();
-            // }
         
         } else if (currentPage == Page.GAME) {
+            // Reset game panel
+            gamePanel = new MultiplayerPanel();
             content = gamePanel;
 
         } else if (currentPage == Page.SETTINGS) {

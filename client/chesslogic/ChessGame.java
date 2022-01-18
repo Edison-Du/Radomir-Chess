@@ -1,4 +1,4 @@
-package logicai;
+package chesslogic;
 
 import java.util.Scanner;
 

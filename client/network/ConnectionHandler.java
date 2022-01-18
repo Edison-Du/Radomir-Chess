@@ -3,6 +3,7 @@ package network;
 import config.MessageTypes;
 import config.Page;
 import views.Window;
+import views.pages.MultiplayerPanel;
 
 public class ConnectionHandler extends Thread {
 

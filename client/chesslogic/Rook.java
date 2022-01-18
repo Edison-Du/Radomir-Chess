@@ -1,16 +1,16 @@
-package logicai;
+package chesslogic;
 
 import java.util.HashSet;
 
-class Bishop extends Piece {
-
+class Rook extends Piece {
+    
     /**
-     * create a bishop
-     * @param col colour to create it in
+     * Create a rook
+     * @param col colour of the rook
      * @
      */
-    public Bishop(int col) {
-        super(col, "B", 3, getImage("B", col));
+    public Rook(int col) {
+        super(col, "R", 5, getImage("R", col));
     }
     
     @Override
@@ -22,13 +22,12 @@ class Bishop extends Piece {
      */
     public HashSet<Tile> range(Board b, Tile pos) {
         HashSet<Tile> output = new HashSet<Tile>();
-        int vecX = 1; //direction vectors
+        int vecX = 0;
         int vecY = 1;
-        int curX = pos.getX(); //position of bishop
+        int curX = pos.getX();
         int curY = pos.getY();
         output.add(pos);
         for(int i = 0; i < 4; i++) {
-            //go in the direction of the direction vector until it hits a dead end
             while(curX + vecX < 8 && curX + vecX >= 0 && curY + vecY < 8 && curY + vecY >= 0 
                    && b.getTiles()[curX + vecX][curY + vecY].getPiece() == null) {
                 output.add(b.getTiles()[curX + vecX][curY + vecY]);
@@ -39,12 +38,11 @@ class Bishop extends Piece {
                         && b.getTiles()[curX + vecX][curY + vecY].getPiece().getColour() != this.getColour()) {
                 output.add(b.getTiles()[curX + vecX][curY + vecY]);
             }
-            //rotate the direction vector
             vecX = vecX + vecY;
             vecY = vecX - vecY;
             vecX = vecX - vecY;
             vecX = -vecX;
-            curX = pos.getX(); //reset the base position
+            curX = pos.getX();
             curY = pos.getY();
         }
         return output;

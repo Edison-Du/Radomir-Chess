@@ -1,4 +1,4 @@
-package logicai;
+package chesslogic;
 
 import java.util.ArrayList;
 
@@ -204,8 +204,8 @@ public class Board {
         Tile ogKingPos = this.kingTiles[toMove];
         if(this.getTiles()[pos1[0]][pos1[1]].getPiece().getName().equals("p") && pos2[0] != pos1[0] && this.getTiles()[pos2[0]][pos2[1]].getPiece() == null) { //remove a piece for en passant
             pieceTaken = this.getTiles()[pos2[0]][pos2[1] + 2*this.toMove - 1].getPiece();
-            tPieceTaken = this.getTiles()[pos2[0]][pos2[1] + this.toMove - 1];
-            this.getTiles()[pos2[0]][pos2[1] + this.toMove - 1].setPiece(null);
+            tPieceTaken = this.getTiles()[pos2[0]][pos2[1] + 2*this.toMove - 1];
+            this.getTiles()[pos2[0]][pos2[1] + 2*this.toMove - 1].setPiece(null);
         }
         else {
             pieceTaken = this.getTiles()[pos2[0]][pos2[1]].getPiece();

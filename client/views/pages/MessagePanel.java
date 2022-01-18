@@ -70,7 +70,7 @@ public class MessagePanel extends ContentPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == messageField) {
+        if ( (e.getSource() == messageField) && (messageField.getText().length() > 0) ) {
             String userMessage = messageField.getText();
             messageField.setText("");
 

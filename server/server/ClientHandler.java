@@ -129,6 +129,9 @@ public class ClientHandler extends Thread{
         } else if (request.getType().equals(MessageTypes.CREATE_GAME)) {
             createGame();
 
+        } else if (request.getType().equals(MessageTypes.LEAVE_GAME)) {
+            leaveGame();
+
         } else if (request.getType().equals(MessageTypes.SENT_TEXT)) {
             sendText(request);
         
@@ -242,8 +245,24 @@ public class ClientHandler extends Thread{
             System.out.println(message.getText());
 
         } catch (Exception e) {
-
+            
         }
+    }
+
+    private void leaveGame() {
+        if (lobby == null) {
+            return;
+        }
+
+        lobby.leaveLobby(this);
+
+        // Delete lobby if  lobby is now empty
+        if (lobby.getHost() == null) {
+            System.out.println("HERE");
+            server.getLobbyManager().removeLobby(lobby.getCode());
+        }
+
+        lobby = null;
     }
 
     private void sendText(Message message) {
@@ -270,7 +289,10 @@ public class ClientHandler extends Thread{
 
     private void disconnectClient(Message message) {
         this.userActive = false; // stops this thread
-
+        
+        if (lobby != null) {
+            leaveGame();
+        }
         // Echo the message back to let client know we heard the message
         sendMessage(message);
     }

@@ -132,7 +132,6 @@ public class Window extends JFrame {
         
         } else if (currentPage == Page.GAME) {
             content = gamePanel;
-            inGame = true;
 
         } else if (currentPage == Page.SETTINGS) {
             content = settingsPanel;
@@ -160,5 +159,9 @@ public class Window extends JFrame {
         } 
         content.revalidate();
         this.add(content);
+    }
+
+    public void setInGame(boolean inGame) {
+        this.inGame = inGame;
     }
 }

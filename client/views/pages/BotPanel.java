@@ -10,7 +10,6 @@ import logicai.Bot;
 import logicai.ChessGame;
 import logicai.DepthSearchBotP1;
 import logicai.Tile;
-import views.chess.MouseEventListenerBot;
 
 public class BotPanel extends AbstractGamePanel {
 

@@ -31,6 +31,11 @@ public class LobbyManager {
         return lobby;
     }
 
+    public boolean removeLobby(String code) {
+        Lobby lobby = activeGames.remove(code);
+        return lobby != null;
+    }
+
     public HashMap<String, Lobby> getActiveGames() {
         return this.activeGames;
     }

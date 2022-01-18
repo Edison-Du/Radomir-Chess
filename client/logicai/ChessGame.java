@@ -1,5 +1,7 @@
 package logicai;
 
+import java.util.Scanner;
+
 /**
  * Class for a game of chess
  * Also holds main method
@@ -8,13 +10,13 @@ package logicai;
  */
 
 import java.util.Stack;
-import java.util.Scanner;
-import java.io.IOException;
 
 public class ChessGame {
     private Stack<Board> moves;
     private Board current;
     private Stack<String> stringMoves;
+    private Stack<Piece> piecesTaken;
+    private Stack<Piece> pawnsPromoted;
     
     /**
      * Create a game
@@ -22,8 +24,9 @@ public class ChessGame {
      */
     public ChessGame()  {
         current = new Board();
-        moves = new Stack<Board>();
         stringMoves = new Stack<String>();
+        piecesTaken = new Stack<Piece>();
+        pawnsPromoted = new Stack<Piece>();
     }
     
     /**
@@ -38,21 +41,21 @@ public class ChessGame {
         if(this.current.legal(t1, t2) && !(this.current.promotingMove(t1, t2) && !this.current.validPromotion(p))) {
             int[] pos1 = Constants.chessToCoord(t1);
             int[] pos2 = Constants.chessToCoord(t2);
-            moves.push(current.copy());
-            stringMoves.push(t1 + t2);
+            stringMoves.push(t1 + t2 + current.moveInfo(t1, t2, p));
             if(current.getTiles()[pos1[0]][pos1[1]].getPiece().getName().equals("p") && pos2[0] != pos1[0] && current.getTiles()[pos2[0]][pos2[1]].getPiece() == null) { //remove a piece for en passant
-                if(current.getToMove() == Constants.WHITE) {
-                    current.getTiles()[pos2[0]][pos2[1] - 1].setPiece(null);
-                }
-                else if(current.getToMove() == Constants.BLACK) {
-                    current.getTiles()[pos2[0]][pos2[1] + 1].setPiece(null);
-                }
+                piecesTaken.push(current.getTiles()[pos2[0]][pos2[1] + 2*current.getToMove() - 1].getPiece());
+                current.getTiles()[pos2[0]][pos2[1] + 2*current.getToMove() - 1].setPiece(null);
+            }
+            else {
+                piecesTaken.add(current.getTile(t2).getPiece());
             }
             if(current.promotingMove(t1, t2)) {
+                pawnsPromoted.add(current.getTile(t1).getPiece());
                 current.getTiles()[pos1[0]][pos1[1]].getPiece().move(current.getTiles()[pos1[0]][pos1[1]], current.getTiles()[pos2[0]][pos2[1]]);
                 current.promotePawn(current.getTile(t2), p);
             }
             else {
+                pawnsPromoted.push(null);
                 current.getTiles()[pos1[0]][pos1[1]].getPiece().move(current.getTiles()[pos1[0]][pos1[1]], current.getTiles()[pos2[0]][pos2[1]]);
             }
             if(!current.getTiles()[pos2[0]][pos2[1]].getPiece().hasMoved()) {
@@ -100,13 +103,30 @@ public class ChessGame {
                 t.getPiece().setMoved(0);
                 if(t.getPiece().getName().equals("K") && x2 - x1 == 2) {
                     this.current.getTiles()[x2 - 1][t.getY()].getPiece().setMoved(0);
+                    this.current.getTiles()[x2 - 1][t.getY()].getPiece().move(this.current.getTiles()[x2 - 1][t.getY()], this.current.getTiles()[7][t.getY()]);
                 }
                 else if(t.getPiece().getName().equals("K") && x1 - x2 == 2) {
                     this.current.getTiles()[x2 + 1][t.getY()].getPiece().setMoved(0);
+                    this.current.getTiles()[x2 + 1][t.getY()].getPiece().move(this.current.getTiles()[x2 + 1][t.getY()], this.current.getTiles()[0][t.getY()]);
                 }
             }
-            this.current = this.moves.peek();
-            this.moves.pop();
+            this.current.setToMove(1 - this.current.getToMove());
+            this.current.setTurn(this.current.getTurn() - 1);
+            t.getPiece().move(t, this.current.getTile(this.stringMoves.peek().substring(0, 2)));
+            if(this.current.getTile(this.stringMoves.peek().substring(0, 2)).getPiece().getName().equals("K")) {
+                this.current.getKingTiles()[this.current.getToMove()] = this.current.getTile(this.stringMoves.peek().substring(0, 2));
+            }
+            if(pawnsPromoted.peek() != null) {
+                this.current.getTile(this.stringMoves.peek().substring(0, 2)).setPiece(pawnsPromoted.peek());
+            }
+            if(stringMoves.peek().substring(9, 10).equals("t")) {
+                this.current.getTiles()[t.getX()][t.getY() + 2*current.getToMove() - 1].setPiece(piecesTaken.peek());
+            }
+            else {
+                t.setPiece(piecesTaken.peek());
+            }
+            this.piecesTaken.pop();
+            this.pawnsPromoted.pop();
             this.stringMoves.pop();
         }
     }
@@ -118,11 +138,12 @@ public class ChessGame {
         String t2;
         String p;
         ChessGame g = new ChessGame();
-        Bot bot = new DepthSearchBotP1(1, Constants.BLACK);
+        Bot bot = new DepthSearchBotP1(3, Constants.BLACK);
         String botMove;
         System.out.println("RADOMIRCHESS");
         System.out.println("Enter the square that the piece you want to move is on, followed by the square that you want the piece to move to, separated by a space");
         System.out.println("Example: e2 e4");
+
         while(!g.getCurrentPos().ended()) {
             System.out.println(g.getCurrentPos());
             if(g.getCurrentPos().getToMove() == Constants.WHITE) {
@@ -135,21 +156,25 @@ public class ChessGame {
                 t1 = s.next();
                 t2 = s.next();
                 s.nextLine();
-            } while(!g.getCurrentPos().legal(t1, t2));
-            if(g.getCurrentPos().promotingMove(t1, t2)) {
-                System.out.println("What piece to promote to?");
-                System.out.println("Q: Queen - R: Rook - B: Bishop - N: Knight");
-                do {
-                    p = s.next();
-                    s.nextLine();
-                } while(!g.getCurrentPos().validPromotion(p));
+            } while(!(g.getCurrentPos().legal(t1, t2) || (t1.equals("undo") && t2.equals("move"))));
+            if(t1.equals("undo") && t2.equals("move")) {
+                g.undo();
             }
             else {
-                p = null;
+                if(g.getCurrentPos().promotingMove(t1, t2)) {
+                    System.out.println("What piece to promote to?");
+                    System.out.println("Q: Queen - R: Rook - B: Bishop - N: Knight");
+                    do {
+                        p = s.next();
+                        s.nextLine();
+                    } while(!g.getCurrentPos().validPromotion(p));
+                }
+                else {
+                    p = null;
+                }
+                g.move(t1, t2, p);
             }
-            g.move(t1, t2, p);
-            System.out.println("done moving");
-            /*
+            
             if(!g.getCurrentPos().ended()) {
                 botMove = bot.nextMove(g);
                 System.out.println("Bot moved " + botMove.substring(0, 2) + " to " + botMove.substring(2, 4));
@@ -158,12 +183,12 @@ public class ChessGame {
                 }
                 g.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4, 5));
             }
-            */
+            
         }
         s.close();
     }
-
-	public int getColour(String string) {
-		return 0;
-	}
+    
+    public int getColour(String string) {
+        return 0;
+    }
 }

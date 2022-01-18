@@ -3,11 +3,14 @@ package views.chess;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.IOException;
 
 import javax.swing.SwingUtilities;
 
+import config.MessageTypes;
 import logicai.*;
+import network.Message;
+import network.ServerConnection;
+import views.pages.AbstractGamePanel;
 
 import java.awt.image.BufferedImage;
 
@@ -19,7 +22,8 @@ public class MouseEventListenerBot implements MouseListener, MouseMotionListener
     String t2 = "";
 
     ChessGame game;
-
+    int playerColour;
+    
     BufferedImage heldPieceImage = null;
 
     int mouseX = 0;
@@ -28,14 +32,21 @@ public class MouseEventListenerBot implements MouseListener, MouseMotionListener
     int posX = 0;
     int posY = 0;
 
+    boolean isYourTurn;
+
     Piece selectedPiece = null;
 
     Bot depthSearchBot = new DepthSearchBotP1(1, 1);
 
     String botMove;
 
-    public MouseEventListenerBot(ChessGame game) {
+    // private ArrayList<String[]> movesList;
+    private AbstractGamePanel gamePanel;
+
+    public MouseEventListenerBot(ChessGame game, int playerColour, AbstractGamePanel gamePanel) {
         this.game = game;
+        this.playerColour = playerColour;
+        this.gamePanel = gamePanel;
     }
 
     public void mousePressed(MouseEvent e) {
@@ -43,9 +54,9 @@ public class MouseEventListenerBot implements MouseListener, MouseMotionListener
         mouseX = e.getX();
         mouseY = e.getY();
 
-        // for the tile array
-        posX = mouseX / 60;
-        posY = 7 - mouseY / 60;
+        // adjust tile coords for the tile array based on playerColour
+        posX = (7 * playerColour) + (1 - 2 * playerColour) * mouseX / 60;
+        posY = (7 * (1 - playerColour)) + (2 * playerColour - 1) * mouseY / 60;
 
         // Move piece
         if (!isSelected) {
@@ -54,12 +65,14 @@ public class MouseEventListenerBot implements MouseListener, MouseMotionListener
                 if (game.getCurrentPos().getTiles()[posX][posY].getPiece() != null) {
 
                     // check if piece is correct colour
-                    if(game.getCurrentPos().getTiles()[posX][posY].getPiece().getColour() == game.getColour("user")) {
+                    if(game.getCurrentPos().getTiles()[posX][posY].getPiece().getColour() == playerColour) {
                         t1 = String.valueOf((char) (posX + 97)) + "" + (posY + 1);
                         selectedPiece = game.getCurrentPos().getTiles()[posX][posY].getPiece();
                         heldPieceImage = selectedPiece.getImage();
                         isSelected = true;
                         System.out.print(t1);
+                    } else {
+                        System.out.println("NOT YOUR PIECE!");
                     }
                 }
             }
@@ -69,12 +82,12 @@ public class MouseEventListenerBot implements MouseListener, MouseMotionListener
     public void mouseReleased(MouseEvent e) {
 
         // Initialize mouse coordinates
-        int mouseX = e.getX();
-        int mouseY = e.getY();
+        mouseX = e.getX();
+        mouseY = e.getY();
 
-        // for the tile array
-        posX = mouseX / 60;
-        posY = 7 - mouseY / 60;
+        // adjust tile coords for the tile array based on playerColour
+        posX = (7 * playerColour) + (1 - 2 * playerColour) * mouseX / 60;
+        posY = (7 * (1 - playerColour)) + (2 * playerColour - 1) * mouseY / 60;
 
         // solve if piece dragged
         t2 = String.valueOf((char) (posX + 97)) + "" + (posY + 1);
@@ -90,18 +103,21 @@ public class MouseEventListenerBot implements MouseListener, MouseMotionListener
                     game.move(t1, t2, "Q");
                 }
                 else {
-                    game.move(t1, t2, null);
+                    game.move(t1, t2, "");
                 }
+                // add move to move list
+                gamePanel.movesPanel.addMove(t2);
+                
                 // bot code
                 botMove = depthSearchBot.nextMove(game);
                 System.out.println("Bot moved " + botMove.substring(0, 2) + ", " + botMove.substring(2, 4));
                 game.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
+
             }
         }
         // reset t1 and t2
         t1 = "";
         t2 = "";
-
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -123,6 +139,14 @@ public class MouseEventListenerBot implements MouseListener, MouseMotionListener
 
     public int getMouseY() {
         return mouseY;
+    }
+
+    public void setPlayerColour(int colour) {
+        this.playerColour = colour;
+    }
+
+    public void setTurn(boolean isTurn) {
+        this.isYourTurn = isTurn;
     }
 
     /**
@@ -152,5 +176,17 @@ public class MouseEventListenerBot implements MouseListener, MouseMotionListener
 
     public Piece getSelectedPiece() {
         return selectedPiece;
+    }
+
+    public void sendMove(String t1, String t2, String p) {
+        try {
+            Message message = new Message(MessageTypes.CHESS_MOVE);
+            message.addParam(t1);
+            message.addParam(t2);
+            message.addParam(p);
+            ServerConnection.sendMessage(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

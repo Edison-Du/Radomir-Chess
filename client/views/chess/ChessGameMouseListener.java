@@ -15,17 +15,14 @@ import views.pages.MultiplayerPanel;
 
 import java.awt.image.BufferedImage;
 
-public class MouseEventListenerMulti implements MouseListener, MouseMotionListener {
+public class ChessGameMouseListener implements MouseListener, MouseMotionListener {
 
-    boolean isSelected = false;
+    private AbstractGamePanel gamePanel;
+    ChessGame game;
+    int playerColour;
 
     String t1 = "";
     String t2 = "";
-
-    ChessGame game;
-    int playerColour;
-    
-    BufferedImage heldPieceImage = null;
 
     int mouseX = 0;
     int mouseY = 0;
@@ -35,12 +32,11 @@ public class MouseEventListenerMulti implements MouseListener, MouseMotionListen
 
     boolean isYourTurn;
 
+    BufferedImage heldPieceImage = null;
     Piece selectedPiece = null;
+    boolean isSelected = false;
 
-    // private ArrayList<String[]> movesList;
-    private AbstractGamePanel gamePanel;
-
-    public MouseEventListenerMulti(ChessGame game, int playerColour, AbstractGamePanel gamePanel) {
+    public ChessGameMouseListener(ChessGame game, int playerColour, AbstractGamePanel gamePanel) {
         this.game = game;
         this.playerColour = playerColour;
         this.gamePanel = gamePanel;
@@ -96,20 +92,21 @@ public class MouseEventListenerMulti implements MouseListener, MouseMotionListen
             System.out.println(", " + t2);
 
             if(game.getCurrentPos().legal(t1, t2)) {
+                
                 if(game.getCurrentPos().promotingMove(t1, t2)) {
+                    gamePanel.movesPanel.addMove(game.getCurrentPos().toAlgebraic(t1, t2, "Q"));
                     game.move(t1, t2, "Q");
-                    sendMove(t1, t2, "Q");
+                    gamePanel.processMove(t1, t2, "Q");
+                    // sendMove(t1, t2, "Q");
                 }
                 else {
+                    gamePanel.movesPanel.addMove(game.getCurrentPos().toAlgebraic(t1, t2, ""));
                     game.move(t1, t2, "");
-                    sendMove(t1, t2, "");
+                    gamePanel.processMove(t1, t2, "");
+                    // sendMove(t1, t2, "");
                 }
 
                 // add move to move list
-                gamePanel.movesPanel.addMove(t2);
-                
-                game.getCurrentPos().getTiles()[posX][posY].getPiece().getName();
-
             }
         }
         // reset t1 and t2
@@ -175,15 +172,15 @@ public class MouseEventListenerMulti implements MouseListener, MouseMotionListen
         return selectedPiece;
     }
 
-    public void sendMove(String t1, String t2, String p) {
-        try {
-            Message message = new Message(MessageTypes.CHESS_MOVE);
-            message.addParam(t1);
-            message.addParam(t2);
-            message.addParam(p);
-            ServerConnection.sendMessage(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    // public void sendMove(String t1, String t2, String p) {
+    //     try {
+    //         Message message = new Message(MessageTypes.CHESS_MOVE);
+    //         message.addParam(t1);
+    //         message.addParam(t2);
+    //         message.addParam(p);
+    //         ServerConnection.sendMessage(message);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 }

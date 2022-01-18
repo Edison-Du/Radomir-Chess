@@ -247,10 +247,12 @@ public class ClientHandler extends Thread{
     }
 
     private void sendText(Message message) {
+        if(lobby==null) return;
         lobby.sendMessage(this, message);
     }
 
     private void sendChessMove(Message message) {
+        if(lobby==null) return;
         lobby.sendMessage(this, message);
     }
 

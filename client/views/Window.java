@@ -15,8 +15,6 @@ import config.MessageTypes;
 import network.ServerConnection;
 import network.Message;
 
-import java.io.IOException;
-
 public class Window extends JFrame {
 
     public NavigationBar navigationBar;
@@ -25,7 +23,6 @@ public class Window extends JFrame {
     
     private boolean inGame = false;
     private boolean loggedIn = false;
-    private String username;
 
     // Different pages
     public Play playPanel;
@@ -33,7 +30,7 @@ public class Window extends JFrame {
     public BrowseGames browseGamesPanel;
     public BotPanel playBotPanel;
 
-    public Game gamePanel;
+    public MultiplayerPanel gamePanel;
     public Settings settingsPanel;
     public Login loginPanel;
 
@@ -44,7 +41,7 @@ public class Window extends JFrame {
         playPanel = new Play(this);
         joinGamePanel = new JoinGame();
         browseGamesPanel = new BrowseGames();
-        gamePanel = new Game();
+        gamePanel = new MultiplayerPanel();
         settingsPanel = new Settings();
         loginPanel = new Login(this);
 
@@ -122,13 +119,16 @@ public class Window extends JFrame {
             content = browseGamesPanel;
         
         } else if (currentPage == Page.PLAY_BOT) {
-            try {
-                ChessGame game = new ChessGame();
-                content = new BotPanel(game);
-            } catch (Exception e){
-                System.out.println("Cannot create chess game.");
-                e.printStackTrace();
-            }
+
+            content = new BotPanel();
+
+            // try {
+            //     ChessGame game = new ChessGame();
+            //     content = new BotPanel(game);
+            // } catch (Exception e){
+            //     System.out.println("Cannot create chess game.");
+            //     e.printStackTrace();
+            // }
         
         } else if (currentPage == Page.GAME) {
             content = gamePanel;
@@ -139,7 +139,7 @@ public class Window extends JFrame {
 
         } else if (currentPage == Page.ABOUT) {
             try {
-                ChessGame game = new ChessGame();
+                // about stuff here
             } catch (Exception e){
                 System.out.println("Cannot create chess game.");
                 e.printStackTrace();

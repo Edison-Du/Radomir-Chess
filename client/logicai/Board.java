@@ -1,6 +1,6 @@
 package logicai;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * A class for a board
@@ -19,18 +19,22 @@ public class Board {
     private King[] kings;     //the kings themselves
     private int turn;
     private int toMove;       //player to move (0 if white, 1 if black)
-    
+    private ArrayList<Board> threeMoveRule;
+    private ArrayList<ArrayList<Tile>> pieces;
     /**
      * Create a new chessboard (the default starting position)
      * @
      */
     public Board()  {
         this.turn = 1;
-        this.toMove = 0;
+        this.toMove = Constants.WHITE;
         this.tiles = new Tile[8][8];
         this.kings = new King[2];
         this.kings[0] = new King(Constants.WHITE);
         this.kings[1] = new King(Constants.BLACK);
+        this.pieces = new ArrayList<ArrayList<Tile>>();
+        this.pieces.add(new ArrayList<Tile>());
+        this.pieces.add(new ArrayList<Tile>());
         int col = Constants.WHITE;
         for(int i = 0; i < 8; i = i + 7) {
             this.tiles[0][i] = new Tile(0, i, new Rook(col));
@@ -41,12 +45,16 @@ public class Board {
             this.tiles[5][i] = new Tile(5, i, new Bishop(col));
             this.tiles[6][i] = new Tile(6, i, new Knight(col));
             this.tiles[7][i] = new Tile(7, i, new Rook(col));
+            for(int j = 0; j < 8; j++) {
+                this.pieces.get(col).add(this.tiles[j][i]);
+            }
             col = Constants.BLACK;
         }
         col = Constants.WHITE;
         for(int i = 1; i < 8; i = i + 5) {
             for(int j = 0; j < 8; j++) {
                 this.tiles[j][i] = new Tile(j, i, new Pawn(col));
+                this.pieces.get(col).add(this.tiles[j][i]);
             }
             col = Constants.BLACK;
         }
@@ -58,6 +66,15 @@ public class Board {
         this.kingTiles = new Tile[2];
         this.kingTiles[0] = this.tiles[4][0];
         this.kingTiles[1] = this.tiles[4][7];
+        this.threeMoveRule = new ArrayList<Board>();
+    }
+    
+    public ArrayList<Board> getThreeMove() {
+        return this.threeMoveRule;
+    }
+    
+    public ArrayList<ArrayList<Tile>> getPieces() {
+        return this.pieces;
     }
     
     /**
@@ -179,29 +196,90 @@ public class Board {
             return false;
         }
         //check if this move places the king in check
-        Board check = this.copy();
-        if(check.getTiles()[pos1[0]][pos1[1]].getPiece().getName().equals("p") && pos2[0] != pos1[0] && check.getTiles()[pos2[0]][pos2[1]].getPiece() == null) { //remove a piece for en passant
-            if(this.toMove == Constants.WHITE) {
-                check.getTiles()[pos2[0]][pos2[1] - 1].setPiece(null);
-            }
-            else if(this.toMove == Constants.BLACK) {
-                check.getTiles()[pos2[0]][pos2[1] + 1].setPiece(null);
-            }
+        Piece pieceTaken;
+        Tile tPieceTaken;
+        Piece castler = null;
+        Tile tCastler = null;
+        Tile tCastled = null;
+        Tile ogKingPos = this.kingTiles[toMove];
+        if(this.getTiles()[pos1[0]][pos1[1]].getPiece().getName().equals("p") && pos2[0] != pos1[0] && this.getTiles()[pos2[0]][pos2[1]].getPiece() == null) { //remove a piece for en passant
+            pieceTaken = this.getTiles()[pos2[0]][pos2[1] + 2*this.toMove - 1].getPiece();
+            tPieceTaken = this.getTiles()[pos2[0]][pos2[1] + this.toMove - 1];
+            this.getTiles()[pos2[0]][pos2[1] + this.toMove - 1].setPiece(null);
         }
-        check.getTiles()[pos1[0]][pos1[1]].getPiece().move(check.getTiles()[pos1[0]][pos1[1]], check.getTiles()[pos2[0]][pos2[1]]);
+        else {
+            pieceTaken = this.getTiles()[pos2[0]][pos2[1]].getPiece();
+            tPieceTaken = this.getTiles()[pos2[0]][pos2[1]];
+        }
+        this.getTiles()[pos1[0]][pos1[1]].getPiece().move(this.getTiles()[pos1[0]][pos1[1]], this.getTiles()[pos2[0]][pos2[1]]);
         if(this.kingTiles[toMove] == this.getTiles()[pos1[0]][pos1[1]]) {
-            check.getKingTiles()[toMove] = check.getTiles()[pos2[0]][pos2[1]];
+            this.kingTiles[toMove] = this.tiles[pos2[0]][pos2[1]];
             if(pos2[0] - pos1[0] == 2) {
-                check.getTiles()[7][pos2[1]].getPiece().move(check.getTiles()[7][pos2[1]], check.getTiles()[5][pos2[1]]);
+                castler = this.tiles[7][pos2[1]].getPiece();
+                tCastler = this.tiles[7][pos2[1]];
+                tCastled = this.tiles[5][pos2[1]];
+                this.getTiles()[7][pos2[1]].getPiece().move(this.getTiles()[7][pos2[1]], this.getTiles()[5][pos2[1]]);
             }
             else if(pos1[0] - pos2[0] == 2) {
-                check.getTiles()[0][pos2[1]].getPiece().move(check.getTiles()[0][pos2[1]], check.getTiles()[3][pos2[1]]);
+                castler = this.getTiles()[0][pos2[1]].getPiece();
+                tCastler = this.getTiles()[0][pos2[1]];
+                tCastled = this.getTiles()[3][pos2[1]];
+                this.getTiles()[0][pos2[1]].getPiece().move(this.getTiles()[0][pos2[1]], this.getTiles()[3][pos2[1]]);
             }
         }
-        if(check.getKings()[this.toMove].isChecked(check, check.getKingTiles()[this.toMove])) {
+        if(this.getKings()[this.toMove].isChecked(this, this.getKingTiles()[this.toMove])) {
+            this.getTile(p2).getPiece().move(this.getTile(p2), this.getTile(p1));
+            tPieceTaken.setPiece(pieceTaken);
+            if(castler != null) {
+                castler.move(tCastled, tCastler);
+            }
+            this.kingTiles[toMove] = ogKingPos;
             return false;
         }
+        this.getTile(p2).getPiece().move(this.getTile(p2), this.getTile(p1));
+        tPieceTaken.setPiece(pieceTaken);
+        if(castler != null) {
+            castler.move(tCastled, tCastler);
+        }
+        this.kingTiles[toMove] = ogKingPos;
         return true;
+    }
+    
+    //we assume that the move is legal
+    //this method does not return algebraic notation
+    public String moveInfo(String t1, String t2, String p) {
+        String out = "";
+        if(getTile(t1).getPiece().getName().equals("K") && getTile(t2).getX() - getTile(t1).getX() == 2) {
+            return "0-0___";
+        }
+        else if(getTile(t1).getPiece().getName().equals("K") && getTile(t2).getX() - getTile(t1).getX() == -2) {
+            return "0-0-0_";
+        }
+        else {
+            //takes (e.g. xQ, xp, x0)
+            out = out + "x";
+            if(getTile(t2).getPiece() != null) {
+                out = out + getTile(t2).getPiece().getName();
+            }
+            else {
+                out = out + "0";
+            }
+            out = out + "P";
+            if(promotingMove(t1, t2)) {
+                out = out + p;
+            }
+            else {
+                out = out + "0";
+            }
+            out = out + "E";
+            if(getTile(t1).getPiece().getName().equals("p") && getTile(t2).getPiece() == null && getTile(t1).getX() != getTile(t2).getX()) {
+                out = out + "t";
+            }
+            else {
+                out = out + "f";
+            }
+        }
+        return out;
     }
     
     public boolean promotingMove(String t1, String t2)  {
@@ -278,7 +356,7 @@ public class Board {
      * @
      */
     public Board copy() {
-        long startTime = System.nanoTime();
+        // long startTime = System.nanoTime();
         Board out = new Board();
         out.setKingTiles(new Tile[2]);
         for(int i = 0; i < 8; i++) {
@@ -291,9 +369,59 @@ public class Board {
         }
         out.setTurn(this.turn);
         out.setToMove(this.toMove);
-        long endTime = System.nanoTime();
+        // long endTime = System.nanoTime();
         // System.out.println("Time elapsed to copy board: " + (endTime - startTime));
         return out;
     }
     
+    //O(n) time - loops through each arraylist once
+    public boolean equals(Board b) {
+        if(this.pieces.get(0).size() != b.getPieces().get(0).size()) {
+            return false;
+        }
+        else if(this.pieces.get(1).size() != b.getPieces().get(1).size()) {
+            return false;
+        }
+        else {
+            for(int i = 0; i < 2; i++) {
+                for(int j = 0; j < this.pieces.get(i).size(); j++) {
+                    if( (!(this.pieces.get(i).get(j).toString().equals(b.getPieces().get(i).get(j).toString()))) || this.pieces.get(i).get(j).getPiece() != b.getPieces().get(i).get(j).getPiece()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
+    public String toAlgebraic(String t1, String t2, String p) {
+        String out = "";
+        
+        // System.out.println("tile 1: " + this.getTile(t1).getPiece().getName());
+
+        if(this.getTile(t1).getPiece().getName().equals("K") && this.getTile(t2).getX() - this.getTile(t1).getX() == 2) {
+            return "O-O";
+        }
+        else if(this.getTile(t1).getPiece().getName().equals("K") && this.getTile(t2).getX() - this.getTile(t1).getX() == -2) {
+            return "O-O-O";
+        }
+        if(!this.getTile(t1).getPiece().getName().equals("p")) {
+            out = out + this.getTile(t1).getPiece().getName();
+        }
+        else if(this.getTile(t2).getX() == this.getTile(t1).getX()) { }
+        else {
+            out = out + t1.substring(0, 1) + "x";
+            out = out + t2;
+            if(this.getTile(t2).getPiece() == null) {
+                out = out + " e.p.";
+            }
+            return out;
+        }
+        if(this.getTile(t2).getPiece() != null) {
+            out = out + "x";
+        }
+        out = out + t2;
+        return out;
+    }
+
 }

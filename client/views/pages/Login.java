@@ -1,15 +1,21 @@
 package views.pages;
 
-import javax.swing.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import config.MessageTypes;
 import config.UserInterface;
-import views.components.ContentPanel;
 import network.Message;
 import network.ServerConnection;
-import config.MessageTypes;
-
-import java.awt.*;
-import java.awt.event.*;
 import views.Window;
+import views.components.ContentPanel;
 
 public class Login extends ContentPanel implements ActionListener{
 

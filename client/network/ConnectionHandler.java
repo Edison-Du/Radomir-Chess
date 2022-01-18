@@ -101,6 +101,7 @@ public class ConnectionHandler extends Thread {
         window.setInGame(true);
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(true);
+        window.gamePanel.resetPanel();
     }
 
     public void joinGame(Message message) {
@@ -112,6 +113,7 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(false);
         window.gamePanel.addOther(host);
+        window.gamePanel.resetPanel();
 
     }
 
@@ -142,7 +144,7 @@ public class ConnectionHandler extends Thread {
         String t2 = message.getParam(1);
         String p = message.getParam(2);
 
-        window.gamePanel.movesPanel.addMove(t2);
+        // window.gamePanel.movesPanel.addMove(t2);
         window.gamePanel.boardPanel.makeOpponentMove(t1, t2, p);
     }
 

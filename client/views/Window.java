@@ -123,7 +123,6 @@ public class Window extends JFrame {
         
         } else if (currentPage == Page.GAME) {
             // Reset game panel
-            gamePanel = new MultiplayerPanel();
             content = gamePanel;
 
         } else if (currentPage == Page.SETTINGS) {

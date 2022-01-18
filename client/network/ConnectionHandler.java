@@ -97,6 +97,7 @@ public class ConnectionHandler extends Thread {
         window.setInGame(true);
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(true);
+        window.gamePanel.resetPanel();
     }
 
     public void joinGame(Message message) {
@@ -108,6 +109,7 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(false);
         window.gamePanel.addOther(host);
+        window.gamePanel.resetPanel();
 
     }
 

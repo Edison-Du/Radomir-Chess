@@ -45,6 +45,8 @@ public class MultiplayerPanel extends AbstractGamePanel {
         codeLabel.setBounds(660, 30, 100, 100);
         this.add(codeLabel);
 
+        System.out.println("Construction");
+
         // Showing lobby status (who is in and not)
         otherClientLabel = new JLabel("You are alone in this lobby.");
         otherClientLabel.setForeground(Color.WHITE);
@@ -67,6 +69,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     public void setLobbyCode(String code) {
         this.lobbyCode = code;
         codeLabel.setText(lobbyCode);
+        System.out.println("Lobby change");
     }
 
     public void setHost(boolean isHost) {

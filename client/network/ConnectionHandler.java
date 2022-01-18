@@ -140,7 +140,7 @@ public class ConnectionHandler extends Thread {
         String t2 = message.getParam(1);
         String p = message.getParam(2);
 
-        window.gamePanel.movesPanel.addMove(t2);
+        // window.gamePanel.movesPanel.addMove(t2);
         window.gamePanel.boardPanel.makeOpponentMove(t1, t2, p);
     }
 

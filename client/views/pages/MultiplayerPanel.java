@@ -2,25 +2,16 @@ package views.pages;
 
 import java.awt.Color;
 import java.awt.Font;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import config.MessageTypes;
-import logicai.ChessGame;
 import network.Message;
 import network.ServerConnection;
-import views.components.ContentPanel;
-import views.components.CustomButton;
 
-public class Game extends ContentPanel implements ActionListener {
+public class MultiplayerPanel extends AbstractGamePanel {
 
     private String lobbyCode = "";
     private boolean isHost;
@@ -30,22 +21,22 @@ public class Game extends ContentPanel implements ActionListener {
     // Swing
     private JLabel codeLabel;
     private JLabel otherClientLabel;
-    private JTextField messageField;
-    private JList<String> messageList;
     private JButton leaveLobby;
-    private DefaultListModel<String> allTexts = new DefaultListModel<>();
 
-    // subpanel chess game
-    public MultiPanel subPanel;
 
-    public Game() {
+    // // subpanel chess game
+    // public ChessBoardPanel subPanel;
+    // public MovesPanel movesPanel;
+    // public MessagePanel messagePanel;
 
-        // CHESS GAME HERE???
-        ChessGame chessGame = new ChessGame();
-        subPanel = new MultiPanel(chessGame); // sub-panel 1
-        this.add(subPanel);
+    public MultiplayerPanel() {
 
-        subPanel.setBounds(120,120,480,480);
+        // CHESS GAME
+        // ChessGame chessGame = new ChessGame();
+        // subPanel = new ChessBoardPanel(chessGame, this); // sub-panel 1
+        // this.add(subPanel);
+
+        // subPanel.setBounds(120,120,480,480);
 
         // Lobby code
         codeLabel = new JLabel(lobbyCode);
@@ -60,27 +51,18 @@ public class Game extends ContentPanel implements ActionListener {
         otherClientLabel.setBounds(760, 30,500, 100);
         this.add(otherClientLabel);
 
-        // Texting field
-        messageField = new JTextField();
-        messageField.setBounds(660, 570, 240, 30);
-        messageField.addActionListener(this);
-        this.add(messageField);
+        // Message panel
+        // messagePanel = new MessagePanel();
+        // messagePanel.setBounds(660,270,240,330);
+        // this.add(messagePanel);
 
-        // Message list
-        messageList = new JList<>(allTexts);
-        messageList.setBounds(660,120,240,420);
-        this.add(messageList);
 
         // Leave lobby
         leaveLobby = new JButton("Leave");
-        leaveLobby.setBounds(600, 550, 200, 50);
+        leaveLobby.setBounds(780, 630, 120, 30);
         leaveLobby.addActionListener(this);
         this.add(leaveLobby);
     }
-
-
-
-
 
     public void setLobbyCode(String code) {
         this.lobbyCode = code;
@@ -107,30 +89,30 @@ public class Game extends ContentPanel implements ActionListener {
         }
     }
 
-    public void addTextMessageFromOther(String message) {
-        allTexts.addElement("Client " + otherClient + ": " + message);
+
+    // Text
+    public void addMessageFromOther(String message) {
+        messagePanel.addTextMessage("Client " + otherClient + ": " + message);
+    }
+
+    @Override
+    public void processMove(String t1, String t2, String p) {
+        try {
+            Message message = new Message(MessageTypes.CHESS_MOVE);
+            message.addParam(t1);
+            message.addParam(t2);
+            message.addParam(p);
+            ServerConnection.sendMessage(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Text input
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == messageField) {
-            String userMessage = messageField.getText();
-            messageField.setText("");
-
-            try {
-                Message message = new Message(MessageTypes.SENT_TEXT);
-                message.addParam(userMessage);
-                ServerConnection.sendMessage(message);
-
-                allTexts.addElement("You: " + userMessage);
-                
-            } catch(Exception ex) {
-                System.out.println("Failed to create message");
-                ex.printStackTrace();
-            }
-        } else if (e.getSource() == leaveLobby) {
+        if (e.getSource() == leaveLobby) {
             
             try {
                 Message message = new Message(MessageTypes.LEAVE_GAME);

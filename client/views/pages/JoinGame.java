@@ -1,22 +1,16 @@
 package views.pages;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import views.components.ContentPanel;
-import views.components.CustomButton;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
-import config.UserInterface;
 import config.MessageTypes;
-import network.InvalidMessageException;
+import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
+import views.components.ContentPanel;
 
 public class JoinGame extends ContentPanel implements ActionListener {
     

@@ -116,7 +116,7 @@ public class ConnectionHandler extends Thread {
     public void setPlayerColour(Message message) {
         int colour = Integer.parseInt(message.getParam(0));
         
-        window.gamePanel.subPanel.setPlayerColour(colour);
+        window.gamePanel.boardPanel.setPlayerColour(colour);
     }
 
     public void processOpponentChessMove(Message message) {
@@ -124,13 +124,14 @@ public class ConnectionHandler extends Thread {
         String t2 = message.getParam(1);
         String p = message.getParam(2);
 
-        window.gamePanel.subPanel.makeOpponentMove(t1, t2, p);
+        window.gamePanel.movesPanel.addMove(t2);
+        window.gamePanel.boardPanel.makeOpponentMove(t1, t2, p);
     }
 
 
     public void addTextMessage(Message message) {
         String text = message.getParam(0);
 
-        window.gamePanel.addTextMessageFromOther(text);
+        window.gamePanel.addMessageFromOther(text);
     }
 }

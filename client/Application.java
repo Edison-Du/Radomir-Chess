@@ -1,5 +1,3 @@
-import java.io.IOException;
-
 import network.ConnectionHandler;
 import network.ServerConnection;
 import network.ShutdownHook;

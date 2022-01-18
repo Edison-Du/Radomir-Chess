@@ -1,17 +1,7 @@
 package logicai;
 
-/**
- * Class for a king
- * @author Leo Guan
- * @version 1.0, Jan. 2022
- */
-
-import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
-
-import javax.imageio.ImageIO;
 
 class King extends Piece {
     

@@ -1,18 +1,11 @@
 package views.pages;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.HyperlinkEvent;
 
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.awt.event.ActionEvent;
 
 import views.components.ContentPanel;
-import views.components.CustomButton;
 
 import config.UserInterface;
 import config.MessageTypes;
@@ -33,8 +26,6 @@ public class Play extends ContentPanel implements ActionListener {
 
     private PlayMenuButton[] buttons;
 
-    private final JLabel joinLobbyLabel= new JLabel();
-    private final JLabel username = new JLabel();
     private final JTextField joinLobbyField = new JTextField();
     private String joinLobbyCode;
 

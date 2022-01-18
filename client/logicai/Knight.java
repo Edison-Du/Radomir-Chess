@@ -1,16 +1,6 @@
 package logicai;
 
-/**
- * Class for a knight
- * @author Leo Guan
- * @version 1.0, Jan. 2022
- */
-
-import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
-
-import javax.imageio.ImageIO;
 
 class Knight extends Piece {
     

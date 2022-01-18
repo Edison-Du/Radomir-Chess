@@ -1,10 +1,6 @@
 package logicai;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
-
-import javax.imageio.ImageIO;
 
 class Pawn extends Piece {
     

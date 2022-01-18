@@ -6,12 +6,10 @@ public class DepthSearchBotP1 extends Bot {
     
     private int depth;
     private int side;
-    private int countOperations;
     
     public DepthSearchBotP1(int depth, int side)  {
         this.depth = depth;
         this.side = side;
-        this.countOperations = 0;
     }
     
     private int score(Board b)  {
@@ -54,15 +52,12 @@ public class DepthSearchBotP1 extends Bot {
                 bestScore = temp;
                 bestMove = possibleMoves.get(i);
             }
-            System.out.println("Iterated once in nextMove, DepthSearchBotP1");
         }
-        System.out.println("Called average " + this.countOperations + " times");
-        this.countOperations = 0;
+        g.undo();
         return bestMove;
     }
     
     private int[] average(ChessGame g, int tail)  {
-        this.countOperations++;
         if(tail == 0) {
             int[] out = new int[2];
             out[0] = score(g.getCurrentPos());
@@ -76,7 +71,6 @@ public class DepthSearchBotP1 extends Bot {
             return out;
         }
         else {
-            System.out.println("Calling legalMoves from average");
             ArrayList<String> possibleMoves = legalMoves(g.getCurrentPos());
             int curScore = 0;
             int leafCount = 0;

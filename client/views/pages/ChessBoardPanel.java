@@ -6,6 +6,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 // import game.Pieces;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import logicai.ChessGame;
 import logicai.Tile;
@@ -60,6 +64,17 @@ public class ChessBoardPanel extends ContentPanel {
         if(heldPieceImage != null) {
             // System.out.println(mouseEventListener.getMouseX() + ", " + mouseEventListener.getMouseY());
             g.drawImage(heldPieceImage, chessGameMouseListener.getMouseX()-tileSize/2, chessGameMouseListener.getMouseY()-tileSize/2, this);
+        }
+
+        if(chessGameMouseListener.isPromoting) {
+            BufferedImage promotionPlatter;
+            try {
+                promotionPlatter = ImageIO.read(new File("logicai/promotion.png"));
+                g.drawImage(promotionPlatter, 110, 200, this);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     }
 

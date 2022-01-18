@@ -36,6 +36,11 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     Piece selectedPiece = null;
     boolean isSelected = false;
 
+    public boolean isPromoting = false;
+    private String promotionChoice;
+    private String promotionT1;
+    private String promotionT2;
+
     public ChessGameMouseListener(ChessGame game, int playerColour, AbstractGamePanel gamePanel) {
         this.game = game;
         this.playerColour = playerColour;
@@ -47,12 +52,37 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
         mouseX = e.getX();
         mouseY = e.getY();
 
+        if(isPromoting) {
+            if (mouseX > 110 && mouseX < 370 && mouseY > 200 && mouseY < 280) {
+                if(mouseX > 110 && mouseX < 180) {
+                    promotionChoice = "Q";
+                } else if (mouseX > 180 && mouseX < 240) {
+                    promotionChoice = "B";
+                } else if (mouseX > 240 && mouseX < 300) {
+                    promotionChoice = "N";
+                } else if (mouseX > 300 && mouseX < 370) {
+                    promotionChoice = "R";
+                }
+                System.out.println("checked for mouse");
+                System.out.println(promotionChoice);
+
+                gamePanel.movesPanel.addMove(game.getCurrentPos().toAlgebraic(promotionT1, promotionT2, promotionChoice));
+                game.move(promotionT1, promotionT2, promotionChoice);
+                gamePanel.processMove(promotionT1, promotionT2, promotionChoice);
+
+                promotionT1 = null;
+                promotionT2 = null;
+
+                isPromoting = false;
+            }
+        }
+
         // adjust tile coords for the tile array based on playerColour
         posX = (7 * playerColour) + (1 - 2 * playerColour) * mouseX / 60;
         posY = (7 * (1 - playerColour)) + (2 * playerColour - 1) * mouseY / 60;
 
         // Move piece
-        if (!isSelected) {
+        if (!isSelected && !isPromoting) {
             // Checking for which piece is currently being clicked
             if (mouseX < 480 && mouseY < 480) {
                 if (game.getCurrentPos().getTiles()[posX][posY].getPiece() != null) {
@@ -94,10 +124,9 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             if(game.getCurrentPos().legal(t1, t2)) {
                 
                 if(game.getCurrentPos().promotingMove(t1, t2)) {
-                    gamePanel.movesPanel.addMove(game.getCurrentPos().toAlgebraic(t1, t2, "Q"));
-                    game.move(t1, t2, "Q");
-                    gamePanel.processMove(t1, t2, "Q");
-                    // sendMove(t1, t2, "Q");
+                    isPromoting = true;
+                    promotionT1 = t1;
+                    promotionT2 = t2;
                 }
                 else {
                     gamePanel.movesPanel.addMove(game.getCurrentPos().toAlgebraic(t1, t2, ""));

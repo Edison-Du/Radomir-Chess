@@ -63,6 +63,8 @@ public class MessagePanel extends ContentPanel implements ActionListener {
     public void addTextMessage(String message) {
         allTexts.addElement(message);
         messageList.ensureIndexIsVisible(this.numMessages++);
+        this.revalidate();
+        // this.repaint();
     }
 
     @Override

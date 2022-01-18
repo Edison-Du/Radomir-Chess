@@ -3,6 +3,7 @@ package network;
 import config.MessageTypes;
 import config.Page;
 import views.Window;
+import views.pages.MultiplayerPanel;
 
 public class ConnectionHandler extends Thread {
 
@@ -47,6 +48,12 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.GUEST_JOINED)) {
             guestJoined(message);
 
+        } else if (message.getType().equals(MessageTypes.OPPONENT_LEFT)) {
+            opponentLeft(message);
+
+        } else if (message.getType().equals(MessageTypes.LEFT_SUCCESFULLY)) {
+            leaveGame(message);
+
         } else if (message.getType().equals(MessageTypes.PLAYER_COLOUR)) {
             setPlayerColour(message);
 
@@ -86,14 +93,22 @@ public class ConnectionHandler extends Thread {
 
     public void createGame(Message message) {
         String code = message.getParam(0);
-        
+
+        window.setInGame(true);
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(true);
     }
 
-    public void displayGames(Message message) {
-        String games = message.getParam(0);
-        window.browseGamesPanel.setLobbyList(games);
+    public void joinGame(Message message) {
+        String code = message.getParam(0);
+        int host = Integer.parseInt(message.getParam(1));
+
+        window.changePage(Page.GAME);
+        window.setInGame(true);
+        window.gamePanel.setLobbyCode(code);
+        window.gamePanel.setHost(false);
+        window.gamePanel.addOther(host);
+
     }
 
     public void guestJoined(Message message) {
@@ -102,16 +117,15 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.addOther(guest);
     }
 
-
-    public void joinGame(Message message) {
-        String code = message.getParam(0);
-        int host = Integer.parseInt(message.getParam(1));
-
-        window.changePage(Page.GAME);
-        window.gamePanel.setLobbyCode(code);
-        window.gamePanel.setHost(false);
-        window.gamePanel.addOther(host);
+    public void opponentLeft(Message message) {
+        window.gamePanel.messagePanel.addTextMessage("Opponent has left lobby");
     }
+
+    public void leaveGame(Message message) {
+        window.setInGame(false);
+        window.changePage(Page.PLAY);
+    }
+
 
     public void setPlayerColour(Message message) {
         int colour = Integer.parseInt(message.getParam(0));
@@ -133,5 +147,10 @@ public class ConnectionHandler extends Thread {
         String text = message.getParam(0);
 
         window.gamePanel.addMessageFromOther(text);
+    }
+
+    public void displayGames(Message message) {
+        String games = message.getParam(0);
+        window.browseGamesPanel.setLobbyList(games);
     }
 }

@@ -66,21 +66,24 @@ public class Lobby {
     }
 
     public void leaveLobby(ClientHandler client) {
-        if (client == this.guest) {
-            this.guest = null;
-            // Guest has left lobby
-
-        } else {
+        if (client != this.guest) {
             this.host = this.guest;
+            this.hostColour = (hostColour + 1) % 2;
+        }
 
-            // Empty lobby, delete it
-            if (this.host == null) {
+        this.guest = null;
 
-                
-            // Host has left lobby, you are the host now
-            } else {
-
+        // Send host message
+        try {
+            if (this.host != null) {
+                Message messageToPlayerRemaining = new Message(MessageTypes.OPPONENT_LEFT);
+                this.host.sendMessage(messageToPlayerRemaining);
             }
+            Message messageToLeaver = new Message(MessageTypes.LEFT_SUCCESFULLY);
+            client.sendMessage(messageToLeaver);
+
+        } catch (Exception e) {
+            System.out.println("Error sending message participants.");
         }
     } 
 
@@ -90,7 +93,6 @@ public class Lobby {
         
         ClientHandler receiver;
 
-        
         if (from == host) {
             receiver = guest;
         } else {

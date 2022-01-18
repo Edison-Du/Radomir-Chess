@@ -9,8 +9,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import chesslogic.ChessGame;
 import config.MessageTypes;
-import logicai.ChessGame;
 import network.Message;
 import network.ServerConnection;
 import views.components.ContentPanel;

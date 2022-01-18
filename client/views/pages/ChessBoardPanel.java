@@ -6,11 +6,16 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 // import game.Pieces;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import logicai.ChessGame;
-import logicai.Tile;
+import javax.imageio.ImageIO;
+
+import chesslogic.ChessGame;
+import chesslogic.Tile;
 import views.chess.ChessGameMouseListener;
 import views.components.ContentPanel;
+import config.UserInterface;
 
 public class ChessBoardPanel extends ContentPanel {
 
@@ -61,6 +66,17 @@ public class ChessBoardPanel extends ContentPanel {
             // System.out.println(mouseEventListener.getMouseX() + ", " + mouseEventListener.getMouseY());
             g.drawImage(heldPieceImage, chessGameMouseListener.getMouseX()-tileSize/2, chessGameMouseListener.getMouseY()-tileSize/2, this);
         }
+
+        if(chessGameMouseListener.isPromoting) {
+            BufferedImage promotionPlatter;
+            try {
+                promotionPlatter = ImageIO.read(new File("chesslogic/promotion.png"));
+                g.drawImage(promotionPlatter, 110, 200, this);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
 
     public void drawBoard(Graphics g) {
@@ -76,22 +92,22 @@ public class ChessBoardPanel extends ContentPanel {
                 
                 // checkerboard code
                 if (x % 2 - y % 2 == 0) {
-                    g.setColor(Color.DARK_GRAY);
+                    g.setColor(UserInterface.darkerTile);
                 } else {
-                    g.setColor(Color.LIGHT_GRAY);
+                    g.setColor(UserInterface.lighterTile);
                 }
                 g.fillRect(xPos, yPos, tileSize, tileSize);
 
                 // write tile notation
                 if(x == 7) {
-                    if((y+playerColour) % 2 == 0) g.setColor(Color.LIGHT_GRAY);
-                    else g.setColor(Color.DARK_GRAY);
+                    if((y+playerColour) % 2 == 0) g.setColor(UserInterface.lighterTile);
+                    else g.setColor(UserInterface.darkerTile);
                     g.drawString(Integer.toString(y + 1), 1, yPos + 12);
                 }
                 if(y == 7) {
-                    if((x+playerColour) % 2 == 0) g.setColor(Color.LIGHT_GRAY);
-                    else g.setColor(Color.DARK_GRAY);
-                    g.drawString(Character.toString((char)(x + 97)), xPos + 52, 479);
+                    if((x+playerColour) % 2 == 0) g.setColor(UserInterface.lighterTile);
+                    else g.setColor(UserInterface.darkerTile);
+                    g.drawString(Character.toString((char)(x + 'a')), xPos + 52, 479);
                 }
 
                 // change based on playerColour

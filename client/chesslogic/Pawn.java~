@@ -1,16 +1,20 @@
 package logicai;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
+
+import javax.imageio.ImageIO;
 
 class Pawn extends Piece {
     
     /**
      * Create a pawn
      * @param col colour of the pawn
-     * @
+     * @throws IOException
      */
-    public Pawn(int col) {
-        super(col, "p", 1, getImage("p", col));
+    public Pawn(int col) throws IOException {
+        super(col, "p", ImageIO.read(new File("logicai/" + "p"+col+".png")));
     }
     
     @Override
@@ -24,11 +28,12 @@ class Pawn extends Piece {
         HashSet<Tile> output = new HashSet<Tile>();
         output.add(pos);
         if(pos.getY() + 1 - 2*this.getColour() > 7 || pos.getY() + 1 - 2*this.getColour() < 0) {
+            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAA");
             return output;
         }
         if(b.getTiles()[pos.getX()][pos.getY() + 1 - 2*this.getColour()].getPiece() == null) {
             output.add(b.getTiles()[pos.getX()][pos.getY() + 1 - 2*this.getColour()]);
-            if(!this.hasMoved() && b.getTiles()[pos.getX()][pos.getY() + 2 - 4*this.getColour()].getPiece() == null) {
+            if(b.getTiles()[pos.getX()][pos.getY() + 2 - 4*this.getColour()].getPiece() == null && !this.hasMoved()) {
                 output.add(b.getTiles()[pos.getX()][pos.getY() + 2 - 4*this.getColour()]);
             }
         }

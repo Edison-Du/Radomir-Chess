@@ -1,4 +1,4 @@
-package logicai;
+package chesslogic;
 
 /**
  * Class for a generic piece
@@ -57,7 +57,7 @@ public abstract class Piece {
      */
     public static BufferedImage getImage(String piece, int colour) {
         try {
-            return ImageIO.read(new File("logicai/" + piece + colour +".png"));
+            return ImageIO.read(new File("chesslogic/kosal pieces/" + piece + colour +".png"));
         } catch(IOException e) {
             System.out.println("Piece file not found");
         }

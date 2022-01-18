@@ -158,9 +158,11 @@ public class ClientHandler extends Thread{
             String username = message.getParam(0);
             String password = message.getParam(1);
             if (server.getDatabase().addUser(username, password)){
-                sendMessage(new Message(MessageTypes.LOGIN_ACCEPTED)); // Success
+                Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
+                returnMessage.addParam(username);
+                sendMessage(returnMessage); // Success
             } else{
-                sendMessage(new Message(MessageTypes.LOGIN_FAILED)); // Failiure
+                sendMessage(new Message(MessageTypes.REGISTER_FAILED)); // Failiure
             }
         } catch (Exception e){
             System.out.println("nice one Eddison Ddu");
@@ -172,8 +174,10 @@ public class ClientHandler extends Thread{
         try {
             String username = message.getParam(0);
             String password = message.getParam(1);
-            if (server.getDatabase().validateUser(username, password)){
-                sendMessage(new Message(MessageTypes.LOGIN_ACCEPTED)); // Success
+            if (server.getDatabase().validateUser(username, password)){                
+                Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
+                returnMessage.addParam(username);
+                sendMessage(returnMessage); // Success
             } else{
                 sendMessage(new Message(MessageTypes.LOGIN_FAILED)); // Failiure
             }

@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import views.Window;
@@ -28,6 +29,7 @@ public class NavigationBar extends JPanel {
     private final NavigationLink[] links;
     private final Image radomirLogo = getLogoImage();
     private final int loginPage = 3;
+    private JLabel usernameLabel;
     
     public NavigationBar (Window window) {
 
@@ -38,7 +40,6 @@ public class NavigationBar extends JPanel {
         this.setBounds(0, 0,  UserInterface.NAVBAR_WIDTH, UserInterface.WINDOW_HEIGHT);
         this.setLayout(null);
 
-        
 
         navigationActionListener = new NavigationActionListener(window);
 
@@ -69,8 +70,10 @@ public class NavigationBar extends JPanel {
         if (isLoggedIn) {
             links[0].doClick();
             links[loginPage].changePage(Page.LOGOUT);
+            this.add(usernameLabel);
         } else {
             links[loginPage].changePage(Page.LOGIN);
+            this.remove(usernameLabel);
         }
     }
 
@@ -81,5 +84,13 @@ public class NavigationBar extends JPanel {
             System.out.println("File not found");
         }
         return null;
+    }
+
+    public void setUsername(String newUsername){
+        this.usernameLabel = new JLabel();
+        this.usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
+        this.usernameLabel.setText(newUsername);
+        this.usernameLabel.setBounds(UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 50, 100, 25);
+        System.out.println("Bro");
     }
 }

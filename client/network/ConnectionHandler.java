@@ -67,11 +67,14 @@ public class ConnectionHandler extends Thread {
             displayGames(message);
 
         } else if (message.getType().equals(MessageTypes.LOGIN_ACCEPTED)) {
-            login();
+            login(message.getParam(0));
 
         } else if (message.getType().equals(MessageTypes.LOGIN_FAILED)) {
-            window.loginPanel.displayError();
+            window.loginPanel.displayLoginError();
         
+        } else if (message.getType().equals(MessageTypes.REGISTER_FAILED)){
+            window.loginPanel.displayRegisterError();
+    
         } else if (message.getType().equals(MessageTypes.LOGOUT)){
             logout();
 
@@ -81,8 +84,9 @@ public class ConnectionHandler extends Thread {
         }
     }   
 
-    public void login(){
-        window.setLoggedIn(true);;
+    public void login(String username){
+        window.navigationBar.setUsername(username);
+        window.setLoggedIn(true);
         window.changePage(Page.PLAY);
     }
 

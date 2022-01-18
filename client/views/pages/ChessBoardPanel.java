@@ -27,10 +27,12 @@ public class ChessBoardPanel extends ContentPanel {
     public int playerColour;
 
     private ChessGameMouseListener chessGameMouseListener;
+    private AbstractGamePanel gamePanel;
     
 
     public ChessBoardPanel(ChessGame game, AbstractGamePanel gamePanel) {
         this.game = game;
+        this.gamePanel = gamePanel;
 
         chessGameMouseListener = new ChessGameMouseListener(game, playerColour, gamePanel);
         addMouseListener(chessGameMouseListener);
@@ -39,15 +41,13 @@ public class ChessBoardPanel extends ContentPanel {
 
     public void setPlayerColour(int colour) {
         this.playerColour = colour;
-        // chessGameMouseListener.setPlayerColour(colour);
-
         chessGameMouseListener.setPlayerColour(colour);
     }
     
     public void makeOpponentMove(String t1, String t2, String p) {
+        String move = game.getCurrentPos().toAlgebraic(t1, t2, p);
+        gamePanel.movesPanel.addMove(move);
         this.game.move(t1, t2, p);
-        // chessGameMouseListener.setTurn(true);
-
         chessGameMouseListener.setTurn(true);
 
     }

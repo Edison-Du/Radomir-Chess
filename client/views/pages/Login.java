@@ -71,33 +71,58 @@ public class Login extends ContentPanel implements ActionListener{
         registerButton.addActionListener(this);
         registerButton.setFocusable(false);
         this.add(registerButton);
-    }
 
-    public void displayError(){
         errorMessage.setForeground(UserInterface.TEXT_COLOUR);
-        errorMessage.setText("Hey man your username or password is incorrect. Are you mentally slow or something?");
         errorMessage.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 500, 500, 100);
         this.add(errorMessage);
+    }
+
+    public void displayLoginError(){
+        errorMessage.setText("Hey man your username or password is incorrect. Are you mentally slow or something?");
+    }
+
+    public void displayRegisterError(){
+        errorMessage.setText("Username is taken u dumbdumb");
+    }
+
+    public void displayInputError(){
+        errorMessage.setText("Alright buddy only numbers or letters allowed");
     }
 
     public void actionPerformed(ActionEvent e){
         String username = usernameField.getText();
         String password = String.valueOf(passwordField.getPassword());
         try{
-            if (e.getSource() == loginButton){
-                Message m = new Message(MessageTypes.LOGIN);
-                m.addParam(username);
-                m.addParam(password);
-                ServerConnection.sendMessage(m);
-            } else if (e.getSource() == registerButton){
-                Message m = new Message(MessageTypes.REGISTER);
-                m.addParam(username);
-                m.addParam(password);
-                ServerConnection.sendMessage(m);
+            if (validateInput(username) && validateInput(password)){
+                if (e.getSource() == loginButton){
+                    Message m = new Message(MessageTypes.LOGIN);
+                    m.addParam(username);
+                    m.addParam(password);
+                    ServerConnection.sendMessage(m);
+                } else if (e.getSource() == registerButton){
+                    Message m = new Message(MessageTypes.REGISTER);
+                    m.addParam(username);
+                    m.addParam(password);
+                    ServerConnection.sendMessage(m);
+                }
+            } else {
+                displayInputError();
             }
         } catch (Exception ex){
             System.out.println("User has inputed bad stuff");
             ex.printStackTrace();
         }
+        usernameField.setText("");
+        passwordField.setText("");
+    }
+
+    public boolean validateInput(String input){
+        for (int i = 0; i < input.length(); i++){
+            Character c = input.charAt(i);
+            if (!Character.isDigit(c) && !Character.isLetter(c)){
+                return false;
+            }
+        }
+        return true;
     }
 }

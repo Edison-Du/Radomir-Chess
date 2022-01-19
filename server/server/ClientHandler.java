@@ -18,6 +18,7 @@ public class ClientHandler extends Thread{
     // General information
     private static int numClients = 0;
     private int clientNum;
+    private String clientName;
     private boolean userActive;
 
     // Server and Socket I/O related
@@ -39,11 +40,11 @@ public class ClientHandler extends Thread{
     public ClientHandler(Server server, Socket socket) {
 
         clientSocket = socket;
+        clientNum = ++ClientHandler.numClients;
         this.server = server;
-
+        this.clientName = "Client#" + this.clientNum;
         // Setting general information about this client
         this.userActive = true;
-        clientNum = ++ClientHandler.numClients;
         
         try {
             // Creating socket I/O streams
@@ -66,6 +67,11 @@ public class ClientHandler extends Thread{
      */
     public int getClientNum() {
         return clientNum;
+    }
+
+    // change to login name after
+    public String getClientName() {
+        return this.clientName;
     }
 
     /**
@@ -233,7 +239,7 @@ public class ClientHandler extends Thread{
 
     private void createGame() {
         lobby = server.getLobbyManager().createLobby(this);
-        // lobby.setHost(this);
+        lobby.setHost(this);
 
         try {
             // Create lobby
@@ -260,13 +266,12 @@ public class ClientHandler extends Thread{
 
         lobby.leaveLobby(this);
 
-        // Delete lobby if  lobby is now empty
-        if (lobby.getHost() == null) {
-            System.out.println("HERE");
-            server.getLobbyManager().removeLobby(lobby.getCode());
-        }
+        // // Delete lobby if  lobby is now empty
+        // if (lobby.getHost() == null) {
+        //     server.getLobbyManager().removeLobby(lobby.getCode());
+        // }
 
-        lobby = null;
+        // lobby = null;
     }
 
     private void sendText(Message message) {
@@ -283,8 +288,8 @@ public class ClientHandler extends Thread{
     private void browseGames() {
         try {
             Message message = new Message(MessageTypes.DISPLAY_GAMES);
-            String lobbies = server.getLobbyManager().getActiveGames().toString();
-            message.addParam(lobbies.substring(1, lobbies.length() - 1));
+            String lobbiesInfo = server.getLobbyManager().getInfo().toString();
+            message.addParam(lobbiesInfo.substring(1, lobbiesInfo.length() - 1));
             this.sendMessage(message);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,14 +1,20 @@
 package server;
 
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import game.Lobby;
 
 public class LobbyManager {
     private HashMap<String, Lobby> activeGames;
+    private LinkedHashSet<ArrayList<String>> info;
     
     public LobbyManager() {
         activeGames = new HashMap<>();
+        info = new LinkedHashSet<>();
     }
 
     public boolean lobbyExists(String code) {
@@ -36,7 +42,26 @@ public class LobbyManager {
         return lobby != null;
     }
 
-    public HashMap<String, Lobby> getActiveGames() {
-        return this.activeGames;
+    public Set<String> getActiveGames() {
+        return this.activeGames.keySet();
+    }
+
+    public HashSet<ArrayList<String>> getInfo() {
+        info = new LinkedHashSet<ArrayList<String>>();
+        ArrayList<String> data;
+        int lobbyNum = 0;
+        for (Lobby lobby : activeGames.values()) {
+            data = new ArrayList<>();
+            data.add(Integer.toString(++lobbyNum));
+            data.add(lobby.getCode());
+            data.add(lobby.getHostName());
+            if (lobby.getHostColour() == 1) {
+                data.add("white");
+            } else {
+                data.add("black");
+            }
+            info.add(data);
+        }
+        return info;
     }
 }

@@ -50,9 +50,11 @@ public class BrowseGames extends ContentPanel implements ActionListener {
         lobbyList.setBounds(0, 0, UserInterface.WINDOW_WIDTH / 2, UserInterface.WINDOW_HEIGHT);
         lobbyList.addMouseListener(new MouseAdapter() {
             public void mouseReleased (MouseEvent evt) {
-                lobbyNumber = lobbyList.getSelectedIndex();
-                joinGameCode = lobbies.get(lobbyNumber).getLobbyCode();
-                joinLabel.setText("Join Lobby: " + joinGameCode);
+                if (lobbyList.getSelectedIndex() != -1) {
+                    lobbyNumber = lobbyList.getSelectedIndex();
+                    joinGameCode = lobbies.get(lobbyNumber).getLobbyCode();
+                    joinLabel.setText("Join Lobby: " + joinGameCode);
+                }
             }
         });
         this.add(lobbyList);

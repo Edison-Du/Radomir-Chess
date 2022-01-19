@@ -54,4 +54,15 @@ public class MovesPanel extends ContentPanel {
 
         numMoves++;
     }
+
+    public void removeMove(){
+        if (numMoves == 0) return;
+        else if (numMoves % 2 == 0){
+            this.movesList.setValueAt("", numMoves/2-1, 2);
+        } else {
+            this.movesList.removeRow(numMoves/2);
+        }
+
+        numMoves--;
+    }
 }

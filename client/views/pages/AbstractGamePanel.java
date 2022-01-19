@@ -54,6 +54,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
     public void undoMove() {
         this.boardPanel.undoMove();
+        this.movesPanel.removeMove();
     }
     
     public void resetPanel() {

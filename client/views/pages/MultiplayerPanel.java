@@ -27,7 +27,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     private JLabel username, opponentUsername;
 
     private CustomButton undoButton;
-    private CustomButton takeBackButton;
+    private CustomButton takebackButton;
 
     // // subpanel chess game
     public ChessBoardPanel subPanel;
@@ -80,9 +80,9 @@ public class MultiplayerPanel extends AbstractGamePanel {
         undoButton.addActionListener(this);
         this.add(undoButton);
 
-        takeBackButton = new CustomButton("Accept Takeback");
-        takeBackButton.setBounds(200, 600, 150, 25);
-        takeBackButton.addActionListener(this);
+        takebackButton = new CustomButton("Accept Takeback");
+        takebackButton.setBounds(200, 600, 150, 25);
+        takebackButton.addActionListener(this);
     }
 
     public void setLobbyCode(String code) {
@@ -117,12 +117,11 @@ public class MultiplayerPanel extends AbstractGamePanel {
     }
 
     public void addTakeback() {
-        System.out.println("HRYY");
-        this.add(takeBackButton);
+        this.add(takebackButton);
     }
 
-    public void removeTakeBack() {
-        this.remove(takeBackButton);
+    public void removeTakeback() {
+        this.remove(takebackButton);
     }
 
     @Override
@@ -137,10 +136,10 @@ public class MultiplayerPanel extends AbstractGamePanel {
     @Override
     public void actionPerformed(ActionEvent e) {
         try{
-            if (e.getSource() == takeBackButton){
+            if (e.getSource() == takebackButton){
                 ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_ACCEPTED));
                 this.undoMove();
-                removeTakeBack();
+                removeTakeback();
             }
             if (e.getSource() == undoButton){
                 ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_REQUESTED));

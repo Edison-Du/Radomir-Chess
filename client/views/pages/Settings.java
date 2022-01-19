@@ -18,9 +18,10 @@ public class Settings extends ContentPanel implements ActionListener {
         "Eye cancer",
         "Purple"
     };
-    private final JComboBox<String> boardThemes = new JComboBox<>(THEMES);
+    private final JComboBox<String> boardThemes;
 
     public Settings() {
+        boardThemes = new JComboBox<>(THEMES);
         titleLabel.setFont(UserInterface.JOIN_GAME_FONT_1);
         titleLabel.setText("Settings");
         titleLabel.setForeground(UserInterface.TEXT_COLOUR);

@@ -67,7 +67,7 @@ public class ConnectionHandler extends Thread {
             processTakeback();
 
         } else if (message.getType().equals(MessageTypes.DISPLAY_GAMES)) {
-            displayGames(message);
+            displayLobbies(message);
 
         } else if (message.getType().equals(MessageTypes.LOGIN_ACCEPTED)) {
             login(message.getParam(0));
@@ -158,12 +158,11 @@ public class ConnectionHandler extends Thread {
 
     public void addTextMessage(Message message) {
         String text = message.getParam(0);
-
         window.gamePanel.addMessageFromOther(text);
     }
 
-    public void displayGames(Message message) {
-        String games = message.getParam(0);
-        window.browseGamesPanel.setLobbyList(games);
+    public void displayLobbies(Message message) {
+        String lobbiesInfo = message.getParam(0);
+        window.browseGamesPanel.setLobbyList(lobbiesInfo);
     }
 }

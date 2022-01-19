@@ -7,23 +7,41 @@ import server.Message;
 public class Lobby {
     
     private ClientHandler host, guest;
+    private String hostName, guestName;
     private String code;
     private int hostColour;
+    private boolean publicStatus;
 
     public Lobby(ClientHandler host) {
         generateCode();
         this.host = host;
-
+        this.hostName = this.host.getClientName();
         this.hostColour = (int)(Math.random() * 2);
     }
 
     public String getCode() {
-        return code;
+        return this.code;
     }
 
     private void generateCode() {
         // Temporary
         this.code = Integer.toString((int) (Math.random() * (9999 - 1000)) + 1000);
+    }
+
+    public boolean getPublicStatus() {
+        return this.publicStatus;
+    }
+    
+    public void setPublicStatus(boolean publicStatus) {
+        this.publicStatus = publicStatus;
+    }
+    
+    public String getHostName() {
+        return this.hostName;
+    }
+
+    public String getGuestName() {
+        return this.guestName;
     }
 
     public void setHost(ClientHandler host) {
@@ -32,6 +50,7 @@ public class Lobby {
 
     public void setGuest(ClientHandler guest) {
         this.guest = guest;
+        this.guestName = this.guest.getClientName();
         // Alert host that a guest has joined
         try {
             Message message = new Message(MessageTypes.GUEST_JOINED);
@@ -42,6 +61,7 @@ public class Lobby {
             System.out.println("Could not send message to guest: client #" + guest.getClientNum());
         }
     }
+
     public ClientHandler getHost() {
         return this.host;
     }
@@ -49,7 +69,6 @@ public class Lobby {
     public ClientHandler getGuest() {
         return this.guest;
     }
-
 
 // Colours
     public int getHostColour() {
@@ -59,7 +78,6 @@ public class Lobby {
     public int getGuestColour() {
         return (this.hostColour + 1) % 2; 
     }
-
 
     public boolean isFull() {
         return this.guest != null;

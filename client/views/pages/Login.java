@@ -30,6 +30,7 @@ public class Login extends ContentPanel implements ActionListener{
     private final JLabel errorMessage = new JLabel();
     
     public Login() {
+        title.setForeground(UserInterface.TEXT_COLOUR);
         title.setFont(new Font("Serif", Font.ITALIC, 36));
         title.setText(UserInterface.WINDOW_TITLE);
         title.setSize(new Dimension(280, 80));
@@ -56,7 +57,7 @@ public class Login extends ContentPanel implements ActionListener{
         passwordField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 370, 150, 25);
         this.add(passwordField);
 
-        loginButton.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 400, 150, 25);
+        loginButton.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 410, 150, 25);
         loginButton.addActionListener(this);
         loginButton.setFocusable(false);
         this.add(loginButton);

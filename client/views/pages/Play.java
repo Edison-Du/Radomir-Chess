@@ -1,6 +1,10 @@
 package views.pages;
 
 import java.awt.event.ActionListener;
+
+import javax.swing.JLabel;
+
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 
 import config.UserInterface;
@@ -14,6 +18,8 @@ import config.Page;
 public class Play extends ContentPanel implements ActionListener {
     
     private Window window;
+
+    private final JLabel gameTitle = new JLabel();
 
     private PlayMenuButton joinGameBtn;
     private PlayMenuButton createGameBtn;
@@ -32,28 +38,37 @@ public class Play extends ContentPanel implements ActionListener {
 
     public Play(Window window) {
         this.window = window;
+        this.setLayout(null);
+
+        //CHANGE INTO CONSTANTS
+        gameTitle.setText("RADOMIR CHESS");
+        gameTitle.setBounds(100, 0, UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT / 2);
+        gameTitle.setFont(new Font("Serif", Font.PLAIN, 100));
+        gameTitle.setForeground(UserInterface.TEXT_COLOUR);
+        this.add(gameTitle);
+        this.revalidate();
 
         joinGameBtn = new PlayMenuButton(
             buttonText[0], 
             UserInterface.MENU_BUTTON_MARGIN, 
-            UserInterface.MENU_BUTTON_MARGIN
+            UserInterface.MENU_BUTTON_MARGIN + UserInterface.MENU_BUTTON_Y_OFFSET
         );
 
         createGameBtn = new PlayMenuButton(
             buttonText[1], 
             UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_WIDTH,
-            UserInterface.MENU_BUTTON_MARGIN
+            UserInterface.MENU_BUTTON_MARGIN + UserInterface.MENU_BUTTON_Y_OFFSET
         );
 
         browseGameBtn = new PlayMenuButton(
             buttonText[2], 
             UserInterface.MENU_BUTTON_MARGIN,
-            UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_HEIGHT
+            UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_HEIGHT + UserInterface.MENU_BUTTON_Y_OFFSET
         );
         playBotBtn = new PlayMenuButton(
             buttonText[3], 
             UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_WIDTH,
-            UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_HEIGHT
+            UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_HEIGHT + UserInterface.MENU_BUTTON_Y_OFFSET
         );
 
         buttons = new PlayMenuButton[]{

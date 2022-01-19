@@ -38,9 +38,9 @@ public class UserInterface {
     public static final Font USERNAME_FONT = new Font("Arial", Font.PLAIN, 20);
 
     // Play page
-    public static final int MENU_BUTTON_MARGIN = 70;
-    // public static final int MENU_BUTTON_Y_OFFSET = 100;
-    public static final int MENU_BUTTON_HEIGHT = WINDOW_HEIGHT / 2 - (int) (MENU_BUTTON_MARGIN * 1.5);
+    public static final int MENU_BUTTON_MARGIN = 40;
+    public static final int MENU_BUTTON_Y_OFFSET = WINDOW_HEIGHT / 2 - 40;
+    public static final int MENU_BUTTON_HEIGHT = WINDOW_HEIGHT / 4 - (int) (MENU_BUTTON_MARGIN * 1.5);
     public static final int MENU_BUTTON_WIDTH = CONTENT_WIDTH / 2 - (int) (MENU_BUTTON_MARGIN * 1.5);
     public static final Font PLAY_BUTTONS_FONT = new Font("Serif", Font.PLAIN, 40);
     // public static final int MENU_BUTTON_GAP = MENU_BUTTON_HEIGHT + 25;

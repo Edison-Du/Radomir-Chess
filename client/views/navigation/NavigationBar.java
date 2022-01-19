@@ -72,7 +72,7 @@ public class NavigationBar extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(radomirLogo, UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT / 2 + 60, this);
+        g.drawImage(radomirLogo, UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT / 2 + 50, this);
         g.setColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR.brighter());
         g.fillRect(0, UserInterface.WINDOW_HEIGHT-70, UserInterface.NAVBAR_WIDTH, 70);
     }

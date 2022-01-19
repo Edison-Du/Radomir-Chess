@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import chesslogic.ChessGame;
+import config.UserInterface;
 import views.components.ContentPanel;
 
 abstract public class AbstractGamePanel extends ContentPanel implements ActionListener {
@@ -33,6 +34,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public abstract void processMove(String tile1, String tile2, String promotion);
 
     private void initialize() {
+
         chessGame = new ChessGame();
 
         // Chess game

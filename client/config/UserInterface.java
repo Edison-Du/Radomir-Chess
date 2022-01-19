@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import views.pages.AbstractGamePanel;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -56,12 +59,6 @@ public class UserInterface {
 
     // Game board
     public static byte activeTheme = 0;
-    public static final byte DEFAULT_BOARD = 0;
-    public static final byte ICEY_BOARD = 1;
-    public static final byte WOOD_BOARD = 2;
-    public static final byte BUBBLEGUM_BOARD = 3;
-    public static final byte PURPLE_ORANGE_BOARD = 4;
-    public static final byte PURPLE_BOARD = 5;
     public static final Color[] LIGHTER_TILE_COLOURS = new Color[]{
         new Color(192, 192, 193),
         new Color(218, 226, 234),
@@ -79,23 +76,23 @@ public class UserInterface {
         new Color(125, 74, 141)
     };
     
-    public static BufferedImage[] BACKGROUNDS = new BufferedImage[2];
-    public static BufferedImage background;
-    public static boolean hasBackground = false;
+    public static Color[] BACKGROUNDS = new Color[]{FRAME_COLOUR, new Color(100, 250, 150), new Color(10, 20, 170)};
 
-    public static boolean loadImages() {
-        // Game background
-        try {
-            BACKGROUNDS = new BufferedImage[]{
-                ImageIO.read(new File("chesslogic/themes/forest.png")),
-                ImageIO.read(new File("chesslogic/themes/iceberg.png"))
-            };
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+    //public static BufferedImage[] BACKGROUNDS = new BufferedImage[2]
+
+    // public static boolean loadImages() {
+    //     // Game background
+    //     try {
+    //         BACKGROUNDS = new BufferedImage[]{
+    //             ImageIO.read(new File("chesslogic/themes/forest.png")),
+    //             ImageIO.read(new File("chesslogic/themes/iceberg.png"))
+    //         };
+    //         return true;
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    //     return false;
+    // }
 
     public static Color lighterTile = LIGHTER_TILE_COLOURS[0];
     public static Color darkerTile = DARKER_TILE_COLOURS[0];
@@ -106,13 +103,8 @@ public class UserInterface {
         darkerTile = DARKER_TILE_COLOURS[theme];
     }
 
-    public static void changeBackground(int image) {
-        if (image == 1) {
-            hasBackground = false;
-            return;
-        }
-        background = BACKGROUNDS[image];
-        hasBackground = true;
+    public static Color changeBackground(int colour) {
+        return BACKGROUNDS[colour];
     }
 
 

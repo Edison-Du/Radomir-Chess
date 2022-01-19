@@ -55,7 +55,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
         // Showing lobby status (who is in and not)
         otherClientLabel = new JLabel("You are alone in this lobby.");
         otherClientLabel.setForeground(Color.WHITE);
-        otherClientLabel.setBounds(760, 30,500, 100);
+        otherClientLabel.setBounds(760, 30, 500, 100);
         this.add(otherClientLabel);
 
         // Message panel

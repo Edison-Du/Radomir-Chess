@@ -1,25 +1,13 @@
 package views.pages;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Graphics;
-
-import java.io.File;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 
 import chesslogic.ChessGame;
-import config.MessageTypes;
-import network.Message;
-import network.ServerConnection;
 import views.components.ContentPanel;
 
-abstract public class AbstractGamePanel extends ContentPanel implements ActionListener{
+abstract public class AbstractGamePanel extends ContentPanel implements ActionListener {
 
     // Chess game
     public ChessGame chessGame;
@@ -64,7 +52,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.add(messagePanel);
     }
 
-   public void undoMove() {
+    public void undoMove() {
         this.boardPanel.undoMove();
     }
     
@@ -75,17 +63,5 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
         initialize();
         this.revalidate();
-    }
-
-    public void updateBackground(String image) {
-        try {
-            background = ImageIO.read(new File(image));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
     }
 }

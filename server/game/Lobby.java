@@ -46,6 +46,7 @@ public class Lobby {
 
     public void setHost(ClientHandler host) {
         this.host = host;
+        this.hostName = host.getClientName();
     }
 
     public boolean setGuest(ClientHandler guest) {
@@ -54,18 +55,17 @@ public class Lobby {
             return false;
         }
 
-        this.guest = guest;
-        this.guestName = this.guest.getClientName();
         // Alert host that a guest has joined
-        try {
+        if (host == null) {
+            setHost(guest);
+
+        } else {
+            this.guest = guest;
+            this.guestName = this.guest.getClientName();
             Message message = new Message(MessageTypes.GUEST_JOINED);
             message.addParam(Integer.toString(guest.getClientNum()));
             host.sendMessage(message);
-
-        } catch (Exception e) {
-            System.out.println("Could not send message to guest: client #" + guest.getClientNum());
         }
-
         return true;
     }
 
@@ -108,8 +108,6 @@ public class Lobby {
         }
     } 
 
-
-
     public void sendMessage(ClientHandler from, Message message) {
         
         ClientHandler receiver;
@@ -128,22 +126,4 @@ public class Lobby {
 
         receiver.sendMessage(message);
     }
-
-
-    // public void sendChessMove(ClientHandler from, Message move) {
-        
-    //     ClientHandler receiver;
-        
-    //     if (from == host) {
-    //         receiver = guest;
-    //     } else {
-    //         receiver = host;
-    //     }
-
-    //     if (receiver == null) {
-    //         return;
-    //     }
-
-    //     receiver.sendMessage(move);
-    // }
 }

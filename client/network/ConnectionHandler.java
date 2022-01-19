@@ -3,7 +3,8 @@ package network;
 import config.MessageTypes;
 import config.Page;
 import views.Window;
-import views.pages.MultiplayerPanel;
+
+import java.util.ArrayList;
 
 public class ConnectionHandler extends Thread {
 
@@ -169,11 +170,11 @@ public class ConnectionHandler extends Thread {
     }
 
     public void displayLobbies(Message message) {
-        for (int i = 0; i < message.getNumParams(); i++) {
-            String lobbiesInfo = message.getParam(i);
-            window.browseGamesPanel.addLobby(lobbiesInfo);
+        ArrayList<Lobby> lobbies = new ArrayList<>();
 
-            // window.browseGamesPanel.setLobbyList(lobbiesInfo);
+        for (int i = 0; i < message.getNumParams(); i++) {
+            lobbies.add(Lobby.parseLobbyFromString(message.getParam(i)));
         }
+        window.browseGamesPanel.setLobbyList(lobbies);
     }
 }

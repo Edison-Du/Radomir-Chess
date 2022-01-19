@@ -1,15 +1,9 @@
 package views.pages;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import chesslogic.Bot;
-import chesslogic.ChessGame;
 import chesslogic.DepthSearchBotP1;
-import chesslogic.Tile;
 
 public class BotPanel extends AbstractGamePanel {
 

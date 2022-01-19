@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import views.Window;
 import config.UserInterface;
 import config.Page;
+import config.PathsConsts;
 
 public class NavigationBar extends JPanel {
     
@@ -71,7 +72,7 @@ public class NavigationBar extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(radomirLogo, UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 260, this);
+        g.drawImage(radomirLogo, UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT / 2 + 60, this);
         g.setColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR.brighter());
         g.fillRect(0, UserInterface.WINDOW_HEIGHT-70, UserInterface.NAVBAR_WIDTH, 70);
     }
@@ -88,9 +89,10 @@ public class NavigationBar extends JPanel {
 
     public static Image getLogoImage() {
         try {
-            return ImageIO.read(new File("views/navigation/radomirchess.png")).getScaledInstance(140, 175, Image.SCALE_DEFAULT);
+            return ImageIO.read(new File(PathsConsts.CHESS_LOGO)).getScaledInstance(140, 175, Image.SCALE_DEFAULT);
         } catch(IOException e) {
             System.out.println("File not found");
+            e.printStackTrace();
         }
         return null;
     }

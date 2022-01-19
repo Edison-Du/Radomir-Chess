@@ -1,6 +1,5 @@
 package views.pages;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -13,9 +12,10 @@ import javax.imageio.ImageIO;
 
 import chesslogic.ChessGame;
 import chesslogic.Tile;
+import config.PathsConsts;
+import config.UserInterface;
 import views.chess.ChessGameMouseListener;
 import views.components.ContentPanel;
-import config.UserInterface;
 
 public class ChessBoardPanel extends ContentPanel {
 
@@ -39,7 +39,7 @@ public class ChessBoardPanel extends ContentPanel {
         addMouseMotionListener(chessGameMouseListener);
 
         try {
-            woodBoard = ImageIO.read(new File("chesslogic/themes/wood.png"));
+            woodBoard = ImageIO.read(new File(PathsConsts.WOOD_THEME));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,7 +88,7 @@ public class ChessBoardPanel extends ContentPanel {
         if(chessGameMouseListener.isPromoting) {
             BufferedImage promotionPlatter;
             try {
-                promotionPlatter = ImageIO.read(new File("chesslogic/promotion.png"));
+                promotionPlatter = ImageIO.read(new File(PathsConsts.PROMOTION_PLATTER));
                 g.drawImage(promotionPlatter, 110, 200, this);
             } catch (IOException e) {
                 // TODO Auto-generated catch block

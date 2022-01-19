@@ -14,6 +14,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import config.PathsConsts;
+
 public abstract class Piece {
     private int colour;
     private int turnMoved;
@@ -57,7 +59,7 @@ public abstract class Piece {
      */
     public static BufferedImage getImage(String piece, int colour) {
         try {
-            return ImageIO.read(new File("chesslogic/kosal pieces/" + piece + colour +".png"));
+            return ImageIO.read(new File(PathsConsts.KOSAL_PIECES + piece + colour + PathsConsts.PNG_FILE));
         } catch(IOException e) {
             System.out.println("Piece file not found");
         }

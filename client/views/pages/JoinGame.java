@@ -22,11 +22,11 @@ public class JoinGame extends ContentPanel implements ActionListener {
         joinGameLabel.setFont(UserInterface.JOIN_GAME_FONT_1);
         joinGameLabel.setText("Room Code: ");
         joinGameLabel.setForeground(UserInterface.TEXT_COLOUR);
-        joinGameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 100, UserInterface.WINDOW_HEIGHT / 2 - 70, 210, 30);
+        joinGameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 70, 280, 30);
         this.add(joinGameLabel);
 
         joinGameField.setFont(UserInterface.JOIN_GAME_FONT_2);
-        joinGameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 100, UserInterface.WINDOW_HEIGHT / 2 - 15, 200, 30);
+        joinGameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 15, 280, 30);
         joinGameField.addActionListener(this);
         this.add(joinGameField);
     }
@@ -45,12 +45,8 @@ public class JoinGame extends ContentPanel implements ActionListener {
             }
         }
 
-        try{
-            Message m = new Message(MessageTypes.JOIN_GAME);
-            m.addParam(joinGameCode);
-            ServerConnection.sendMessage(m);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        Message message = new Message(MessageTypes.JOIN_GAME);
+        message.addParam(joinGameCode);
+        ServerConnection.sendMessage(message);
     }
 }

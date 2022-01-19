@@ -3,6 +3,7 @@ package views.pages;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JLabel;
 
 import config.MessageTypes;
@@ -23,7 +24,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     private JLabel otherClientLabel;
     private CustomButton leaveLobby;
 
-    private JLabel localUsername, enemyUsername;
+    private JLabel username, opponentUsername;
 
     private CustomButton undoButton;
     private CustomButton takeBackButton;
@@ -62,11 +63,11 @@ public class MultiplayerPanel extends AbstractGamePanel {
         // messagePanel.setBounds(660,270,240,330);
         // this.add(messagePanel);
 
-        this.localUsername = new JLabel();
-        this.localUsername.setForeground(UserInterface.TEXT_COLOUR);
-        this.localUsername.setBounds(UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 45, 200, 25);
-        this.localUsername.setFont(UserInterface.USERNAME_FONT);
-        this.localUsername.setText(UserInterface.GUEST);
+        this.username = new JLabel();
+        this.username.setForeground(UserInterface.TEXT_COLOUR);
+        this.username.setBounds(UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 45, 200, 25);
+        this.username.setFont(UserInterface.USERNAME_FONT);
+        this.username.setText(UserInterface.GUEST);
 
         // Leave lobby
         leaveLobby = new CustomButton("Leave");
@@ -126,15 +127,11 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     @Override
     public void processMove(String t1, String t2, String p) {
-        try {
-            Message message = new Message(MessageTypes.CHESS_MOVE);
-            message.addParam(t1);
-            message.addParam(t2);
-            message.addParam(p);
-            ServerConnection.sendMessage(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Message message = new Message(MessageTypes.CHESS_MOVE);
+        message.addParam(t1);
+        message.addParam(t2);
+        message.addParam(p);
+        ServerConnection.sendMessage(message);
     }
 
     @Override

@@ -7,11 +7,7 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.SwingUtilities;
 
 import chesslogic.*;
-import config.MessageTypes;
-import network.Message;
-import network.ServerConnection;
 import views.pages.AbstractGamePanel;
-import views.pages.MultiplayerPanel;
 
 import java.awt.image.BufferedImage;
 
@@ -201,15 +197,4 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
         return selectedPiece;
     }
 
-    // public void sendMove(String t1, String t2, String p) {
-    //     try {
-    //         Message message = new Message(MessageTypes.CHESS_MOVE);
-    //         message.addParam(t1);
-    //         message.addParam(t2);
-    //         message.addParam(p);
-    //         ServerConnection.sendMessage(message);
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-    // }
 }

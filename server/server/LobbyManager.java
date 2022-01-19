@@ -1,8 +1,6 @@
 package server;
 
 import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 import config.MessageTypes;
@@ -47,30 +45,18 @@ public class LobbyManager {
     }
 
     public Message getLobbyInfo() {
-        try {
-            Message message = new Message(MessageTypes.DISPLAY_GAMES);
+        Message message = new Message(MessageTypes.DISPLAY_GAMES);
 
-            int lobbyIndex = 0;
-            for (Lobby lobby : activeGames.values()) {
-                String lobbyParameter = "";
-                lobbyParameter += Integer.toString(++lobbyIndex) + ",";
-                lobbyParameter += lobby.getCode() + ",";
-                lobbyParameter += lobby.getHostName() + ",";
-                if (lobby.getHostColour() == 1) {
-                    lobbyParameter += "BLACK,";
-                } else {
-                    lobbyParameter += "WHITE";
-                }
-                message.addParam(lobbyParameter);
-            }
-
-            return message;
-
-        } catch (Exception e) {
-            System.out.println("Error getting lobby information.");
-            e.printStackTrace();
+        int lobbyIndex = 0;
+        for (Lobby lobby : activeGames.values()) {
+            String lobbyParameter = "";
+            lobbyParameter += Integer.toString(++lobbyIndex) + ",";
+            lobbyParameter += lobby.getCode() + ",";
+            lobbyParameter += lobby.getHostName() + ",";
+            lobbyParameter += lobby.getHostColour() + ",";
+            message.addParam(lobbyParameter);
         }
-        
-        return null;
+
+        return message;
     }
 }

@@ -20,6 +20,7 @@ public class Settings extends ContentPanel implements ActionListener {
         "Purple"
     };
     private final String[] BACKGROUNDS = {
+        "Default",
         "Forest",
         "Iceberg"
     };

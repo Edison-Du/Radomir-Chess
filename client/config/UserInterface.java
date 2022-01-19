@@ -76,6 +76,7 @@ public class UserInterface {
         new Color(125, 74, 141)
     };
     
+    public static int activeBackground = 0;
     public static Color[] BACKGROUNDS = new Color[]{FRAME_COLOUR, new Color(100, 250, 150), new Color(10, 20, 170)};
 
     //public static BufferedImage[] BACKGROUNDS = new BufferedImage[2]
@@ -104,8 +105,7 @@ public class UserInterface {
     }
 
     public static Color changeBackground(int colour) {
+        activeBackground = colour;
         return BACKGROUNDS[colour];
     }
-
-
 }

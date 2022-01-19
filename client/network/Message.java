@@ -2,6 +2,8 @@ package network;
 
 import java.util.ArrayList;
 
+import config.MessageTypes;
+
 /**
  * messages have types and parameters, when turned into text,
  * they look like this:
@@ -18,12 +20,12 @@ public class Message {
     private String type;
     private ArrayList<String> parameters;
 
-    public Message(String type) throws InvalidMessageException {
+    public Message(String type) {
         if (validateString(type)) {
             this.type = type;
             parameters = new ArrayList<>();
         } else {
-            throw new InvalidMessageException("Invalid characters used in message type. You must not use '" + SEPARATOR_START + "' or '" + SEPARATOR_END + "'.");
+            this.type = MessageTypes.UNDEFINED;
         }
     }
 
@@ -119,17 +121,10 @@ public class Message {
             return null;
         }
 
-        try {
-            Message message = new Message(params.get(0));
-            for (int i = 1; i < params.size(); i++) {
-                message.addParam(params.get(i));
-            }
-            return message;
-
-        } catch (InvalidMessageException e) {
-            System.out.println("Invalid message");
-            e.printStackTrace();
-            return null;
+        Message message = new Message(params.get(0));
+        for (int i = 1; i < params.size(); i++) {
+            message.addParam(params.get(i));
         }
+        return message;
     }
 }

@@ -2,8 +2,10 @@ package server;
 
 import java.util.ArrayList;
 
+import config.MessageTypes;
+
 /**
- * Requests have types and parameters, when turned into text,
+ * messages have types and parameters, when turned into text,
  * they look like this:
  * {type}{param1}{param2}{param3}...
  * 
@@ -18,12 +20,12 @@ public class Message {
     private String type;
     private ArrayList<String> parameters;
 
-    public Message(String type) throws InvalidMessageException {
+    public Message(String type) {
         if (validateString(type)) {
             this.type = type;
             parameters = new ArrayList<>();
         } else {
-            throw new InvalidMessageException("Invalid characters used in request type. You must not use '" + SEPARATOR_START + "' or '" + SEPARATOR_END + "'.");
+            this.type = MessageTypes.UNDEFINED;
         }
     }
 
@@ -52,6 +54,11 @@ public class Message {
     }
 
     public boolean validateString(String str) {
+
+        if (str == null) {
+            return false;
+        }
+
         for (int i = 0; i < str.length(); i++) {
             char currentChar = str.charAt(i);
             
@@ -78,20 +85,25 @@ public class Message {
         return text.toString();
     }
 
-    // Null if invalid request
-    public static Message parse(String requestText){
+    // Null if invalid message
+    public static Message parse(String messageText){
         // Stores index in the string for the last curly bracket
+
         int lastIndex = -1;
         ArrayList<String> params = new ArrayList<>();
 
-        for (int i = 0; i < requestText.length(); i++) {
+        
+        if (messageText == null) {
+            return null;
+        }
 
-            char currentChar = requestText.charAt(i);
 
+        for (int i = 0; i < messageText.length(); i++) {
+
+            char currentChar = messageText.charAt(i);
             // There are characters not inside the curly brackets, invalid.
             if (lastIndex == -1 && currentChar != SEPARATOR_START) {
                 return null;
-            
             // Double starting separators
             } else if (lastIndex != -1 && currentChar == SEPARATOR_START) {
                 return null;
@@ -100,29 +112,19 @@ public class Message {
                 lastIndex = i;
 
             } else if (currentChar == SEPARATOR_END) {
-                params.add(requestText.substring(lastIndex+1, i));
+                params.add(messageText.substring(lastIndex+1, i));
                 lastIndex = -1;
-
             }
         }
 
         if (params.size() == 0) {
             return null;
-
         }
-        try {
-            Message request = new Message(params.get(0));
 
-            for (int i = 1; i < params.size(); i++) {
-                request.addParam(params.get(i));
-            }
-
-            return request;
-
-        } catch (InvalidMessageException e) {
-            System.out.println("Invalid request");
-            e.printStackTrace();
-            return null;
+        Message message = new Message(params.get(0));
+        for (int i = 1; i < params.size(); i++) {
+            message.addParam(params.get(i));
         }
+        return message;
     }
 }

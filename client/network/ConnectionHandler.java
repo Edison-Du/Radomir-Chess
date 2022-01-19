@@ -3,7 +3,8 @@ package network;
 import config.MessageTypes;
 import config.Page;
 import views.Window;
-import views.pages.MultiplayerPanel;
+
+import java.util.ArrayList;
 
 public class ConnectionHandler extends Thread {
 
@@ -63,6 +64,12 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.CHESS_MOVE)) {
             processOpponentChessMove(message);
 
+        } else if (message.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
+            processRequestTakeback();
+
+        } else if (message.getType().equals(MessageTypes.TAKEBACK_ACCEPTED)){
+            processTakeback();
+
         } else if (message.getType().equals(MessageTypes.DISPLAY_GAMES)) {
             displayLobbies(message);
 
@@ -82,7 +89,15 @@ public class ConnectionHandler extends Thread {
             isActive = false;
             ServerConnection.close();
         }
-    }   
+    }
+    
+    public void processRequestTakeback(){
+        window.gamePanel.addTakeback();
+    }
+
+    public void processTakeback(){
+        window.gamePanel.undoMove();
+    }
 
     public void login(String username){
         window.navigationBar.setUsername(username);
@@ -91,6 +106,7 @@ public class ConnectionHandler extends Thread {
     }
 
     public void logout() {
+        window.loginPanel.clearError();
         window.setLoggedIn(false);
         window.changePage(Page.LOGIN);
     }
@@ -132,7 +148,6 @@ public class ConnectionHandler extends Thread {
         window.changePage(Page.PLAY);
     }
 
-
     public void setPlayerColour(Message message) {
         int colour = Integer.parseInt(message.getParam(0));
         
@@ -151,12 +166,15 @@ public class ConnectionHandler extends Thread {
 
     public void addTextMessage(Message message) {
         String text = message.getParam(0);
-
         window.gamePanel.addMessageFromOther(text);
     }
 
     public void displayLobbies(Message message) {
-        String lobbiesInfo = message.getParam(0);
-        window.browseGamesPanel.setLobbyList(lobbiesInfo);
+        ArrayList<Lobby> lobbies = new ArrayList<>();
+
+        for (int i = 0; i < message.getNumParams(); i++) {
+            lobbies.add(Lobby.parseLobbyFromString(message.getParam(i)));
+        }
+        window.browseGamesPanel.setLobbyList(lobbies);
     }
 }

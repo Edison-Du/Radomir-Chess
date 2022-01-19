@@ -15,7 +15,8 @@ public class Settings extends ContentPanel implements ActionListener {
         "Icey",
         "Wood",
         "Bubblegum",
-        "Eye cancer"
+        "Eye cancer",
+        "Purple"
     };
     private final JComboBox<String> boardThemes = new JComboBox<>(THEMES);
 

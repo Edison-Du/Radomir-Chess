@@ -1,23 +1,25 @@
 package views.pages;
 
-import javax.swing.JTextField;
-
 import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
-import views.components.ContentPanel;
+import javax.swing.JLabel;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
 
 import config.UserInterface;
 import config.MessageTypes;
-import network.InvalidMessageException;
 import network.Message;
 import network.ServerConnection;
 import views.Window;
+import views.components.ContentPanel;
 import config.Page;
 
 public class Play extends ContentPanel implements ActionListener {
     
     private Window window;
+
+    private final JLabel gameTitle = new JLabel();
 
     private PlayMenuButton joinGameBtn;
     private PlayMenuButton createGameBtn;
@@ -25,8 +27,6 @@ public class Play extends ContentPanel implements ActionListener {
     private PlayMenuButton playBotBtn;
 
     private PlayMenuButton[] buttons;
-
-    private final JTextField joinLobbyField = new JTextField();
     private String joinLobbyCode;
 
     private String[] buttonText = {
@@ -38,30 +38,37 @@ public class Play extends ContentPanel implements ActionListener {
 
     public Play(Window window) {
         this.window = window;
+        this.setLayout(null);
 
-        joinGameBtn = new PlayMenuButton(buttonText[0], UserInterface.MENU_BUTTON_MARGIN, UserInterface.MENU_BUTTON_MARGIN);
+        //CHANGE INTO CONSTANTS
+        gameTitle.setText("RADOMIR CHESS");
+        gameTitle.setBounds(100, 0, UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT / 2);
+        gameTitle.setFont(new Font("Serif", Font.PLAIN, 100));
+        gameTitle.setForeground(UserInterface.TEXT_COLOUR);
+        this.add(gameTitle);
+        this.revalidate();
+
+        joinGameBtn = new PlayMenuButton(
+            buttonText[0], 
+            UserInterface.MENU_BUTTON_MARGIN, 
+            UserInterface.MENU_BUTTON_MARGIN + UserInterface.MENU_BUTTON_Y_OFFSET
+        );
+
         createGameBtn = new PlayMenuButton(
             buttonText[1], 
             UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_WIDTH,
-            UserInterface.MENU_BUTTON_MARGIN
+            UserInterface.MENU_BUTTON_MARGIN + UserInterface.MENU_BUTTON_Y_OFFSET
         );
-        joinGameBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println(joinLobbyField.getText());
-                joinLobbyCode = joinLobbyField.getText();
-            }
-        });
 
         browseGameBtn = new PlayMenuButton(
             buttonText[2], 
             UserInterface.MENU_BUTTON_MARGIN,
-            UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_HEIGHT
+            UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_HEIGHT + UserInterface.MENU_BUTTON_Y_OFFSET
         );
         playBotBtn = new PlayMenuButton(
             buttonText[3], 
             UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_WIDTH,
-            UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_HEIGHT
+            UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_HEIGHT + UserInterface.MENU_BUTTON_Y_OFFSET
         );
 
         buttons = new PlayMenuButton[]{
@@ -76,13 +83,6 @@ public class Play extends ContentPanel implements ActionListener {
             button.setFont(UserInterface.PLAY_BUTTONS_FONT);
             this.add(button);
         }
-
-        // joinLobbyLabel.setText("Join Lobby:");
-        // joinLobbyLabel.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 300, 150, 25);
-        // this.add(joinLobbyLabel);
-
-        // joinLobbyField.setBounds(GraphicConsts.CONTENT_WIDTH / 2 - 75, 320, 150, 25);
-        // this.add(joinLobbyField);
     }
 
     //@Override
@@ -91,21 +91,13 @@ public class Play extends ContentPanel implements ActionListener {
             window.changePage(Page.JOIN_GAME);
 
         } else if (e.getSource() == createGameBtn) {
-            try {
-                Message createLobby = new Message(MessageTypes.CREATE_GAME);
-                ServerConnection.sendMessage(createLobby);
-            } catch (InvalidMessageException ex) {
-                ex.printStackTrace();
-            }
+            Message createLobby = new Message(MessageTypes.CREATE_GAME);
+            ServerConnection.sendMessage(createLobby);
             window.changePage(Page.GAME);
 
         } else if (e.getSource() == browseGameBtn) {
-            try {
-                Message browseGames = new Message(MessageTypes.BROWSE_GAMES);
-                ServerConnection.sendMessage(browseGames);
-            } catch (InvalidMessageException ex) {
-                ex.printStackTrace();
-            }
+            Message browseGames = new Message(MessageTypes.BROWSE_GAMES);
+            ServerConnection.sendMessage(browseGames);
             window.changePage(Page.BROWSE_GAMES);
 
         } else if (e.getSource() == playBotBtn) {

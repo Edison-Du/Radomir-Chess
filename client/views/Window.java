@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import chesslogic.ChessGame;
+// import chesslogic.ChessGame;
 import config.UserInterface;
 import config.Page;
 import views.navigation.NavigationBar;
@@ -43,7 +43,7 @@ public class Window extends JFrame {
         browseGamesPanel = new BrowseGames();
         gamePanel = new MultiplayerPanel();
         settingsPanel = new Settings();
-        loginPanel = new Login(this);
+        loginPanel = new Login();
 
         // Navigation bar
         navigationBar = new NavigationBar(this);
@@ -139,12 +139,8 @@ public class Window extends JFrame {
             content = loginPanel;
 
         } else if (currentPage == Page.LOGOUT) {
-            try {
-                Message message = new Message(MessageTypes.LOGOUT);
-                ServerConnection.sendMessage(message);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Message message = new Message(MessageTypes.LOGOUT);
+            ServerConnection.sendMessage(message);
 
         } else if (currentPage == Page.QUIT) {
             System.exit(0);

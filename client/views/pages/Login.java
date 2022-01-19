@@ -14,13 +14,10 @@ import config.MessageTypes;
 import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
-import views.Window;
 import views.components.ContentPanel;
 
 public class Login extends ContentPanel implements ActionListener{
 
-    private Window window;
-    
     private final JLabel title = new JLabel();
     private final JLabel profile = new JLabel();
 
@@ -32,10 +29,8 @@ public class Login extends ContentPanel implements ActionListener{
     private final JButton loginButton = new JButton("Login");
     private final JLabel errorMessage = new JLabel();
     
-    public Login(Window window) {
-
-        this.window = window;
-
+    public Login() {
+        title.setForeground(UserInterface.TEXT_COLOUR);
         title.setFont(new Font("Serif", Font.ITALIC, 36));
         title.setText(UserInterface.WINDOW_TITLE);
         title.setSize(new Dimension(280, 80));
@@ -62,7 +57,7 @@ public class Login extends ContentPanel implements ActionListener{
         passwordField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 370, 150, 25);
         this.add(passwordField);
 
-        loginButton.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 400, 150, 25);
+        loginButton.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 410, 150, 25);
         loginButton.addActionListener(this);
         loginButton.setFocusable(false);
         this.add(loginButton);
@@ -89,28 +84,27 @@ public class Login extends ContentPanel implements ActionListener{
         errorMessage.setText("Alright buddy only numbers or letters allowed");
     }
 
+    public void clearError(){
+        errorMessage.setText("");
+    }
+
     public void actionPerformed(ActionEvent e){
         String username = usernameField.getText();
         String password = String.valueOf(passwordField.getPassword());
-        try{
-            if (validateInput(username) && validateInput(password)){
-                if (e.getSource() == loginButton){
-                    Message m = new Message(MessageTypes.LOGIN);
-                    m.addParam(username);
-                    m.addParam(password);
-                    ServerConnection.sendMessage(m);
-                } else if (e.getSource() == registerButton){
-                    Message m = new Message(MessageTypes.REGISTER);
-                    m.addParam(username);
-                    m.addParam(password);
-                    ServerConnection.sendMessage(m);
-                }
-            } else {
-                displayInputError();
+        if (validateInput(username) && validateInput(password)){
+            if (e.getSource() == loginButton){
+                Message m = new Message(MessageTypes.LOGIN);
+                m.addParam(username);
+                m.addParam(password);
+                ServerConnection.sendMessage(m);
+            } else if (e.getSource() == registerButton){
+                Message m = new Message(MessageTypes.REGISTER);
+                m.addParam(username);
+                m.addParam(password);
+                ServerConnection.sendMessage(m);
             }
-        } catch (Exception ex){
-            System.out.println("User has inputed bad stuff");
-            ex.printStackTrace();
+        } else {
+            displayInputError();
         }
         usernameField.setText("");
         passwordField.setText("");

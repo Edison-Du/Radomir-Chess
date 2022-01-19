@@ -144,6 +144,12 @@ public class ClientHandler extends Thread{
         } else if (request.getType().equals(MessageTypes.CHESS_MOVE)) {
             sendChessMove(request);
 
+        } else if (request.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
+            sendTakebackRequest(request);
+
+        } else if (request.getType().equals(MessageTypes.TAKEBACK_ACCEPTED)){
+            acceptTakebackRequest(request);
+
         } else if (request.getType().equals(MessageTypes.BROWSE_GAMES)) {
             browseGames();
 
@@ -160,36 +166,38 @@ public class ClientHandler extends Thread{
     /*================================================================================================== */
 
     private void registerUser(Message message){
-        try{
-            String username = message.getParam(0);
-            String password = message.getParam(1);
-            if (server.getDatabase().addUser(username, password)){
-                Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
-                returnMessage.addParam(username);
-                sendMessage(returnMessage); // Success
-            } else{
-                sendMessage(new Message(MessageTypes.REGISTER_FAILED)); // Failiure
-            }
-        } catch (Exception e){
-            System.out.println("nice one Eddison Ddu");
-            e.printStackTrace();
+        String username = message.getParam(0);
+        String password = message.getParam(1);
+        if (server.getDatabase().addUser(username, password)){
+            Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
+            returnMessage.addParam(username);
+            sendMessage(returnMessage); // Success
+        } else{
+            sendMessage(new Message(MessageTypes.REGISTER_FAILED)); // Failiure
         }
     }
 
+    private void sendTakebackRequest(Message message){
+        if (lobby == null) return;
+        System.out.println("HRY");
+        lobby.sendMessage(this, message);
+    }
+
+    private void acceptTakebackRequest(Message message){
+        if (lobby == null) return;
+        System.out.println("HeY");
+        lobby.sendMessage(this, message);
+    }
+
     private void loginUser(Message message){
-        try {
-            String username = message.getParam(0);
-            String password = message.getParam(1);
-            if (server.getDatabase().validateUser(username, password)){                
-                Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
-                returnMessage.addParam(username);
-                sendMessage(returnMessage); // Success
-            } else{
-                sendMessage(new Message(MessageTypes.LOGIN_FAILED)); // Failiure
-            }
-        } catch (Exception e) {
-            System.out.println("nice one Eddison Ddu");
-            e.printStackTrace();
+        String username = message.getParam(0);
+        String password = message.getParam(1);
+        if (server.getDatabase().validateUser(username, password)){                
+            Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
+            returnMessage.addParam(username);
+            sendMessage(returnMessage); // Success
+        } else{
+            sendMessage(new Message(MessageTypes.LOGIN_FAILED)); // Failiure
         }
     }
 
@@ -207,33 +215,27 @@ public class ClientHandler extends Thread{
         String code = message.getParam(0);
         lobby = server.getLobbyManager().getLobby(code);
 
-        try {
-            if (lobby == null) {
-                // Return error message
-                Message errorMessage = new Message(MessageTypes.JOIN_ERROR);
-                errorMessage.addParam("Game not found");
-                sendMessage(errorMessage);
+        if (lobby == null) {
+            // Return error message
+            Message errorMessage = new Message(MessageTypes.JOIN_ERROR);
+            errorMessage.addParam("Game not found");
+            sendMessage(errorMessage);
 
-            } else if (lobby.isFull()) {
-                Message gameFull = new Message(MessageTypes.GAME_FULL);
-                sendMessage(gameFull);
+        } else if (!lobby.setGuest(this)) {
+            Message gameFull = new Message(MessageTypes.GAME_FULL);
+            sendMessage(gameFull);
 
-            } else {
-                Message joinedMessage = new Message(MessageTypes.JOINED_GAME);
-                joinedMessage.addParam(lobby.getCode());
-                joinedMessage.addParam(Integer.toString(lobby.getHost().getClientNum()));
+        } else {
+            Message joinedMessage = new Message(MessageTypes.JOINED_GAME);
+            joinedMessage.addParam(lobby.getCode());
+            joinedMessage.addParam(Integer.toString(lobby.getHost().getClientNum()));
 
-                lobby.setGuest(this);
-                this.sendMessage(joinedMessage);
+            this.sendMessage(joinedMessage);
 
-                // Player Colour
-                Message colourMessage = new Message(MessageTypes.PLAYER_COLOUR);
-                colourMessage.addParam(Integer.toString(lobby.getGuestColour()));
-                this.sendMessage(colourMessage);
-            }
-        } catch (Exception e) {
-            System.out.println("Could not connect client to a game.");
-            e.printStackTrace();
+            // Player Colour
+            Message colourMessage = new Message(MessageTypes.PLAYER_COLOUR);
+            colourMessage.addParam(Integer.toString(lobby.getGuestColour()));
+            this.sendMessage(colourMessage);
         }
     }
 
@@ -241,7 +243,6 @@ public class ClientHandler extends Thread{
         lobby = server.getLobbyManager().createLobby(this);
         lobby.setHost(this);
 
-        try {
             // Create lobby
             Message message = new Message(MessageTypes.GAME_CREATED);
             message.addParam(lobby.getCode());
@@ -253,10 +254,6 @@ public class ClientHandler extends Thread{
             this.sendMessage(colourMessage);
 
             System.out.println(message.getText());
-
-        } catch (Exception e) {
-            
-        }
     }
 
     private void leaveGame() {
@@ -266,12 +263,11 @@ public class ClientHandler extends Thread{
 
         lobby.leaveLobby(this);
 
-        // // Delete lobby if  lobby is now empty
-        // if (lobby.getHost() == null) {
-        //     server.getLobbyManager().removeLobby(lobby.getCode());
-        // }
+        if (lobby.getHost() == null) {
+            server.getLobbyManager().removeLobby(lobby.getCode());
+        }
 
-        // lobby = null;
+        lobby = null;
     }
 
     private void sendText(Message message) {
@@ -286,14 +282,8 @@ public class ClientHandler extends Thread{
 
 
     private void browseGames() {
-        try {
-            Message message = new Message(MessageTypes.DISPLAY_GAMES);
-            String lobbiesInfo = server.getLobbyManager().getInfo().toString();
-            message.addParam(lobbiesInfo.substring(1, lobbiesInfo.length() - 1));
-            this.sendMessage(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Message message = server.getLobbyManager().getLobbyInfo();
+        this.sendMessage(message);
     }
 
     private void disconnectClient(Message message) {

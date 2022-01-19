@@ -1,6 +1,9 @@
 package config;
 
 public class MessageTypes {
+
+    public static final String UNDEFINED = "UNDEFINED";
+
     public static final String BROWSE_GAMES = "BROWSE_GAMES";
     public static final String DISPLAY_GAMES = "DISPLAY_GAMES";
     public static final String LOGIN = "LOGIN";
@@ -28,4 +31,7 @@ public class MessageTypes {
     public static final String SENT_TEXT = "SENT_TEXT";
     public static final String PLAYER_COLOUR = "PLAYER_COLOUR";
     public static final String CHESS_MOVE = "CHESS_MOVE";
+
+    public static final String TAKEBACK_REQUESTED = "TAKEBACK_REQUESTED";
+    public static final String TAKEBACK_ACCEPTED = "TAKEBACK_ACCEPTED";
 }

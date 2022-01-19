@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import views.Window;
 import config.UserInterface;
 import config.Page;
+import config.PathsConsts;
 
 public class NavigationBar extends JPanel {
     
@@ -57,40 +58,46 @@ public class NavigationBar extends JPanel {
 
         }
 
+        this.usernameLabel = new JLabel();
+        this.usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
+        this.usernameLabel.setBounds(UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 45, 200, 25);
+        this.usernameLabel.setFont(UserInterface.USERNAME_FONT);
+        this.usernameLabel.setText(UserInterface.GUEST);
+
+        this.add(usernameLabel);
+
         // Default page
         links[0].doClick();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(radomirLogo, UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 260, this);
+        g.drawImage(radomirLogo, UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT / 2 + 50, this);
+        g.setColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR.brighter());
+        g.fillRect(0, UserInterface.WINDOW_HEIGHT-70, UserInterface.NAVBAR_WIDTH, 70);
     }
 
     public void setLoggedIn(boolean isLoggedIn) {
         if (isLoggedIn) {
             links[0].doClick();
             links[loginPage].changePage(Page.LOGOUT);
-            this.add(usernameLabel);
         } else {
+            this.setUsername(UserInterface.GUEST);
             links[loginPage].changePage(Page.LOGIN);
-            this.remove(usernameLabel);
         }
     }
 
     public static Image getLogoImage() {
         try {
-            return ImageIO.read(new File("views/navigation/radomirchess.png")).getScaledInstance(140, 155, Image.SCALE_DEFAULT);
+            return ImageIO.read(new File(PathsConsts.CHESS_LOGO)).getScaledInstance(140, 175, Image.SCALE_DEFAULT);
         } catch(IOException e) {
             System.out.println("File not found");
+            e.printStackTrace();
         }
         return null;
     }
 
     public void setUsername(String newUsername){
-        this.usernameLabel = new JLabel();
-        this.usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
         this.usernameLabel.setText(newUsername);
-        this.usernameLabel.setBounds(UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 50, 100, 25);
-        System.out.println("Bro");
     }
 }

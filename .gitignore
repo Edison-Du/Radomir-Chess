@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+# Dr Java thing
+.java~
+
 # Log file
 *.log
 

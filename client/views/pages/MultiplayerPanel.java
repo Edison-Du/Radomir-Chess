@@ -4,12 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import config.MessageTypes;
+import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
+import views.components.CustomButton;
 
 public class MultiplayerPanel extends AbstractGamePanel {
 
@@ -21,11 +22,15 @@ public class MultiplayerPanel extends AbstractGamePanel {
     // Swing
     private JLabel codeLabel;
     private JLabel otherClientLabel;
-    private JButton leaveLobby;
+    private CustomButton leaveLobby;
 
+    private JLabel username, opponentUsername;
+
+    private CustomButton undoButton;
+    private CustomButton takeBackButton;
 
     // // subpanel chess game
-    // public ChessBoardPanel subPanel;
+    public ChessBoardPanel subPanel;
     // public MovesPanel movesPanel;
     // public MessagePanel messagePanel;
 
@@ -58,12 +63,26 @@ public class MultiplayerPanel extends AbstractGamePanel {
         // messagePanel.setBounds(660,270,240,330);
         // this.add(messagePanel);
 
+        this.username = new JLabel();
+        this.username.setForeground(UserInterface.TEXT_COLOUR);
+        this.username.setBounds(UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 45, 200, 25);
+        this.username.setFont(UserInterface.USERNAME_FONT);
+        this.username.setText(UserInterface.GUEST);
 
         // Leave lobby
-        leaveLobby = new JButton("Leave");
+        leaveLobby = new CustomButton("Leave");
         leaveLobby.setBounds(780, 630, 120, 30);
         leaveLobby.addActionListener(this);
         this.add(leaveLobby);
+
+        undoButton = new CustomButton("Takeback");
+        undoButton.setBounds(0, 600, 150, 25);
+        undoButton.addActionListener(this);
+        this.add(undoButton);
+
+        takeBackButton = new CustomButton("Accept Takeback");
+        takeBackButton.setBounds(200, 600, 150, 25);
+        takeBackButton.addActionListener(this);
     }
 
     public void setLobbyCode(String code) {
@@ -92,39 +111,46 @@ public class MultiplayerPanel extends AbstractGamePanel {
         }
     }
 
-
     // Text
     public void addMessageFromOther(String message) {
         messagePanel.addTextMessage("Client " + otherClient + ": " + message);
     }
 
-    @Override
-    public void processMove(String t1, String t2, String p) {
-        try {
-            Message message = new Message(MessageTypes.CHESS_MOVE);
-            message.addParam(t1);
-            message.addParam(t2);
-            message.addParam(p);
-            ServerConnection.sendMessage(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void addTakeback() {
+        System.out.println("HRYY");
+        this.add(takeBackButton);
     }
 
-    // Text input
+    public void removeTakeBack() {
+        this.remove(takeBackButton);
+    }
+
+    @Override
+    public void processMove(String t1, String t2, String p) {
+        Message message = new Message(MessageTypes.CHESS_MOVE);
+        message.addParam(t1);
+        message.addParam(t2);
+        message.addParam(p);
+        ServerConnection.sendMessage(message);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        if (e.getSource() == leaveLobby) {
-            
-            try {
+        try{
+            if (e.getSource() == takeBackButton){
+                ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_ACCEPTED));
+                this.undoMove();
+                removeTakeBack();
+            }
+            if (e.getSource() == undoButton){
+                ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_REQUESTED));
+            } else if (e.getSource() == leaveLobby) {
                 Message message = new Message(MessageTypes.LEAVE_GAME);
                 ServerConnection.sendMessage(message);
-
-            } catch (Exception ex) {
-                System.out.println("Failed to create message");
-                ex.printStackTrace();
             }
+        } catch (Exception ex) {
+            System.out.println("Failed to create message");
+            ex.printStackTrace();
         }
     } 
 }

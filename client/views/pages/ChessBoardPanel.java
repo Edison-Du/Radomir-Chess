@@ -1,6 +1,5 @@
 package views.pages;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -13,9 +12,10 @@ import javax.imageio.ImageIO;
 
 import chesslogic.ChessGame;
 import chesslogic.Tile;
+import config.PathsConsts;
+import config.UserInterface;
 import views.chess.ChessGameMouseListener;
 import views.components.ContentPanel;
-import config.UserInterface;
 
 public class ChessBoardPanel extends ContentPanel {
 
@@ -23,12 +23,12 @@ public class ChessBoardPanel extends ContentPanel {
     final int tileSize = 60;
 
     BufferedImage heldPieceImage;
+    BufferedImage woodBoard;
 
     public int playerColour;
 
     private ChessGameMouseListener chessGameMouseListener;
     private AbstractGamePanel gamePanel;
-    
 
     public ChessBoardPanel(ChessGame game, AbstractGamePanel gamePanel) {
         this.game = game;
@@ -37,6 +37,12 @@ public class ChessBoardPanel extends ContentPanel {
         chessGameMouseListener = new ChessGameMouseListener(game, playerColour, gamePanel);
         addMouseListener(chessGameMouseListener);
         addMouseMotionListener(chessGameMouseListener);
+
+        try {
+            woodBoard = ImageIO.read(new File(PathsConsts.WOOD_THEME));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setPlayerColour(int colour) {
@@ -49,7 +55,12 @@ public class ChessBoardPanel extends ContentPanel {
         gamePanel.movesPanel.addMove(move);
         this.game.move(t1, t2, p);
         chessGameMouseListener.setTurn(true);
+    }
 
+    public void undoMove() {
+        System.out.println(this.game.toString());
+        this.game.undo();
+        System.out.println(this.game.toString());
     }
 
     public void paintComponent(Graphics g) {
@@ -59,7 +70,14 @@ public class ChessBoardPanel extends ContentPanel {
             new RenderingHints(RenderingHints.KEY_ANTIALIASING,
             RenderingHints.VALUE_ANTIALIAS_ON)
         );
+
+        // Draw wood board image
+        if (UserInterface.activeTheme == UserInterface.WOOD_BOARD) {
+            g.drawImage(woodBoard, 0, 0, this);
+        }
+
         drawBoard(g);
+
         heldPieceImage = chessGameMouseListener.getHeldPieceImage();
         // System.out.println(heldPieceImage);
         if(heldPieceImage != null) {
@@ -70,7 +88,7 @@ public class ChessBoardPanel extends ContentPanel {
         if(chessGameMouseListener.isPromoting) {
             BufferedImage promotionPlatter;
             try {
-                promotionPlatter = ImageIO.read(new File("chesslogic/promotion.png"));
+                promotionPlatter = ImageIO.read(new File(PathsConsts.PROMOTION_PLATTER));
                 g.drawImage(promotionPlatter, 110, 200, this);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -91,12 +109,14 @@ public class ChessBoardPanel extends ContentPanel {
                 int yPos = (7 * (1 - playerColour) + (2 * playerColour - 1) * y) * tileSize;
                 
                 // checkerboard code
-                if (x % 2 - y % 2 == 0) {
-                    g.setColor(UserInterface.darkerTile);
-                } else {
-                    g.setColor(UserInterface.lighterTile);
+                if (UserInterface.activeTheme != 2) {
+                    if (x % 2 - y % 2 == 0) {
+                        g.setColor(UserInterface.darkerTile);
+                    } else {
+                        g.setColor(UserInterface.lighterTile);
+                    }
+                    g.fillRect(xPos, yPos, tileSize, tileSize);
                 }
-                g.fillRect(xPos, yPos, tileSize, tileSize);
 
                 // write tile notation
                 if(x == 7) {

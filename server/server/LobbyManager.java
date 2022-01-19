@@ -1,20 +1,18 @@
 package server;
 
 import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
+import config.MessageTypes;
 import game.Lobby;
 
 public class LobbyManager {
     private HashMap<String, Lobby> activeGames;
-    private LinkedHashSet<ArrayList<String>> info;
+    // private HashSet<ArrayList<String>> info;
     
     public LobbyManager() {
         activeGames = new HashMap<>();
-        info = new LinkedHashSet<>();
+        // info = new LinkedHashSet<>();
     }
 
     public boolean lobbyExists(String code) {
@@ -46,22 +44,19 @@ public class LobbyManager {
         return this.activeGames.keySet();
     }
 
-    public HashSet<ArrayList<String>> getInfo() {
-        info = new LinkedHashSet<ArrayList<String>>();
-        ArrayList<String> data;
-        int lobbyNum = 0;
+    public Message getLobbyInfo() {
+        Message message = new Message(MessageTypes.DISPLAY_GAMES);
+
+        int lobbyIndex = 0;
         for (Lobby lobby : activeGames.values()) {
-            data = new ArrayList<>();
-            data.add(Integer.toString(++lobbyNum));
-            data.add(lobby.getCode());
-            data.add(lobby.getHostName());
-            if (lobby.getHostColour() == 1) {
-                data.add("white");
-            } else {
-                data.add("black");
-            }
-            info.add(data);
+            String lobbyParameter = "";
+            lobbyParameter += Integer.toString(++lobbyIndex) + ",";
+            lobbyParameter += lobby.getCode() + ",";
+            lobbyParameter += lobby.getHostName() + ",";
+            lobbyParameter += lobby.getHostColour() + ",";
+            message.addParam(lobbyParameter);
         }
-        return info;
+
+        return message;
     }
 }

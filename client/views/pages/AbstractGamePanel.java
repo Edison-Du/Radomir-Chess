@@ -15,7 +15,7 @@ import network.Message;
 import network.ServerConnection;
 import views.components.ContentPanel;
 
-abstract public class AbstractGamePanel extends ContentPanel implements ActionListener {
+abstract public class AbstractGamePanel extends ContentPanel implements ActionListener{
 
     // Chess game
     public ChessGame chessGame;
@@ -59,6 +59,10 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.add(messagePanel);
     }
 
+   public void undoMove() {
+        this.boardPanel.undoMove();
+    }
+    
     public void resetPanel() {
         this.remove(boardPanel);
         this.remove(movesPanel);

@@ -57,6 +57,14 @@ public class NavigationBar extends JPanel {
 
         }
 
+        this.usernameLabel = new JLabel();
+        this.usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
+        this.usernameLabel.setBounds(UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 45, 200, 25);
+        this.usernameLabel.setFont(UserInterface.USERNAME_FONT);
+        this.usernameLabel.setText(UserInterface.GUEST);
+
+        this.add(usernameLabel);
+
         // Default page
         links[0].doClick();
     }
@@ -64,16 +72,17 @@ public class NavigationBar extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(radomirLogo, UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 260, this);
+        g.setColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR.brighter());
+        g.fillRect(0, UserInterface.WINDOW_HEIGHT-70, UserInterface.NAVBAR_WIDTH, 70);
     }
 
     public void setLoggedIn(boolean isLoggedIn) {
         if (isLoggedIn) {
             links[0].doClick();
             links[loginPage].changePage(Page.LOGOUT);
-            this.add(usernameLabel);
         } else {
+            this.setUsername(UserInterface.GUEST);
             links[loginPage].changePage(Page.LOGIN);
-            this.remove(usernameLabel);
         }
     }
 
@@ -87,10 +96,6 @@ public class NavigationBar extends JPanel {
     }
 
     public void setUsername(String newUsername){
-        this.usernameLabel = new JLabel();
-        this.usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
         this.usernameLabel.setText(newUsername);
-        this.usernameLabel.setBounds(UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 50, 100, 25);
-        System.out.println("Bro");
     }
 }

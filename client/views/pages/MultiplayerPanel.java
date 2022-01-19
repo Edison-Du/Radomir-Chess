@@ -3,13 +3,13 @@ package views.pages;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-
-import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import config.MessageTypes;
+import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
+import views.components.CustomButton;
 
 public class MultiplayerPanel extends AbstractGamePanel {
 
@@ -21,11 +21,14 @@ public class MultiplayerPanel extends AbstractGamePanel {
     // Swing
     private JLabel codeLabel;
     private JLabel otherClientLabel;
-    private JButton leaveLobby;
+    private CustomButton leaveLobby;
 
+    private JLabel localUsername, enemyUsername;
+
+    private CustomButton undoButton;
 
     // // subpanel chess game
-    // public ChessBoardPanel subPanel;
+    public ChessBoardPanel subPanel;
     // public MovesPanel movesPanel;
     // public MessagePanel messagePanel;
 
@@ -58,12 +61,23 @@ public class MultiplayerPanel extends AbstractGamePanel {
         // messagePanel.setBounds(660,270,240,330);
         // this.add(messagePanel);
 
+        this.localUsername = new JLabel();
+        this.localUsername.setForeground(UserInterface.TEXT_COLOUR);
+        this.localUsername.setBounds(UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 45, 200, 25);
+        this.localUsername.setFont(UserInterface.USERNAME_FONT);
+        this.localUsername.setText(UserInterface.GUEST);
 
         // Leave lobby
-        leaveLobby = new JButton("Leave");
+        leaveLobby = new CustomButton("Leave");
         leaveLobby.setBounds(780, 630, 120, 30);
         leaveLobby.addActionListener(this);
         this.add(leaveLobby);
+
+        undoButton = new CustomButton("Takeback");
+        undoButton.setBounds(0, 600, 150, 25);
+        undoButton.addActionListener(this);
+        undoButton.setFocusable(false);
+        this.add(undoButton);
     }
 
     public void setLobbyCode(String code) {
@@ -92,7 +106,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
         }
     }
 
-
     // Text
     public void addMessageFromOther(String message) {
         messagePanel.addTextMessage("Client " + otherClient + ": " + message);
@@ -111,20 +124,18 @@ public class MultiplayerPanel extends AbstractGamePanel {
         }
     }
 
-    // Text input
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        if (e.getSource() == leaveLobby) {
-            
-            try {
+        try{
+            if (e.getSource() == undoButton){
+                ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_REQUESTED));
+            } else if (e.getSource() == leaveLobby) {
                 Message message = new Message(MessageTypes.LEAVE_GAME);
                 ServerConnection.sendMessage(message);
-
-            } catch (Exception ex) {
-                System.out.println("Failed to create message");
-                ex.printStackTrace();
             }
+        } catch (Exception ex) {
+            System.out.println("Failed to create message");
+            ex.printStackTrace();
         }
     } 
 }

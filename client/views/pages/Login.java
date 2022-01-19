@@ -89,6 +89,10 @@ public class Login extends ContentPanel implements ActionListener{
         errorMessage.setText("Alright buddy only numbers or letters allowed");
     }
 
+    public void clearError(){
+        errorMessage.setText("");
+    }
+
     public void actionPerformed(ActionEvent e){
         String username = usernameField.getText();
         String password = String.valueOf(passwordField.getPassword());

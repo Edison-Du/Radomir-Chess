@@ -98,8 +98,8 @@ public class ChessGame {
             if(t.getPiece().getTurnMoved() == this.current.getTurn() - 1) {
                 int x1 = (int) this.stringMoves.peek().charAt(0);
                 int x2 = (int) this.stringMoves.peek().charAt(2);
-                x1 = x1 - 97;
-                x2 = x2 - 97;
+                x1 = x1 - 'a';
+                x2 = x2 - 'a';
                 t.getPiece().setMoved(0);
                 if(t.getPiece().getName().equals("K") && x2 - x1 == 2) {
                     this.current.getTiles()[x2 - 1][t.getY()].getPiece().setMoved(0);

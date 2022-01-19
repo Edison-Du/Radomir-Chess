@@ -57,8 +57,8 @@ public class DepthSearchBotP1 extends Bot {
                 bestScore = temp;
                 bestMove = possibleMoves.get(i);
             }
+            g.undo();
         }
-        g.undo();
         return bestMove;
     }
     

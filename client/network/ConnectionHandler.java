@@ -63,6 +63,9 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.CHESS_MOVE)) {
             processOpponentChessMove(message);
 
+        } else if (message.getType().equals(MessageTypes.TAKEBACK_ACCEPTED)){
+            processTakeback();
+
         } else if (message.getType().equals(MessageTypes.DISPLAY_GAMES)) {
             displayGames(message);
 
@@ -84,6 +87,10 @@ public class ConnectionHandler extends Thread {
         }
     }   
 
+    public void processTakeback(){
+        window.gamePanel.undoMove();
+    }
+
     public void login(String username){
         window.navigationBar.setUsername(username);
         window.setLoggedIn(true);
@@ -91,6 +98,7 @@ public class ConnectionHandler extends Thread {
     }
 
     public void logout() {
+        window.loginPanel.clearError();
         window.setLoggedIn(false);
         window.changePage(Page.LOGIN);
     }
@@ -131,7 +139,6 @@ public class ConnectionHandler extends Thread {
         window.setInGame(false);
         window.changePage(Page.PLAY);
     }
-
 
     public void setPlayerColour(Message message) {
         int colour = Integer.parseInt(message.getParam(0));

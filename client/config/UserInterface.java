@@ -57,8 +57,11 @@ public class UserInterface {
     public static final Color MENU_BUTTON_HIGHLIGHT = MENU_BUTTON_COLOUR.brighter();
     public static final int MENU_BUTTON_RADIUS = 20;
 
+    // Settings
+    public static Font SETTINGS_FONT = new Font("Serif", Font.PLAIN, 15);
+
     // Game board
-    public static byte activeTheme = 0;
+    public static int activeTheme = 0;
     public static final Color[] LIGHTER_TILE_COLOURS = new Color[]{
         new Color(192, 192, 193),
         new Color(218, 226, 234),
@@ -77,7 +80,12 @@ public class UserInterface {
     };
     
     public static int activeBackground = 0;
-    public static Color[] BACKGROUNDS = new Color[]{FRAME_COLOUR, new Color(100, 250, 150), new Color(10, 20, 170)};
+    public static Color[] BACKGROUNDS = new Color[]{
+        FRAME_COLOUR,
+        new Color(200, 10, 10),
+        new Color(100, 250, 150),
+        new Color(10, 20, 170)
+    };
 
     //public static BufferedImage[] BACKGROUNDS = new BufferedImage[2]
 
@@ -99,7 +107,7 @@ public class UserInterface {
     public static Color darkerTile = DARKER_TILE_COLOURS[0];
     
     public static void changeBoard(int theme) {
-        activeTheme = (byte)theme;
+        activeTheme = theme;
         lighterTile = LIGHTER_TILE_COLOURS[theme];
         darkerTile = DARKER_TILE_COLOURS[theme];
     }

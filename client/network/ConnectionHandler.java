@@ -63,6 +63,9 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.CHESS_MOVE)) {
             processOpponentChessMove(message);
 
+        } else if (message.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
+            processRequestTakeback();
+
         } else if (message.getType().equals(MessageTypes.TAKEBACK_ACCEPTED)){
             processTakeback();
 
@@ -85,7 +88,11 @@ public class ConnectionHandler extends Thread {
             isActive = false;
             ServerConnection.close();
         }
-    }   
+    }
+    
+    public void processRequestTakeback(){
+        window.gamePanel.addTakeback();
+    }
 
     public void processTakeback(){
         window.gamePanel.undoMove();
@@ -162,7 +169,11 @@ public class ConnectionHandler extends Thread {
     }
 
     public void displayLobbies(Message message) {
-        String lobbiesInfo = message.getParam(0);
-        window.browseGamesPanel.setLobbyList(lobbiesInfo);
+        for (int i = 0; i < message.getNumParams(); i++) {
+            String lobbiesInfo = message.getParam(i);
+            window.browseGamesPanel.addLobby(lobbiesInfo);
+
+            // window.browseGamesPanel.setLobbyList(lobbiesInfo);
+        }
     }
 }

@@ -48,7 +48,12 @@ public class Lobby {
         this.host = host;
     }
 
-    public void setGuest(ClientHandler guest) {
+    public boolean setGuest(ClientHandler guest) {
+
+        if (this.guest != null) {
+            return false;
+        }
+
         this.guest = guest;
         this.guestName = this.guest.getClientName();
         // Alert host that a guest has joined
@@ -60,6 +65,8 @@ public class Lobby {
         } catch (Exception e) {
             System.out.println("Could not send message to guest: client #" + guest.getClientNum());
         }
+
+        return true;
     }
 
     public ClientHandler getHost() {
@@ -77,10 +84,6 @@ public class Lobby {
 
     public int getGuestColour() {
         return (this.hostColour + 1) % 2; 
-    }
-
-    public boolean isFull() {
-        return this.guest != null;
     }
 
     public void leaveLobby(ClientHandler client) {
@@ -127,20 +130,20 @@ public class Lobby {
     }
 
 
-    public void sendChessMove(ClientHandler from, Message move) {
+    // public void sendChessMove(ClientHandler from, Message move) {
         
-        ClientHandler receiver;
+    //     ClientHandler receiver;
         
-        if (from == host) {
-            receiver = guest;
-        } else {
-            receiver = host;
-        }
+    //     if (from == host) {
+    //         receiver = guest;
+    //     } else {
+    //         receiver = host;
+    //     }
 
-        if (receiver == null) {
-            return;
-        }
+    //     if (receiver == null) {
+    //         return;
+    //     }
 
-        receiver.sendMessage(move);
-    }
+    //     receiver.sendMessage(move);
+    // }
 }

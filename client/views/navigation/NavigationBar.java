@@ -88,7 +88,7 @@ public class NavigationBar extends JPanel {
 
     public static Image getLogoImage() {
         try {
-            return ImageIO.read(new File("views/navigation/radomirchess.png")).getScaledInstance(140, 155, Image.SCALE_DEFAULT);
+            return ImageIO.read(new File("views/navigation/radomirchess.png")).getScaledInstance(140, 175, Image.SCALE_DEFAULT);
         } catch(IOException e) {
             System.out.println("File not found");
         }

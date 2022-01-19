@@ -144,6 +144,12 @@ public class ClientHandler extends Thread{
         } else if (request.getType().equals(MessageTypes.CHESS_MOVE)) {
             sendChessMove(request);
 
+        } else if (request.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
+            sendTakebackRequest(request);
+
+        } else if (request.getType().equals(MessageTypes.TAKEBACK_ACCEPTED)){
+            acceptTakebackRequest(request);
+
         } else if (request.getType().equals(MessageTypes.BROWSE_GAMES)) {
             browseGames();
 
@@ -174,6 +180,18 @@ public class ClientHandler extends Thread{
             System.out.println("nice one Eddison Ddu");
             e.printStackTrace();
         }
+    }
+
+    private void sendTakebackRequest(Message message){
+        if (lobby == null) return;
+        System.out.println("HRY");
+        lobby.sendMessage(this, message);
+    }
+
+    private void acceptTakebackRequest(Message message){
+        if (lobby == null) return;
+        System.out.println("HeY");
+        lobby.sendMessage(this, message);
     }
 
     private void loginUser(Message message){
@@ -214,7 +232,7 @@ public class ClientHandler extends Thread{
                 errorMessage.addParam("Game not found");
                 sendMessage(errorMessage);
 
-            } else if (lobby.isFull()) {
+            } else if (!lobby.setGuest(this)) {
                 Message gameFull = new Message(MessageTypes.GAME_FULL);
                 sendMessage(gameFull);
 
@@ -223,7 +241,6 @@ public class ClientHandler extends Thread{
                 joinedMessage.addParam(lobby.getCode());
                 joinedMessage.addParam(Integer.toString(lobby.getHost().getClientNum()));
 
-                lobby.setGuest(this);
                 this.sendMessage(joinedMessage);
 
                 // Player Colour
@@ -266,12 +283,12 @@ public class ClientHandler extends Thread{
 
         lobby.leaveLobby(this);
 
-        // // Delete lobby if  lobby is now empty
-        // if (lobby.getHost() == null) {
-        //     server.getLobbyManager().removeLobby(lobby.getCode());
-        // }
+        // Delete lobby if  lobby is now empty
+        if (lobby.getHost() == null) {
+            server.getLobbyManager().removeLobby(lobby.getCode());
+        }
 
-        // lobby = null;
+        lobby = null;
     }
 
     private void sendText(Message message) {
@@ -287,9 +304,7 @@ public class ClientHandler extends Thread{
 
     private void browseGames() {
         try {
-            Message message = new Message(MessageTypes.DISPLAY_GAMES);
-            String lobbiesInfo = server.getLobbyManager().getInfo().toString();
-            message.addParam(lobbiesInfo.substring(1, lobbiesInfo.length() - 1));
+            Message message = server.getLobbyManager().getLobbyInfo();
             this.sendMessage(message);
         } catch (Exception e) {
             e.printStackTrace();

@@ -5,7 +5,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Graphics;
 
+import java.io.File;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -25,10 +29,11 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public MovesPanel movesPanel;
     public MessagePanel messagePanel;
 
+    BufferedImage background;
+
     public AbstractGamePanel() {
 
         initialize();
-
 
         // // Leave lobby
         // leaveLobby = new JButton("Leave");
@@ -45,7 +50,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         // Chess game
         boardPanel = new ChessBoardPanel(chessGame, this); // sub-panel 1
         // Use constants
-        boardPanel.setBounds(120,120,480,480);
+        boardPanel.setBounds(120, 120, 480, 480);
         this.add(boardPanel);
 
         // Moves panel
@@ -55,7 +60,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         // Message panel
         messagePanel = new MessagePanel();
         // Use constants
-        messagePanel.setBounds(660,270,240,330);
+        messagePanel.setBounds(660, 270, 240, 330);
         this.add(messagePanel);
     }
 
@@ -70,5 +75,17 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
         initialize();
         this.revalidate();
+    }
+
+    public void updateBackground(String image) {
+        try {
+            background = ImageIO.read(new File(image));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
     }
 }

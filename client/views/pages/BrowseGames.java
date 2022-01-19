@@ -18,11 +18,6 @@ public class BrowseGames extends ContentPanel implements ActionListener {
     private final JLabel titleLabel = new JLabel();
     private JList<String> lobbyList;
 
-    private String[] lobbies;
-    private int[] lobbyNums;
-    private int[] lobbyCodes;
-    private String[] hostClients;
-    private String[] hostColours;
     private DefaultListModel<String> allLobbies = new DefaultListModel<>();
 
     public BrowseGames() {
@@ -52,24 +47,22 @@ public class BrowseGames extends ContentPanel implements ActionListener {
         this.revalidate();
         this.repaint();
     }
-
-    public void setLobbyList(String lobbies) {
-        allLobbies.clear();
-        if (!lobbies.equals("")) {
-            this.lobbies = lobbies.split("], ");
-            int numLobbies = this.lobbies.length;
-            lobbyNums = new int[numLobbies];;
-            lobbyCodes = new int[numLobbies];
-            hostClients = new String[numLobbies];
-            hostColours = new String[numLobbies];
-            for (String lobby : this.lobbies) {
-                if (lobby.indexOf("]") != -1) {
-                    lobby = lobby.substring(1, lobby.length() - 1);
-                } else {
-                    lobby = lobby.substring(1, lobby.length());
-                }
-                allLobbies.addElement("Lobby #" + lobby);
-            }
-        }
+    
+    // String for now lol
+    public void addLobby(String lobby) {
+        allLobbies.addElement(lobby);
     }
+
+    public void resetLobbies() {
+        allLobbies.clear();
+    }
+
+    // Lobby object -> parses comma separated lobby info
+    // setLobbies(ArrayList<Lobby>)
+    // public void setLobbyList(String lobbies) {
+    //     allLobbies.clear();
+    //     if (!lobbies.equals("")) {
+            
+    //     }
+    // }
 }

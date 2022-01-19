@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import chesslogic.ChessGame;
+import config.GameState;
+import views.chess.GamePanelButton;
 import views.components.ContentPanel;
 
 abstract public class AbstractGamePanel extends ContentPanel implements ActionListener {
@@ -17,7 +19,10 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public MovesPanel movesPanel;
     public MessagePanel messagePanel;
 
-    BufferedImage background;
+    public GamePanelButton resign;
+
+    private GameState gameState;
+
 
     public AbstractGamePanel() {
 
@@ -43,19 +48,34 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
         // Moves panel
         movesPanel = new MovesPanel();
+        movesPanel.setBounds(660, 120, 240, 120);
         this.add(movesPanel, BorderLayout.CENTER);
 
         // Message panel
         messagePanel = new MessagePanel();
         // Use constants
-        messagePanel.setBounds(660, 270, 240, 330);
+        messagePanel.setBounds(660, 300, 240, 330);
         this.add(messagePanel);
+
+
+        // Buttons
+        resign = new GamePanelButton("Resign");
+        resign.setBounds(660, 240, 80, 60);
+        this.add(resign);
     }
 
     public void undoMove() {
         this.boardPanel.undoMove();
     }
-    
+
+    public GameState getGameState() {
+        return this.gameState;
+    }
+
+    public void setGameState(GameState state) {
+        this.gameState = state;
+    }
+
     public void resetPanel() {
         this.remove(boardPanel);
         this.remove(movesPanel);

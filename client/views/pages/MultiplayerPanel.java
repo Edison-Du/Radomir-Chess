@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JLabel;
 
+import config.GameState;
 import config.MessageTypes;
 import config.UserInterface;
 import network.Message;
@@ -29,19 +30,12 @@ public class MultiplayerPanel extends AbstractGamePanel {
     private CustomButton undoButton;
     private CustomButton takeBackButton;
 
-    // // subpanel chess game
-    public ChessBoardPanel subPanel;
-    // public MovesPanel movesPanel;
-    // public MessagePanel messagePanel;
+    //
 
     public MultiplayerPanel() {
 
         // CHESS GAME
-        // ChessGame chessGame = new ChessGame();
-        // subPanel = new ChessBoardPanel(chessGame, this); // sub-panel 1
-        // this.add(subPanel);
-
-        // subPanel.setBounds(120,120,480,480);
+        setGameState(GameState.WAITING);
 
         // Lobby code
         codeLabel = new JLabel(lobbyCode);
@@ -58,10 +52,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
         otherClientLabel.setBounds(760, 30,500, 100);
         this.add(otherClientLabel);
 
-        // Message panel
-        // messagePanel = new MessagePanel();
-        // messagePanel.setBounds(660,270,240,330);
-        // this.add(messagePanel);
 
         this.username = new JLabel();
         this.username.setForeground(UserInterface.TEXT_COLOUR);
@@ -109,6 +99,8 @@ public class MultiplayerPanel extends AbstractGamePanel {
         } else {
             otherClientLabel.setText("Client #" + client + " is the host of this lobby.");
         }
+
+        setGameState(GameState.ONGOING);
     }
 
     // Text

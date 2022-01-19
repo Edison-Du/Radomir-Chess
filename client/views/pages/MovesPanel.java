@@ -21,8 +21,6 @@ public class MovesPanel extends ContentPanel {
 
     public MovesPanel() {
 
-        this.setBounds(660, 120, 240, 120);
-
         movesList = new DefaultTableModel();
 
         for (String column : columnNames) {

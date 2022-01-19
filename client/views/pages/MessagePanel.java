@@ -40,7 +40,7 @@ public class MessagePanel extends ContentPanel implements ActionListener {
         this.add(messageListPanel);
 
         messageField = new JTextField();
-        messageField.setBounds(0, 300, 240, 30);
+        messageField.setBounds(0, 270, 240, 30);
         messageField.addActionListener(this);
         this.add(messageField);
 

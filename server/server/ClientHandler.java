@@ -263,11 +263,11 @@ public class ClientHandler extends Thread{
 
         lobby.leaveLobby(this);
 
-        // if (lobby.getHost() == null) {
-        //     server.getLobbyManager().removeLobby(lobby.getCode());
-        // }
+        if (lobby.getHost() == null) {
+            server.getLobbyManager().removeLobby(lobby.getCode());
+        }
 
-        // lobby = null;
+        lobby = null;
     }
 
     private void sendText(Message message) {

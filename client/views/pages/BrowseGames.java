@@ -55,7 +55,7 @@ public class BrowseGames extends ContentPanel implements ActionListener {
 
     public void setLobbyList(String lobbies) {
         allLobbies.clear();
-        if (lobbies == "") {
+        if (!lobbies.equals("")) {
             this.lobbies = lobbies.split("], ");
             int numLobbies = this.lobbies.length;
             lobbyNums = new int[numLobbies];;

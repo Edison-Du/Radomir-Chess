@@ -151,7 +151,6 @@ public class ConnectionHandler extends Thread {
 
     public void addTextMessage(Message message) {
         String text = message.getParam(0);
-
         window.gamePanel.addMessageFromOther(text);
     }
 

@@ -55,19 +55,21 @@ public class BrowseGames extends ContentPanel implements ActionListener {
 
     public void setLobbyList(String lobbies) {
         allLobbies.clear();
-        this.lobbies = lobbies.split("], ");
-        int numLobbies = this.lobbies.length;
-        lobbyNums = new int[numLobbies];;
-        lobbyCodes = new int[numLobbies];
-        hostClients = new String[numLobbies];
-        hostColours = new String[numLobbies];
-        for (String lobby : this.lobbies) {
-            if (lobby.indexOf("]") != -1) {
-                lobby = lobby.substring(1, lobby.length() - 1);
-            } else {
-                lobby = lobby.substring(1, lobby.length());
+        if (lobbies == "") {
+            this.lobbies = lobbies.split("], ");
+            int numLobbies = this.lobbies.length;
+            lobbyNums = new int[numLobbies];;
+            lobbyCodes = new int[numLobbies];
+            hostClients = new String[numLobbies];
+            hostColours = new String[numLobbies];
+            for (String lobby : this.lobbies) {
+                if (lobby.indexOf("]") != -1) {
+                    lobby = lobby.substring(1, lobby.length() - 1);
+                } else {
+                    lobby = lobby.substring(1, lobby.length());
+                }
+                allLobbies.addElement("Lobby #" + lobby);
             }
-            allLobbies.addElement("Lobby #" + lobby);
         }
     }
 }

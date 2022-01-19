@@ -42,7 +42,7 @@ public class Window extends JFrame {
         joinGamePanel = new JoinGame();
         browseGamesPanel = new BrowseGames();
         gamePanel = new MultiplayerPanel();
-        settingsPanel = new Settings();
+        settingsPanel = new Settings(this);
         loginPanel = new Login();
 
         // Navigation bar
@@ -102,7 +102,7 @@ public class Window extends JFrame {
         if (content != null) {
             this.remove(content);
         }
-        // Change all pages into permanet variables to be reused, instead of ocnstrcut new
+        // Change all pages into permanant variables to be reused, instead of reconstructing
         if (currentPage == Page.PLAY) {
             if (inGame) {
                 content = gamePanel;
@@ -147,6 +147,10 @@ public class Window extends JFrame {
         } 
         content.revalidate();
         this.add(content);
+    }
+
+    public void changeGameBackground(int background) {
+        gamePanel.setBackground(UserInterface.changeBackground(background));
     }
 
     public void setInGame(boolean inGame) {

@@ -72,7 +72,7 @@ public class ChessBoardPanel extends ContentPanel {
         );
 
         // Draw wood board image
-        if (UserInterface.activeTheme == UserInterface.WOOD_BOARD) {
+        if (UserInterface.activeTheme == 2) {
             g.drawImage(woodBoard, 0, 0, this);
         }
 

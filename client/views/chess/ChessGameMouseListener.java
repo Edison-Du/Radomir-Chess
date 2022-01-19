@@ -7,6 +7,7 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.SwingUtilities;
 
 import chesslogic.*;
+import config.GameState;
 import views.pages.AbstractGamePanel;
 
 import java.awt.image.BufferedImage;
@@ -44,6 +45,11 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     }
 
     public void mousePressed(MouseEvent e) {
+
+        if (gamePanel.getGameState() != GameState.ONGOING) {
+            return;
+        }
+
         // Initialize mouse coordinates
         mouseX = e.getX();
         mouseY = e.getY();
@@ -99,6 +105,10 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     }
 
     public void mouseReleased(MouseEvent e) {
+        
+        if (gamePanel.getGameState() != GameState.ONGOING) {
+            return;
+        }
 
         // Initialize mouse coordinates
         mouseX = e.getX();

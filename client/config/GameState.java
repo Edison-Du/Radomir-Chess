@@ -1,0 +1,12 @@
+package config;
+
+public enum GameState {
+    WAITING,
+    ONGOING,
+    WHITE_VICTORY_CHECKMATE,
+    BLACK_VICTORY_CHECKMATE,
+    WHITE_VICTORY_RESIGN,
+    BLACK_VICTORY_RESIGN,
+    STALEMATE,
+    DRAW,
+}

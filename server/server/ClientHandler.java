@@ -160,7 +160,7 @@ public class ClientHandler extends Thread{
             disconnectClient(request);
         }
 
-        System.out.println(request.getText());
+        System.out.println("RECEIVED from #" + clientNum + ": " + request.getText());
     }
 
     
@@ -182,13 +182,11 @@ public class ClientHandler extends Thread{
 
     private void sendTakebackRequest(Message message){
         if (lobby == null) return;
-        System.out.println("HRY");
         lobby.sendMessage(this, message);
     }
 
     private void acceptTakebackRequest(Message message){
         if (lobby == null) return;
-        System.out.println("HeY");
         lobby.sendMessage(this, message);
     }
 
@@ -249,11 +247,13 @@ public class ClientHandler extends Thread{
         } else if (message.getParam(0).equals("private")) {
             lobby.setPublicStatus("private");
         }
+
+
         server.getLobbyManager().addLobby(lobby);
         lobby.setHost(this);
             // Create lobby
             Message createGameMessage = new Message(MessageTypes.GAME_CREATED);
-            message.addParam(lobby.getCode());
+            createGameMessage.addParam(lobby.getCode());
             this.sendMessage(createGameMessage);
 
             // Player colour
@@ -265,7 +265,6 @@ public class ClientHandler extends Thread{
             lobbyVisibilityMessage.addParam(lobby.getLobbyVisibility());
             this.sendMessage(lobbyVisibilityMessage);
 
-            System.out.println(message.getText());
     }
 
     private void leaveGame() {

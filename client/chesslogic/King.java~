@@ -56,8 +56,7 @@ class King extends Piece {
                && (!isChecked(b, pos))) {
             output.add(b.getTiles()[pos.getX() + 2][pos.getY()]);
         }
-        if( (!this.hasMoved()) 
-               && (b.getTiles()[pos.getX() - 1][pos.getY()].getPiece() == null) 
+        if( (!this.hasMoved()) && (b.getTiles()[pos.getX() - 1][pos.getY()].getPiece() == null) 
                && (b.getTiles()[pos.getX() - 2][pos.getY()].getPiece() == null) 
                && (b.getTiles()[pos.getX() - 3][pos.getY()].getPiece() == null) 
                && (b.getTiles()[pos.getX() - 4][pos.getY()].getPiece() != null) 
@@ -144,16 +143,8 @@ class King extends Piece {
         while(i.hasNext()) {
             dummy = i.next();
             if(dummy.getPiece() != null 
-                   && !dummy.getPiece().getName().equals("K")
+                   && dummy.getPiece().getColour() != this.getColour() 
                    && dummy.getPiece().range(b, dummy).contains(t)) {
-                return true;
-            }
-            else if(dummy.getPiece() != null
-                        && dummy.getPiece().getName().equals("K")
-                        && dummy.getX() - t.getX() < 2
-                        && dummy.getX() - t.getX() > -2
-                        && dummy.getY() - t.getY() < 2
-                        && dummy.getY() - t.getY() > -2) {
                 return true;
             }
         }

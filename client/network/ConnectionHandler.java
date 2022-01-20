@@ -127,7 +127,9 @@ public class ConnectionHandler extends Thread {
         window.setInGame(true);
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(true);
-        window.gamePanel.resetPanel();
+
+        window.gamePanel.resetGame();
+        window.gamePanel.resetChat();
     }
 
     public void joinGame(Message message) {
@@ -139,8 +141,9 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(false);
         window.gamePanel.addOther(host);
-        window.gamePanel.resetPanel();
-
+        
+        window.gamePanel.resetGame();
+        window.gamePanel.resetChat();
     }
 
     public void guestJoined(Message message) {

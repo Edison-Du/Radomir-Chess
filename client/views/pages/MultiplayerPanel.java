@@ -16,7 +16,7 @@ import views.components.CustomButton;
 
 public class MultiplayerPanel extends AbstractGamePanel {
 
-    private String lobbyCode = "AAAAAAA";
+    private String lobbyCode = "";
     private boolean isHost;
 
     private int currentClient, otherClient;

@@ -67,6 +67,10 @@ public class MessagePanel extends ContentPanel implements ActionListener {
         // this.repaint();
     }
 
+    public void clearMessages() {
+        allTexts.clear();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 

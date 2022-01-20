@@ -35,9 +35,22 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
     public AbstractGamePanel() {
         
-        // Adds components to panel
-        initializeChessGame();
-        initializeChat();
+        // Chess game and board
+        chessGame = new ChessGame();
+        boardPanel = new ChessBoardPanel(chessGame, this);
+        boardPanel.setBounds(120, 120, 480, 480);
+        this.add(boardPanel);
+
+        // Moves
+        movesPanel = new MovesPanel();
+        movesPanel.setBounds(660, 120, 240, 120);
+        this.add(movesPanel, BorderLayout.CENTER);
+
+        // Chat
+        messagePanel = new MessagePanel();
+        messagePanel.setBounds(660, 300, 240, 330);
+        this.add(messagePanel);
+
 
         resign = new GamePanelButton("Resign");
         resign.setBounds(660, 240, 80, 60);
@@ -51,23 +64,6 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     }
 
     public abstract void processMove(String tile1, String tile2, String promotion);
-
-    private void initializeChessGame() {
-        chessGame = new ChessGame();
-        boardPanel = new ChessBoardPanel(chessGame, this);
-        boardPanel.setBounds(120, 120, 480, 480);
-        this.add(boardPanel);
-
-        movesPanel = new MovesPanel();
-        movesPanel.setBounds(660, 120, 240, 120);
-        this.add(movesPanel, BorderLayout.CENTER);
-    }
-
-    private void initializeChat() {
-        messagePanel = new MessagePanel();
-        messagePanel.setBounds(660, 300, 240, 330);
-        this.add(messagePanel);
-    }
 
     public void undoMove() {
         this.boardPanel.undoMove();
@@ -86,6 +82,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         } else {
             // boardPanel.gameResultOverlay.setVisible(false);
             playAgain = false;
+            opponentPlayAgain = false;
             boardPanel.setOverlayVisible(false);
         }
         boardPanel.revalidate();
@@ -101,22 +98,21 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     }
 
     public void resetGame() {
-        this.remove(boardPanel);
-        this.remove(movesPanel);
-        initializeChessGame();
-        
+
+        chessGame = new ChessGame();
+
+        boardPanel.setChessGame(chessGame);
+
         boardPanel.setPlayerColour(playerColour);
+
+        movesPanel.clearMoves();
 
         this.revalidate();
     }
 
-    public void resetPanel() {
-
-        this.remove(messagePanel);
-        initializeChat();
+    public void resetChat() {
+        messagePanel.clearMessages();
         this.revalidate();
-
-        resetGame();
     }
 
 
@@ -125,6 +121,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.playAgain = playAgain;
         if (playAgain && opponentPlayAgain) {
             resetGame();
+            setGameState(GameState.ONGOING);
         }
     }
 
@@ -132,6 +129,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.opponentPlayAgain = opponentPlayAgain;
         if (playAgain && opponentPlayAgain) {
             resetGame();
+            setGameState(GameState.ONGOING);
         }
     }
 }

@@ -22,11 +22,12 @@ public class Settings extends ContentPanel implements ActionListener {
         "Wood",
         "Bubblegum",
         "Vivid",
-        "Amethyst"
+        "Amethyst",
+        "Evergreen"
     };
     private final String[] BACKGROUNDS = {
         "Classic",
-        "Red",
+        "Brown",
         "Green",
         "Blue"
     };

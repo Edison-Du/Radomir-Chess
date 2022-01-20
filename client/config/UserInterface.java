@@ -68,7 +68,8 @@ public class UserInterface {
         new Color(206, 158, 106),
         new Color(255, 135, 178),
         new Color(255, 56, 9),
-        new Color(159, 144, 176)
+        new Color(159, 144, 176),
+        new Color(83, 148, 21)
     };
     public static final Color[] DARKER_TILE_COLOURS = new Color[]{
         new Color(64, 64, 65),
@@ -76,16 +77,17 @@ public class UserInterface {
         new Color(124, 88, 57),
         new Color(161, 216, 224),
         new Color(132, 99, 247),
-        new Color(125, 74, 141)
+        new Color(125, 74, 141),
+        new Color(25, 85, 21)
     };
     
     // Background
     public static int activeBackground = 0;
     public static Color[] BACKGROUNDS = new Color[]{
         FRAME_COLOUR,
-        new Color(200, 10, 10),
-        new Color(100, 250, 150),
-        new Color(10, 20, 170)
+        new Color(59, 38, 22),
+        new Color(21, 65, 2),
+        new Color(21, 57, 100)
     };
 
     // Pieces

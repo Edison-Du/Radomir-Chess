@@ -13,6 +13,7 @@ import views.chess.MessagePanel;
 import views.chess.MovesPanel;
 import config.UserInterface;
 import views.components.ContentPanel;
+import views.components.CustomButton;
 
 abstract public class AbstractGamePanel extends ContentPanel implements ActionListener {
 
@@ -26,11 +27,12 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
     // public GameResultOverlay gameResultOverlay;
 
-    public final GamePanelButton resign;
-
     private int playerColour;
     private GameState gameState;
 
+    public final GamePanelButton resign;
+    public CustomButton undoButton;
+    public CustomButton takebackButton;
 
     public AbstractGamePanel() {
         

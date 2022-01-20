@@ -7,12 +7,10 @@ public class DepthSearchBotP1 extends Bot {
     
     private int depth;
     private int side;
-    private Random rand;
     
     public DepthSearchBotP1(int depth, int side)  {
         this.depth = depth;
         this.side = side;
-        rand = new Random();
     }
     
     private int score(Board b)  {
@@ -30,6 +28,7 @@ public class DepthSearchBotP1 extends Bot {
         else {
             int out = 0;
             for(int i = 0; i < 64; i++) {
+                if (i == 27 || i == 28 || i == 35 || i == 36) out++;
                 if(b.getTiles()[i/8][i%8].getPiece() != null) {
                     out += b.getTiles()[i/8][i%8].getPiece().getPoints()*(1 - 2*this.side);
                 }
@@ -44,16 +43,14 @@ public class DepthSearchBotP1 extends Bot {
         int[] bestScore;
         int[] temp;
         String bestMove;
-        int rando;
         bestMove = possibleMoves.get(0);
-        g.move(possibleMoves.get(0).substring(0, 2), possibleMoves.get(0).substring(2, 4), possibleMoves.get(0).substring(4, 5));
+        g.move(bestMove.substring(0, 2), bestMove.substring(2, 4), bestMove.substring(4, 5));
         bestScore = average(g);
         g.undo();
         for(int i = 1; i < possibleMoves.size(); i++) {
-            g.move(possibleMoves.get(0).substring(0, 2), possibleMoves.get(0).substring(2, 4), possibleMoves.get(i).substring(4, 5));
+            g.move(possibleMoves.get(i).substring(0, 2), possibleMoves.get(i).substring(2, 4), possibleMoves.get(i).substring(4, 5));
             temp = average(g);
-            rando = rand.nextInt(1000);
-            if(temp[0]*bestScore[1] >= temp[1]*bestScore[0] && rando == 0) {
+            if(temp[0]*bestScore[1] >= temp[1]*bestScore[0]) {
                 bestScore = temp;
                 bestMove = possibleMoves.get(i);
             }

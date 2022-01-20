@@ -59,7 +59,7 @@ public abstract class Piece {
      */
     public static BufferedImage getImage(String piece, int colour) {
         try {
-            return ImageIO.read(new File(PathsConsts.KOSAL_PIECES + piece + colour + PathsConsts.PNG_FILE));
+            return ImageIO.read(new File(PathsConsts.activePieceSet + piece + colour + PathsConsts.PNG_FILE));
         } catch(IOException e) {
             System.out.println("Piece file not found");
         }

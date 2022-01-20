@@ -182,8 +182,7 @@ public class ChessGame {
                     System.out.println("Bot promoted pawn to " + botMove.substring(4, 5));
                 }
                 g.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4, 5));
-            }
-            
+            }   
         }
         s.close();
     }

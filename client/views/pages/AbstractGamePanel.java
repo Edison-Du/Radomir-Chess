@@ -27,6 +27,8 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     // public GameResultOverlay gameResultOverlay;
 
     public final GamePanelButton resign;
+    
+    public boolean playAgain;
 
     private int playerColour;
     private GameState gameState;
@@ -102,6 +104,9 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.remove(boardPanel);
         this.remove(movesPanel);
         initializeChessGame();
+        
+        boardPanel.setPlayerColour(playerColour);
+
         this.revalidate();
     }
 

@@ -35,7 +35,8 @@ public class MessageTypes {
     public static final String CHESS_MOVE = "CHESS_MOVE";
 
     public static final String RESIGNATION = "RESIGNATION";
-
+    public static final String PLAY_AGAIN = "PLAY_AGAIN";
+    
     public static final String TAKEBACK_REQUESTED = "TAKEBACK_REQUESTED";
     public static final String TAKEBACK_ACCEPTED = "TAKEBACK_ACCEPTED";
 }

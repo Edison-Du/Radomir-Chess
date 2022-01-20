@@ -63,6 +63,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
         leaveLobby.addActionListener(this);
         this.add(leaveLobby);
 
+        // Lobby visibility
         this.lobbyVisibilityLabel = new JLabel();
         this.lobbyVisibilityLabel.setForeground(UserInterface.TEXT_COLOUR);
         this.lobbyVisibilityLabel.setBounds(100, 0, 400, 200);
@@ -86,7 +87,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     }
 
     public void setLobbyVisibility(String visibility) {
-        // this.lobbyVisibilityLabel.setText(visibility.toUpperCase() + " LOBBY");;
+        this.lobbyVisibilityLabel.setText(visibility.toUpperCase() + " LOBBY");;
     }
 
     public void setHost(boolean isHost) {

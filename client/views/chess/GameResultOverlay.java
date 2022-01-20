@@ -5,40 +5,45 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import config.MessageTypes;
+import network.Message;
+import network.ServerConnection;
+import views.components.CustomButton;
+import views.pages.AbstractGamePanel;
+
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class GameResultOverlay extends JPanel{
+public class GameResultOverlay extends JPanel implements ActionListener {
 
-    // private Color backgroundColor = new Color(0, 0, 0, 0);
+    public JLabel message;
+    public final CustomButton playAgain;
 
-    private JLabel message;
+    private AbstractGamePanel gamePanel;
 
     public GameResultOverlay() {
         setBackground(new Color(0, 0, 0, 50));
         setOpaque(false);
         setLayout(null);
 
+        // this.gamePanel = gamePanel;
+
+        // Message
         message = new JLabel("");
         message.setForeground(Color.WHITE);
         message.setBounds(0, 100, 360, 100);
         message.setHorizontalAlignment(JLabel.CENTER);
         this.add(message);
+
+        // Play Again
+        playAgain = new CustomButton("Play Again");
+        playAgain.setBounds(150, 200, 150, 100);
+        playAgain.addActionListener(this);
+        this.add(playAgain);
     }
 
-    public void paintComponent(Graphics g) {
-        g.setColor(getBackground());
-        g.fillRect(0, 0, getWidth(), getHeight());
-    }
-
-    // public void setVisible(boolean visible) {
-    //     if (visible) {
-    //         setBackground(new Color(0, 0, 0, 50));
-    //     } else {
-    //         setBackground(new Color(0, 0, 0, 0));
-    //     }
-    //     revalidate();
-    // }
 
     // public String getMessage() {
     //     return this.message;
@@ -47,5 +52,12 @@ public class GameResultOverlay extends JPanel{
     public void setMessage(String message) {
         this.message.setText(message);
         this.revalidate();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) { 
+        if (e.getSource() == playAgain) {
+            ServerConnection.sendMessage(new Message(MessageTypes.PLAY_AGAIN));
+        }
     }
 }

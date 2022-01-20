@@ -33,7 +33,7 @@ public class MessageTypes {
     public static final String PLAYER_COLOUR = "PLAYER_COLOUR";
     public static final String CHESS_MOVE = "CHESS_MOVE";
 
-    public static final String RESIGN = "RESIGN";
+    public static final String RESIGNATION = "RESIGNATION";
 
     public static final String TAKEBACK_REQUESTED = "TAKEBACK_REQUESTED";
     public static final String TAKEBACK_ACCEPTED = "TAKEBACK_ACCEPTED";

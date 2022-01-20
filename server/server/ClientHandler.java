@@ -144,6 +144,9 @@ public class ClientHandler extends Thread{
         } else if (request.getType().equals(MessageTypes.CHESS_MOVE)) {
             sendChessMove(request);
 
+        } else if (request.getType().equals(MessageTypes.RESIGNATION)) {
+            resignGame(request);
+
         } else if (request.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
             sendTakebackRequest(request);
 
@@ -270,6 +273,7 @@ public class ClientHandler extends Thread{
         lobby = null;
     }
 
+    // The following 3 methods can be merged into one, maybe
     private void sendText(Message message) {
         if(lobby==null) return;
         lobby.sendMessage(this, message);
@@ -277,6 +281,11 @@ public class ClientHandler extends Thread{
 
     private void sendChessMove(Message message) {
         if(lobby==null) return;
+        lobby.sendMessage(this, message);
+    }
+
+    public void resignGame(Message message) {
+        if (lobby==null) return;
         lobby.sendMessage(this, message);
     }
 

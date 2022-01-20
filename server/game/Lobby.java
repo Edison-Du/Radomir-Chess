@@ -1,5 +1,6 @@
 package game;
 
+import config.GameState;
 import config.MessageTypes;
 import server.ClientHandler;
 import server.Message;
@@ -12,11 +13,14 @@ public class Lobby {
     private int hostColour;
     private boolean publicStatus;
 
+    private GameState gameState;
+
     public Lobby(ClientHandler host) {
         generateCode();
         this.host = host;
         this.hostName = this.host.getClientName();
         this.hostColour = (int)(Math.random() * 2);
+        this.gameState = GameState.WAITING;
     }
 
     public String getCode() {
@@ -62,6 +66,8 @@ public class Lobby {
         } else {
             this.guest = guest;
             this.guestName = this.guest.getClientName();
+            this.gameState = GameState.ONGOING;
+
             Message message = new Message(MessageTypes.GUEST_JOINED);
             message.addParam(Integer.toString(guest.getClientNum()));
             host.sendMessage(message);
@@ -122,8 +128,15 @@ public class Lobby {
             return;
         }
 
-        System.out.println("Host: " + host.getClientNum() + ", " + "Guest: " + guest.getClientNum());
-
         receiver.sendMessage(message);
     }
+
+    // public void resign(ClientHandler player) {
+    //     if (player == host) {
+
+
+    //     } else if (player == guest) {
+
+    //     }
+    // }
 }

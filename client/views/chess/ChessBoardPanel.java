@@ -30,6 +30,8 @@ public class ChessBoardPanel extends ContentPanel {
     private ChessGameMouseListener chessGameMouseListener;
     private AbstractGamePanel gamePanel;
 
+    public GameResultOverlay gameResultOverlay = new GameResultOverlay();
+
     public ChessBoardPanel(ChessGame game, AbstractGamePanel gamePanel) {
         this.game = game;
         this.gamePanel = gamePanel;
@@ -43,6 +45,9 @@ public class ChessBoardPanel extends ContentPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        gameResultOverlay.setBounds(0, 0, getWidth(), getHeight());
+        this.add(gameResultOverlay);
     }
 
     public void setPlayerColour(int colour) {

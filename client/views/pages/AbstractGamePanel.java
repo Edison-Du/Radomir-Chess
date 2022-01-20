@@ -24,7 +24,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public MovesPanel movesPanel;
     public MessagePanel messagePanel;
 
-    public GameResultOverlay gameResultOverlay;
+    // public GameResultOverlay gameResultOverlay;
 
     public final GamePanelButton resign;
 
@@ -42,10 +42,10 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         resign.addActionListener(this);
         this.add(resign);
 
-        gameResultOverlay = new GameResultOverlay();
+        // gameResultOverlay = new GameResultOverlay();
 
         // Same as chess board, use constants later lol
-        gameResultOverlay.setBounds(120, 120, 480, 480);
+        // gameResultOverlay.setBounds(120, 120, 480, 480);
     }
 
     public abstract void processMove(String tile1, String tile2, String promotion);
@@ -83,13 +83,12 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
     public void setGameState(GameState state) {
         this.gameState = state;
-        // Game is over
-        if ( (state != GameState.WAITING) && (state != GameState.ONGOING) ) {
-            this.add(gameResultOverlay);
+        if ((gameState != GameState.WAITING) && (gameState != GameState.ONGOING)) {
+            boardPanel.gameResultOverlay.setVisible(true);
         } else {
-            this.remove(gameResultOverlay);
+            boardPanel.gameResultOverlay.setVisible(false);
         }
-        this.revalidate();
+        boardPanel.revalidate();
     }
 
     public int getPlayerColour() {

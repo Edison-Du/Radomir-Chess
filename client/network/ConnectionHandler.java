@@ -1,5 +1,6 @@
 package network;
 
+import config.GameState;
 import config.MessageTypes;
 import config.Page;
 import views.Window;
@@ -63,6 +64,9 @@ public class ConnectionHandler extends Thread {
 
         } else if (message.getType().equals(MessageTypes.CHESS_MOVE)) {
             processOpponentChessMove(message);
+
+        } else if (message.getType().equals(MessageTypes.RESIGNATION)) {
+            processOpponentResignation();
 
         } else if (message.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
             processRequestTakeback();
@@ -141,6 +145,7 @@ public class ConnectionHandler extends Thread {
 
     public void opponentLeft(Message message) {
         window.gamePanel.messagePanel.addTextMessage("Opponent has left lobby");
+        processOpponentResignation();
     }
 
     public void leaveGame(Message message) {
@@ -161,6 +166,15 @@ public class ConnectionHandler extends Thread {
 
         // window.gamePanel.movesPanel.addMove(t2);
         window.gamePanel.boardPanel.makeOpponentMove(t1, t2, p);
+    }
+
+    public void processOpponentResignation() {
+        if (window.gamePanel.getPlayerColour() == 0) {
+            window.gamePanel.setGameState(GameState.WHITE_VICTORY_RESIGN);
+        } else {
+            window.gamePanel.setGameState(GameState.BLACK_VICTORY_RESIGN);
+        }
+        window.gamePanel.boardPanel.gameResultOverlay.setMessage("Your Opponent Has Resigned");
     }
 
 

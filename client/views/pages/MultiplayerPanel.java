@@ -143,7 +143,8 @@ public class MultiplayerPanel extends AbstractGamePanel {
             } else {
                 setGameState(GameState.WHITE_VICTORY_RESIGN);
             }
-            ServerConnection.sendMessage(new Message(MessageTypes.RESIGN));
+            boardPanel.gameResultOverlay.setMessage("You have resigned");
+            ServerConnection.sendMessage(new Message(MessageTypes.RESIGNATION));
 
         } else if (e.getSource() == leaveLobby) {
             Message message = new Message(MessageTypes.LEAVE_GAME);

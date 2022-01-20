@@ -77,6 +77,9 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.DISPLAY_GAMES)) {
             displayLobbies(message);
 
+        } else if (message.getType().equals(MessageTypes.LOBBY_VISIBILITY)) {
+            setLobbyVisibility(message);
+
         } else if (message.getType().equals(MessageTypes.LOGIN_ACCEPTED)) {
             login(message.getParam(0));
 
@@ -197,5 +200,10 @@ public class ConnectionHandler extends Thread {
             lobbies.add(Lobby.parseLobbyFromString(message.getParam(i)));
         }
         window.browseGamesPanel.setLobbyList(lobbies);
+    }
+
+    public void setLobbyVisibility(Message message) {
+        String visibility = message.getParam(0);
+        window.gamePanel.setLobbyVisibility(visibility);
     }
 }

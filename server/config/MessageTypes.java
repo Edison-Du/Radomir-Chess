@@ -19,6 +19,8 @@ public class MessageTypes {
     public static final String CREATE_GAME = "CREATE_GAME";
     public static final String GAME_CREATED = "GAME_CREATED";
 
+    public static final String LOBBY_VISIBILITY = "LOBBY_VISIBILITY";
+
     public static final String JOIN_GAME = "JOIN_GAME";
     public static final String JOIN_ERROR = "JOIN_ERROR";
     public static final String JOINED_GAME = "JOINED_GAME";
@@ -37,4 +39,5 @@ public class MessageTypes {
 
     public static final String TAKEBACK_REQUESTED = "TAKEBACK_REQUESTED";
     public static final String TAKEBACK_ACCEPTED = "TAKEBACK_ACCEPTED";
+
 }

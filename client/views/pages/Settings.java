@@ -52,8 +52,7 @@ public class Settings extends ContentPanel implements ActionListener {
         this.add(boardThemeLabel);
 
         boardThemes.setBounds(35, 150, 115, 35);
-        boardThemes.setForeground(UserInterface.TEXT_COLOUR);
-        boardThemes.setBackground(UserInterface.FRAME_COLOUR);
+        boardThemes.setForeground(UserInterface.FRAME_COLOUR);
         boardThemes.setFocusable(false);
         boardThemes.addActionListener(this);
         this.add(boardThemes);
@@ -65,8 +64,7 @@ public class Settings extends ContentPanel implements ActionListener {
         this.add(backgroundThemeLabel);
 
         backgroundThemes.setBounds(170, 150, 115, 35);
-        backgroundThemes.setForeground(UserInterface.TEXT_COLOUR);
-        backgroundThemes.setBackground(UserInterface.FRAME_COLOUR);
+        backgroundThemes.setForeground(UserInterface.FRAME_COLOUR);
         backgroundThemes.setFocusable(false);
         backgroundThemes.addActionListener(this);
         this.add(backgroundThemes);

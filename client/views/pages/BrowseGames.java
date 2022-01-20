@@ -34,7 +34,7 @@ public class BrowseGames extends ContentPanel implements ActionListener {
     private ArrayList<Lobby> lobbies = new ArrayList<>();
 
     private static int lobbyNumber;
-    private static String joinGameCode = "";
+    private static String joinGameCode;
 
     public BrowseGames() {
         // titleLabel.setFont(UserInterface.JOIN_GAME_FONT_1);
@@ -43,13 +43,12 @@ public class BrowseGames extends ContentPanel implements ActionListener {
         // titleLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 50, UserInterface.WINDOW_HEIGHT / 2 + 20, 210, 30);
         // this.add(titleLabel);
         
-        
         lobbyList = new JList<>(allLobbies);
         pane = new JScrollPane(lobbyList);
         this.add(pane);
         lobbyList.setBounds(0, 0, UserInterface.WINDOW_WIDTH / 2, UserInterface.WINDOW_HEIGHT);
         lobbyList.addMouseListener(new MouseAdapter() {
-            public void mouseReleased (MouseEvent evt) {
+            public void mouseReleased (MouseEvent e) {
                 if (lobbyList.getSelectedIndex() != -1) {
                     lobbyNumber = lobbyList.getSelectedIndex();
                     joinGameCode = lobbies.get(lobbyNumber).getLobbyCode();
@@ -86,6 +85,9 @@ public class BrowseGames extends ContentPanel implements ActionListener {
     public void setLobbyList(ArrayList<Lobby> lobbies) {
         this.lobbies = lobbies;
         allLobbies.clear();
+        joinLabel.setText("Join Lobby: ");
+        lobbyList.setSelectedIndex(-1);
+        joinGameCode = "";
         for (Lobby lobby : lobbies) {
             allLobbies.addElement(lobby.getDisplayLobbyInfo());
         }

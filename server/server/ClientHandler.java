@@ -133,7 +133,7 @@ public class ClientHandler extends Thread{
             joinGame(request);
 
         } else if (request.getType().equals(MessageTypes.CREATE_GAME)) {
-            createGame();
+            createGame(request);
 
         } else if (request.getType().equals(MessageTypes.LEAVE_GAME)) {
             leaveGame();
@@ -242,19 +242,28 @@ public class ClientHandler extends Thread{
         }
     }
 
-    private void createGame() {
+    private void createGame(Message message) {
         lobby = server.getLobbyManager().createLobby(this);
+        if (message.getParam(0).equals("public")) {
+            lobby.setPublicStatus("public");
+        } else if (message.getParam(0).equals("private")) {
+            lobby.setPublicStatus("private");
+        }
+        server.getLobbyManager().addLobby(lobby);
         lobby.setHost(this);
-
             // Create lobby
-            Message message = new Message(MessageTypes.GAME_CREATED);
+            Message createGameMessage = new Message(MessageTypes.GAME_CREATED);
             message.addParam(lobby.getCode());
-            this.sendMessage(message);
+            this.sendMessage(createGameMessage);
 
             // Player colour
             Message colourMessage = new Message(MessageTypes.PLAYER_COLOUR);
             colourMessage.addParam(Integer.toString(lobby.getHostColour()));
             this.sendMessage(colourMessage);
+
+            Message lobbyVisibilityMessage = new Message(MessageTypes.LOBBY_VISIBILITY);
+            lobbyVisibilityMessage.addParam(lobby.getLobbyVisibility());
+            this.sendMessage(lobbyVisibilityMessage);
 
             System.out.println(message.getText());
     }
@@ -291,7 +300,7 @@ public class ClientHandler extends Thread{
 
 
     private void browseGames() {
-        Message message = server.getLobbyManager().getLobbyInfo();
+        Message message = server.getLobbyManager().getPublicLobbyInfo();
         this.sendMessage(message);
     }
 

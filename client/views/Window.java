@@ -29,9 +29,9 @@ public class Window extends JFrame {
     public JoinGame joinGamePanel;
     public BrowseGames browseGamesPanel;
     public BotPanel playBotPanel;
-
     public MultiplayerPanel gamePanel;
     public Settings settingsPanel;
+    public About aboutPanel;
     public Login loginPanel;
 
 
@@ -43,6 +43,7 @@ public class Window extends JFrame {
         browseGamesPanel = new BrowseGames();
         gamePanel = new MultiplayerPanel();
         settingsPanel = new Settings(this);
+        aboutPanel = new About();
         loginPanel = new Login();
 
         // Navigation bar
@@ -129,12 +130,8 @@ public class Window extends JFrame {
             content = settingsPanel;
 
         } else if (currentPage == Page.ABOUT) {
-            try {
-                // about stuff here
-            } catch (Exception e){
-                System.out.println("Cannot create chess game.");
-                e.printStackTrace();
-            }
+            content = aboutPanel;
+            
         } else if (currentPage == Page.LOGIN) {
             content = loginPanel;
 

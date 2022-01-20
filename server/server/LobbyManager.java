@@ -8,10 +8,12 @@ import game.Lobby;
 
 public class LobbyManager {
     private HashMap<String, Lobby> activeGames;
+    private HashMap<String, Lobby> activePublicGames;
     // private HashSet<ArrayList<String>> info;
     
     public LobbyManager() {
         activeGames = new HashMap<>();
+        activePublicGames = new HashMap<>();
         // info = new LinkedHashSet<>();
     }
 
@@ -25,30 +27,34 @@ public class LobbyManager {
 
     public Lobby createLobby(ClientHandler host) {
         Lobby lobby = new Lobby(host);
-
         // This is terrible but works for now
         // We may implement smarter algorithm later
         while (lobbyExists(lobby.getCode())) {
             lobby = new Lobby(host);
         }
-        activeGames.put(lobby.getCode(), lobby);
         return lobby;
+    }
+
+    public void addLobby(Lobby lobby) {
+        activeGames.put(lobby.getCode(), lobby);
+        if (lobby.isPublic()) {
+            activePublicGames.put(lobby.getCode(), lobby);
+        }
     }
 
     public boolean removeLobby(String code) {
         Lobby lobby = activeGames.remove(code);
+        if (lobby.isPublic()) {
+            activePublicGames.remove(code);
+        }
         return lobby != null;
     }
 
-    public Set<String> getActiveGames() {
-        return this.activeGames.keySet();
-    }
-
-    public Message getLobbyInfo() {
+    public Message getPublicLobbyInfo() {
         Message message = new Message(MessageTypes.DISPLAY_GAMES);
 
         int lobbyIndex = 0;
-        for (Lobby lobby : activeGames.values()) {
+        for (Lobby lobby : activePublicGames.values()) {
             String lobbyParameter = "";
             lobbyParameter += Integer.toString(++lobbyIndex) + ",";
             lobbyParameter += lobby.getCode() + ",";

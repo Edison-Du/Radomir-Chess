@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import config.GameState;
 import config.MessageTypes;
 import config.UserInterface;
+import network.Lobby;
 import network.Message;
 import network.ServerConnection;
 import views.components.CustomButton;
@@ -26,11 +27,10 @@ public class MultiplayerPanel extends AbstractGamePanel {
     private CustomButton leaveLobby;
 
     private JLabel username, opponentUsername;
+    private JLabel lobbyVisibilityLabel;
 
     private CustomButton undoButton;
     private CustomButton takebackButton;
-
-    //
 
     public MultiplayerPanel() {
 
@@ -43,8 +43,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
         codeLabel.setForeground(Color.WHITE);
         codeLabel.setBounds(660, 30, 100, 100);
         this.add(codeLabel);
-
-        System.out.println("Construction");
 
         // Showing lobby status (who is in and not)
         otherClientLabel = new JLabel("You are alone in this lobby.");
@@ -65,6 +63,12 @@ public class MultiplayerPanel extends AbstractGamePanel {
         leaveLobby.addActionListener(this);
         this.add(leaveLobby);
 
+        this.lobbyVisibilityLabel = new JLabel();
+        this.lobbyVisibilityLabel.setForeground(UserInterface.TEXT_COLOUR);
+        this.lobbyVisibilityLabel.setBounds(100, 0, 400, 200);
+        this.lobbyVisibilityLabel.setFont(UserInterface.USERNAME_FONT);
+        this.add(lobbyVisibilityLabel);
+
         undoButton = new CustomButton("Takeback");
         undoButton.setBounds(0, 600, 150, 25);
         undoButton.addActionListener(this);
@@ -79,6 +83,10 @@ public class MultiplayerPanel extends AbstractGamePanel {
         this.lobbyCode = code;
         codeLabel.setText(lobbyCode);
         System.out.println("Lobby change");
+    }
+
+    public void setLobbyVisibility(String visibility) {
+        this.lobbyVisibilityLabel.setText(visibility.toUpperCase() + " LOBBY");;
     }
 
     public void setHost(boolean isHost) {
@@ -128,7 +136,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(getGameState());
-
         if (e.getSource() == takebackButton){
             ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_ACCEPTED));
             this.undoMove();
@@ -150,5 +157,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
             Message message = new Message(MessageTypes.LEAVE_GAME);
             ServerConnection.sendMessage(message);
         }
+        this.revalidate();
+        this.repaint();
     } 
 }   

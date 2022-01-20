@@ -16,7 +16,7 @@ import views.components.CustomButton;
 
 public class MultiplayerPanel extends AbstractGamePanel {
 
-    private String lobbyCode = "";
+    private String lobbyCode = "AAAAAAA";
     private boolean isHost;
 
     private int currentClient, otherClient;
@@ -86,7 +86,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     }
 
     public void setLobbyVisibility(String visibility) {
-        this.lobbyVisibilityLabel.setText(visibility.toUpperCase() + " LOBBY");;
+        // this.lobbyVisibilityLabel.setText(visibility.toUpperCase() + " LOBBY");;
     }
 
     public void setHost(boolean isHost) {

@@ -15,7 +15,7 @@ public class GameResultOverlay extends JPanel{
     private JLabel message;
 
     public GameResultOverlay() {
-        setBackground(new Color(0, 0, 0, 0));
+        setBackground(new Color(0, 0, 0, 50));
         setOpaque(false);
         setLayout(null);
 
@@ -31,14 +31,14 @@ public class GameResultOverlay extends JPanel{
         g.fillRect(0, 0, getWidth(), getHeight());
     }
 
-    public void setVisible(boolean visible) {
-        if (visible) {
-            setBackground(new Color(0, 0, 0, 50));
-        } else {
-            setBackground(new Color(0, 0, 0, 0));
-        }
-        revalidate();
-    }
+    // public void setVisible(boolean visible) {
+    //     if (visible) {
+    //         setBackground(new Color(0, 0, 0, 50));
+    //     } else {
+    //         setBackground(new Color(0, 0, 0, 0));
+    //     }
+    //     revalidate();
+    // }
 
     // public String getMessage() {
     //     return this.message;

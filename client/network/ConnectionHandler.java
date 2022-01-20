@@ -140,12 +140,19 @@ public class ConnectionHandler extends Thread {
     public void guestJoined(Message message) {
         int guest = Integer.parseInt(message.getParam(0));
 
+        window.gamePanel.resetGame();
+        window.gamePanel.setGameState(GameState.ONGOING);
+
         window.gamePanel.addOther(guest);
+        window.gamePanel.messagePanel.addTextMessage(guest + " has joined the lobby.");
+        
     }
 
     public void opponentLeft(Message message) {
         window.gamePanel.messagePanel.addTextMessage("Opponent has left lobby");
-        processOpponentResignation();
+        if (window.gamePanel.getGameState() == GameState.ONGOING) {
+            processOpponentResignation();
+        }
     }
 
     public void leaveGame(Message message) {

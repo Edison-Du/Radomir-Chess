@@ -35,7 +35,8 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public AbstractGamePanel() {
         
         // Adds components to panel
-        initialize();
+        initializeChessGame();
+        initializeChat();
 
         resign = new GamePanelButton("Resign");
         resign.setBounds(660, 240, 80, 60);
@@ -50,23 +51,18 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
     public abstract void processMove(String tile1, String tile2, String promotion);
 
-    private void initialize() {
-
+    private void initializeChessGame() {
         chessGame = new ChessGame();
-
-        // Use constants
-
-        // Chess game
         boardPanel = new ChessBoardPanel(chessGame, this);
         boardPanel.setBounds(120, 120, 480, 480);
         this.add(boardPanel);
 
-        // Moves panel
         movesPanel = new MovesPanel();
         movesPanel.setBounds(660, 120, 240, 120);
         this.add(movesPanel, BorderLayout.CENTER);
+    }
 
-        // Message panel
+    private void initializeChat() {
         messagePanel = new MessagePanel();
         messagePanel.setBounds(660, 300, 240, 330);
         this.add(messagePanel);
@@ -100,12 +96,19 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.boardPanel.setPlayerColour(colour);
     }
 
-    public void resetPanel() {
+    public void resetGame() {
         this.remove(boardPanel);
         this.remove(movesPanel);
-        this.remove(messagePanel);
-
-        initialize();
+        initializeChessGame();
         this.revalidate();
+    }
+
+    public void resetPanel() {
+
+        this.remove(messagePanel);
+        initializeChat();
+        this.revalidate();
+
+        resetGame();
     }
 }

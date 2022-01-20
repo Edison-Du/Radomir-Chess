@@ -21,7 +21,12 @@ public class MovesPanel extends ContentPanel {
 
     public MovesPanel() {
 
-        movesList = new DefaultTableModel();
+        movesList = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+               return false;
+            }
+        };
 
         for (String column : columnNames) {
             movesList.addColumn(column);
@@ -33,9 +38,12 @@ public class MovesPanel extends ContentPanel {
 
         table.setRowHeight(15);
 
+        table.getTableHeader().setReorderingAllowed(false);
+
+        table.setFillsViewportHeight(true);
+
         pane = new JScrollPane(table);           
         pane.setBounds(0, 0, 240, 120);
-        table.setFillsViewportHeight(true);
         
         this.add(pane);
     }

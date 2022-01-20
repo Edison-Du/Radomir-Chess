@@ -27,6 +27,5 @@ public class RandomBot extends Bot {
             return "B";
         }
         return "N";
-    }
-    
+    } 
 }

@@ -1,5 +1,6 @@
 package network;
 
+import config.GameState;
 import config.MessageTypes;
 import config.Page;
 import views.Window;
@@ -64,6 +65,12 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.CHESS_MOVE)) {
             processOpponentChessMove(message);
 
+        } else if (message.getType().equals(MessageTypes.RESIGNATION)) {
+            processOpponentResignation();
+
+        } else if (message.getType().equals(MessageTypes.PLAY_AGAIN)) {
+            processPlayAgain();
+
         } else if (message.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
             processRequestTakeback();
 
@@ -72,6 +79,9 @@ public class ConnectionHandler extends Thread {
 
         } else if (message.getType().equals(MessageTypes.DISPLAY_GAMES)) {
             displayLobbies(message);
+
+        } else if (message.getType().equals(MessageTypes.LOBBY_VISIBILITY)) {
+            setLobbyVisibility(message);
 
         } else if (message.getType().equals(MessageTypes.LOGIN_ACCEPTED)) {
             login(message.getParam(0));
@@ -117,7 +127,9 @@ public class ConnectionHandler extends Thread {
         window.setInGame(true);
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(true);
-        window.gamePanel.resetPanel();
+
+        window.gamePanel.resetGame();
+        window.gamePanel.resetChat();
     }
 
     public void joinGame(Message message) {
@@ -129,18 +141,27 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(false);
         window.gamePanel.addOther(host);
-        window.gamePanel.resetPanel();
-
+        
+        window.gamePanel.resetGame();
+        window.gamePanel.resetChat();
     }
 
     public void guestJoined(Message message) {
         int guest = Integer.parseInt(message.getParam(0));
 
+        window.gamePanel.resetGame();
+        window.gamePanel.setGameState(GameState.ONGOING);
+
         window.gamePanel.addOther(guest);
+        window.gamePanel.messagePanel.addTextMessage(guest + " has joined the lobby.");
+        
     }
 
     public void opponentLeft(Message message) {
         window.gamePanel.messagePanel.addTextMessage("Opponent has left lobby");
+        if (window.gamePanel.getGameState() == GameState.ONGOING) {
+            processOpponentResignation();
+        }
     }
 
     public void leaveGame(Message message) {
@@ -148,10 +169,14 @@ public class ConnectionHandler extends Thread {
         window.changePage(Page.PLAY);
     }
 
+    public void processPlayAgain() {
+        window.gamePanel.setOpponentPlayAgain(true);
+    }
+
     public void setPlayerColour(Message message) {
         int colour = Integer.parseInt(message.getParam(0));
         
-        window.gamePanel.boardPanel.setPlayerColour(colour);
+        window.gamePanel.setPlayerColour(colour);
     }
 
     public void processOpponentChessMove(Message message) {
@@ -161,6 +186,15 @@ public class ConnectionHandler extends Thread {
 
         // window.gamePanel.movesPanel.addMove(t2);
         window.gamePanel.boardPanel.makeOpponentMove(t1, t2, p);
+    }
+
+    public void processOpponentResignation() {
+        if (window.gamePanel.getPlayerColour() == 0) {
+            window.gamePanel.setGameState(GameState.WHITE_VICTORY_RESIGN);
+        } else {
+            window.gamePanel.setGameState(GameState.BLACK_VICTORY_RESIGN);
+        }
+        window.gamePanel.boardPanel.gameResultOverlay.setMessage("Your Opponent Has Resigned");
     }
 
 
@@ -176,5 +210,10 @@ public class ConnectionHandler extends Thread {
             lobbies.add(Lobby.parseLobbyFromString(message.getParam(i)));
         }
         window.browseGamesPanel.setLobbyList(lobbies);
+    }
+
+    public void setLobbyVisibility(Message message) {
+        String visibility = message.getParam(0);
+        window.gamePanel.setLobbyVisibility(visibility);
     }
 }

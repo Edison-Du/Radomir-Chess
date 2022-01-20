@@ -1,5 +1,6 @@
 package game;
 
+import config.GameState;
 import config.MessageTypes;
 import server.ClientHandler;
 import server.Message;
@@ -10,13 +11,17 @@ public class Lobby {
     private String hostName, guestName;
     private String code;
     private int hostColour;
-    private boolean publicStatus;
+    private String lobbyVisibility;
+
+    private GameState gameState;
 
     public Lobby(ClientHandler host) {
         generateCode();
         this.host = host;
         this.hostName = this.host.getClientName();
         this.hostColour = (int)(Math.random() * 2);
+        this.gameState = GameState.WAITING;
+        this.lobbyVisibility = "public";
     }
 
     public String getCode() {
@@ -28,12 +33,19 @@ public class Lobby {
         this.code = Integer.toString((int) (Math.random() * (9999 - 1000)) + 1000);
     }
 
-    public boolean getPublicStatus() {
-        return this.publicStatus;
+    public boolean isPublic() {
+        if (this.lobbyVisibility.equals("public")) {
+            return true;
+        }
+        return false;
+    }
+
+    public String getLobbyVisibility() {
+        return this.lobbyVisibility;
     }
     
-    public void setPublicStatus(boolean publicStatus) {
-        this.publicStatus = publicStatus;
+    public void setPublicStatus(String lobbyVisibility) {
+        this.lobbyVisibility = lobbyVisibility;
     }
     
     public String getHostName() {
@@ -62,6 +74,8 @@ public class Lobby {
         } else {
             this.guest = guest;
             this.guestName = this.guest.getClientName();
+            this.gameState = GameState.ONGOING;
+
             Message message = new Message(MessageTypes.GUEST_JOINED);
             message.addParam(Integer.toString(guest.getClientNum()));
             host.sendMessage(message);
@@ -122,8 +136,15 @@ public class Lobby {
             return;
         }
 
-        System.out.println("Host: " + host.getClientNum() + ", " + "Guest: " + guest.getClientNum());
-
         receiver.sendMessage(message);
     }
+
+    // public void resign(ClientHandler player) {
+    //     if (player == host) {
+
+
+    //     } else if (player == guest) {
+
+    //     }
+    // }
 }

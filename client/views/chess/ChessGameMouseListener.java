@@ -7,6 +7,7 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.SwingUtilities;
 
 import chesslogic.*;
+import config.GameState;
 import views.pages.AbstractGamePanel;
 
 import java.awt.image.BufferedImage;
@@ -26,8 +27,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     int posX = 0;
     int posY = 0;
 
-    boolean isYourTurn;
-
     BufferedImage heldPieceImage = null;
     Piece selectedPiece = null;
     boolean isSelected = false;
@@ -44,6 +43,11 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     }
 
     public void mousePressed(MouseEvent e) {
+
+        // if (gamePanel.getGameState() != GameState.ONGOING) {
+        //     return;
+        // }
+
         // Initialize mouse coordinates
         mouseX = e.getX();
         mouseY = e.getY();
@@ -99,6 +103,10 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     }
 
     public void mouseReleased(MouseEvent e) {
+        
+        // if (gamePanel.getGameState() != GameState.ONGOING) {
+        //     return;
+        // }
 
         // Initialize mouse coordinates
         mouseX = e.getX();
@@ -117,7 +125,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             heldPieceImage = null;
             System.out.println(", " + t2);
 
-            if(game.getCurrentPos().legal(t1, t2)) {
+            if(gamePanel.getGameState() == GameState.ONGOING && game.getCurrentPos().legal(t1, t2)) {
                 
                 if(game.getCurrentPos().promotingMove(t1, t2)) {
                     isPromoting = true;
@@ -162,10 +170,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
 
     public void setPlayerColour(int colour) {
         this.playerColour = colour;
-    }
-
-    public void setTurn(boolean isTurn) {
-        this.isYourTurn = isTurn;
     }
 
     /**

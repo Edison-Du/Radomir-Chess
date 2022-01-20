@@ -1,4 +1,4 @@
-package views.pages;
+package views.chess;
 
 import java.awt.Rectangle;
 
@@ -21,9 +21,12 @@ public class MovesPanel extends ContentPanel {
 
     public MovesPanel() {
 
-        this.setBounds(660, 120, 240, 120);
-
-        movesList = new DefaultTableModel();
+        movesList = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+               return false;
+            }
+        };
 
         for (String column : columnNames) {
             movesList.addColumn(column);
@@ -35,9 +38,12 @@ public class MovesPanel extends ContentPanel {
 
         table.setRowHeight(15);
 
+        table.getTableHeader().setReorderingAllowed(false);
+
+        table.setFillsViewportHeight(true);
+
         pane = new JScrollPane(table);           
         pane.setBounds(0, 0, 240, 120);
-        table.setFillsViewportHeight(true);
         
         this.add(pane);
     }
@@ -53,5 +59,21 @@ public class MovesPanel extends ContentPanel {
         table.scrollRectToVisible(new Rectangle(table.getCellRect(numMoves/2, 0, true)));
 
         numMoves++;
+    }
+
+    public void removeMove(){
+        if (numMoves == 0) return;
+        else if (numMoves % 2 == 0){
+            this.movesList.setValueAt("", numMoves/2-1, 2);
+        } else {
+            this.movesList.removeRow(numMoves/2);
+        }
+
+        numMoves--;
+    }
+
+    public void clearMoves() {
+        numMoves = 0;
+        movesList.setRowCount(0);
     }
 }

@@ -251,13 +251,7 @@ g.move("a2" ,"a1", null);
                     System.out.println("Bot promoted pawn to " + botMove.substring(4, 5));
                 }
                 g.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4, 5));
-            }
-            
-            System.out.println(g.getCurrentPos().getPieces());
-            System.out.println(g.getStringMoves());
-            System.out.println(g.getPiecesTaken());
-            System.out.println(g.getPawnsPromoted());
-            
+            }   
         }
         s.close();
     }

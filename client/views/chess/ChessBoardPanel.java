@@ -1,4 +1,4 @@
-package views.pages;
+package views.chess;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,8 +14,8 @@ import chesslogic.ChessGame;
 import chesslogic.Tile;
 import config.PathsConsts;
 import config.UserInterface;
-import views.chess.ChessGameMouseListener;
 import views.components.ContentPanel;
+import views.pages.AbstractGamePanel;
 
 public class ChessBoardPanel extends ContentPanel {
 
@@ -30,6 +30,8 @@ public class ChessBoardPanel extends ContentPanel {
     private ChessGameMouseListener chessGameMouseListener;
     private AbstractGamePanel gamePanel;
 
+    public GameResultOverlay gameResultOverlay;
+
     public ChessBoardPanel(ChessGame game, AbstractGamePanel gamePanel) {
         this.game = game;
         this.gamePanel = gamePanel;
@@ -43,18 +45,35 @@ public class ChessBoardPanel extends ContentPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+        gameResultOverlay = new GameResultOverlay(gamePanel);
+        gameResultOverlay.setBounds(0, 0, getWidth(), getHeight());
+    }
+
+    public void setOverlayVisible(boolean visible) {
+        if (visible) {
+            this.add(gameResultOverlay);
+        } else {
+            this.remove(gameResultOverlay);
+        }
+        this.revalidate();
     }
 
     public void setPlayerColour(int colour) {
         this.playerColour = colour;
         chessGameMouseListener.setPlayerColour(colour);
     }
+
+    public void setChessGame(ChessGame game) {
+        this.game = game;
+        this.chessGameMouseListener.game = game;
+    }
     
     public void makeOpponentMove(String t1, String t2, String p) {
         String move = game.getCurrentPos().toAlgebraic(t1, t2, p);
         gamePanel.movesPanel.addMove(move);
         this.game.move(t1, t2, p);
-        chessGameMouseListener.setTurn(true);
     }
 
     public void undoMove() {
@@ -72,7 +91,7 @@ public class ChessBoardPanel extends ContentPanel {
         );
 
         // Draw wood board image
-        if (UserInterface.activeTheme == UserInterface.WOOD_BOARD) {
+        if (UserInterface.activeTheme == 2) {
             g.drawImage(woodBoard, 0, 0, this);
         }
 

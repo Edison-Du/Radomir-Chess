@@ -82,9 +82,11 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public void setGameState(GameState state) {
         this.gameState = state;
         if ((gameState != GameState.WAITING) && (gameState != GameState.ONGOING)) {
-            boardPanel.gameResultOverlay.setVisible(true);
+            // boardPanel.gameResultOverlay.setVisible(true);
+            boardPanel.setOverlayVisible(true);
         } else {
-            boardPanel.gameResultOverlay.setVisible(false);
+            // boardPanel.gameResultOverlay.setVisible(false);
+            boardPanel.setOverlayVisible(false);
         }
         boardPanel.revalidate();
     }

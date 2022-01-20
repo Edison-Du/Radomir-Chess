@@ -22,15 +22,18 @@ public class MessageTypes {
     public static final String JOIN_GAME = "JOIN_GAME";
     public static final String JOIN_ERROR = "JOIN_ERROR";
     public static final String JOINED_GAME = "JOINED_GAME";
+    public static final String GAME_FULL = "GAME_FULL";
+    public static final String GUEST_JOINED = "GUEST_JOINED";
+
     public static final String LEAVE_GAME = "LEAVE_GAME";
     public static final String LEFT_SUCCESFULLY = "LEFT_SUCCESSFULLY";
     public static final String OPPONENT_LEFT = "OPPONENT_LEFT";
-
-    public static final String GAME_FULL = "GAME_FULL";
-    public static final String GUEST_JOINED = "GUEST_JOINED";
+    
     public static final String SENT_TEXT = "SENT_TEXT";
     public static final String PLAYER_COLOUR = "PLAYER_COLOUR";
     public static final String CHESS_MOVE = "CHESS_MOVE";
+
+    public static final String RESIGN = "RESIGN";
 
     public static final String TAKEBACK_REQUESTED = "TAKEBACK_REQUESTED";
     public static final String TAKEBACK_ACCEPTED = "TAKEBACK_ACCEPTED";

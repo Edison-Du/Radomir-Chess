@@ -1,4 +1,4 @@
-package views.pages;
+package views.chess;
 
 import java.awt.Rectangle;
 

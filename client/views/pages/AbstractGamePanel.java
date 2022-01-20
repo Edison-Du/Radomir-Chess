@@ -6,7 +6,11 @@ import java.awt.image.BufferedImage;
 
 import chesslogic.ChessGame;
 import config.GameState;
+import views.chess.ChessBoardPanel;
 import views.chess.GamePanelButton;
+import views.chess.GameResultOverlay;
+import views.chess.MessagePanel;
+import views.chess.MovesPanel;
 import config.UserInterface;
 import views.components.ContentPanel;
 
@@ -20,20 +24,28 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public MovesPanel movesPanel;
     public MessagePanel messagePanel;
 
-    public GamePanelButton resign;
+    public GameResultOverlay gameResultOverlay;
 
+    public final GamePanelButton resign;
+
+    private int playerColour;
     private GameState gameState;
 
 
     public AbstractGamePanel() {
-
+        
+        // Adds components to panel
         initialize();
 
-        // // Leave lobby
-        // leaveLobby = new JButton("Leave");
-        // leaveLobby.setBounds(780, 630, 120, 30);
-        // leaveLobby.addActionListener(this);
-        // this.add(leaveLobby);
+        resign = new GamePanelButton("Resign");
+        resign.setBounds(660, 240, 80, 60);
+        resign.addActionListener(this);
+        this.add(resign);
+
+        gameResultOverlay = new GameResultOverlay();
+
+        // Same as chess board, use constants later lol
+        gameResultOverlay.setBounds(120, 120, 480, 480);
     }
 
     public abstract void processMove(String tile1, String tile2, String promotion);
@@ -42,9 +54,10 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
         chessGame = new ChessGame();
 
-        // Chess game
-        boardPanel = new ChessBoardPanel(chessGame, this); // sub-panel 1
         // Use constants
+
+        // Chess game
+        boardPanel = new ChessBoardPanel(chessGame, this);
         boardPanel.setBounds(120, 120, 480, 480);
         this.add(boardPanel);
 
@@ -55,15 +68,8 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
         // Message panel
         messagePanel = new MessagePanel();
-        // Use constants
         messagePanel.setBounds(660, 300, 240, 330);
         this.add(messagePanel);
-
-
-        // Buttons
-        resign = new GamePanelButton("Resign");
-        resign.setBounds(660, 240, 80, 60);
-        this.add(resign);
     }
 
     public void undoMove() {
@@ -77,6 +83,22 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
     public void setGameState(GameState state) {
         this.gameState = state;
+        // Game is over
+        if ( (state != GameState.WAITING) && (state != GameState.ONGOING) ) {
+            this.add(gameResultOverlay);
+        } else {
+            this.remove(gameResultOverlay);
+        }
+        this.revalidate();
+    }
+
+    public int getPlayerColour() {
+        return this.playerColour;
+    }
+
+    public void setPlayerColour(int colour) {
+        this.playerColour = colour;
+        this.boardPanel.setPlayerColour(colour);
     }
 
     public void resetPanel() {

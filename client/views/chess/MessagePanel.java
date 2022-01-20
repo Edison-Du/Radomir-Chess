@@ -1,4 +1,4 @@
-package views.pages;
+package views.chess;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

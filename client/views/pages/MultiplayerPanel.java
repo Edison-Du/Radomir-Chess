@@ -127,21 +127,27 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try{
-            if (e.getSource() == takebackButton){
-                ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_ACCEPTED));
-                this.undoMove();
-                removeTakeback();
+        System.out.println(getGameState());
+
+        if (e.getSource() == takebackButton){
+            ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_ACCEPTED));
+            this.undoMove();
+            removeTakeback();
+
+        } else if (e.getSource() == undoButton){
+            ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_REQUESTED));
+
+        } else if ((e.getSource() == resign) && (getGameState() == GameState.ONGOING)) {
+            if (getPlayerColour() == 0) {
+                setGameState(GameState.BLACK_VICTORY_RESIGN);
+            } else {
+                setGameState(GameState.WHITE_VICTORY_RESIGN);
             }
-            if (e.getSource() == undoButton){
-                ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_REQUESTED));
-            } else if (e.getSource() == leaveLobby) {
-                Message message = new Message(MessageTypes.LEAVE_GAME);
-                ServerConnection.sendMessage(message);
-            }
-        } catch (Exception ex) {
-            System.out.println("Failed to create message");
-            ex.printStackTrace();
+            ServerConnection.sendMessage(new Message(MessageTypes.RESIGN));
+
+        } else if (e.getSource() == leaveLobby) {
+            Message message = new Message(MessageTypes.LEAVE_GAME);
+            ServerConnection.sendMessage(message);
         }
     } 
 }   

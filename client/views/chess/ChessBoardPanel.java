@@ -1,4 +1,4 @@
-package views.pages;
+package views.chess;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,8 +14,8 @@ import chesslogic.ChessGame;
 import chesslogic.Tile;
 import config.PathsConsts;
 import config.UserInterface;
-import views.chess.ChessGameMouseListener;
 import views.components.ContentPanel;
+import views.pages.AbstractGamePanel;
 
 public class ChessBoardPanel extends ContentPanel {
 

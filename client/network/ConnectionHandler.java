@@ -151,7 +151,7 @@ public class ConnectionHandler extends Thread {
     public void setPlayerColour(Message message) {
         int colour = Integer.parseInt(message.getParam(0));
         
-        window.gamePanel.boardPanel.setPlayerColour(colour);
+        window.gamePanel.setPlayerColour(colour);
     }
 
     public void processOpponentChessMove(Message message) {

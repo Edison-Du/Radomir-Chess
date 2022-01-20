@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 
 import chesslogic.Bot;
 import chesslogic.DepthSearchBotP1;
+import config.GameState;
 import config.UserInterface;
 
 public class BotPanel extends AbstractGamePanel {
@@ -29,6 +30,8 @@ public class BotPanel extends AbstractGamePanel {
         if (playerColour == 1) {
             processMove("", "", "");
         }
+
+        setGameState(GameState.ONGOING);
     }
 
     @Override

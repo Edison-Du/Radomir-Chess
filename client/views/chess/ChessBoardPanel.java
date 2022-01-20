@@ -47,7 +47,7 @@ public class ChessBoardPanel extends ContentPanel {
         }
 
 
-        gameResultOverlay = new GameResultOverlay();
+        gameResultOverlay = new GameResultOverlay(gamePanel);
         gameResultOverlay.setBounds(0, 0, getWidth(), getHeight());
     }
 

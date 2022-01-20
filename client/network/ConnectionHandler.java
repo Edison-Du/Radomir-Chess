@@ -68,6 +68,9 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.RESIGNATION)) {
             processOpponentResignation();
 
+        } else if (message.getType().equals(MessageTypes.PLAY_AGAIN)) {
+            processPlayAgain();
+
         } else if (message.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
             processRequestTakeback();
 
@@ -161,6 +164,10 @@ public class ConnectionHandler extends Thread {
     public void leaveGame(Message message) {
         window.setInGame(false);
         window.changePage(Page.PLAY);
+    }
+
+    public void processPlayAgain() {
+        window.gamePanel.setOpponentPlayAgain(true);
     }
 
     public void setPlayerColour(Message message) {

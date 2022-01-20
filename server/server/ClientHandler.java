@@ -147,6 +147,9 @@ public class ClientHandler extends Thread{
         } else if (request.getType().equals(MessageTypes.RESIGNATION)) {
             resignGame(request);
 
+        } else if (request.getType().equals(MessageTypes.PLAY_AGAIN)) {
+            sendPlayAgainRequest(request);
+
         } else if (request.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
             sendTakebackRequest(request);
 
@@ -297,6 +300,10 @@ public class ClientHandler extends Thread{
         lobby.sendMessage(this, message);
     }
 
+    public void sendPlayAgainRequest(Message message) {
+        if (lobby==null) return;
+        lobby.sendMessage(this, message);
+    }
 
     private void browseGames() {
         Message message = server.getLobbyManager().getPublicLobbyInfo();

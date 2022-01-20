@@ -23,12 +23,12 @@ public class GameResultOverlay extends JPanel implements ActionListener {
 
     private AbstractGamePanel gamePanel;
 
-    public GameResultOverlay() {
+    public GameResultOverlay(AbstractGamePanel gamePanel) {
         setBackground(new Color(0, 0, 0, 50));
         setOpaque(false);
         setLayout(null);
 
-        // this.gamePanel = gamePanel;
+        this.gamePanel = gamePanel;
 
         // Message
         message = new JLabel("");
@@ -45,6 +45,8 @@ public class GameResultOverlay extends JPanel implements ActionListener {
     }
 
 
+
+
     // public String getMessage() {
     //     return this.message;
     // } 
@@ -55,8 +57,15 @@ public class GameResultOverlay extends JPanel implements ActionListener {
     }
 
     @Override
+    public void paintComponent(Graphics g) {
+        g.setColor(getBackground());
+        g.fillRect(0, 0, getWidth(), getHeight());
+    }
+
+    @Override
     public void actionPerformed(ActionEvent e) { 
         if (e.getSource() == playAgain) {
+            gamePanel.setPlayAgain(true);
             ServerConnection.sendMessage(new Message(MessageTypes.PLAY_AGAIN));
         }
     }

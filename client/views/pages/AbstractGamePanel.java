@@ -24,11 +24,10 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public MovesPanel movesPanel;
     public MessagePanel messagePanel;
 
-    // public GameResultOverlay gameResultOverlay;
-
     public final GamePanelButton resign;
     
-    public boolean playAgain;
+    private boolean playAgain;
+    private boolean opponentPlayAgain;
 
     private int playerColour;
     private GameState gameState;
@@ -86,6 +85,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
             boardPanel.setOverlayVisible(true);
         } else {
             // boardPanel.gameResultOverlay.setVisible(false);
+            playAgain = false;
             boardPanel.setOverlayVisible(false);
         }
         boardPanel.revalidate();
@@ -117,5 +117,21 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.revalidate();
 
         resetGame();
+    }
+
+
+
+    public void setPlayAgain(boolean playAgain) {
+        this.playAgain = playAgain;
+        if (playAgain && opponentPlayAgain) {
+            resetGame();
+        }
+    }
+
+    public void setOpponentPlayAgain(boolean opponentPlayAgain) {
+        this.opponentPlayAgain = opponentPlayAgain;
+        if (playAgain && opponentPlayAgain) {
+            resetGame();
+        }
     }
 }

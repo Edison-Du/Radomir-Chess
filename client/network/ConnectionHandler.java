@@ -151,12 +151,14 @@ public class ConnectionHandler extends Thread {
     public void joinGame(Message message) {
         String code = message.getParam(0);
         String hostName = message.getParam(1);
+        String visibility = message.getParam(2);
 
         window.changePage(Page.GAME);
         window.setInGame(true);
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(false);
         window.gamePanel.addOther(hostName);
+        window.gamePanel.setLobbyLabel(visibility);
 
         window.gamePanel.resetGame();
         window.gamePanel.resetChat();

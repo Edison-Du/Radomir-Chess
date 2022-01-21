@@ -236,6 +236,6 @@ public class ConnectionHandler extends Thread {
 
     public void setLobbyVisibility(Message message) {
         String visibility = message.getParam(0);
-        window.gamePanel.setLobbyVisibility(visibility);
+        window.gamePanel.setLobbyLabel(visibility);
     }
 }

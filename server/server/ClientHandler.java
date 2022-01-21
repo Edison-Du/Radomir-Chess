@@ -260,9 +260,9 @@ public class ClientHandler extends Thread{
     private void createGame(Message message) {
         lobby = server.getLobbyManager().createLobby(this);
         if (message.getParam(0).equals("public")) {
-            lobby.setPublicStatus("public");
+            lobby.setPublicStatus("Public");
         } else if (message.getParam(0).equals("private")) {
-            lobby.setPublicStatus("private");
+            lobby.setPublicStatus("Private");
         }
 
 

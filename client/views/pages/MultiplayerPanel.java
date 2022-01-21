@@ -23,10 +23,8 @@ public class MultiplayerPanel extends AbstractGamePanel {
     private boolean isAlone;
 
     // Swing
-    private JLabel codeLabel;
+    private JLabel lobbyLabel;
     private JLabel otherClientLabel;
-
-    private JLabel lobbyVisibilityLabel;
 
     public MultiplayerPanel() {
 
@@ -34,24 +32,18 @@ public class MultiplayerPanel extends AbstractGamePanel {
         setGameState(GameState.WAITING);
 
         // Lobby code
-        codeLabel = new JLabel(lobbyCode);
-        codeLabel.setFont(new Font("Serif", Font.ITALIC, 36));
-        codeLabel.setForeground(Color.WHITE);
-        codeLabel.setBounds(660, 30, 100, 100);
-        this.add(codeLabel);
+        lobbyLabel = new JLabel(lobbyCode);
+        lobbyLabel.setFont(new Font("Serif", Font.BOLD, 20));
+        lobbyLabel.setForeground(Color.WHITE);
+        lobbyLabel.setBounds(660, 10, 500, 100);
+        this.add(lobbyLabel);
 
         // Showing lobby status (who is in and not)
         otherClientLabel = new JLabel("You are alone in this lobby.");
+        otherClientLabel.setFont(new Font("Serif", Font.BOLD, 20));
         otherClientLabel.setForeground(Color.WHITE);
-        otherClientLabel.setBounds(760, 30, 500, 100);
+        otherClientLabel.setBounds(660, 42, 500, 100);
         this.add(otherClientLabel);
-
-        // Lobby visibility
-        this.lobbyVisibilityLabel = new JLabel();
-        this.lobbyVisibilityLabel.setForeground(UserInterface.TEXT_COLOUR);
-        this.lobbyVisibilityLabel.setBounds(100, 0, 400, 200);
-        this.lobbyVisibilityLabel.setFont(UserInterface.USERNAME_FONT);
-        this.add(lobbyVisibilityLabel);
 
         // Yikes
         // takebackButton = new CustomButton("Takeback");
@@ -68,13 +60,12 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     public void setLobbyCode(String code) {
         this.lobbyCode = code;
-        codeLabel.setText(lobbyCode);
+        lobbyLabel.setText(lobbyCode);
         System.out.println("Lobby change");
     }
 
-    public void setLobbyVisibility(String visibility) {
-        this.lobbyVisibilityLabel.setText(visibility.toUpperCase() + " LOBBY");
-        ;
+    public void setLobbyLabel(String visibility) {
+        this.lobbyLabel.setText(this.lobbyCode + ":  " + visibility + " Lobby");
     }
 
     public void setHost(boolean isHost) {

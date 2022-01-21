@@ -90,24 +90,6 @@ public class UserInterface {
         new Color(21, 57, 100)
     };
 
-    // Pieces
-
-    //public static BufferedImage[] BACKGROUNDS = new BufferedImage[2]
-
-    // public static boolean loadImages() {
-    //     // Game background
-    //     try {
-    //         BACKGROUNDS = new BufferedImage[]{
-    //             ImageIO.read(new File("chesslogic/themes/forest.png")),
-    //             ImageIO.read(new File("chesslogic/themes/iceberg.png"))
-    //         };
-    //         return true;
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-    //     return false;
-    // }
-
     public static Color lighterTile = LIGHTER_TILE_COLOURS[0];
     public static Color darkerTile = DARKER_TILE_COLOURS[0];
     

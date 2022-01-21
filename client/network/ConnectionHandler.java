@@ -68,6 +68,9 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.RESIGNATION)) {
             processOpponentResignation();
 
+        } else if (message.getType().equals(MessageTypes.PLAY_AGAIN)) {
+            processPlayAgain();
+
         } else if (message.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
             processRequestTakeback();
 
@@ -124,7 +127,9 @@ public class ConnectionHandler extends Thread {
         window.setInGame(true);
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(true);
-        window.gamePanel.resetPanel();
+
+        window.gamePanel.resetGame();
+        window.gamePanel.resetChat();
     }
 
     public void joinGame(Message message) {
@@ -136,8 +141,9 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(false);
         window.gamePanel.addOther(host);
-        window.gamePanel.resetPanel();
 
+        window.gamePanel.resetGame();
+        window.gamePanel.resetChat();
     }
 
     public void guestJoined(Message message) {
@@ -145,6 +151,7 @@ public class ConnectionHandler extends Thread {
 
         window.gamePanel.resetGame();
         window.gamePanel.setGameState(GameState.ONGOING);
+        window.gamePanel.setAlone(false);
 
         window.gamePanel.addOther(guest);
         window.gamePanel.messagePanel.addTextMessage(guest + " has joined the lobby.");
@@ -155,12 +162,21 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.messagePanel.addTextMessage("Opponent has left lobby");
         if (window.gamePanel.getGameState() == GameState.ONGOING) {
             processOpponentResignation();
+        } else if ( (window.gamePanel.getGameState() != GameState.WAITING) 
+                  && window.gamePanel.isPlayingAgain()) {
+            window.gamePanel.setGameState(GameState.WAITING);
+            window.gamePanel.resetGame();
         }
+        window.gamePanel.setAlone(true);
     }
 
     public void leaveGame(Message message) {
         window.setInGame(false);
         window.changePage(Page.PLAY);
+    }
+
+    public void processPlayAgain() {
+        window.gamePanel.setOpponentPlayAgain(true);
     }
 
     public void setPlayerColour(Message message) {

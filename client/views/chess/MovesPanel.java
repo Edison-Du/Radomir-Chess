@@ -71,4 +71,9 @@ public class MovesPanel extends ContentPanel {
 
         numMoves--;
     }
+
+    public void clearMoves() {
+        numMoves = 0;
+        movesList.setRowCount(0);
+    }
 }

@@ -27,8 +27,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     int posX = 0;
     int posY = 0;
 
-    boolean isYourTurn;
-
     BufferedImage heldPieceImage = null;
     Piece selectedPiece = null;
     boolean isSelected = false;
@@ -172,10 +170,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
 
     public void setPlayerColour(int colour) {
         this.playerColour = colour;
-    }
-
-    public void setTurn(boolean isTurn) {
-        this.isYourTurn = isTurn;
     }
 
     /**

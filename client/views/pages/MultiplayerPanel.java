@@ -16,10 +16,11 @@ import views.components.CustomButton;
 
 public class MultiplayerPanel extends AbstractGamePanel {
 
-    private String lobbyCode = "AAAAAAA";
+    private String lobbyCode = "";
     private boolean isHost;
 
     private int currentClient, otherClient;
+    private boolean isAlone;
 
     // Swing
     private JLabel codeLabel;
@@ -52,6 +53,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
         leaveLobby.addActionListener(this);
         this.add(leaveLobby);
 
+        // Lobby visibility
         this.lobbyVisibilityLabel = new JLabel();
         this.lobbyVisibilityLabel.setForeground(UserInterface.TEXT_COLOUR);
         this.lobbyVisibilityLabel.setBounds(100, 0, 400, 200);
@@ -81,7 +83,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     }
 
     public void setLobbyVisibility(String visibility) {
-        // this.lobbyVisibilityLabel.setText(visibility.toUpperCase() + " LOBBY");;
+        this.lobbyVisibilityLabel.setText(visibility.toUpperCase() + " LOBBY");;
     }
 
     public void setHost(boolean isHost) {
@@ -90,6 +92,14 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     public void setClient(int client) {
         this.currentClient = client;
+    }
+    
+    public boolean isAlone() {
+        return isAlone;
+    }
+
+    public void setAlone(boolean isAlone) {
+        this.isAlone = isAlone;
     }
 
     // Not sure if this will be redisgned when we get to chess

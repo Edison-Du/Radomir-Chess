@@ -8,7 +8,6 @@ public class Application {
     public static Window window;
     public static ConnectionHandler connectionHandler;
     public static void main(String[] args) {
-
         // Socket connecting to server
         ServerConnection.createInstance();
 

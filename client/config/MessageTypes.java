@@ -21,6 +21,10 @@ public class MessageTypes {
 
     public static final String LOBBY_VISIBILITY = "LOBBY_VISIBILITY";
 
+    // Nobody can join lobby, even if public
+    public static final String LOCK_LOBBY = "LOCK_LOBBY";
+    public static final String UNLOCK_LOBBY = "UNLOCK_LOBBY";
+
     public static final String JOIN_GAME = "JOIN_GAME";
     public static final String JOIN_ERROR = "JOIN_ERROR";
     public static final String JOINED_GAME = "JOINED_GAME";
@@ -35,7 +39,8 @@ public class MessageTypes {
     public static final String CHESS_MOVE = "CHESS_MOVE";
 
     public static final String RESIGNATION = "RESIGNATION";
-
+    public static final String PLAY_AGAIN = "PLAY_AGAIN";
+    
     public static final String TAKEBACK_REQUESTED = "TAKEBACK_REQUESTED";
     public static final String TAKEBACK_ACCEPTED = "TAKEBACK_ACCEPTED";
 }

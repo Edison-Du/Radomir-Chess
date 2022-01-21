@@ -85,9 +85,10 @@ public class UserInterface {
     public static int activeBackground = 0;
     public static Color[] BACKGROUNDS = new Color[]{
         FRAME_COLOUR,
-        new Color(59, 38, 22),
-        new Color(21, 65, 2),
-        new Color(21, 57, 100)
+        new Color(220, 220, 220),
+        new Color(32, 32, 32),
+        new Color(200, 215, 227),
+        new Color(47, 78, 111)
     };
 
     public static Color lighterTile = LIGHTER_TILE_COLOURS[0];

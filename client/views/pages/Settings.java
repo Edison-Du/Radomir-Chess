@@ -27,9 +27,10 @@ public class Settings extends ContentPanel implements ActionListener {
     };
     private final String[] BACKGROUNDS = {
         "Classic",
-        "Brown",
-        "Green",
-        "Blue"
+        "Light",
+        "Dark",
+        "Light Blue",
+        "Dark Blue"
     };
     private final String[] CHESS_PIECE_SETS = {
         "Classic",

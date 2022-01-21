@@ -4,10 +4,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.Stack;
+import java.awt.Image;
 
-import chesslogic.ChessGame;
-import chesslogic.Piece;
-import javafx.scene.image.Image;
+import chesslogic.*;
 import views.components.ContentPanel;
 
 public class CapturedPiecesPanel extends ContentPanel {
@@ -18,48 +17,61 @@ public class CapturedPiecesPanel extends ContentPanel {
 
     public GameResultOverlay gameResultOverlay;
 
-    public Stack<Piece> capturedPieces;
+    // public Stack<Piece> capturedPieces;
 
-    public int pieceOffset;
+    public int offset;
+    
+    // p B N R Q
+    public final Image[] pieceImages;
+    public final int[] capturedPieceCount;    
 
-    public CapturedPiecesPanel(ChessGame game) {
+    public CapturedPiecesPanel(ChessGame game, int playerColour) {
         this.game = game;
 
-        capturedPieces = game.getPiecesTaken();
+        // capturedPieces = game.getPiecesTaken();
 
-        pieceOffset = 0;
+        offset = 0;
+
+        this.playerColour = playerColour;
+
+        capturedPieceCount = new int[5];
+
+        Image[] pieceImagesTemp = {Piece.getImage("p", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
+            Piece.getImage("B", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
+            Piece.getImage("N", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
+            Piece.getImage("R", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
+            Piece.getImage("Q", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST)
+        };
+        this.pieceImages = pieceImagesTemp;
+
     }
+
+    public void addCapturedPiece(Piece piece) {
+
+        if(piece != null) {
+            if (piece instanceof Pawn) capturedPieceCount[0]++;
+            if (piece instanceof Bishop) capturedPieceCount[1]++;
+            if (piece instanceof Knight) capturedPieceCount[2]++;
+            if (piece instanceof Rook) capturedPieceCount[3]++;
+            if (piece instanceof Queen) capturedPieceCount[4]++;
+        }
+    }
+
     
     @Override
     public void paintComponent(Graphics g) {
+        for(int i = 0; i < capturedPieceCount.length; i++) {
 
-        if(!capturedPieces.isEmpty()) {
-            Graphics2D g2d = (Graphics2D)g;
-            g2d.addRenderingHints(
-                new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON)
-            );
-
-            // System.out.println(capturedPieces);
-
-            for(Piece capturedPiece : capturedPieces) {
-                if(capturedPiece != null) {
-                    g2d.drawImage(capturedPiece.getImage().getScaledInstance(30, 30, java.awt.Image.SCALE_FAST), pieceOffset, 0, this);
-                    pieceOffset = pieceOffset + 30;
-                }
-
-                // try {
-                //     Thread.sleep(1000);
-                // } catch (InterruptedException e) {
-                //     // TODO Auto-generated catch block
-                //     e.printStackTrace();
-                // }
-
+            int numPieces = capturedPieceCount[i];
+            
+            for(int j = 0; j < numPieces; j++) {
+                g.drawImage(pieceImages[i], offset, 0, this);
+                offset = offset + 20;
             }
-            pieceOffset = 0;
+            if(numPieces > 0) offset = offset + 10;
 
         }
-        
+        offset = 0;
     }
 
 }

@@ -2,7 +2,7 @@ package chesslogic;
 
 import java.util.HashSet;
 
-class Rook extends Piece {
+public class Rook extends Piece {
     
     /**
      * Create a rook
@@ -10,7 +10,7 @@ class Rook extends Piece {
      * @
      */
     public Rook(int col) {
-        super(col, "R", 5, getImage("R", col));
+        super(col, "R", 30, getImage("R", col));
     }
     
     @Override

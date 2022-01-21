@@ -17,6 +17,7 @@ import views.components.CustomButton;
 public class MultiplayerPanel extends AbstractGamePanel {
 
     private String lobbyCode = "";
+    private String lobbyVisibility = "";
     private boolean isHost;
 
     private String currentClient, otherClient;
@@ -32,18 +33,18 @@ public class MultiplayerPanel extends AbstractGamePanel {
         setGameState(GameState.WAITING);
 
         // Lobby code
-        lobbyLabel = new JLabel(lobbyCode);
-        lobbyLabel.setFont(new Font("Serif", Font.BOLD, 20));
-        lobbyLabel.setForeground(Color.WHITE);
-        lobbyLabel.setBounds(660, 10, 500, 100);
-        this.add(lobbyLabel);
+        // lobbyLabel = new JLabel(lobbyCode);
+        // lobbyLabel.setFont(new Font("Serif", Font.BOLD, 20));
+        // lobbyLabel.setForeground(Color.WHITE);
+        // lobbyLabel.setBounds(660, 10, 500, 100);
+        // this.add(lobbyLabel);
 
         // Showing lobby status (who is in and not)
-        otherClientLabel = new JLabel("You are alone in this lobby.");
-        otherClientLabel.setFont(new Font("Serif", Font.BOLD, 20));
-        otherClientLabel.setForeground(Color.WHITE);
-        otherClientLabel.setBounds(660, 42, 500, 100);
-        this.add(otherClientLabel);
+        // otherClientLabel = new JLabel("You are alone in this lobby.");
+        // otherClientLabel.setFont(new Font("Serif", Font.BOLD, 20));
+        // otherClientLabel.setForeground(Color.WHITE);
+        // otherClientLabel.setBounds(660, 42, 500, 100);
+        // this.add(otherClientLabel);
 
         // Yikes
         // takebackButton = new CustomButton("Takeback");
@@ -60,12 +61,15 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     public void setLobbyCode(String code) {
         this.lobbyCode = code;
-        lobbyLabel.setText(lobbyCode);
-        System.out.println("Lobby change");
+        // lobbyLabel.setText(lobbyCode);
+        lobbyInfoPanel.setlobbyTitle(code);
     }
 
-    public void setLobbyLabel(String visibility) {
-        this.lobbyLabel.setText(this.lobbyCode + ":  " + visibility + " Lobby");
+    public void setLobbyVisibility(String visibility) {
+        this.lobbyVisibility = visibility;
+
+        lobbyInfoPanel.setlobbyType(visibility + " Lobby");
+        // this.lobbyLabel.setText(this.lobbyCode + ":  " + visibility + " Lobby");
     }
 
     public void setHost(boolean isHost) {
@@ -74,6 +78,9 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     public void setClient(String clientName) {
         this.currentClient = clientName;
+
+
+        this.playerLabel.setText(clientName);
     }
 
     public boolean isAlone() {
@@ -89,11 +96,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     public void addOther(String clientName) {
         this.otherClient = clientName;
 
-        if (isHost) {
-            otherClientLabel.setText(clientName + " is in this lobby.");
-        } else {
-            otherClientLabel.setText(clientName + " is the host of this lobby.");
-        }
+        this.opponentLabel.setText(clientName);
 
         setGameState(GameState.ONGOING);
     }

@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 
 import chesslogic.Bot;
 import chesslogic.DepthSearchBotP2;
+import chesslogic.RandomBot;
 import config.GameState;
 import config.UserInterface;
 
@@ -24,7 +25,8 @@ public class BotPanel extends AbstractGamePanel {
 
         this.boardPanel.setPlayerColour(playerColour);
 
-        depthSearchBot = new DepthSearchBotP2(2, (playerColour + 1) % 2);
+        // depthSearchBot = new DepthSearchBotP2(4, (playerColour + 1) % 2);
+        depthSearchBot = new RandomBot();
 
         // Bot goes first
         if (playerColour == 1) {
@@ -43,6 +45,10 @@ public class BotPanel extends AbstractGamePanel {
     public void processMove(String tile1, String tile2, String promotion) {
         if(!chessGame.getCurrentPos().ended()) {
             String botMove = depthSearchBot.nextMove(chessGame);
+
+            int posX = (botMove.charAt(2) - 'a');
+            int posY = (botMove.charAt(3) - '0') - 1;
+
             System.out.println(botMove);
             System.out.println("Bot moved " + botMove.substring(0, 2) + ", " + botMove.substring(2, 4));
 
@@ -50,6 +56,19 @@ public class BotPanel extends AbstractGamePanel {
             
             String chessMove = chessGame.getCurrentPos().toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
             movesPanel.addMove(chessMove);
+
+            // Add piece to captured pieces
+            if (playerColour == 0) {
+                capturedPiecesPanelWhite.addCapturedPiece(
+                    chessGame.getCurrentPos().getTiles()[posX][posY].getPiece()
+                );
+
+            } else {
+                capturedPiecesPanelBlack.addCapturedPiece(
+                    chessGame.getCurrentPos().getTiles()[posX][posY].getPiece()
+                );
+            }
+
 
             chessGame.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
         }

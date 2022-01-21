@@ -67,6 +67,19 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                 System.out.println(promotionChoice);
 
                 gamePanel.movesPanel.addMove(game.getCurrentPos().toAlgebraic(promotionT1, promotionT2, promotionChoice));
+
+                // Add piece to captured pieces
+                if (playerColour == 0) {
+                    gamePanel.capturedPiecesPanelBlack.addCapturedPiece(
+                        game.getCurrentPos().getTiles()[posX][posY].getPiece()
+                    );
+                } else {
+                    gamePanel.capturedPiecesPanelWhite.addCapturedPiece(
+                        game.getCurrentPos().getTiles()[posX][posY].getPiece()
+                    );
+                }
+
+                
                 game.move(promotionT1, promotionT2, promotionChoice);
                 gamePanel.processMove(promotionT1, promotionT2, promotionChoice);
 
@@ -134,9 +147,21 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                 }
                 else {
                     gamePanel.movesPanel.addMove(game.getCurrentPos().toAlgebraic(t1, t2, ""));
+
+                    // Add piece to captured pieces
+                    if (playerColour == 0) {
+                        gamePanel.capturedPiecesPanelBlack.addCapturedPiece(
+                            game.getCurrentPos().getTiles()[posX][posY].getPiece()
+                        );
+                    } else {
+                        gamePanel.capturedPiecesPanelWhite.addCapturedPiece(
+                            game.getCurrentPos().getTiles()[posX][posY].getPiece()
+                        );
+                    }
+                    
+
                     game.move(t1, t2, "");
                     gamePanel.processMove(t1, t2, "");
-                    // sendMove(t1, t2, "");
 
                     // sleepy alex attempts to code again
                     // check for end of game that happens in chess

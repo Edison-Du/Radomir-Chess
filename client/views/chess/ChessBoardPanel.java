@@ -72,7 +72,25 @@ public class ChessBoardPanel extends ContentPanel {
     
     public void makeOpponentMove(String t1, String t2, String p) {
         String move = game.getCurrentPos().toAlgebraic(t1, t2, p);
+
+        int posX = (t2.charAt(0) - 'a');
+        int posY = (t2.charAt(1) - '0') - 1;
+
         gamePanel.movesPanel.addMove(move);
+
+        // Add piece to captured pieces
+        if (playerColour == 0) {
+            gamePanel.capturedPiecesPanelWhite.addCapturedPiece(
+                game.getCurrentPos().getTiles()[posX][posY].getPiece()
+            );
+
+        } else {
+            gamePanel.capturedPiecesPanelBlack.addCapturedPiece(
+                game.getCurrentPos().getTiles()[posX][posY].getPiece()
+            );
+        }
+
+
         this.game.move(t1, t2, p);
     }
 

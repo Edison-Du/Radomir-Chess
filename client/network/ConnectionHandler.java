@@ -12,6 +12,9 @@ public class ConnectionHandler extends Thread {
     private Window window;
     private boolean isActive;
 
+    private int clientNum;
+    private String clientName;
+
     public ConnectionHandler(Window window) {
         isActive = true;
         this.window = window;
@@ -39,6 +42,9 @@ public class ConnectionHandler extends Thread {
         if (message == null) {
             return;
 
+        } else if (message.getType().equals(MessageTypes.CONNECTION_ACCEPTED)) {
+            setClientInfo(message);
+
         } else if (message.getType().equals(MessageTypes.GAME_CREATED)) { 
             createGame(message);
 
@@ -46,6 +52,7 @@ public class ConnectionHandler extends Thread {
             joinGame(message);
 
         } else if (message.getType().equals(MessageTypes.JOIN_ERROR)) {
+            // Huh
 
         } else if (message.getType().equals(MessageTypes.GUEST_JOINED)) {
             guestJoined(message);
@@ -106,6 +113,11 @@ public class ConnectionHandler extends Thread {
             ServerConnection.close();
         }
     }
+
+    public void setClientInfo(Message message) {
+        clientNum = Integer.parseInt(message.getParam(0)); 
+        clientName = "Guest #" + clientNum;
+    }
     
     public void processCheckmate() {
         window.gamePanel.setGameState(GameState.CHECKMATE);
@@ -126,12 +138,16 @@ public class ConnectionHandler extends Thread {
     }
 
     public void login(String username){
+        clientName = username;
+
         window.navigationBar.setUsername(username);
         window.setLoggedIn(true);
         window.changePage(Page.PLAY);
     }
 
     public void logout() {
+        clientName = "Guest #" + clientNum;
+
         window.loginPanel.clearError();
         window.setLoggedIn(false);
         window.changePage(Page.LOGIN);
@@ -142,6 +158,7 @@ public class ConnectionHandler extends Thread {
 
         window.setInGame(true);
         window.gamePanel.setLobbyCode(code);
+        window.gamePanel.setClient(clientName);
         window.gamePanel.setHost(true);
 
         window.gamePanel.resetGame();
@@ -151,12 +168,15 @@ public class ConnectionHandler extends Thread {
     public void joinGame(Message message) {
         String code = message.getParam(0);
         String hostName = message.getParam(1);
+        String visibility = message.getParam(2);
 
         window.changePage(Page.GAME);
         window.setInGame(true);
         window.gamePanel.setLobbyCode(code);
+        window.gamePanel.setClient(clientName);
         window.gamePanel.setHost(false);
         window.gamePanel.addOther(hostName);
+        window.gamePanel.setLobbyVisibility(visibility);
 
         window.gamePanel.resetGame();
         window.gamePanel.resetChat();
@@ -171,7 +191,6 @@ public class ConnectionHandler extends Thread {
 
         window.gamePanel.addOther(guestName);
         window.gamePanel.messagePanel.addTextMessage(guestName + " has joined the lobby.");
-        
     }
 
     public void opponentLeft(Message message) {
@@ -236,6 +255,6 @@ public class ConnectionHandler extends Thread {
 
     public void setLobbyVisibility(Message message) {
         String visibility = message.getParam(0);
-        window.gamePanel.setLobbyLabel(visibility);
+        window.gamePanel.setLobbyVisibility(visibility);
     }
 }

@@ -10,9 +10,11 @@ import java.util.HashSet;
 
 import javax.imageio.ImageIO;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 
 import config.PathsConsts;
 
@@ -21,6 +23,7 @@ public abstract class Piece {
     private int turnMoved;
     private String name;
     private BufferedImage image;
+    private Image smallImage;
     private int points;
     
     /**
@@ -32,6 +35,7 @@ public abstract class Piece {
         this.colour = col;
         this.name = name;
         this.image = image;
+        this.smallImage = image.getScaledInstance(30, 30, java.awt.Image.SCALE_FAST);
         this.turnMoved = 0;
         this.points = points;
     }
@@ -117,6 +121,10 @@ public abstract class Piece {
      */
     public void setMoved(int turn) {
         this.turnMoved = turn;
+    }
+
+    public Image getSmallImage() {
+        return smallImage;
     }
     
 }

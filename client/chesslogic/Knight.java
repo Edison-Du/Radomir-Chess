@@ -2,7 +2,7 @@ package chesslogic;
 
 import java.util.HashSet;
 
-class Knight extends Piece {
+public class Knight extends Piece {
     
     /**
      * Create a knight
@@ -10,7 +10,7 @@ class Knight extends Piece {
      * @
      */
     public Knight(int col) {
-        super(col, "N", 3, getImage("N", col));
+        super(col, "N", 20, getImage("N", col));
     }
     
     @Override

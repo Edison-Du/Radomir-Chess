@@ -41,12 +41,9 @@ public class CustomTextField extends JTextField {
         }
         
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(
-            RenderingHints.KEY_ANTIALIASING,
-            RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2d.setColor(placeholderColour);
-        g2d.drawString(placeholder, getInsets().left, g2d.getFontMetrics()
-            .getMaxAscent() + getInsets().top);
+        g2d.drawString(placeholder, getInsets().left, g2d.getFontMetrics().getMaxAscent() + getInsets().top);
     }
 }

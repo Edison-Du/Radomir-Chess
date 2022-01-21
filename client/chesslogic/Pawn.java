@@ -2,7 +2,7 @@ package chesslogic;
 
 import java.util.HashSet;
 
-class Pawn extends Piece {
+public class Pawn extends Piece {
     
     /**
      * Create a pawn
@@ -10,7 +10,7 @@ class Pawn extends Piece {
      * @
      */
     public Pawn(int col) {
-        super(col, "p", 1, getImage("p", col));
+        super(col, "p", 10, getImage("p", col));
     }
     
     @Override

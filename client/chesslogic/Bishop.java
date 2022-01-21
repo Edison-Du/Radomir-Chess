@@ -2,7 +2,7 @@ package chesslogic;
 
 import java.util.HashSet;
 
-class Bishop extends Piece {
+public class Bishop extends Piece {
 
     /**
      * create a bishop
@@ -10,7 +10,7 @@ class Bishop extends Piece {
      * @
      */
     public Bishop(int col) {
-        super(col, "B", 3, getImage("B", col));
+        super(col, "B", 20, getImage("B", col));
     }
     
     @Override

@@ -7,8 +7,9 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
+
+import java.util.HashSet;
 
 import chesslogic.ChessGame;
 import chesslogic.Tile;
@@ -118,7 +119,7 @@ public class ChessBoardPanel extends ContentPanel {
 
     public void drawBoard(Graphics g) {
 		Tile[][] checkerBoard = game.getCurrentPos().getTiles();
-
+        
         // traverse entire maze and draw coloured square for each symbol in maze
         for (int x = 0; x < checkerBoard.length; x++) {
             for (int y = 0; y < checkerBoard[0].length; y++) {
@@ -156,4 +157,8 @@ public class ChessBoardPanel extends ContentPanel {
             }
         }
 	}
+
+    public void isPossibleMoves(Tile[][] board) {
+        if (chessGameMouseListener.getSelectedPiece().legal(chessGameMouseListener.getSelectedPiece().get).contains(board[x][y]))
+    }
 }

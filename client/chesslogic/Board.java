@@ -25,7 +25,7 @@ public class Board {
      * Create a new chessboard (the default starting position)
      * @
      */
-    public Board()  {
+    public Board() {
         this.turn = 1;
         this.toMove = Constants.WHITE;
         this.tiles = new Tile[8][8];
@@ -302,7 +302,7 @@ public class Board {
             t.setPiece(new Knight(toMove));
         }
     }
-    
+
     /**
      * return the set of all legal moves of a piece on a given position (taking into account whose turn it is)
      * @param tile the tile the piece is on

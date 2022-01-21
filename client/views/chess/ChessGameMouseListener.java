@@ -121,7 +121,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
 
         if (isSelected) {
             isSelected = false;
-            selectedPiece = null;
             heldPieceImage = null;
             System.out.println(", " + t2);
 
@@ -185,9 +184,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             // Initialize mouse coordinates
             mouseX = e.getX();
             mouseY = e.getY();
-
-
-
         }
     }
 

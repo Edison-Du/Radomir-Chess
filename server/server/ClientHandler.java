@@ -42,7 +42,7 @@ public class ClientHandler extends Thread{
         clientSocket = socket;
         clientNum = ++ClientHandler.numClients;
         this.server = server;
-        this.clientName = "Client#" + this.clientNum;
+        this.clientName = "Guest#" + this.clientNum;
         // Setting general information about this client
         this.userActive = true;
         
@@ -140,12 +140,21 @@ public class ClientHandler extends Thread{
 
         } else if (request.getType().equals(MessageTypes.SENT_TEXT)) {
             sendText(request);
+
+        } else if (request.getType().equals(MessageTypes.LOCK_LOBBY)) {
+            lockLobby();
+
+        } else if (request.getType().equals(MessageTypes.UNLOCK_LOBBY)) {
+            unlockLobby();
         
         } else if (request.getType().equals(MessageTypes.CHESS_MOVE)) {
             sendChessMove(request);
 
         } else if (request.getType().equals(MessageTypes.RESIGNATION)) {
             resignGame(request);
+
+        } else if (request.getType().equals(MessageTypes.PLAY_AGAIN)) {
+            sendPlayAgainRequest(request);
 
         } else if (request.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
             sendTakebackRequest(request);
@@ -172,11 +181,25 @@ public class ClientHandler extends Thread{
         String username = message.getParam(0);
         String password = message.getParam(1);
         if (server.getDatabase().addUser(username, password)){
+            setClientName(username);
             Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
             returnMessage.addParam(username);
             sendMessage(returnMessage); // Success
         } else{
             sendMessage(new Message(MessageTypes.REGISTER_FAILED)); // Failiure
+        }
+    }
+
+    private void loginUser(Message message){
+        String username = message.getParam(0);
+        String password = message.getParam(1);
+        if (server.getDatabase().validateUser(username, password)){        
+            setClientName(username);        
+            Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
+            returnMessage.addParam(username);
+            sendMessage(returnMessage); // Success
+        } else{
+            sendMessage(new Message(MessageTypes.LOGIN_FAILED)); // Failure
         }
     }
 
@@ -190,16 +213,8 @@ public class ClientHandler extends Thread{
         lobby.sendMessage(this, message);
     }
 
-    private void loginUser(Message message){
-        String username = message.getParam(0);
-        String password = message.getParam(1);
-        if (server.getDatabase().validateUser(username, password)){                
-            Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
-            returnMessage.addParam(username);
-            sendMessage(returnMessage); // Success
-        } else{
-            sendMessage(new Message(MessageTypes.LOGIN_FAILED)); // Failiure
-        }
+    private void setClientName(String newName){
+        this.clientName = newName;
     }
 
     private void logoutUser(Message message) {
@@ -251,19 +266,20 @@ public class ClientHandler extends Thread{
 
         server.getLobbyManager().addLobby(lobby);
         lobby.setHost(this);
-            // Create lobby
-            Message createGameMessage = new Message(MessageTypes.GAME_CREATED);
-            createGameMessage.addParam(lobby.getCode());
-            this.sendMessage(createGameMessage);
 
-            // Player colour
-            Message colourMessage = new Message(MessageTypes.PLAYER_COLOUR);
-            colourMessage.addParam(Integer.toString(lobby.getHostColour()));
-            this.sendMessage(colourMessage);
+        // Create lobby
+        Message createGameMessage = new Message(MessageTypes.GAME_CREATED);
+        createGameMessage.addParam(lobby.getCode());
+        this.sendMessage(createGameMessage);
 
-            Message lobbyVisibilityMessage = new Message(MessageTypes.LOBBY_VISIBILITY);
-            lobbyVisibilityMessage.addParam(lobby.getLobbyVisibility());
-            this.sendMessage(lobbyVisibilityMessage);
+        // Player colour
+        Message colourMessage = new Message(MessageTypes.PLAYER_COLOUR);
+        colourMessage.addParam(Integer.toString(lobby.getHostColour()));
+        this.sendMessage(colourMessage);
+
+        Message lobbyVisibilityMessage = new Message(MessageTypes.LOBBY_VISIBILITY);
+        lobbyVisibilityMessage.addParam(lobby.getLobbyVisibility());
+        this.sendMessage(lobbyVisibilityMessage);
 
     }
 
@@ -274,14 +290,14 @@ public class ClientHandler extends Thread{
 
         lobby.leaveLobby(this);
 
-        if (lobby.getHost() == null) {
-            server.getLobbyManager().removeLobby(lobby.getCode());
-        }
+        // if (lobby.getHost() == null) {
+        //     server.getLobbyManager().removeLobby(lobby.getCode());
+        // }
 
-        lobby = null;
+        // lobby = null;
     }
 
-    // The following 3 methods can be merged into one, maybe
+    // The following 4 methods can be merged into one, maybe
     private void sendText(Message message) {
         if(lobby==null) return;
         lobby.sendMessage(this, message);
@@ -292,11 +308,26 @@ public class ClientHandler extends Thread{
         lobby.sendMessage(this, message);
     }
 
-    public void resignGame(Message message) {
+    private void resignGame(Message message) {
         if (lobby==null) return;
         lobby.sendMessage(this, message);
     }
 
+    private void sendPlayAgainRequest(Message message) {
+        if (lobby==null) return;
+        lobby.sendMessage(this, message);
+    }
+    // End of similar methods
+
+    private void lockLobby() {
+        if (lobby==null) return;
+        lobby.setJoinable(false);
+    }
+
+    private void unlockLobby() {
+        if (lobby==null) return;
+        lobby.setJoinable(true);
+    }
 
     private void browseGames() {
         Message message = server.getLobbyManager().getPublicLobbyInfo();

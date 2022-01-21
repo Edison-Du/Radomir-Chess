@@ -47,7 +47,7 @@ public class ChessBoardPanel extends ContentPanel {
         }
 
 
-        gameResultOverlay = new GameResultOverlay();
+        gameResultOverlay = new GameResultOverlay(gamePanel);
         gameResultOverlay.setBounds(0, 0, getWidth(), getHeight());
     }
 
@@ -64,12 +64,16 @@ public class ChessBoardPanel extends ContentPanel {
         this.playerColour = colour;
         chessGameMouseListener.setPlayerColour(colour);
     }
+
+    public void setChessGame(ChessGame game) {
+        this.game = game;
+        this.chessGameMouseListener.game = game;
+    }
     
     public void makeOpponentMove(String t1, String t2, String p) {
         String move = game.getCurrentPos().toAlgebraic(t1, t2, p);
         gamePanel.movesPanel.addMove(move);
         this.game.move(t1, t2, p);
-        chessGameMouseListener.setTurn(true);
     }
 
     public void undoMove() {

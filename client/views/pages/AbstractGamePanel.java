@@ -4,15 +4,21 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JLabel;
+
 import chesslogic.ChessGame;
 import config.GameState;
+import config.MessageTypes;
 import views.chess.ChessBoardPanel;
 import views.chess.GamePanelButton;
 import views.chess.GameResultOverlay;
 import views.chess.MessagePanel;
 import views.chess.MovesPanel;
 import config.UserInterface;
+import network.Message;
+import network.ServerConnection;
 import views.components.ContentPanel;
+import views.components.CustomButton;
 
 abstract public class AbstractGamePanel extends ContentPanel implements ActionListener {
 
@@ -24,19 +30,36 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public MovesPanel movesPanel;
     public MessagePanel messagePanel;
 
-    // public GameResultOverlay gameResultOverlay;
-
-    public final GamePanelButton resign;
+    private boolean playAgain;
+    private boolean opponentPlayAgain;
 
     private int playerColour;
     private GameState gameState;
 
+    public final GamePanelButton resign;
+    public CustomButton undoButton;
+    public CustomButton takebackButton;
+
+    public JLabel hostName, enemyName;
 
     public AbstractGamePanel() {
         
-        // Adds components to panel
-        initializeChessGame();
-        initializeChat();
+        // Chess game and board
+        chessGame = new ChessGame();
+        boardPanel = new ChessBoardPanel(chessGame, this);
+        boardPanel.setBounds(120, 120, 480, 480);
+        this.add(boardPanel);
+
+        // Moves
+        movesPanel = new MovesPanel();
+        movesPanel.setBounds(660, 120, 240, 120);
+        this.add(movesPanel, BorderLayout.CENTER);
+
+        // Chat
+        messagePanel = new MessagePanel();
+        messagePanel.setBounds(660, 300, 240, 330);
+        this.add(messagePanel);
+
 
         resign = new GamePanelButton("Resign");
         resign.setBounds(660, 240, 80, 60);
@@ -51,23 +74,6 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
     public abstract void processMove(String tile1, String tile2, String promotion);
 
-    private void initializeChessGame() {
-        chessGame = new ChessGame();
-        boardPanel = new ChessBoardPanel(chessGame, this);
-        boardPanel.setBounds(120, 120, 480, 480);
-        this.add(boardPanel);
-
-        movesPanel = new MovesPanel();
-        movesPanel.setBounds(660, 120, 240, 120);
-        this.add(movesPanel, BorderLayout.CENTER);
-    }
-
-    private void initializeChat() {
-        messagePanel = new MessagePanel();
-        messagePanel.setBounds(660, 300, 240, 330);
-        this.add(messagePanel);
-    }
-
     public void undoMove() {
         this.boardPanel.undoMove();
         this.movesPanel.removeMove();
@@ -78,14 +84,24 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     }
 
     public void setGameState(GameState state) {
-        this.gameState = state;
-        if ((gameState != GameState.WAITING) && (gameState != GameState.ONGOING)) {
-            // boardPanel.gameResultOverlay.setVisible(true);
+        
+        // Enter into game
+        if (gameState == GameState.WAITING && state != GameState.WAITING) {
+            ServerConnection.sendMessage(new Message(MessageTypes.LOCK_LOBBY));
+
+        // Reverse above statement
+        } else if (gameState != GameState.WAITING && state == GameState.WAITING) {
+            ServerConnection.sendMessage(new Message(MessageTypes.UNLOCK_LOBBY));
+        }
+
+        if ((state != GameState.WAITING) && (state != GameState.ONGOING)) {
             boardPanel.setOverlayVisible(true);
         } else {
-            // boardPanel.gameResultOverlay.setVisible(false);
+            playAgain = false;
+            opponentPlayAgain = false;
             boardPanel.setOverlayVisible(false);
         }
+        this.gameState = state;
         boardPanel.revalidate();
     }
 
@@ -99,18 +115,43 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     }
 
     public void resetGame() {
-        this.remove(boardPanel);
-        this.remove(movesPanel);
-        initializeChessGame();
+
+        chessGame = new ChessGame();
+
+        boardPanel.setChessGame(chessGame);
+        boardPanel.setPlayerColour(playerColour);
+
+        movesPanel.clearMoves();
+
         this.revalidate();
     }
 
-    public void resetPanel() {
-
-        this.remove(messagePanel);
-        initializeChat();
+    public void resetChat() {
+        messagePanel.clearMessages();
         this.revalidate();
+    }
 
-        resetGame();
+    public boolean isPlayingAgain() {
+        return playAgain;
+    }
+
+    public boolean opponentPlayingAgain() {
+        return opponentPlayAgain;
+    }
+
+    public void setPlayAgain(boolean playAgain) {
+        this.playAgain = playAgain;
+        if (playAgain && opponentPlayAgain) {
+            resetGame();
+            setGameState(GameState.ONGOING);
+        }
+    }
+
+    public void setOpponentPlayAgain(boolean opponentPlayAgain) {
+        this.opponentPlayAgain = opponentPlayAgain;
+        if (playAgain && opponentPlayAgain) {
+            resetGame();
+            setGameState(GameState.ONGOING);
+        }
     }
 }

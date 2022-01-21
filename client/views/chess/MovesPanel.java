@@ -7,6 +7,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import config.UserInterface;
 import views.components.ContentPanel;
 
 public class MovesPanel extends ContentPanel {
@@ -28,6 +29,7 @@ public class MovesPanel extends ContentPanel {
             }
         };
 
+
         for (String column : columnNames) {
             movesList.addColumn(column);
         }
@@ -38,12 +40,27 @@ public class MovesPanel extends ContentPanel {
 
         table.setRowHeight(15);
 
+        // Table function removal
         table.getTableHeader().setReorderingAllowed(false);
-
+        table.getTableHeader().setResizingAllowed(false);
         table.setFillsViewportHeight(true);
+
+        // Table styling
+        table.setBackground(UserInterface.NAVBAR_COLOUR);
+        table.setBorder(UserInterface.GAME_CHAT_BORDER);
+        table.setForeground(UserInterface.CHAT_MESSAGE_COLOUR);
+        table.setSelectionForeground(UserInterface.CHAT_MESSAGE_COLOUR);
+        table.setSelectionBackground(UserInterface.GAME_SIDE_HIGHLIGHT_COLOR);
+
+        // Table header styling
+        table.getTableHeader().setOpaque(false);
+        table.getTableHeader().setBorder(UserInterface.EMPTY_BORDER);
+        table.getTableHeader().setForeground(UserInterface.CHAT_MESSAGE_COLOUR);
+        table.getTableHeader().setBackground(UserInterface.GAME_MOVES_HEADER_BACKGROUND);
 
         pane = new JScrollPane(table);           
         pane.setBounds(0, 0, 240, 120);
+        pane.setBorder(UserInterface.EMPTY_BORDER);
         
         this.add(pane);
     }
@@ -70,5 +87,10 @@ public class MovesPanel extends ContentPanel {
         }
 
         numMoves--;
+    }
+
+    public void clearMoves() {
+        numMoves = 0;
+        movesList.setRowCount(0);
     }
 }

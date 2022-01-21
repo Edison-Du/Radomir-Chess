@@ -3,7 +3,7 @@ package views.pages;
 import java.awt.image.BufferedImage;
 
 import chesslogic.Bot;
-import chesslogic.DepthSearchBotP1;
+import chesslogic.DepthSearchBotP2;
 import config.GameState;
 import config.UserInterface;
 
@@ -24,7 +24,7 @@ public class BotPanel extends AbstractGamePanel {
 
         this.boardPanel.setPlayerColour(playerColour);
 
-        depthSearchBot = new DepthSearchBotP1(3, (playerColour + 1) % 2);
+        depthSearchBot = new DepthSearchBotP2(2, (playerColour + 1) % 2);
 
         // Bot goes first
         if (playerColour == 1) {
@@ -47,8 +47,6 @@ public class BotPanel extends AbstractGamePanel {
 
         System.out.println(botMove.substring(0,2) + ", " + botMove.substring(2, 4) + ", " + botMove.substring(4, 5) + "stop");
         
-        System.out.println(chessGame.getCurrentPos());
-
         String chessMove = chessGame.getCurrentPos().toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
         movesPanel.addMove(chessMove);
 

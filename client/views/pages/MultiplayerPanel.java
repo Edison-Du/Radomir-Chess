@@ -16,21 +16,18 @@ import views.components.CustomButton;
 
 public class MultiplayerPanel extends AbstractGamePanel {
 
-    private String lobbyCode = "AAAAAAA";
+    private String lobbyCode = "";
     private boolean isHost;
 
     private int currentClient, otherClient;
+    private boolean isAlone;
 
     // Swing
     private JLabel codeLabel;
     private JLabel otherClientLabel;
     private CustomButton leaveLobby;
 
-    private JLabel username, opponentUsername;
     private JLabel lobbyVisibilityLabel;
-
-    private CustomButton undoButton;
-    private CustomButton takebackButton;
 
     public MultiplayerPanel() {
 
@@ -50,19 +47,13 @@ public class MultiplayerPanel extends AbstractGamePanel {
         otherClientLabel.setBounds(760, 30, 500, 100);
         this.add(otherClientLabel);
 
-
-        this.username = new JLabel();
-        this.username.setForeground(UserInterface.TEXT_COLOUR);
-        this.username.setBounds(UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 45, 200, 25);
-        this.username.setFont(UserInterface.USERNAME_FONT);
-        this.username.setText(UserInterface.GUEST);
-
         // Leave lobby
         leaveLobby = new CustomButton("Leave");
         leaveLobby.setBounds(780, 630, 120, 30);
         leaveLobby.addActionListener(this);
         this.add(leaveLobby);
 
+        // Lobby visibility
         this.lobbyVisibilityLabel = new JLabel();
         this.lobbyVisibilityLabel.setForeground(UserInterface.TEXT_COLOUR);
         this.lobbyVisibilityLabel.setBounds(100, 0, 400, 200);
@@ -77,6 +68,12 @@ public class MultiplayerPanel extends AbstractGamePanel {
         takebackButton = new CustomButton("Accept Takeback");
         takebackButton.setBounds(200, 600, 150, 25);
         takebackButton.addActionListener(this);
+
+        this.hostName = new JLabel();
+        this.hostName.setForeground(UserInterface.TEXT_COLOUR);
+        this.hostName.setBounds(100, 0, 400, 200);
+        this.hostName.setFont(UserInterface.USERNAME_FONT);
+        this.add(hostName);
     }
 
     public void setLobbyCode(String code) {
@@ -86,7 +83,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     }
 
     public void setLobbyVisibility(String visibility) {
-        // this.lobbyVisibilityLabel.setText(visibility.toUpperCase() + " LOBBY");;
+        this.lobbyVisibilityLabel.setText(visibility.toUpperCase() + " LOBBY");;
     }
 
     public void setHost(boolean isHost) {
@@ -95,6 +92,14 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     public void setClient(int client) {
         this.currentClient = client;
+    }
+    
+    public boolean isAlone() {
+        return isAlone;
+    }
+
+    public void setAlone(boolean isAlone) {
+        this.isAlone = isAlone;
     }
 
     // Not sure if this will be redisgned when we get to chess

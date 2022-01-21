@@ -148,12 +148,11 @@ public class Board {
             out.append((i + 1) + " ");
             for(int j = 0; j < 8; j++) {
                 if(this.tiles[j][i].getPiece() == null) {
-                    out.append("_");
+                    out.append("_ ");
                 }
                 else {
-                    out.append(this.tiles[j][i].getPiece().getName());
+                    out.append(this.tiles[j][i].getPiece().getName() + this.tiles[j][i].getPiece().getColour());
                 }
-                out.append(" ");
             }
             out.append("\n\n");
         }
@@ -178,7 +177,6 @@ public class Board {
         if(pos1[0] < 0 || pos1[0] > 7 || pos2[0] < 0 || pos2[0] > 7 || pos1[1] < 0 || pos1[1] > 7 || pos2[1] < 0 || pos2[1] > 7) {
             return false;
         }
-
         //check if the positions are the same
         if(p1.equals(p2)) {
             return false;
@@ -396,9 +394,6 @@ public class Board {
     
     public String toAlgebraic(String t1, String t2, String p) {
         String out = "";
-        
-        // System.out.println("tile 1: " + this.getTile(t1).getPiece().getName());
-
         if(this.getTile(t1).getPiece().getName().equals("K") && this.getTile(t2).getX() - this.getTile(t1).getX() == 2) {
             return "O-O";
         }

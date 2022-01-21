@@ -1,6 +1,5 @@
 package game;
 
-import config.GameState;
 import config.MessageTypes;
 import server.ClientHandler;
 import server.Message;
@@ -13,15 +12,16 @@ public class Lobby {
     private int hostColour;
     private String lobbyVisibility;
 
-    private GameState gameState;
+    private boolean joinable;
+
 
     public Lobby(ClientHandler host) {
         generateCode();
         this.host = host;
         this.hostName = this.host.getClientName();
         this.hostColour = (int)(Math.random() * 2);
-        this.gameState = GameState.WAITING;
         this.lobbyVisibility = "public";
+        this.joinable = true;
     }
 
     public String getCode() {
@@ -63,25 +63,25 @@ public class Lobby {
 
     public boolean setGuest(ClientHandler guest) {
 
-        if (this.guest != null) {
+        if (this.guest != null || !joinable) {
             return false;
         }
 
-        // Alert host that a guest has joined
         if (host == null) {
             setHost(guest);
 
         } else {
             this.guest = guest;
             this.guestName = this.guest.getClientName();
-            this.gameState = GameState.ONGOING;
 
+            // Alert host that a guest has joined
             Message message = new Message(MessageTypes.GUEST_JOINED);
             message.addParam(Integer.toString(guest.getClientNum()));
             host.sendMessage(message);
         }
         return true;
     }
+    
 
     public ClientHandler getHost() {
         return this.host;
@@ -89,6 +89,14 @@ public class Lobby {
 
     public ClientHandler getGuest() {
         return this.guest;
+    }
+
+    public boolean isJoinable() {
+        return this.joinable;
+    }
+
+    public void setJoinable(boolean joinable) {
+        this.joinable = joinable;
     }
 
 // Colours

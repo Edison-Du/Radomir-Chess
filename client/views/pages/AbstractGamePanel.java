@@ -4,15 +4,21 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JLabel;
+
 import chesslogic.ChessGame;
 import config.GameState;
+import config.MessageTypes;
 import views.chess.ChessBoardPanel;
 import views.chess.GamePanelButton;
 import views.chess.GameResultOverlay;
 import views.chess.MessagePanel;
 import views.chess.MovesPanel;
 import config.UserInterface;
+import network.Message;
+import network.ServerConnection;
 import views.components.ContentPanel;
+import views.components.CustomButton;
 
 abstract public class AbstractGamePanel extends ContentPanel implements ActionListener {
 
@@ -24,14 +30,23 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public MovesPanel movesPanel;
     public MessagePanel messagePanel;
 
+<<<<<<< HEAD
+    // public GameResultOverlay gameResultOverlay;
+=======
     public final GamePanelButton resign;
     
     private boolean playAgain;
     private boolean opponentPlayAgain;
+>>>>>>> bf5942edb8e6db52a8aec9f0384f0bc904999929
 
     private int playerColour;
     private GameState gameState;
 
+    public final GamePanelButton resign;
+    public CustomButton undoButton;
+    public CustomButton takebackButton;
+
+    public JLabel hostName, enemyName;
 
     public AbstractGamePanel() {
         
@@ -75,16 +90,24 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     }
 
     public void setGameState(GameState state) {
-        this.gameState = state;
-        if ((gameState != GameState.WAITING) && (gameState != GameState.ONGOING)) {
-            // boardPanel.gameResultOverlay.setVisible(true);
+        
+        // Enter into game
+        if (gameState == GameState.WAITING && state != GameState.WAITING) {
+            ServerConnection.sendMessage(new Message(MessageTypes.LOCK_LOBBY));
+
+        // Reverse above statement
+        } else if (gameState != GameState.WAITING && state == GameState.WAITING) {
+            ServerConnection.sendMessage(new Message(MessageTypes.UNLOCK_LOBBY));
+        }
+
+        if ((state != GameState.WAITING) && (state != GameState.ONGOING)) {
             boardPanel.setOverlayVisible(true);
         } else {
-            // boardPanel.gameResultOverlay.setVisible(false);
             playAgain = false;
             opponentPlayAgain = false;
             boardPanel.setOverlayVisible(false);
         }
+        this.gameState = state;
         boardPanel.revalidate();
     }
 
@@ -102,7 +125,6 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         chessGame = new ChessGame();
 
         boardPanel.setChessGame(chessGame);
-
         boardPanel.setPlayerColour(playerColour);
 
         movesPanel.clearMoves();
@@ -115,7 +137,13 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.revalidate();
     }
 
+    public boolean isPlayingAgain() {
+        return playAgain;
+    }
 
+    public boolean opponentPlayingAgain() {
+        return opponentPlayAgain;
+    }
 
     public void setPlayAgain(boolean playAgain) {
         this.playAgain = playAgain;

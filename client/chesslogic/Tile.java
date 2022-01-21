@@ -62,6 +62,5 @@ public class Tile {
      */
     public String toString() {
         return Constants.coordToChess(this.x, this.y);
-    }  
-    
+    }
 }

@@ -130,7 +130,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
         posY = (7 * (1 - playerColour)) + (2 * playerColour - 1) * mouseY / 60;
 
         // solve if piece dragged
-        t2 = String.valueOf((char) (posX + 97)) + "" + (posY + 1);
+        t2 = String.valueOf((char) (posX + 'a')) + "" + (posY + 1);
 
         if (isSelected) {
             isSelected = false;
@@ -217,9 +217,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             // Initialize mouse coordinates
             mouseX = e.getX();
             mouseY = e.getY();
-
-
-
         }
     }
 

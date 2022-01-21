@@ -42,7 +42,7 @@ public class ClientHandler extends Thread{
         clientSocket = socket;
         clientNum = ++ClientHandler.numClients;
         this.server = server;
-        this.clientName = "Client#" + this.clientNum;
+        this.clientName = "Guest#" + this.clientNum;
         // Setting general information about this client
         this.userActive = true;
         
@@ -181,11 +181,25 @@ public class ClientHandler extends Thread{
         String username = message.getParam(0);
         String password = message.getParam(1);
         if (server.getDatabase().addUser(username, password)){
+            setClientName(username);
             Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
             returnMessage.addParam(username);
             sendMessage(returnMessage); // Success
         } else{
             sendMessage(new Message(MessageTypes.REGISTER_FAILED)); // Failiure
+        }
+    }
+
+    private void loginUser(Message message){
+        String username = message.getParam(0);
+        String password = message.getParam(1);
+        if (server.getDatabase().validateUser(username, password)){        
+            setClientName(username);        
+            Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
+            returnMessage.addParam(username);
+            sendMessage(returnMessage); // Success
+        } else{
+            sendMessage(new Message(MessageTypes.LOGIN_FAILED)); // Failure
         }
     }
 
@@ -199,16 +213,8 @@ public class ClientHandler extends Thread{
         lobby.sendMessage(this, message);
     }
 
-    private void loginUser(Message message){
-        String username = message.getParam(0);
-        String password = message.getParam(1);
-        if (server.getDatabase().validateUser(username, password)){                
-            Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
-            returnMessage.addParam(username);
-            sendMessage(returnMessage); // Success
-        } else{
-            sendMessage(new Message(MessageTypes.LOGIN_FAILED)); // Failiure
-        }
+    private void setClientName(String newName){
+        this.clientName = newName;
     }
 
     private void logoutUser(Message message) {
@@ -284,11 +290,11 @@ public class ClientHandler extends Thread{
 
         lobby.leaveLobby(this);
 
-        if (lobby.getHost() == null) {
-            server.getLobbyManager().removeLobby(lobby.getCode());
-        }
+        // if (lobby.getHost() == null) {
+        //     server.getLobbyManager().removeLobby(lobby.getCode());
+        // }
 
-        lobby = null;
+        // lobby = null;
     }
 
     // The following 4 methods can be merged into one, maybe

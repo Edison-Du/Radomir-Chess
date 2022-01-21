@@ -27,11 +27,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     private JLabel otherClientLabel;
     private CustomButton leaveLobby;
 
-    private JLabel username, opponentUsername;
     private JLabel lobbyVisibilityLabel;
-
-    private CustomButton undoButton;
-    private CustomButton takebackButton;
 
     public MultiplayerPanel() {
 
@@ -50,13 +46,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
         otherClientLabel.setForeground(Color.WHITE);
         otherClientLabel.setBounds(760, 30, 500, 100);
         this.add(otherClientLabel);
-
-
-        this.username = new JLabel();
-        this.username.setForeground(UserInterface.TEXT_COLOUR);
-        this.username.setBounds(UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 45, 200, 25);
-        this.username.setFont(UserInterface.USERNAME_FONT);
-        this.username.setText(UserInterface.GUEST);
 
         // Leave lobby
         leaveLobby = new CustomButton("Leave");
@@ -79,6 +68,12 @@ public class MultiplayerPanel extends AbstractGamePanel {
         takebackButton = new CustomButton("Accept Takeback");
         takebackButton.setBounds(200, 600, 150, 25);
         takebackButton.addActionListener(this);
+
+        this.hostName = new JLabel();
+        this.hostName.setForeground(UserInterface.TEXT_COLOUR);
+        this.hostName.setBounds(100, 0, 400, 200);
+        this.hostName.setFont(UserInterface.USERNAME_FONT);
+        this.add(hostName);
     }
 
     public void setLobbyCode(String code) {

@@ -2,6 +2,8 @@ package config;
 
 import java.awt.Color;
 import java.awt.Font;
+
+import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
@@ -23,20 +25,19 @@ public class UserInterface {
 
     public static final int NAVBAR_WIDTH  = WINDOW_WIDTH/5;
     public static final int CONTENT_WIDTH = WINDOW_WIDTH - NAVBAR_WIDTH;
-
     public static final int NAVBAR_BUTTON_HEIGHT = 60;
 
     //Right Panel
     public static final Color FRAME_COLOUR = new Color(41, 43, 45);
     public static final Color TEXT_COLOUR = new Color(250, 250, 250);
-    
+
     // Navbar
-    // public static final Color NAVBAR_COLOUR = new Color(25,26,31);
-    // public static final Color NAVBAR_BUTTON_HOVER_COLOUR = new Color(37,38,43);
     public static final Color NAVBAR_COLOUR = new Color(26,26,27);
     public static final Color NAVBAR_BUTTON_HOVER_COLOUR = new Color(38,39,39);
     public static final Border NAVBAR_BUTTON_MARGIN = new EmptyBorder(0, 20, 0, 0);
     public static final Border NAVBAR_BUTTON_HOVER_MARGIN = new EmptyBorder(0, 30, 0, 0);
+
+    // wtf is this lol
     public static final String GUEST = "Guest";
     public static final Font USERNAME_FONT = new Font("Arial", Font.PLAIN, 20);
 
@@ -46,7 +47,6 @@ public class UserInterface {
     public static final int MENU_BUTTON_HEIGHT = WINDOW_HEIGHT / 4 - (int) (MENU_BUTTON_MARGIN * 1.5);
     public static final int MENU_BUTTON_WIDTH = CONTENT_WIDTH / 2 - (int) (MENU_BUTTON_MARGIN * 1.5);
     public static final Font PLAY_BUTTONS_FONT = new Font("Serif", Font.PLAIN, 40);
-    // public static final int MENU_BUTTON_GAP = MENU_BUTTON_HEIGHT + 25;
 
     // Join game page
     public static final Color JOIN_GAME_BUTTON_BACKGROUND = new Color(200, 200, 200);
@@ -119,4 +119,23 @@ public class UserInterface {
         activeBackground = colour;
         return BACKGROUNDS[colour];
     }
+
+
+    // Borders
+    public final static Border EMPTY_BORDER = new EmptyBorder(0, 0, 0, 0);
+
+    // Game Page
+    public final static int GAME_SIDE_PANEL_WIDTH = 240;
+    
+    // These are all greys, maybe just make a bunch of grey constsants GREY_1, GREY_2
+    public final static Color CHAT_MESSAGE_COLOUR = new Color(230, 230, 230);
+    public final static Color GAME_SIDE_BORDER_COLOR = new Color(128, 128, 128);
+    public final static Color GAME_SIDE_HIGHLIGHT_COLOR = new Color(77, 77, 77);
+    public final static Color GAME_MOVES_HEADER_BACKGROUND = new Color(51, 51, 51);
+    public final static Color GAME_CHAT_TEXTFIELD_COLOUR = new Color(179, 179, 179);
+
+    public final static Border GAME_CHAT_MARGIN = new EmptyBorder(10, 10, 0, 0);
+    public final static Border GAME_CHAT_BORDER = BorderFactory.createLineBorder(GAME_SIDE_BORDER_COLOR, 1);
+    public final static Border GAME_TEXTFIELD_MARGIN  = new EmptyBorder(5, 10, 5, 10);
+
 }

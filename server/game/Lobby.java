@@ -34,7 +34,7 @@ public class Lobby {
     }
 
     public boolean isPublic() {
-        if (this.lobbyVisibility.equals("public")) {
+        if (this.lobbyVisibility.equals("Public")) {
             return true;
         }
         return false;

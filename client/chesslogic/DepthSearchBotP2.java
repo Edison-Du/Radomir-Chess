@@ -8,19 +8,67 @@ public class DepthSearchBotP2 extends Bot {
     private int side;
     private int countUndos;
     private int countMoves;
+
+    private int[][] attackPoints;
+    private int[][] placementPoints;
+    private int[] directionX;
+    private int[] directionY;
     
     public DepthSearchBotP2(int depth, int side) {
         this.depth = depth;
         this.side = side;
+        placementPoints = new int[8][8];
+        attackPoints = new int[8][8];
+        directionX = new int[] {-2, 2, -2, 2, 0, 0, -2, 2};
+        directionY = new int[] {0, 0, -2, 2, -2, 2, 2, -2};
+        resetPlacementPoints();
+    }
+
+    public boolean check(int x, int y){
+        if (x >= 0 && x < 8 && y >= 0 && y < 8) return true;
+        return false;
+    }
+
+    public void resetAttackPoints(int x, int y){
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                attackPoints[i][j] = 0;
+            }
+        }
+        for (int i = 0; i < 8; i++){
+            if (check(x + directionX[i], y + directionY[i])){
+                attackPoints[x + directionX[i]][y + directionY[i]] += 2;
+            }
+        }
+    }
+
+    public void resetPlacementPoints(){
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                placementPoints[i][j] = 3;
+            }
+        }
+        for (int i = 0; i < 8; i++) {
+            placementPoints[i][0] = 1;
+            placementPoints[i][7] = 1;
+            placementPoints[0][i] = 1;
+            placementPoints[7][i] = 1;
+        }
+        for (int i = 1; i < 7; i++) {
+            placementPoints[i][1] = 2;
+            placementPoints[i][6] = 2;
+            placementPoints[1][i] = 2;
+            placementPoints[6][i] = 2;
+        }
     }
     
     private int score(Board b)  {
         if(b.ended()) {
             if(b.getKings()[Constants.WHITE].isChecked(b, b.getKingTiles()[Constants.WHITE])) {
-                return -200;
+                return -99999;
             }
             else if(b.getKings()[Constants.BLACK].isChecked(b, b.getKingTiles()[Constants.BLACK])) {
-                return 200;
+                return 99999;
             }
             else {
                 return -1;
@@ -33,6 +81,34 @@ public class DepthSearchBotP2 extends Bot {
             }
             for(int i = 0; i < b.getPieces().get(1).size(); i++) {
                 out = out - b.getPieces().get(1).get(i).getPiece().getPoints();
+            }
+            for (int i = 0; i < 8; i++){
+                for (int j = 0; j < 8; j++){
+                    if (b.getTiles()[i][j].getPiece() != null){
+                        if (b.getTiles()[i][j].getPiece().getColour() == 0) out += placementPoints[i][j];
+                        else out -= placementPoints[i][j];
+                    }
+                }
+            }
+            resetAttackPoints(b.getKingTiles()[1].getX(), b.getKingTiles()[1].getY());
+            for (int i = 0; i < 8; i++){
+                for (int j = 0; j < 8; j++){
+                    if (b.getTiles()[i][j].getPiece() != null && b.getTiles()[i][j].getPiece().getColour() == 0){
+                        for (Tile t : b.getTiles()[i][j].getPiece().range(b, b.getTiles()[i][j])){
+                            out += attackPoints[t.getX()][t.getY()];
+                        }
+                    }
+                }
+            }
+            resetAttackPoints(b.getKingTiles()[0].getX(), b.getKingTiles()[0].getY());
+            for (int i = 0; i < 8; i++){
+                for (int j = 0; j < 8; j++){
+                    if (b.getTiles()[i][j].getPiece() != null && b.getTiles()[i][j].getPiece().getColour() == 1){
+                        for (Tile t : b.getTiles()[i][j].getPiece().range(b, b.getTiles()[i][j])){
+                            out -= attackPoints[t.getX()][t.getY()];
+                        }
+                    }
+                }
             }
             return out;
         }

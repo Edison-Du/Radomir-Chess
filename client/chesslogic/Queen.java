@@ -10,7 +10,7 @@ class Queen extends Piece {
      * @
      */
     public Queen(int col) {
-        super(col, "Q", 9, getImage("Q", col));
+        super(col, "Q", 50, getImage("Q", col));
     }
     
     @Override

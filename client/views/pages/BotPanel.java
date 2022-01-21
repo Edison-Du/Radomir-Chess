@@ -24,7 +24,7 @@ public class BotPanel extends AbstractGamePanel {
 
         this.boardPanel.setPlayerColour(playerColour);
 
-        depthSearchBot = new DepthSearchBotP2(2, (playerColour + 1) % 2);
+        depthSearchBot = new DepthSearchBotP2(4, (playerColour + 1) % 2);
 
         // Bot goes first
         if (playerColour == 1) {

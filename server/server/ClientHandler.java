@@ -247,7 +247,7 @@ public class ClientHandler extends Thread{
             Message joinedMessage = new Message(MessageTypes.JOINED_GAME);
             joinedMessage.addParam(lobby.getCode());
             joinedMessage.addParam(lobby.getHost().getClientName());
-
+            joinedMessage.addParam(lobby.getLobbyVisibility());
             this.sendMessage(joinedMessage);
 
             // Player Colour

@@ -33,6 +33,7 @@ public abstract class Piece {
         this.name = name;
         this.image = image;
         this.turnMoved = 0;
+        this.points = points;
     }
     
     /**

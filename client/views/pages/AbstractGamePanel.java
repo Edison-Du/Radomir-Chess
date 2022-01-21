@@ -17,6 +17,7 @@ import views.chess.GameResultOverlay;
 import views.chess.LobbyInfoPanel;
 import views.chess.MessagePanel;
 import views.chess.MovesPanel;
+import views.chess.PlayerLabelPanel;
 import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
@@ -32,7 +33,12 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public final ChessBoardPanel boardPanel;
     public final MovesPanel movesPanel;
     public final MessagePanel messagePanel;
+
     public final LobbyInfoPanel lobbyInfoPanel;
+
+    // Labels for player and opponent
+    public final PlayerLabelPanel playerLabel;
+    public final PlayerLabelPanel opponentLabel;
 
     // Buttons
     public final GamePanelButton drawButton;
@@ -56,7 +62,11 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         // Chess game and board
         chessGame = new ChessGame();
         boardPanel = new ChessBoardPanel(chessGame, this);
-        boardPanel.setBounds(120, 120, 480, 480);
+        boardPanel.setBounds(
+            UserInterface.GAME_BOARD_X, 
+            UserInterface.GAME_BOARD_Y, 
+            UserInterface.GAME_BOARD_LENGTH, 
+            UserInterface.GAME_BOARD_LENGTH);
         this.add(boardPanel);
 
         // Moves
@@ -75,6 +85,27 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         lobbyInfoPanel.setForeground(UserInterface.NAVBAR_COLOUR);
         lobbyInfoPanel.setBackground(Color.WHITE);
         this.add(lobbyInfoPanel);
+
+        // Opponent label
+        opponentLabel = new PlayerLabelPanel();
+        opponentLabel.setBounds(
+            UserInterface.GAME_BOARD_X,
+            UserInterface.GAME_BOARD_Y - 60,
+            UserInterface.GAME_BOARD_LENGTH/2,
+            60
+        );
+        this.add(opponentLabel);
+
+        // Player label
+        playerLabel = new PlayerLabelPanel();
+        playerLabel.setBounds(
+            UserInterface.GAME_BOARD_X,
+            UserInterface.GAME_BOARD_Y + UserInterface.GAME_BOARD_LENGTH,
+            UserInterface.GAME_BOARD_LENGTH/2,
+            60
+        );
+        this.add(playerLabel);
+
 
 
         // Takeback
@@ -129,6 +160,8 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         // Reverse above statement
         } else if (gameState != GameState.WAITING && state == GameState.WAITING) {
             ServerConnection.sendMessage(new Message(MessageTypes.UNLOCK_LOBBY));
+
+            opponentLabel.setText("Waiting for opponent");
         }
 
         if ((state != GameState.WAITING) && (state != GameState.ONGOING)) {

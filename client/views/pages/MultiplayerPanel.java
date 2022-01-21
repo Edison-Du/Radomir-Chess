@@ -78,6 +78,9 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     public void setClient(String clientName) {
         this.currentClient = clientName;
+
+
+        this.playerLabel.setText(clientName);
     }
 
     public boolean isAlone() {
@@ -93,11 +96,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     public void addOther(String clientName) {
         this.otherClient = clientName;
 
-        // if (isHost) {
-        //     otherClientLabel.setText(clientName + " is in this lobby.");
-        // } else {
-        //     otherClientLabel.setText(clientName + " is the host of this lobby.");
-        // }
+        this.opponentLabel.setText(clientName);
 
         setGameState(GameState.ONGOING);
     }

@@ -3,6 +3,7 @@ package config;
 public class MessageTypes {
 
     public static final String UNDEFINED = "UNDEFINED";
+    public static final String CONNECTION_ACCEPTED = "CONNECTION_ACCEPTED";
 
     public static final String BROWSE_GAMES = "BROWSE_GAMES";
     public static final String DISPLAY_GAMES = "DISPLAY_GAMES";

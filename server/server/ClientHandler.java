@@ -43,7 +43,6 @@ public class ClientHandler extends Thread{
         clientNum = ++ClientHandler.numClients;
         this.server = server;
         this.clientName = "Guest#" + this.clientNum;
-        // Setting general information about this client
         this.userActive = true;
         
         try {
@@ -51,6 +50,10 @@ public class ClientHandler extends Thread{
             InputStreamReader stream = new InputStreamReader(socket.getInputStream());
             input = new BufferedReader(stream);
             output = new PrintWriter(clientSocket.getOutputStream());
+
+            Message accepted = new Message(MessageTypes.CONNECTION_ACCEPTED);
+            accepted.addParam(Integer.toString(clientNum));
+            sendMessage(accepted);
 
             System.out.println("Succesfully connected client #" + clientNum);
 

@@ -14,6 +14,7 @@ import config.MessageTypes;
 import views.chess.ChessBoardPanel;
 import views.chess.GamePanelButton;
 import views.chess.GameResultOverlay;
+import views.chess.LobbyInfoPanel;
 import views.chess.MessagePanel;
 import views.chess.MovesPanel;
 import config.UserInterface;
@@ -27,10 +28,18 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     // Chess game
     public ChessGame chessGame;
 
-    // subpanel chess game
-    public ChessBoardPanel boardPanel;
-    public MovesPanel movesPanel;
-    public MessagePanel messagePanel;
+    // Panels
+    public final ChessBoardPanel boardPanel;
+    public final MovesPanel movesPanel;
+    public final MessagePanel messagePanel;
+    public final LobbyInfoPanel lobbyInfoPanel;
+
+    // Buttons
+    public final GamePanelButton drawButton;
+    public final GamePanelButton resignButton;
+    public final GamePanelButton takebackButton;
+    public final CustomButton leaveLobby;
+
 
     private boolean playAgain;
     private boolean opponentPlayAgain;
@@ -38,14 +47,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     private int playerColour;
     private GameState gameState;
 
-    public final GamePanelButton drawButton;
-    public final GamePanelButton resignButton;
-    public final GamePanelButton takebackButton;
-
     public CustomButton takebackAcceptButton;
-
-    public final CustomButton leaveLobby;
-
 
     public JLabel hostName, enemyName;
 
@@ -67,8 +69,13 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         messagePanel.setBounds(660, 300, 240, 330);
         this.add(messagePanel);
 
+        // Lobby Info
+        lobbyInfoPanel = new LobbyInfoPanel();
+        lobbyInfoPanel.setBounds(660, 30, 240, 60);
+        lobbyInfoPanel.setForeground(UserInterface.NAVBAR_COLOUR);
+        lobbyInfoPanel.setBackground(Color.WHITE);
+        this.add(lobbyInfoPanel);
 
-        // Buttons
 
         // Takeback
         takebackButton = new GamePanelButton("Takeback");
@@ -93,7 +100,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         leaveLobby.setBounds(660, 630, 240, 30);
         leaveLobby.setBorder(UserInterface.EMPTY_BORDER);
         leaveLobby.setRound(true);
-        leaveLobby.setBorderRadius(15);
+        leaveLobby.setBorderRadius(UserInterface.GAME_INFO_BORDER_RADIUS);
         leaveLobby.setForeground(UserInterface.NAVBAR_COLOUR);
         leaveLobby.setBackground(Color.WHITE);
         leaveLobby.setHoverColor(UserInterface.CHAT_MESSAGE_COLOUR);

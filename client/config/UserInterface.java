@@ -111,6 +111,8 @@ public class UserInterface {
 
     // Game Page
     public final static int GAME_SIDE_PANEL_WIDTH = 240;
+
+    public final static int GAME_INFO_BORDER_RADIUS = 15;
     
     // These are all greys, maybe just make a bunch of grey constsants GREY_1, GREY_2
     public final static Color CHAT_MESSAGE_COLOUR = new Color(230, 230, 230);
@@ -122,5 +124,7 @@ public class UserInterface {
     public final static Border GAME_CHAT_MARGIN = new EmptyBorder(10, 10, 0, 0);
     public final static Border GAME_CHAT_BORDER = BorderFactory.createLineBorder(GAME_SIDE_BORDER_COLOR, 1);
     public final static Border GAME_TEXTFIELD_MARGIN  = new EmptyBorder(5, 10, 5, 10);
+
+    public static final Font LOBBY_INFO = new Font("Serif", Font.PLAIN, 40);
 
 }

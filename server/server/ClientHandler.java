@@ -43,7 +43,6 @@ public class ClientHandler extends Thread{
         clientNum = ++ClientHandler.numClients;
         this.server = server;
         this.clientName = "Guest#" + this.clientNum;
-        // Setting general information about this client
         this.userActive = true;
         
         try {
@@ -51,6 +50,10 @@ public class ClientHandler extends Thread{
             InputStreamReader stream = new InputStreamReader(socket.getInputStream());
             input = new BufferedReader(stream);
             output = new PrintWriter(clientSocket.getOutputStream());
+
+            Message accepted = new Message(MessageTypes.CONNECTION_ACCEPTED);
+            accepted.addParam(Integer.toString(clientNum));
+            sendMessage(accepted);
 
             System.out.println("Succesfully connected client #" + clientNum);
 
@@ -150,6 +153,12 @@ public class ClientHandler extends Thread{
         } else if (request.getType().equals(MessageTypes.CHESS_MOVE)) {
             sendChessMove(request);
 
+        } else if(request.getType().equals(MessageTypes.CHECKMATE)) {
+            checkmateGame(request);
+
+        } else if(request.getType().equals(MessageTypes.STALEMATE)) {
+            stalemateGame(request);
+
         } else if (request.getType().equals(MessageTypes.RESIGNATION)) {
             resignGame(request);
 
@@ -218,12 +227,8 @@ public class ClientHandler extends Thread{
     }
 
     private void logoutUser(Message message) {
-        try {
-            sendMessage(message);
-        } catch (Exception e) {
-            System.out.println("Logout failed");
-            e.printStackTrace();
-        }
+        this.clientName = "Guest #" + clientNum;
+        sendMessage(message);
     }
 
     private void joinGame(Message message) {
@@ -244,8 +249,8 @@ public class ClientHandler extends Thread{
         } else {
             Message joinedMessage = new Message(MessageTypes.JOINED_GAME);
             joinedMessage.addParam(lobby.getCode());
-            joinedMessage.addParam(Integer.toString(lobby.getHost().getClientNum()));
-
+            joinedMessage.addParam(lobby.getHost().getClientName());
+            joinedMessage.addParam(lobby.getLobbyVisibility());
             this.sendMessage(joinedMessage);
 
             // Player Colour
@@ -258,9 +263,9 @@ public class ClientHandler extends Thread{
     private void createGame(Message message) {
         lobby = server.getLobbyManager().createLobby(this);
         if (message.getParam(0).equals("public")) {
-            lobby.setPublicStatus("public");
+            lobby.setPublicStatus("Public");
         } else if (message.getParam(0).equals("private")) {
-            lobby.setPublicStatus("private");
+            lobby.setPublicStatus("Private");
         }
 
 
@@ -290,11 +295,11 @@ public class ClientHandler extends Thread{
 
         lobby.leaveLobby(this);
 
-        // if (lobby.getHost() == null) {
-        //     server.getLobbyManager().removeLobby(lobby.getCode());
-        // }
+        if (lobby.getHost() == null) {
+            server.getLobbyManager().removeLobby(lobby.getCode());
+        }
 
-        // lobby = null;
+        lobby = null;
     }
 
     // The following 4 methods can be merged into one, maybe
@@ -305,6 +310,16 @@ public class ClientHandler extends Thread{
 
     private void sendChessMove(Message message) {
         if(lobby==null) return;
+        lobby.sendMessage(this, message);
+    }
+
+    private void checkmateGame(Message message) {
+        if (lobby==null) return;
+        lobby.sendMessage(this, message);
+    }
+
+    private void stalemateGame(Message message) {
+        if (lobby==null) return;
         lobby.sendMessage(this, message);
     }
 

@@ -3,6 +3,7 @@ package config;
 public class MessageTypes {
 
     public static final String UNDEFINED = "UNDEFINED";
+    public static final String CONNECTION_ACCEPTED = "CONNECTION_ACCEPTED";
 
     public static final String BROWSE_GAMES = "BROWSE_GAMES";
     public static final String DISPLAY_GAMES = "DISPLAY_GAMES";
@@ -38,6 +39,8 @@ public class MessageTypes {
     public static final String PLAYER_COLOUR = "PLAYER_COLOUR";
     public static final String CHESS_MOVE = "CHESS_MOVE";
 
+    public static final String CHECKMATE = "CHECKMATE";
+    public static final String STALEMATE = "STALEMATE";
     public static final String RESIGNATION = "RESIGNATION";
     public static final String PLAY_AGAIN = "PLAY_AGAIN";
     

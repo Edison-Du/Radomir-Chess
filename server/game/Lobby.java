@@ -76,7 +76,7 @@ public class Lobby {
 
             // Alert host that a guest has joined
             Message message = new Message(MessageTypes.GUEST_JOINED);
-            message.addParam(Integer.toString(guest.getClientNum()));
+            message.addParam(this.guestName);
             host.sendMessage(message);
         }
         return true;

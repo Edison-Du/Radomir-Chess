@@ -7,6 +7,7 @@ public enum GameState {
     BLACK_VICTORY_CHECKMATE,
     WHITE_VICTORY_RESIGN,
     BLACK_VICTORY_RESIGN,
+    CHECKMATE,
     STALEMATE,
     DRAW,
 }

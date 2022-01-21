@@ -1,10 +1,12 @@
 package views.pages;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JLabel;
+import javax.xml.namespace.QName;
 
 import chesslogic.ChessGame;
 import config.GameState;
@@ -12,8 +14,10 @@ import config.MessageTypes;
 import views.chess.ChessBoardPanel;
 import views.chess.GamePanelButton;
 import views.chess.GameResultOverlay;
+import views.chess.LobbyInfoPanel;
 import views.chess.MessagePanel;
 import views.chess.MovesPanel;
+import views.chess.PlayerLabelPanel;
 import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
@@ -25,10 +29,23 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     // Chess game
     public ChessGame chessGame;
 
-    // subpanel chess game
-    public ChessBoardPanel boardPanel;
-    public MovesPanel movesPanel;
-    public MessagePanel messagePanel;
+    // Panels
+    public final ChessBoardPanel boardPanel;
+    public final MovesPanel movesPanel;
+    public final MessagePanel messagePanel;
+
+    public final LobbyInfoPanel lobbyInfoPanel;
+
+    // Labels for player and opponent
+    public final PlayerLabelPanel playerLabel;
+    public final PlayerLabelPanel opponentLabel;
+
+    // Buttons
+    public final GamePanelButton drawButton;
+    public final GamePanelButton resignButton;
+    public final GamePanelButton takebackButton;
+    public final CustomButton leaveLobby;
+
 
     private boolean playAgain;
     private boolean opponentPlayAgain;
@@ -36,9 +53,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     private int playerColour;
     private GameState gameState;
 
-    public final GamePanelButton resign;
-    public CustomButton undoButton;
-    public CustomButton takebackButton;
+    public CustomButton takebackAcceptButton;
 
     public JLabel hostName, enemyName;
 
@@ -47,7 +62,11 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         // Chess game and board
         chessGame = new ChessGame();
         boardPanel = new ChessBoardPanel(chessGame, this);
-        boardPanel.setBounds(120, 120, 480, 480);
+        boardPanel.setBounds(
+            UserInterface.GAME_BOARD_X, 
+            UserInterface.GAME_BOARD_Y, 
+            UserInterface.GAME_BOARD_LENGTH, 
+            UserInterface.GAME_BOARD_LENGTH);
         this.add(boardPanel);
 
         // Moves
@@ -60,16 +79,65 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         messagePanel.setBounds(660, 300, 240, 330);
         this.add(messagePanel);
 
+        // Lobby Info
+        lobbyInfoPanel = new LobbyInfoPanel();
+        lobbyInfoPanel.setBounds(660, 30, 240, 60);
+        lobbyInfoPanel.setForeground(UserInterface.NAVBAR_COLOUR);
+        lobbyInfoPanel.setBackground(Color.WHITE);
+        this.add(lobbyInfoPanel);
 
-        resign = new GamePanelButton("Resign");
-        resign.setBounds(660, 240, 80, 60);
-        resign.addActionListener(this);
-        this.add(resign);
+        // Opponent label
+        opponentLabel = new PlayerLabelPanel();
+        opponentLabel.setBounds(
+            UserInterface.GAME_BOARD_X,
+            UserInterface.GAME_BOARD_Y - 60,
+            UserInterface.GAME_BOARD_LENGTH/2,
+            60
+        );
+        this.add(opponentLabel);
 
-        // gameResultOverlay = new GameResultOverlay();
+        // Player label
+        playerLabel = new PlayerLabelPanel();
+        playerLabel.setBounds(
+            UserInterface.GAME_BOARD_X,
+            UserInterface.GAME_BOARD_Y + UserInterface.GAME_BOARD_LENGTH,
+            UserInterface.GAME_BOARD_LENGTH/2,
+            60
+        );
+        this.add(playerLabel);
 
-        // Same as chess board, use constants later lol
-        // gameResultOverlay.setBounds(120, 120, 480, 480);
+
+
+        // Takeback
+        takebackButton = new GamePanelButton("Takeback");
+        takebackButton.setBounds(660, 240 - 1, 80, 60 + 2);
+        takebackButton.addActionListener(this);
+        this.add(takebackButton);
+
+        // Draw
+        drawButton = new GamePanelButton("Draw");
+        drawButton.setBounds(740, 240 - 1, 80, 60 + 2);
+        drawButton.addActionListener(this);
+        this.add(drawButton);
+
+        // Resign
+        resignButton = new GamePanelButton("Resign");
+        resignButton.setBounds(820, 240 - 1, 80, 60 + 2);
+        resignButton.addActionListener(this);
+        this.add(resignButton);
+
+        // Leave Lobby
+        leaveLobby = new CustomButton("Leave Lobby");
+        leaveLobby.setBounds(660, 630, 240, 30);
+        leaveLobby.setBorder(UserInterface.EMPTY_BORDER);
+        leaveLobby.setRound(true);
+        leaveLobby.setBorderRadius(UserInterface.GAME_INFO_BORDER_RADIUS);
+        leaveLobby.setForeground(UserInterface.NAVBAR_COLOUR);
+        leaveLobby.setBackground(Color.WHITE);
+        leaveLobby.setHoverColor(UserInterface.CHAT_MESSAGE_COLOUR);
+        leaveLobby.setPressedColor(UserInterface.GAME_CHAT_TEXTFIELD_COLOUR);
+        leaveLobby.addActionListener(this);
+        this.add(leaveLobby);
     }
 
     public abstract void processMove(String tile1, String tile2, String promotion);
@@ -92,6 +160,8 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         // Reverse above statement
         } else if (gameState != GameState.WAITING && state == GameState.WAITING) {
             ServerConnection.sendMessage(new Message(MessageTypes.UNLOCK_LOBBY));
+
+            opponentLabel.setText("Waiting for opponent");
         }
 
         if ((state != GameState.WAITING) && (state != GameState.ONGOING)) {
@@ -154,4 +224,6 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
             setGameState(GameState.ONGOING);
         }
     }
+
+    public abstract void handleGameEnded();
 }

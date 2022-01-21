@@ -107,20 +107,26 @@ public class UserInterface {
 
 
     // Borders
-    public final static Border EMPTY_BORDER = new EmptyBorder(0, 0, 0, 0);
+    public static final Border EMPTY_BORDER = new EmptyBorder(0, 0, 0, 0);
 
     // Game Page
-    public final static int GAME_SIDE_PANEL_WIDTH = 240;
+    public static final int GAME_BOARD_LENGTH = 480;
+    public static final int GAME_BOARD_X = 120;
+    public static final int GAME_BOARD_Y = 120;
+    public static final int GAME_SIDE_PANEL_WIDTH = 240;
+    public static final int GAME_INFO_BORDER_RADIUS = 15;
     
     // These are all greys, maybe just make a bunch of grey constsants GREY_1, GREY_2
-    public final static Color CHAT_MESSAGE_COLOUR = new Color(230, 230, 230);
-    public final static Color GAME_SIDE_BORDER_COLOR = new Color(128, 128, 128);
-    public final static Color GAME_SIDE_HIGHLIGHT_COLOR = new Color(77, 77, 77);
-    public final static Color GAME_MOVES_HEADER_BACKGROUND = new Color(51, 51, 51);
-    public final static Color GAME_CHAT_TEXTFIELD_COLOUR = new Color(179, 179, 179);
+    public static final Color CHAT_MESSAGE_COLOUR = new Color(230, 230, 230);
+    public static final Color GAME_SIDE_BORDER_COLOR = new Color(128, 128, 128);
+    public static final Color GAME_SIDE_HIGHLIGHT_COLOR = new Color(77, 77, 77);
+    public static final Color GAME_MOVES_HEADER_BACKGROUND = new Color(51, 51, 51);
+    public static final Color GAME_CHAT_TEXTFIELD_COLOUR = new Color(179, 179, 179);
 
-    public final static Border GAME_CHAT_MARGIN = new EmptyBorder(10, 10, 0, 0);
-    public final static Border GAME_CHAT_BORDER = BorderFactory.createLineBorder(GAME_SIDE_BORDER_COLOR, 1);
-    public final static Border GAME_TEXTFIELD_MARGIN  = new EmptyBorder(5, 10, 5, 10);
+    public static final Border GAME_CHAT_MARGIN = new EmptyBorder(10, 10, 0, 0);
+    public static final Border GAME_CHAT_BORDER = BorderFactory.createLineBorder(GAME_SIDE_BORDER_COLOR, 1);
+    public static final Border GAME_TEXTFIELD_MARGIN  = new EmptyBorder(5, 10, 5, 10);
+
+    public static final Font LOBBY_INFO = new Font("Serif", Font.PLAIN, 40);
 
 }

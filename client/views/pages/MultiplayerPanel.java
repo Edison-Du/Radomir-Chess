@@ -19,13 +19,12 @@ public class MultiplayerPanel extends AbstractGamePanel {
     private String lobbyCode = "";
     private boolean isHost;
 
-    private int currentClient, otherClient;
+    private String currentClient, otherClient;
     private boolean isAlone;
 
     // Swing
     private JLabel codeLabel;
     private JLabel otherClientLabel;
-    private CustomButton leaveLobby;
 
     private JLabel lobbyVisibilityLabel;
 
@@ -47,12 +46,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
         otherClientLabel.setBounds(760, 30, 500, 100);
         this.add(otherClientLabel);
 
-        // Leave lobby
-        leaveLobby = new CustomButton("Leave");
-        leaveLobby.setBounds(780, 630, 120, 30);
-        leaveLobby.addActionListener(this);
-        this.add(leaveLobby);
-
         // Lobby visibility
         this.lobbyVisibilityLabel = new JLabel();
         this.lobbyVisibilityLabel.setForeground(UserInterface.TEXT_COLOUR);
@@ -60,14 +53,11 @@ public class MultiplayerPanel extends AbstractGamePanel {
         this.lobbyVisibilityLabel.setFont(UserInterface.USERNAME_FONT);
         this.add(lobbyVisibilityLabel);
 
-        undoButton = new CustomButton("Takeback");
-        undoButton.setBounds(0, 600, 150, 25);
-        undoButton.addActionListener(this);
-        this.add(undoButton);
-
-        takebackButton = new CustomButton("Accept Takeback");
-        takebackButton.setBounds(200, 600, 150, 25);
-        takebackButton.addActionListener(this);
+        // Yikes
+        // takebackButton = new CustomButton("Takeback");
+        // takebackButton.setBounds(0, 600, 150, 25);
+        // takebackButton.addActionListener(this);
+        // this.add(takebackButton);
 
         this.hostName = new JLabel();
         this.hostName.setForeground(UserInterface.TEXT_COLOUR);
@@ -90,8 +80,8 @@ public class MultiplayerPanel extends AbstractGamePanel {
         this.isHost = isHost;
     }
 
-    public void setClient(int client) {
-        this.currentClient = client;
+    public void setClient(String clientName) {
+        this.currentClient = clientName;
     }
     
     public boolean isAlone() {
@@ -104,13 +94,13 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     // Not sure if this will be redisgned when we get to chess
     // For texting purposes this works.
-    public void addOther(int client) {
-        this.otherClient = client;
+    public void addOther(String clientName) {
+        this.otherClient = clientName;
 
         if (isHost) {
-            otherClientLabel.setText("Client #" + client + " is in this lobby.");
+            otherClientLabel.setText(clientName + " is in this lobby.");
         } else {
-            otherClientLabel.setText("Client #" + client + " is the host of this lobby.");
+            otherClientLabel.setText(clientName + " is the host of this lobby.");
         }
 
         setGameState(GameState.ONGOING);
@@ -118,15 +108,15 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     // Text
     public void addMessageFromOther(String message) {
-        messagePanel.addTextMessage("Client " + otherClient + ": " + message);
+        messagePanel.addTextMessage(otherClient + ": " + message);
     }
 
     public void addTakeback() {
-        this.add(takebackButton);
+        this.add(takebackAcceptButton);
     }
 
     public void removeTakeback() {
-        this.remove(takebackButton);
+        this.remove(takebackAcceptButton);
     }
 
     @Override
@@ -141,15 +131,15 @@ public class MultiplayerPanel extends AbstractGamePanel {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(getGameState());
-        if (e.getSource() == takebackButton){
+        if (e.getSource() == takebackAcceptButton){
             ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_ACCEPTED));
             this.undoMove();
             removeTakeback();
 
-        } else if (e.getSource() == undoButton){
+        } else if (e.getSource() == takebackButton){
             ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_REQUESTED));
 
-        } else if ((e.getSource() == resign) && (getGameState() == GameState.ONGOING)) {
+        } else if ((e.getSource() == resignButton) && (getGameState() == GameState.ONGOING)) {
             if (getPlayerColour() == 0) {
                 setGameState(GameState.BLACK_VICTORY_RESIGN);
             } else {

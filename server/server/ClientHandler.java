@@ -218,12 +218,8 @@ public class ClientHandler extends Thread{
     }
 
     private void logoutUser(Message message) {
-        try {
-            sendMessage(message);
-        } catch (Exception e) {
-            System.out.println("Logout failed");
-            e.printStackTrace();
-        }
+        this.clientName = "Guest #" + clientNum;
+        sendMessage(message);
     }
 
     private void joinGame(Message message) {
@@ -244,7 +240,7 @@ public class ClientHandler extends Thread{
         } else {
             Message joinedMessage = new Message(MessageTypes.JOINED_GAME);
             joinedMessage.addParam(lobby.getCode());
-            joinedMessage.addParam(Integer.toString(lobby.getHost().getClientNum()));
+            joinedMessage.addParam(lobby.getHost().getClientName());
 
             this.sendMessage(joinedMessage);
 
@@ -290,11 +286,11 @@ public class ClientHandler extends Thread{
 
         lobby.leaveLobby(this);
 
-        // if (lobby.getHost() == null) {
-        //     server.getLobbyManager().removeLobby(lobby.getCode());
-        // }
+        if (lobby.getHost() == null) {
+            server.getLobbyManager().removeLobby(lobby.getCode());
+        }
 
-        // lobby = null;
+        lobby = null;
     }
 
     // The following 4 methods can be merged into one, maybe

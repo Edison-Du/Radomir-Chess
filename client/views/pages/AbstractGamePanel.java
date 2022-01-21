@@ -1,10 +1,12 @@
 package views.pages;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JLabel;
+import javax.xml.namespace.QName;
 
 import chesslogic.ChessGame;
 import config.GameState;
@@ -36,9 +38,14 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     private int playerColour;
     private GameState gameState;
 
-    public final GamePanelButton resign;
-    public CustomButton undoButton;
-    public CustomButton takebackButton;
+    public final GamePanelButton drawButton;
+    public final GamePanelButton resignButton;
+    public final GamePanelButton takebackButton;
+
+    public CustomButton takebackAcceptButton;
+
+    public final CustomButton leaveLobby;
+
 
     public JLabel hostName, enemyName;
 
@@ -61,15 +68,38 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.add(messagePanel);
 
 
-        resign = new GamePanelButton("Resign");
-        resign.setBounds(660, 240, 80, 60);
-        resign.addActionListener(this);
-        this.add(resign);
+        // Buttons
 
-        // gameResultOverlay = new GameResultOverlay();
+        // Takeback
+        takebackButton = new GamePanelButton("Takeback");
+        takebackButton.setBounds(660, 240 - 1, 80, 60 + 2);
+        takebackButton.addActionListener(this);
+        this.add(takebackButton);
 
-        // Same as chess board, use constants later lol
-        // gameResultOverlay.setBounds(120, 120, 480, 480);
+        // Draw
+        drawButton = new GamePanelButton("Draw");
+        drawButton.setBounds(740, 240 - 1, 80, 60 + 2);
+        drawButton.addActionListener(this);
+        this.add(drawButton);
+
+        // Resign
+        resignButton = new GamePanelButton("Resign");
+        resignButton.setBounds(820, 240 - 1, 80, 60 + 2);
+        resignButton.addActionListener(this);
+        this.add(resignButton);
+
+        // Leave Lobby
+        leaveLobby = new CustomButton("Leave Lobby");
+        leaveLobby.setBounds(660, 630, 240, 30);
+        leaveLobby.setBorder(UserInterface.EMPTY_BORDER);
+        leaveLobby.setRound(true);
+        leaveLobby.setBorderRadius(15);
+        leaveLobby.setForeground(UserInterface.NAVBAR_COLOUR);
+        leaveLobby.setBackground(Color.WHITE);
+        leaveLobby.setHoverColor(UserInterface.CHAT_MESSAGE_COLOUR);
+        leaveLobby.setPressedColor(UserInterface.GAME_CHAT_TEXTFIELD_COLOUR);
+        leaveLobby.addActionListener(this);
+        this.add(leaveLobby);
     }
 
     public abstract void processMove(String tile1, String tile2, String promotion);

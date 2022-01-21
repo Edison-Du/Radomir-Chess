@@ -134,27 +134,27 @@ public class ConnectionHandler extends Thread {
 
     public void joinGame(Message message) {
         String code = message.getParam(0);
-        int host = Integer.parseInt(message.getParam(1));
+        String hostName = message.getParam(1);
 
         window.changePage(Page.GAME);
         window.setInGame(true);
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(false);
-        window.gamePanel.addOther(host);
+        window.gamePanel.addOther(hostName);
 
         window.gamePanel.resetGame();
         window.gamePanel.resetChat();
     }
 
     public void guestJoined(Message message) {
-        int guest = Integer.parseInt(message.getParam(0));
+        String guestName = message.getParam(0);
 
         window.gamePanel.resetGame();
         window.gamePanel.setGameState(GameState.ONGOING);
         window.gamePanel.setAlone(false);
 
-        window.gamePanel.addOther(guest);
-        window.gamePanel.messagePanel.addTextMessage(guest + " has joined the lobby.");
+        window.gamePanel.addOther(guestName);
+        window.gamePanel.messagePanel.addTextMessage(guestName + " has joined the lobby.");
         
     }
 

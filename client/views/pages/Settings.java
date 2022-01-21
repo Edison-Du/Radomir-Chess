@@ -22,13 +22,15 @@ public class Settings extends ContentPanel implements ActionListener {
         "Wood",
         "Bubblegum",
         "Vivid",
-        "Amethyst"
+        "Amethyst",
+        "Evergreen"
     };
     private final String[] BACKGROUNDS = {
         "Classic",
-        "Red",
-        "Green",
-        "Blue"
+        "Light",
+        "Dark",
+        "Light Blue",
+        "Dark Blue"
     };
     private final String[] CHESS_PIECE_SETS = {
         "Classic",

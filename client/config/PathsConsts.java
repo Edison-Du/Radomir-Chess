@@ -1,4 +1,5 @@
 package config;
+import chesslogic.Board;
 
 public class PathsConsts {
 

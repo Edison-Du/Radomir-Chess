@@ -61,7 +61,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
         this.add(lobbyVisibilityLabel);
 
         undoButton = new CustomButton("Takeback");
-        undoButton.setBounds(0, 600, 150, 25);
+        undoButton.setBounds(900, 630, 100, 50);
         undoButton.addActionListener(this);
         this.add(undoButton);
 

@@ -11,6 +11,7 @@ import javax.xml.namespace.QName;
 import chesslogic.ChessGame;
 import config.GameState;
 import config.MessageTypes;
+import views.chess.CapturedPiecesPanel;
 import views.chess.ChessBoardPanel;
 import views.chess.GamePanelButton;
 import views.chess.GameResultOverlay;
@@ -46,6 +47,8 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
     public final CustomButton leaveLobby;
 
+    public final CapturedPiecesPanel capturedPiecesPanel;
+
 
     public JLabel hostName, enemyName;
 
@@ -56,6 +59,11 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         boardPanel = new ChessBoardPanel(chessGame, this);
         boardPanel.setBounds(120, 120, 480, 480);
         this.add(boardPanel);
+
+        // Captured Pieces
+        capturedPiecesPanel = new CapturedPiecesPanel(chessGame);
+        capturedPiecesPanel.setBounds(60,60,480,30);
+        this.add(capturedPiecesPanel);
 
         // Moves
         movesPanel = new MovesPanel();
@@ -100,6 +108,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         leaveLobby.setPressedColor(UserInterface.GAME_CHAT_TEXTFIELD_COLOUR);
         leaveLobby.addActionListener(this);
         this.add(leaveLobby);
+
     }
 
     public abstract void processMove(String tile1, String tile2, String promotion);

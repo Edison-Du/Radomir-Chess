@@ -65,6 +65,12 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.CHESS_MOVE)) {
             processOpponentChessMove(message);
 
+        } else if(message.getType().equals(MessageTypes.CHECKMATE)) {
+            processCheckmate();
+
+        } else if(message.getType().equals(MessageTypes.STALEMATE)) {
+            processStalemate();
+
         } else if (message.getType().equals(MessageTypes.RESIGNATION)) {
             processOpponentResignation();
 
@@ -101,6 +107,16 @@ public class ConnectionHandler extends Thread {
         }
     }
     
+    public void processCheckmate() {
+        window.gamePanel.setGameState(GameState.CHECKMATE);
+        window.gamePanel.boardPanel.gameResultOverlay.setMessage("Checkmate");
+    }
+
+    public void processStalemate() {
+        window.gamePanel.setGameState(GameState.STALEMATE);
+        window.gamePanel.boardPanel.gameResultOverlay.setMessage("Stalemate");
+    }
+
     public void processRequestTakeback(){
         window.gamePanel.addTakeback();
     }

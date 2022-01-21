@@ -30,8 +30,6 @@ public class Play extends ContentPanel implements ActionListener {
     private PlayMenuButton[] buttons;
     private String joinLobbyCode;
 
-
-
     private String[] buttonText = {
         "Join Game",
         "Create Game",

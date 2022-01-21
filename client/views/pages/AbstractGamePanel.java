@@ -184,4 +184,6 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
             setGameState(GameState.ONGOING);
         }
     }
+
+    public abstract void handleGameEnded();
 }

@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JLabel;
+
 import chesslogic.ChessGame;
 import config.GameState;
 import views.chess.ChessBoardPanel;
@@ -33,6 +35,8 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public final GamePanelButton resign;
     public CustomButton undoButton;
     public CustomButton takebackButton;
+
+    public JLabel hostName, enemyName;
 
     public AbstractGamePanel() {
         

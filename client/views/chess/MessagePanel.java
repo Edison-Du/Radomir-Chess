@@ -27,8 +27,6 @@ public class MessagePanel extends ContentPanel implements ActionListener {
 
     public MessagePanel() {
 
-        // this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-
         messageListPanel = new JPanel();
         messageListPanel.setBounds(0, 0, 240, 270);
         messageListPanel.setLayout(new BoxLayout(messageListPanel, BoxLayout.X_AXIS));

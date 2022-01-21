@@ -59,7 +59,7 @@ public class Lobby {
     }
 
     public String getDisplayLobbyInfo() {
-        return "Lobby #" + lobbyIndex + ", Code: " + lobbyCode + ", Host: " + hostName + ", Host Colour: " + getHostColourString();
+        return "Lobby #" + lobbyIndex + ",  Code: " + lobbyCode + ",  Host: " + hostName + " " + getHostColourString();
     }
 
     public static Lobby parseLobbyFromString(String string) {

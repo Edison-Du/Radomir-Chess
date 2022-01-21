@@ -277,11 +277,11 @@ public class ClientHandler extends Thread{
 
         lobby.leaveLobby(this);
 
-        if (lobby.getHost() == null) {
-            server.getLobbyManager().removeLobby(lobby.getCode());
-        }
+        // if (lobby.getHost() == null) {
+        //     server.getLobbyManager().removeLobby(lobby.getCode());
+        // }
 
-        lobby = null;
+        // lobby = null;
     }
 
     // The following 3 methods can be merged into one, maybe

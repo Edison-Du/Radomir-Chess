@@ -30,19 +30,14 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public MovesPanel movesPanel;
     public MessagePanel messagePanel;
 
-<<<<<<< HEAD
-    // public GameResultOverlay gameResultOverlay;
-=======
     public final GamePanelButton resign;
     
     private boolean playAgain;
     private boolean opponentPlayAgain;
->>>>>>> bf5942edb8e6db52a8aec9f0384f0bc904999929
 
     private int playerColour;
     private GameState gameState;
 
-    public final GamePanelButton resign;
     public CustomButton undoButton;
     public CustomButton takebackButton;
 

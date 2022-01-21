@@ -48,9 +48,9 @@ public class Lobby {
 
     public String getHostColourString() {
         if (this.hostColour == 0) {
-            return "white";
+            return "White";
         } else {
-            return "black";
+            return "Black";
         }
     }
 
@@ -59,7 +59,7 @@ public class Lobby {
     }
 
     public String getDisplayLobbyInfo() {
-        return "Lobby #" + lobbyIndex + ",  Code: " + lobbyCode + ",  Host: " + hostName + " " + getHostColourString();
+        return "  Lobby #" + lobbyIndex + ",  Code: " + lobbyCode + ",  Host: " + hostName + " " + getHostColourString();
     }
 
     public static Lobby parseLobbyFromString(String string) {

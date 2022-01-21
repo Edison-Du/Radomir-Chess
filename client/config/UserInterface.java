@@ -62,6 +62,7 @@ public class UserInterface {
 
     // Game board
     public static int activeTheme = 0;
+    public static final int WOOD_BOARD = 2;
     public static final Color[] LIGHTER_TILE_COLOURS = new Color[]{
         new Color(192, 192, 193),
         new Color(218, 226, 234),

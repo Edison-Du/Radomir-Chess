@@ -150,6 +150,12 @@ public class ClientHandler extends Thread{
         } else if (request.getType().equals(MessageTypes.CHESS_MOVE)) {
             sendChessMove(request);
 
+        } else if(request.getType().equals(MessageTypes.CHECKMATE)) {
+            checkmateGame(request);
+
+        } else if(request.getType().equals(MessageTypes.STALEMATE)) {
+            stalemateGame(request);
+
         } else if (request.getType().equals(MessageTypes.RESIGNATION)) {
             resignGame(request);
 
@@ -305,6 +311,16 @@ public class ClientHandler extends Thread{
 
     private void sendChessMove(Message message) {
         if(lobby==null) return;
+        lobby.sendMessage(this, message);
+    }
+
+    private void checkmateGame(Message message) {
+        if (lobby==null) return;
+        lobby.sendMessage(this, message);
+    }
+
+    private void stalemateGame(Message message) {
+        if (lobby==null) return;
         lobby.sendMessage(this, message);
     }
 

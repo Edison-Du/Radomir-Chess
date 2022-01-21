@@ -41,16 +41,25 @@ public class BotPanel extends AbstractGamePanel {
     
     @Override
     public void processMove(String tile1, String tile2, String promotion) {
-        String botMove = depthSearchBot.nextMove(chessGame);
-        System.out.println(botMove);
-        System.out.println("Bot moved " + botMove.substring(0, 2) + ", " + botMove.substring(2, 4));
+        if(!chessGame.getCurrentPos().ended()) {
+            String botMove = depthSearchBot.nextMove(chessGame);
+            System.out.println(botMove);
+            System.out.println("Bot moved " + botMove.substring(0, 2) + ", " + botMove.substring(2, 4));
 
-        System.out.println(botMove.substring(0,2) + ", " + botMove.substring(2, 4) + ", " + botMove.substring(4, 5) + "stop");
-        
-        String chessMove = chessGame.getCurrentPos().toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
-        movesPanel.addMove(chessMove);
+            System.out.println(botMove.substring(0,2) + ", " + botMove.substring(2, 4) + ", " + botMove.substring(4, 5) + "stop");
+            
+            String chessMove = chessGame.getCurrentPos().toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
+            movesPanel.addMove(chessMove);
 
-        chessGame.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
+            chessGame.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
+        }
+    }
 
+    @Override
+    public void handleGameEnded() {
+        // TODO Auto-generated method stub
+        System.out.println("game ended!");
+        setGameState(GameState.STALEMATE);
+        this.boardPanel.gameResultOverlay.setMessage("Stalemate");
     }
 }

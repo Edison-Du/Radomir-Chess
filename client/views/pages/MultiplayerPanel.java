@@ -83,7 +83,8 @@ public class MultiplayerPanel extends AbstractGamePanel {
     }
 
     public void setLobbyVisibility(String visibility) {
-        this.lobbyVisibilityLabel.setText(visibility.toUpperCase() + " LOBBY");;
+        this.lobbyVisibilityLabel.setText(visibility.toUpperCase() + " LOBBY");
+        ;
     }
 
     public void setHost(boolean isHost) {
@@ -93,7 +94,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     public void setClient(int client) {
         this.currentClient = client;
     }
-    
+
     public boolean isAlone() {
         return isAlone;
     }
@@ -138,15 +139,39 @@ public class MultiplayerPanel extends AbstractGamePanel {
         ServerConnection.sendMessage(message);
     }
 
+    // handle end of game
+    public void handleGameEnded() {
+        System.out.println("game ended!");
+
+        boolean isChecked = true;
+
+        // someone fix this method pls
+        // boolean isChecked = chessGame.getCurrentPos().getKings()[chessGame.getCurrentPos().getTurn()].isChecked(chessGame.getCurrentPos(), chessGame.getCurrentPos().getKingTiles()[chessGame.getCurrentPos().getTurn()]);
+
+        if(isChecked) {
+            System.out.println("checkmate!");
+
+            setGameState(GameState.CHECKMATE);
+            ServerConnection.sendMessage(new Message(MessageTypes.CHECKMATE));
+            this.boardPanel.gameResultOverlay.setMessage("Checkmate");
+        } else {
+            System.out.println("stalemate!");
+
+            setGameState(GameState.STALEMATE);
+            ServerConnection.sendMessage(new Message(MessageTypes.STALEMATE));
+            this.boardPanel.gameResultOverlay.setMessage("Stalemate");
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(getGameState());
-        if (e.getSource() == takebackButton){
+        if (e.getSource() == takebackButton) {
             ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_ACCEPTED));
             this.undoMove();
             removeTakeback();
 
-        } else if (e.getSource() == undoButton){
+        } else if (e.getSource() == undoButton) {
             ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_REQUESTED));
 
         } else if ((e.getSource() == resign) && (getGameState() == GameState.ONGOING)) {
@@ -164,5 +189,5 @@ public class MultiplayerPanel extends AbstractGamePanel {
         }
         this.revalidate();
         this.repaint();
-    } 
-}   
+    }
+}

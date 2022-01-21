@@ -3,7 +3,7 @@ package chesslogic;
 import java.util.HashSet;
 import java.util.Iterator;
 
-class King extends Piece {
+public class King extends Piece {
     
     /**
      * Create a king

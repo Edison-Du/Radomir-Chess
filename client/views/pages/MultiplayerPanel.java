@@ -156,20 +156,12 @@ public class MultiplayerPanel extends AbstractGamePanel {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(getGameState());
-<<<<<<< HEAD
-        if (e.getSource() == takebackAcceptButton){
-=======
         if (e.getSource() == takebackButton) {
->>>>>>> 68fa97e0d301d0dcf96525bcdffe5c364b958fda
             ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_ACCEPTED));
             this.undoMove();
             removeTakeback();
 
-<<<<<<< HEAD
         } else if (e.getSource() == takebackButton){
-=======
-        } else if (e.getSource() == undoButton) {
->>>>>>> 68fa97e0d301d0dcf96525bcdffe5c364b958fda
             ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_REQUESTED));
 
         } else if ((e.getSource() == resignButton) && (getGameState() == GameState.ONGOING)) {

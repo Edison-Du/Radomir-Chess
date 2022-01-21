@@ -158,7 +158,7 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(false);
         window.gamePanel.addOther(hostName);
-        window.gamePanel.setLobbyLabel(visibility);
+        window.gamePanel.setLobbyVisibility(visibility);
 
         window.gamePanel.resetGame();
         window.gamePanel.resetChat();

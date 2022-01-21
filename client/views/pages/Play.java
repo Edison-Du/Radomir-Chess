@@ -30,9 +30,6 @@ public class Play extends ContentPanel implements ActionListener {
     private PlayMenuButton[] buttons;
     private String joinLobbyCode;
 
-    private String[] lobbyOptions = {"Public", "Private"};
-    private JComboBox<String> lobbyVisibilitySelection = new JComboBox<>(lobbyOptions);
-
     private String[] buttonText = {
         "Join Game",
         "Create Game",
@@ -50,12 +47,6 @@ public class Play extends ContentPanel implements ActionListener {
         gameTitle.setFont(new Font("Serif", Font.PLAIN, 100));
         gameTitle.setForeground(UserInterface.TEXT_COLOUR);
         this.add(gameTitle);
-        this.revalidate();
-
-        lobbyVisibilitySelection.setBounds(650, 250, 115, 35);
-        lobbyVisibilitySelection.setForeground(UserInterface.FRAME_COLOUR);
-        lobbyVisibilitySelection.addActionListener(this);
-        this.add(lobbyVisibilitySelection);
 
         joinGameBtn = new PlayMenuButton(
             buttonText[0], 
@@ -100,14 +91,7 @@ public class Play extends ContentPanel implements ActionListener {
             window.changePage(Page.JOIN_GAME);
 
         } else if (e.getSource() == createGameBtn) {
-            Message createLobby = new Message(MessageTypes.CREATE_GAME);
-            if (lobbyVisibilitySelection.getSelectedIndex() == 0) {
-                createLobby.addParam("public");
-            } else if (lobbyVisibilitySelection.getSelectedIndex() == 1) {
-                createLobby.addParam("private");
-            }
-            ServerConnection.sendMessage(createLobby);
-            window.changePage(Page.GAME);
+            window.changePage(Page.GAME_SETUP);
 
         } else if (e.getSource() == browseGameBtn) {
             Message browseGames = new Message(MessageTypes.BROWSE_GAMES);

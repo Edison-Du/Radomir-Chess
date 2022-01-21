@@ -60,10 +60,10 @@ public class NavigationBar extends JPanel {
 
         this.usernameLabel = new JLabel();
         this.usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
-        this.usernameLabel.setBounds(UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT - 45, 200, 25);
+        this.usernameLabel.setBounds(30, UserInterface.WINDOW_HEIGHT - 47, 200, 25);
         this.usernameLabel.setFont(UserInterface.USERNAME_FONT);
         this.usernameLabel.setText(UserInterface.GUEST);
-
+        
         this.add(usernameLabel);
 
         // Default page

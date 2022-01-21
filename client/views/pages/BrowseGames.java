@@ -106,6 +106,7 @@ public class BrowseGames extends ContentPanel implements ActionListener {
     }
 
     public void setLobbyList(ArrayList<Lobby> lobbies) {
+        joinButton.doClick();
         this.lobbies = lobbies;
         allLobbies.clear();
         joinLabel.setText("Join Lobby: ");

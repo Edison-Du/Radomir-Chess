@@ -21,9 +21,9 @@ public class NavigationBar extends JPanel {
 
     private final Page[] navbarPages = {
         Page.PLAY,
-        Page.LOGIN,
         Page.SETTINGS,
         Page.ABOUT,
+        Page.LOGIN,
         Page.QUIT
     };
 

@@ -141,7 +141,7 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setHost(false);
         window.gamePanel.addOther(host);
-        
+
         window.gamePanel.resetGame();
         window.gamePanel.resetChat();
     }
@@ -151,6 +151,7 @@ public class ConnectionHandler extends Thread {
 
         window.gamePanel.resetGame();
         window.gamePanel.setGameState(GameState.ONGOING);
+        window.gamePanel.setAlone(false);
 
         window.gamePanel.addOther(guest);
         window.gamePanel.messagePanel.addTextMessage(guest + " has joined the lobby.");
@@ -161,7 +162,12 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.messagePanel.addTextMessage("Opponent has left lobby");
         if (window.gamePanel.getGameState() == GameState.ONGOING) {
             processOpponentResignation();
+        } else if ( (window.gamePanel.getGameState() != GameState.WAITING) 
+                  && window.gamePanel.isPlayingAgain()) {
+            window.gamePanel.setGameState(GameState.WAITING);
+            window.gamePanel.resetGame();
         }
+        window.gamePanel.setAlone(true);
     }
 
     public void leaveGame(Message message) {

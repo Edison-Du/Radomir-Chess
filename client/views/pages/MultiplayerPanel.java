@@ -20,6 +20,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     private boolean isHost;
 
     private int currentClient, otherClient;
+    private boolean isAlone;
 
     // Swing
     private JLabel codeLabel;
@@ -96,6 +97,14 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     public void setClient(int client) {
         this.currentClient = client;
+    }
+    
+    public boolean isAlone() {
+        return isAlone;
+    }
+
+    public void setAlone(boolean isAlone) {
+        this.isAlone = isAlone;
     }
 
     // Not sure if this will be redisgned when we get to chess

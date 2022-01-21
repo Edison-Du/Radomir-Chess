@@ -140,6 +140,12 @@ public class ClientHandler extends Thread{
 
         } else if (request.getType().equals(MessageTypes.SENT_TEXT)) {
             sendText(request);
+
+        } else if (request.getType().equals(MessageTypes.LOCK_LOBBY)) {
+            lockLobby();
+
+        } else if (request.getType().equals(MessageTypes.UNLOCK_LOBBY)) {
+            unlockLobby();
         
         } else if (request.getType().equals(MessageTypes.CHESS_MOVE)) {
             sendChessMove(request);
@@ -254,19 +260,20 @@ public class ClientHandler extends Thread{
 
         server.getLobbyManager().addLobby(lobby);
         lobby.setHost(this);
-            // Create lobby
-            Message createGameMessage = new Message(MessageTypes.GAME_CREATED);
-            createGameMessage.addParam(lobby.getCode());
-            this.sendMessage(createGameMessage);
 
-            // Player colour
-            Message colourMessage = new Message(MessageTypes.PLAYER_COLOUR);
-            colourMessage.addParam(Integer.toString(lobby.getHostColour()));
-            this.sendMessage(colourMessage);
+        // Create lobby
+        Message createGameMessage = new Message(MessageTypes.GAME_CREATED);
+        createGameMessage.addParam(lobby.getCode());
+        this.sendMessage(createGameMessage);
 
-            Message lobbyVisibilityMessage = new Message(MessageTypes.LOBBY_VISIBILITY);
-            lobbyVisibilityMessage.addParam(lobby.getLobbyVisibility());
-            this.sendMessage(lobbyVisibilityMessage);
+        // Player colour
+        Message colourMessage = new Message(MessageTypes.PLAYER_COLOUR);
+        colourMessage.addParam(Integer.toString(lobby.getHostColour()));
+        this.sendMessage(colourMessage);
+
+        Message lobbyVisibilityMessage = new Message(MessageTypes.LOBBY_VISIBILITY);
+        lobbyVisibilityMessage.addParam(lobby.getLobbyVisibility());
+        this.sendMessage(lobbyVisibilityMessage);
 
     }
 
@@ -284,7 +291,7 @@ public class ClientHandler extends Thread{
         lobby = null;
     }
 
-    // The following 3 methods can be merged into one, maybe
+    // The following 4 methods can be merged into one, maybe
     private void sendText(Message message) {
         if(lobby==null) return;
         lobby.sendMessage(this, message);
@@ -295,14 +302,25 @@ public class ClientHandler extends Thread{
         lobby.sendMessage(this, message);
     }
 
-    public void resignGame(Message message) {
+    private void resignGame(Message message) {
         if (lobby==null) return;
         lobby.sendMessage(this, message);
     }
 
-    public void sendPlayAgainRequest(Message message) {
+    private void sendPlayAgainRequest(Message message) {
         if (lobby==null) return;
         lobby.sendMessage(this, message);
+    }
+    // End of similar methods
+
+    private void lockLobby() {
+        if (lobby==null) return;
+        lobby.setJoinable(false);
+    }
+
+    private void unlockLobby() {
+        if (lobby==null) return;
+        lobby.setJoinable(true);
     }
 
     private void browseGames() {

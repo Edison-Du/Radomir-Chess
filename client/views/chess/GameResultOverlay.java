@@ -5,11 +5,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import config.GameState;
 import config.MessageTypes;
 import network.Message;
 import network.ServerConnection;
 import views.components.CustomButton;
 import views.pages.AbstractGamePanel;
+import views.pages.MultiplayerPanel;
 
 import java.awt.Graphics;
 import java.awt.Color;
@@ -60,12 +62,26 @@ public class GameResultOverlay extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         g.setColor(getBackground());
         g.fillRect(0, 0, getWidth(), getHeight());
+
+        if (gamePanel.isPlayingAgain()) {
+            playAgain.setText("Waiting for Opponent");
+        } else {
+            playAgain.setText("Play Again");
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) { 
         if (e.getSource() == playAgain) {
             gamePanel.setPlayAgain(true);
+
+            if (gamePanel instanceof MultiplayerPanel) {
+                if (((MultiplayerPanel) gamePanel).isAlone()) {
+                    gamePanel.setGameState(GameState.WAITING);
+                    gamePanel.resetGame();
+                    return;
+                }
+            }
             ServerConnection.sendMessage(new Message(MessageTypes.PLAY_AGAIN));
         }
     }

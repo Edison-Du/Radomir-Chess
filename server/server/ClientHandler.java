@@ -164,6 +164,12 @@ public class ClientHandler extends Thread{
 
         } else if (request.getType().equals(MessageTypes.PLAY_AGAIN)) {
             sendPlayAgainRequest(request);
+            
+        } else if (request.getType().equals(MessageTypes.DRAW_OFFERED)) {
+            sendDrawOffer(request);
+
+        } else if (request.getType().equals(MessageTypes.DRAW_ACCEPTED)) {
+            sendDrawAcceptance(request);
 
         } else if (request.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
             sendTakebackRequest(request);
@@ -329,6 +335,16 @@ public class ClientHandler extends Thread{
     }
 
     private void sendPlayAgainRequest(Message message) {
+        if (lobby==null) return;
+        lobby.sendMessage(this, message);
+    }
+
+    private void sendDrawOffer(Message message) {
+        if (lobby==null) return;
+        lobby.sendMessage(this, message);
+    }
+
+    private void sendDrawAcceptance(Message message) {
         if (lobby==null) return;
         lobby.sendMessage(this, message);
     }

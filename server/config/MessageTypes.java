@@ -43,6 +43,9 @@ public class MessageTypes {
     public static final String STALEMATE = "STALEMATE";
     public static final String RESIGNATION = "RESIGNATION";
     public static final String PLAY_AGAIN = "PLAY_AGAIN";
+
+    public static final String DRAW_OFFERED = "DRAW_OFFERED";
+    public static final String DRAW_ACCEPTED = "DRAW_ACCEPTED";
     
     public static final String TAKEBACK_REQUESTED = "TAKEBACK_REQUESTED";
     public static final String TAKEBACK_ACCEPTED = "TAKEBACK_ACCEPTED";

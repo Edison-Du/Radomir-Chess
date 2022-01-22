@@ -90,6 +90,12 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.TAKEBACK_ACCEPTED)){
             processTakeback();
 
+        } else if (message.getType().equals(MessageTypes.DRAW_OFFERED)){
+            processDrawOffer();
+
+        } else if (message.getType().equals(MessageTypes.DRAW_ACCEPTED)){
+            processDraw();
+
         } else if (message.getType().equals(MessageTypes.DISPLAY_GAMES)) {
             displayLobbies(message);
 
@@ -238,6 +244,14 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.boardPanel.gameResultOverlay.setMessage("Your Opponent Has Resigned");
     }
 
+    public void processDrawOffer() {
+        window.gamePanel.addDrawOffer();
+    }
+
+    public void processDraw() {
+        window.gamePanel.setGameState(GameState.DRAW);
+        window.gamePanel.boardPanel.gameResultOverlay.setMessage("Game Drawn");
+    }
 
     public void addTextMessage(Message message) {
         String text = message.getParam(0);

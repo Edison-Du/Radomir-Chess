@@ -146,13 +146,4 @@ public class Lobby {
 
         receiver.sendMessage(message);
     }
-
-    // public void resign(ClientHandler player) {
-    //     if (player == host) {
-
-
-    //     } else if (player == guest) {
-
-    //     }
-    // }
 }

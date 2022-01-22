@@ -12,6 +12,7 @@ import config.UserInterface;
 import network.Lobby;
 import network.Message;
 import network.ServerConnection;
+import views.chess.OpponentProposalPanel;
 import views.components.CustomButton;
 
 public class MultiplayerPanel extends AbstractGamePanel {
@@ -27,36 +28,24 @@ public class MultiplayerPanel extends AbstractGamePanel {
     private JLabel lobbyLabel;
     private JLabel otherClientLabel;
 
+    private final OpponentProposalPanel opponentProposalPanel;
+    private String activeProposal;
+
+
     public MultiplayerPanel() {
 
         // CHESS GAME
         setGameState(GameState.WAITING);
-
-        // Lobby code
-        // lobbyLabel = new JLabel(lobbyCode);
-        // lobbyLabel.setFont(new Font("Serif", Font.BOLD, 20));
-        // lobbyLabel.setForeground(Color.WHITE);
-        // lobbyLabel.setBounds(660, 10, 500, 100);
-        // this.add(lobbyLabel);
-
-        // Showing lobby status (who is in and not)
-        // otherClientLabel = new JLabel("You are alone in this lobby.");
-        // otherClientLabel.setFont(new Font("Serif", Font.BOLD, 20));
-        // otherClientLabel.setForeground(Color.WHITE);
-        // otherClientLabel.setBounds(660, 42, 500, 100);
-        // this.add(otherClientLabel);
-
-        // Yikes
-        // takebackButton = new CustomButton("Takeback");
-        // takebackButton.setBounds(0, 600, 150, 25);
-        // takebackButton.addActionListener(this);
-        // this.add(takebackButton);
 
         this.hostName = new JLabel();
         this.hostName.setForeground(UserInterface.TEXT_COLOUR);
         this.hostName.setBounds(100, 0, 400, 200);
         this.hostName.setFont(UserInterface.USERNAME_FONT);
         this.add(hostName);
+
+        opponentProposalPanel = new OpponentProposalPanel(this);
+        opponentProposalPanel.setBounds(435, 20, 165, 200);
+        opponentProposalPanel.setProposalText("Accept draw?");
     }
 
     public void setLobbyCode(String code) {
@@ -114,6 +103,19 @@ public class MultiplayerPanel extends AbstractGamePanel {
         this.remove(takebackAcceptButton);
     }
 
+    public void addDrawOffer() {
+        opponentProposalPanel.setProposalText("Accept draw?");
+        this.add(opponentProposalPanel);
+        this.activeProposal = MessageTypes.DRAW_OFFERED;
+        this.revalidate();
+    }
+
+    public void removeProposal() {
+        this.remove(opponentProposalPanel);
+        this.activeProposal = null;
+        this.revalidate();
+    }
+
     @Override
     public void processMove(String t1, String t2, String p) {
         Message message = new Message(MessageTypes.CHESS_MOVE);
@@ -150,26 +152,56 @@ public class MultiplayerPanel extends AbstractGamePanel {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(getGameState());
-        if (e.getSource() == takebackButton) {
-            ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_ACCEPTED));
-            this.undoMove();
-            removeTakeback();
 
-        } else if (e.getSource() == takebackButton){
-            ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_REQUESTED));
-
-        } else if ((e.getSource() == resignButton) && (getGameState() == GameState.ONGOING)) {
-            if (getPlayerColour() == 0) {
-                setGameState(GameState.BLACK_VICTORY_RESIGN);
-            } else {
-                setGameState(GameState.WHITE_VICTORY_RESIGN);
-            }
-            boardPanel.gameResultOverlay.setMessage("You have resigned");
-            ServerConnection.sendMessage(new Message(MessageTypes.RESIGNATION));
-
-        } else if (e.getSource() == leaveLobby) {
+        if (e.getSource() == leaveLobby) {
             Message message = new Message(MessageTypes.LEAVE_GAME);
             ServerConnection.sendMessage(message);
+            return;
+        }
+
+        if (getGameState() == GameState.ONGOING) {
+
+            System.out.println(e.getSource());
+
+            if (e.getSource() == takebackButton) {
+                ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_REQUESTED));
+
+            // } else if (e.getSource() == takebackAcceptButton){
+            //     ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_ACCEPTED));
+            //     this.undoMove();
+            //     removeTakeback();
+
+            } else if (e.getSource() == drawButton) {
+                ServerConnection.sendMessage(new Message(MessageTypes.DRAW_OFFERED));
+                messagePanel.addTextMessage("Draw offer sent");
+
+
+            } else if (e.getSource() == resignButton) {
+                if (getPlayerColour() == 0) {
+                    setGameState(GameState.BLACK_VICTORY_RESIGN);
+                } else {
+                    setGameState(GameState.WHITE_VICTORY_RESIGN);
+                }
+                boardPanel.gameResultOverlay.setMessage("You have resigned");
+                ServerConnection.sendMessage(new Message(MessageTypes.RESIGNATION));
+            
+            
+            } else if (e.getSource() == opponentProposalPanel.acceptButton) {
+
+                if (activeProposal == MessageTypes.DRAW_OFFERED) {
+
+                    
+                    boardPanel.gameResultOverlay.setMessage("Game drawn");
+                    ServerConnection.sendMessage(new Message(MessageTypes.DRAW_ACCEPTED));
+                    setGameState(GameState.DRAW);
+
+                }
+
+                removeProposal();
+
+            } else if (e.getSource() == opponentProposalPanel.declineButton) {
+
+            }
         }
         this.revalidate();
         this.repaint();

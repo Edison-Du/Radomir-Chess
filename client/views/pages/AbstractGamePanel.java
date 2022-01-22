@@ -70,7 +70,8 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
             UserInterface.GAME_BOARD_X, 
             UserInterface.GAME_BOARD_Y, 
             UserInterface.GAME_BOARD_LENGTH, 
-            UserInterface.GAME_BOARD_LENGTH);
+            UserInterface.GAME_BOARD_LENGTH
+        );
         this.add(boardPanel);
 
         // Captured Pieces

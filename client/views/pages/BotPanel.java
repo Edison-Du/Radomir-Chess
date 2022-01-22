@@ -25,7 +25,6 @@ public class BotPanel extends AbstractGamePanel {
     public BotPanel(Window window) {
 
         this.window = window;
-        this.setBackground(UserInterface.BACKGROUNDS[UserInterface.activeBackground]);
         resetGame();
     }
 
@@ -76,7 +75,6 @@ public class BotPanel extends AbstractGamePanel {
                 capturedPiecesPanelWhite.addCapturedPiece(
                     chessGame.getCurrentPos().getTiles()[posX][posY].getPiece()
                 );
-
             } else {
                 capturedPiecesPanelBlack.addCapturedPiece(
                     chessGame.getCurrentPos().getTiles()[posX][posY].getPiece()

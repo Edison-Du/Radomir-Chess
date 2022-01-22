@@ -198,7 +198,7 @@ public class ClientHandler extends Thread{
         if (server.getDatabase().addUser(newUser.getUsername(), newUser)){
             setClientName(newUser.getUsername());
             Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
-            returnMessage.addParam(newUser.getUsername());
+            Message.addUserAsParams(returnMessage, newUser);
             sendMessage(returnMessage); // Success
         } else{
             sendMessage(new Message(MessageTypes.REGISTER_FAILED)); // Failiure
@@ -212,12 +212,7 @@ public class ClientHandler extends Thread{
             User existingUser = server.getDatabase().getUser(username);
             setClientName(existingUser.getUsername());        
             Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
-            returnMessage.addParam(existingUser.getUsername());
-            returnMessage.addParam(existingUser.getBoard());
-            returnMessage.addParam(existingUser.getBackground());
-            returnMessage.addParam(existingUser.getChessSet());
-            returnMessage.addParam(existingUser.getHighlightStatus());
-            returnMessage.addParam(existingUser.getHighlight());
+            Message.addUserAsParams(returnMessage, existingUser);
             sendMessage(returnMessage); // Success
         } else {
             sendMessage(new Message(MessageTypes.LOGIN_FAILED)); // Failure

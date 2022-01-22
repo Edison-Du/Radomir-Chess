@@ -52,7 +52,7 @@ public class ConnectionHandler extends Thread {
             joinGame(message);
 
         } else if (message.getType().equals(MessageTypes.JOIN_ERROR)) {
-            // Huh
+            // TODO add join error message
 
         } else if (message.getType().equals(MessageTypes.GUEST_JOINED)) {
             guestJoined(message);
@@ -85,10 +85,10 @@ public class ConnectionHandler extends Thread {
             processPlayAgain();
 
         } else if (message.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
-            processRequestTakeback();
+            processTakebackRequest();
 
         } else if (message.getType().equals(MessageTypes.TAKEBACK_ACCEPTED)){
-            processTakeback();
+            processTakebackAcceptance();
 
         } else if (message.getType().equals(MessageTypes.DRAW_OFFERED)){
             processDrawOffer();
@@ -135,12 +135,12 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.boardPanel.gameResultOverlay.setMessage("Stalemate");
     }
 
-    public void processRequestTakeback(){
-        window.gamePanel.addTakeback();
+    public void processTakebackRequest(){
+        window.gamePanel.addTakebackRequest();
     }
 
-    public void processTakeback(){
-        window.gamePanel.undoMove();
+    public void processTakebackAcceptance(){
+        window.gamePanel.performTakeback();
     }
 
     public void login(String username){
@@ -196,11 +196,13 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.setAlone(false);
 
         window.gamePanel.addOther(guestName);
-        window.gamePanel.messagePanel.addTextMessage(guestName + " has joined the lobby.");
     }
 
     public void opponentLeft(Message message) {
+        // TODO Move this to multiplayerpanel so it gets the actual name of hte opponent
         window.gamePanel.messagePanel.addTextMessage("Opponent has left lobby");
+
+
         if (window.gamePanel.getGameState() == GameState.ONGOING) {
             processOpponentResignation();
         } else if ( (window.gamePanel.getGameState() != GameState.WAITING) 
@@ -231,7 +233,13 @@ public class ConnectionHandler extends Thread {
         String t2 = message.getParam(1);
         String p = message.getParam(2);
 
-        // window.gamePanel.movesPanel.addMove(t2);
+        // If takeback request is active, remove it
+        if (window.gamePanel.getActiveProposal() != null && 
+            window.gamePanel.getActiveProposal().equals(MessageTypes.TAKEBACK_REQUESTED)) {
+            
+            window.gamePanel.removeProposal();
+        }
+
         window.gamePanel.boardPanel.makeOpponentMove(t1, t2, p);
     }
 
@@ -241,6 +249,8 @@ public class ConnectionHandler extends Thread {
         } else {
             window.gamePanel.setGameState(GameState.BLACK_VICTORY_RESIGN);
         }
+        // TODO Move this to multiplayerpanel so it gets the actual name of hte opponent
+
         window.gamePanel.boardPanel.gameResultOverlay.setMessage("Your Opponent Has Resigned");
     }
 
@@ -250,6 +260,9 @@ public class ConnectionHandler extends Thread {
 
     public void processDraw() {
         window.gamePanel.setGameState(GameState.DRAW);
+
+        // TODO Move this to multiplayerpanel so it gets the actual name of hte opponent
+
         window.gamePanel.boardPanel.gameResultOverlay.setMessage("Game Drawn");
     }
 

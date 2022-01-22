@@ -87,6 +87,8 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
         this.opponentLabel.setText(clientName);
 
+        messagePanel.addTextMessage(clientName + " has joined the lobby.");
+
         setGameState(GameState.ONGOING);
     }
 
@@ -95,19 +97,39 @@ public class MultiplayerPanel extends AbstractGamePanel {
         messagePanel.addTextMessage(otherClient + ": " + message);
     }
 
-    public void addTakeback() {
-        this.add(takebackAcceptButton);
+
+    public String getActiveProposal() {
+        return this.activeProposal;
     }
 
-    public void removeTakeback() {
-        this.remove(takebackAcceptButton);
+    public void addTakebackRequest() {
+        opponentProposalPanel.setProposalText("Accept takeback?");
+        this.add(opponentProposalPanel);
+        this.activeProposal = MessageTypes.TAKEBACK_REQUESTED;
+
+        messagePanel.addTextMessage(otherClient + " wants a takeback");
+
+        this.revalidate();
     }
 
     public void addDrawOffer() {
         opponentProposalPanel.setProposalText("Accept draw?");
         this.add(opponentProposalPanel);
         this.activeProposal = MessageTypes.DRAW_OFFERED;
+        
+        messagePanel.addTextMessage(otherClient + " offers a draw");
+
         this.revalidate();
+    }
+
+    public void performTakeback() {
+        System.out.println("TAKEBACK PERFORMED COLOUR: " + getPlayerColour());
+        if (chessGame.getCurrentPos().getToMove() == getPlayerColour()) {
+            undoMove();
+            undoMove();
+        } else {
+            undoMove();
+        }
     }
 
     public void removeProposal() {
@@ -151,7 +173,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(getGameState());
 
         if (e.getSource() == leaveLobby) {
             Message message = new Message(MessageTypes.LEAVE_GAME);
@@ -159,19 +180,21 @@ public class MultiplayerPanel extends AbstractGamePanel {
             return;
         }
 
+
+        // TODO SPLIT EACH IF STATEMENT INTO IT'S OWN FUNCTION
+
         if (getGameState() == GameState.ONGOING) {
 
-            if (e.getSource() == takebackButton) {
-                ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_REQUESTED));
+            // Make sure the player has moved
+            if ( (e.getSource() == takebackButton) && (movesPanel.getNumMoves() > 0 + getPlayerColour()) ) {
 
-            // } else if (e.getSource() == takebackAcceptButton){
-            //     ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_ACCEPTED));
-            //     this.undoMove();
-            //     removeTakeback();
+                ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_REQUESTED));
+                messagePanel.addTextMessage("Takeback requested.");
+
 
             } else if (e.getSource() == drawButton) {
                 ServerConnection.sendMessage(new Message(MessageTypes.DRAW_OFFERED));
-                messagePanel.addTextMessage("Draw offer sent");
+                messagePanel.addTextMessage("Draw offer sent.");
 
 
             } else if (e.getSource() == resignButton) {
@@ -187,18 +210,31 @@ public class MultiplayerPanel extends AbstractGamePanel {
             } else if (e.getSource() == opponentProposalPanel.acceptButton) {
 
                 if (activeProposal == MessageTypes.DRAW_OFFERED) {
-
-                    
                     boardPanel.gameResultOverlay.setMessage("Game drawn");
                     ServerConnection.sendMessage(new Message(MessageTypes.DRAW_ACCEPTED));
                     setGameState(GameState.DRAW);
 
+                } else if (activeProposal == MessageTypes.TAKEBACK_REQUESTED) {
+
+                    ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_ACCEPTED));
+                    System.out.println("TAKEBACK ACCEPTED COLOUR: " + getPlayerColour());
+
+                    // Takeback once if your turn, twice if their turn
+                    if (chessGame.getCurrentPos().getToMove() == getPlayerColour()) {
+                        System.out.println("OUR TURN");
+                        undoMove();
+                    } else {
+                        System.out.println("NOT OUR TURN");
+                        undoMove();
+                        undoMove();
+                    }
                 }
 
                 removeProposal();
 
             } else if (e.getSource() == opponentProposalPanel.declineButton) {
 
+                removeProposal();
             }
         }
         this.revalidate();

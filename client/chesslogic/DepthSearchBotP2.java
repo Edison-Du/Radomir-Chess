@@ -1,6 +1,8 @@
 package chesslogic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class DepthSearchBotP2 extends Bot {
     
@@ -38,8 +40,20 @@ public class DepthSearchBotP2 extends Bot {
     public void resetAttackPoints(int x, int y){
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
-                attackPoints[i][j] = 0;
+                attackPoints[i][j] = 3;
             }
+        }
+        for (int i = 0; i < 8; i++) {
+            attackPoints[i][0] = 1;
+            attackPoints[i][7] = 1;
+            attackPoints[0][i] = 1;
+            attackPoints[7][i] = 1;
+        }
+        for (int i = 1; i < 7; i++) {
+            attackPoints[i][1] = 2;
+            attackPoints[i][6] = 2;
+            attackPoints[1][i] = 2;
+            attackPoints[6][i] = 2;
         }
         for (int i = 0; i < 16; i++){
             if (check(x + directionX[i], y + directionY[i])){
@@ -126,9 +140,10 @@ public class DepthSearchBotP2 extends Bot {
         else {
             // int out = -99999;
             int temp;
-            ArrayList<String> possibleMoves = legalMoves(g.getCurrentPos());
+            ArrayList<Move> possibleMoves = sortMoves(g.getCurrentPos(), legalMoves(g.getCurrentPos()));
             for(int i = 0; i < possibleMoves.size(); i++) {
-                g.move(possibleMoves.get(i).substring(0, 2), possibleMoves.get(i).substring(2, 4), possibleMoves.get(i).substring(4, 5));
+                String curMove = possibleMoves.get(i).move;
+                g.move(curMove.substring(0, 2), curMove.substring(2, 4), curMove.substring(4, 5));
                 temp = -search(g, depth - 1, -beta, -alpha, cnt+1);
                 // if (temp > 100) System.out.println("move: " + possibleMoves.get(i) + " score: " + temp);
                 g.undo();
@@ -144,12 +159,34 @@ public class DepthSearchBotP2 extends Bot {
                 if (temp > alpha){
                     alpha = temp;
                     if (cnt == 0){
-                        this.move = possibleMoves.get(i);
+                        this.move = curMove;
                     }
                 }
             }
         }
         return alpha;
+    }
+
+    public ArrayList<Move> sortMoves(Board b, ArrayList<String> temp){
+        ArrayList<Move> sortedMoves = new ArrayList<>();
+        for (String move : temp){
+            int[] curPos = Constants.chessToCoord(move.substring(0, 2));
+            int[] newPos = Constants.chessToCoord(move.substring(2, 4));
+            String promotion = move.substring(4, 5);
+            int score = 0;
+            if (b.getTiles()[newPos[0]][newPos[1]].getPiece() != null)
+                score += (b.getTiles()[newPos[0]][newPos[1]].getPiece().getPoints());
+            score += placementPoints[newPos[0]][newPos[1]];
+            if (promotion != null){
+                if (promotion.equals("Q")) score += Constants.QUEEN_POINTS;
+                if (promotion.equals("R")) score += Constants.ROOK_POINTS;
+                if (promotion.equals("B")) score += Constants.BISHOP_POINTS;
+                if (promotion.equals("N")) score += Constants.KNIGHT_POINTS;
+            }
+            sortedMoves.add(new Move(move, score));
+        }
+        Collections.sort(sortedMoves);
+        return sortedMoves;
     }
 
     public String getMove(){

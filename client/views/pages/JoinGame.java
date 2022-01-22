@@ -19,13 +19,13 @@ public class JoinGame extends ContentPanel implements ActionListener {
     private final JTextField joinGameField = new JTextField();
 
     public JoinGame() {
-        joinGameLabel.setFont(UserInterface.JOIN_GAME_FONT_1);
+        joinGameLabel.setFont(UserInterface.TEXT_FONT_1);
         joinGameLabel.setText("Room Code: ");
         joinGameLabel.setForeground(UserInterface.TEXT_COLOUR);
         joinGameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 70, 280, 30);
         this.add(joinGameLabel);
 
-        joinGameField.setFont(UserInterface.JOIN_GAME_FONT_2);
+        joinGameField.setFont(UserInterface.TEXT_FONT_1);
         joinGameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 15, 280, 30);
         joinGameField.addActionListener(this);
         this.add(joinGameField);

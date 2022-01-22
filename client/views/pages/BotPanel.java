@@ -34,7 +34,7 @@ public class BotPanel extends AbstractGamePanel {
 
         setPlayerColour((int)(Math.random() * 2));
 
-        depthSearchBot = new DepthSearchBotP2(4, (getPlayerColour() + 1) % 2);
+        depthSearchBot = new DepthSearchBotP2(5, (getPlayerColour() + 1) % 2);
 
         // Bot goes first
         if (getPlayerColour() == 1) {
@@ -51,10 +51,9 @@ public class BotPanel extends AbstractGamePanel {
     public void processMove(String tile1, String tile2, String promotion) {
         if(!chessGame.getCurrentPos().ended()) {
             double s = System.currentTimeMillis();
-            depthSearchBot.search(chessGame, depthSearchBot.getDepth(), -99999, 99999, 0);
+            String botMove = depthSearchBot.nextMove(chessGame);
             double y = System.currentTimeMillis();
             System.out.println(y - s);
-            String botMove = depthSearchBot.getMove();
 
             int posX = (botMove.charAt(2) - 'a');
             int posY = (botMove.charAt(3) - '0') - 1;

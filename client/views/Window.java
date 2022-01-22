@@ -163,6 +163,7 @@ public class Window extends JFrame {
 
     public void changeGameBackground(int background) {
         gamePanel.setBackground(UserInterface.changeBackground(background));
+        playBotPanel.setBackground(UserInterface.changeBackground(background));
     }
 
     public void setInGame(boolean inGame) {

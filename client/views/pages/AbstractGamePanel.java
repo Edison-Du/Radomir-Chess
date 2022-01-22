@@ -18,6 +18,7 @@ import views.chess.GameResultOverlay;
 import views.chess.LobbyInfoPanel;
 import views.chess.MessagePanel;
 import views.chess.MovesPanel;
+import views.chess.OpponentProposalPanel;
 import views.chess.PlayerLabelPanel;
 import config.UserInterface;
 import network.Message;
@@ -57,9 +58,10 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     private int playerColour;
     private GameState gameState;
 
-    public CustomButton takebackAcceptButton;
+    public final OpponentProposalPanel opponentProposalPanel;
+    private String activeProposal;
 
-    public JLabel hostName, enemyName;
+    public JLabel hostName, opponentName;
 
     public AbstractGamePanel() {
         
@@ -70,7 +72,8 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
             UserInterface.GAME_BOARD_X, 
             UserInterface.GAME_BOARD_Y, 
             UserInterface.GAME_BOARD_LENGTH, 
-            UserInterface.GAME_BOARD_LENGTH);
+            UserInterface.GAME_BOARD_LENGTH
+        );
         this.add(boardPanel);
 
         // Captured Pieces
@@ -150,6 +153,10 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         leaveLobby.addActionListener(this);
         this.add(leaveLobby);
 
+
+        // Proposal Panel
+        opponentProposalPanel = new OpponentProposalPanel(this);
+        opponentProposalPanel.setBounds(435, 20, 165, 200);
     }
 
     public abstract void processMove(String tile1, String tile2, String promotion);
@@ -169,7 +176,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         if (gameState == GameState.WAITING && state != GameState.WAITING) {
             ServerConnection.sendMessage(new Message(MessageTypes.LOCK_LOBBY));
 
-        // Reverse above statement
+        // Reverse above statement (leaving game into waiting room)
         } else if (gameState != GameState.WAITING && state == GameState.WAITING) {
             ServerConnection.sendMessage(new Message(MessageTypes.UNLOCK_LOBBY));
 
@@ -178,6 +185,8 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
         if ((state != GameState.WAITING) && (state != GameState.ONGOING)) {
             boardPanel.setOverlayVisible(true);
+            removeProposal();
+
         } else {
             playAgain = false;
             opponentPlayAgain = false;
@@ -185,6 +194,21 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         }
         this.gameState = state;
         boardPanel.revalidate();
+    }
+
+
+    public String getActiveProposal() {
+        return this.activeProposal;
+    }
+
+    public void setActiveProposal(String proposal) {
+        this.activeProposal = proposal;
+    }
+
+    public void removeProposal() {
+        this.remove(opponentProposalPanel);
+        setActiveProposal(null);
+        this.revalidate();
     }
 
     public int getPlayerColour() {
@@ -196,13 +220,9 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     }
 
     public void resetGame() {
-
         chessGame = new ChessGame();
-
         boardPanel.setChessGame(chessGame);
-
         movesPanel.clearMoves();
-
         this.revalidate();
     }
 

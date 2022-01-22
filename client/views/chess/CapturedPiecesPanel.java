@@ -7,6 +7,7 @@ import java.util.Stack;
 import java.awt.Image;
 
 import chesslogic.*;
+import config.UserInterface;
 import views.components.ContentPanel;
 
 public class CapturedPiecesPanel extends ContentPanel {
@@ -57,19 +58,21 @@ public class CapturedPiecesPanel extends ContentPanel {
         }
     }
 
-    
     @Override
     public void paintComponent(Graphics g) {
+        // g.setColor(UserInterface.BACKGROUNDS[UserInterface.activeBackground]);
+        // g.fillRect(0, 0, UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT);  // What are even the dimensions of this panel and how do I fill it
+        
         for(int i = 0; i < capturedPieceCount.length; i++) {
 
             int numPieces = capturedPieceCount[i];
             
             for(int j = 0; j < numPieces; j++) {
+                // g.fillRect(offset, 0, 30, 30);
                 g.drawImage(pieceImages[i], offset, 0, this);
-                offset = offset + 20;
+                offset += 20;
             }
-            if(numPieces > 0) offset = offset + 10;
-
+            if(numPieces > 0) offset += 10;
         }
         offset = 0;
     }

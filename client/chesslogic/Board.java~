@@ -19,6 +19,7 @@ public class Board {
     private King[] kings;     //the kings themselves
     private int turn;
     private int toMove;       //player to move (0 if white, 1 if black)
+    private ArrayList<Board> threeMoveRule;
     private ArrayList<ArrayList<Tile>> pieces;
     /**
      * Create a new chessboard (the default starting position)

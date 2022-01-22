@@ -164,99 +164,118 @@ public class ChessGame {
             this.stringMoves.pop();
         }
     }
-
-    //main method
-    public static void main(String[] args)  {
-        Scanner s = new Scanner(System.in);
-        String t1;
-        String t2;
-        String p;
-        ChessGame g = new ChessGame();
-        Bot bot = new DepthSearchBotP2(2, Constants.BLACK);
-        String botMove;
-        System.out.println("RADOMIRCHESS");
-        System.out.println("Enter the square that the piece you want to move is on, followed by the square that you want the piece to move to, separated by a space");
-        System.out.println("Example: e2 e4");
-g.move("a2" ,"a3", null);
-g.move("d7" ,"d5", null);
-g.move("a1" ,"a2", null);
-g.move("c8" ,"e6", null);
-g.move("a2" ,"a1", null);
-g.move("b8" ,"c6", null);
-g.move("a1" ,"a2", null);
-g.move("b7" ,"b5", null);
-g.move("a2" ,"a1", null);
-g.move("a7" ,"a6", null);
-g.move("a1" ,"a2", null);
-g.move("g7" ,"g6", null);
-g.move("a2" ,"a1", null);
-g.move("f8" ,"g7", null);
-g.move("a1" ,"a2", null);
-g.move("e6" ,"g4", null);
-g.move("a2" ,"a1", null);
-g.move("c6" ,"d4", null);
-g.move("a1" ,"a2", null);
-g.move("g4" ,"e2", null);
-g.move("c1" ,"e2", null);
-g.move("d4" ,"e2", null);
-g.move("d1" ,"e2", null);
-g.move("e7" ,"e5", null);
-g.move("e2" ,"e5", null);
-g.move("g7" ,"e5", null);
-g.move("f1" ,"b5", null);
-g.move("d8" ,"d7", null);
-g.move("a2" ,"a1", null);
-
-
-        while(!g.getCurrentPos().ended()) {
-            System.out.println(g.getCurrentPos());
-            if(g.getCurrentPos().getToMove() == Constants.WHITE) {
-                System.out.println("White to move");
-            }
-            else if(g.getCurrentPos().getToMove() == Constants.BLACK) {
-                System.out.println("Black to move");
-            }
-            do {
-                t1 = s.next();
-                t2 = s.next();
-                s.nextLine();
-            } while(!(g.getCurrentPos().legal(t1, t2) || (t1.equals("undo") && t2.equals("move"))));
-            if(t1.equals("undo") && t2.equals("move")) {
-                g.undo();
-            }
-            else {
-                if(g.getCurrentPos().promotingMove(t1, t2)) {
-                    System.out.println("What piece to promote to?");
-                    System.out.println("Q: Queen - R: Rook - B: Bishop - N: Knight");
-                    do {
-                        p = s.next();
-                        s.nextLine();
-                    } while(!g.getCurrentPos().validPromotion(p));
-                }
-                else {
-                    p = null;
-                }
-                g.move(t1, t2, p);
-            }
-            
-            System.out.println(g.getCurrentPos().getPieces());
-            System.out.println(g.getStringMoves());
-            System.out.println(g.getPiecesTaken());
-            System.out.println(g.getPawnsPromoted());
-            System.out.println("move successful");
-            if(!g.getCurrentPos().ended()) {
-                botMove = bot.nextMove(g);
-                System.out.println("Bot moved " + botMove.substring(0, 2) + " to " + botMove.substring(2, 4));
-                if(g.getCurrentPos().promotingMove(botMove.substring(0, 2), botMove.substring(2, 4))) {
-                    System.out.println("Bot promoted pawn to " + botMove.substring(4, 5));
-                }
-                g.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4, 5));
-            }   
-        }
-        s.close();
+    
+    public boolean whiteWins() {
+        return current.ended() && current.getKings()[Constants.BLACK].isChecked(current, current.getKingTiles()[Constants.BLACK]);
     }
     
-    public int getColour(String string) {
-        return 0;
+    public boolean blackWins() {
+        return current.ended() && current.getKings()[Constants.WHITE].isChecked(current, current.getKingTiles()[Constants.WHITE]);
     }
+    
+    public boolean stalemate() {
+        if(!current.ended()) {
+            return false;
+        }
+        for(int i = 0; i < 2; i++) {
+            if(current.getKings()[i].isChecked(current, current.getKingTiles()[i])) {
+                return false;
+            }
+        }
+    }
+
+    //main method
+//    public static void main(String[] args)  {
+//        Scanner s = new Scanner(System.in);
+//        String t1;
+//        String t2;
+//        String p;
+//        ChessGame g = new ChessGame();
+//        Bot bot = new DepthSearchBotP2(2, Constants.BLACK);
+//        String botMove;
+//        System.out.println("RADOMIRCHESS");
+//        System.out.println("Enter the square that the piece you want to move is on, followed by the square that you want the piece to move to, separated by a space");
+//        System.out.println("Example: e2 e4");
+//g.move("a2" ,"a3", null);
+//g.move("d7" ,"d5", null);
+//g.move("a1" ,"a2", null);
+//g.move("c8" ,"e6", null);
+//g.move("a2" ,"a1", null);
+//g.move("b8" ,"c6", null);
+//g.move("a1" ,"a2", null);
+//g.move("b7" ,"b5", null);
+//g.move("a2" ,"a1", null);
+//g.move("a7" ,"a6", null);
+//g.move("a1" ,"a2", null);
+//g.move("g7" ,"g6", null);
+//g.move("a2" ,"a1", null);
+//g.move("f8" ,"g7", null);
+//g.move("a1" ,"a2", null);
+//g.move("e6" ,"g4", null);
+//g.move("a2" ,"a1", null);
+//g.move("c6" ,"d4", null);
+//g.move("a1" ,"a2", null);
+//g.move("g4" ,"e2", null);
+//g.move("c1" ,"e2", null);
+//g.move("d4" ,"e2", null);
+//g.move("d1" ,"e2", null);
+//g.move("e7" ,"e5", null);
+//g.move("e2" ,"e5", null);
+//g.move("g7" ,"e5", null);
+//g.move("f1" ,"b5", null);
+//g.move("d8" ,"d7", null);
+//g.move("a2" ,"a1", null);
+//
+//
+//        while(!g.getCurrentPos().ended()) {
+//            System.out.println(g.getCurrentPos());
+//            if(g.getCurrentPos().getToMove() == Constants.WHITE) {
+//                System.out.println("White to move");
+//            }
+//            else if(g.getCurrentPos().getToMove() == Constants.BLACK) {
+//                System.out.println("Black to move");
+//            }
+//            do {
+//                t1 = s.next();
+//                t2 = s.next();
+//                s.nextLine();
+//            } while(!(g.getCurrentPos().legal(t1, t2) || (t1.equals("undo") && t2.equals("move"))));
+//            if(t1.equals("undo") && t2.equals("move")) {
+//                g.undo();
+//            }
+//            else {
+//                if(g.getCurrentPos().promotingMove(t1, t2)) {
+//                    System.out.println("What piece to promote to?");
+//                    System.out.println("Q: Queen - R: Rook - B: Bishop - N: Knight");
+//                    do {
+//                        p = s.next();
+//                        s.nextLine();
+//                    } while(!g.getCurrentPos().validPromotion(p));
+//                }
+//                else {
+//                    p = null;
+//                }
+//                g.move(t1, t2, p);
+//            }
+//            
+//            System.out.println(g.getCurrentPos().getPieces());
+//            System.out.println(g.getStringMoves());
+//            System.out.println(g.getPiecesTaken());
+//            System.out.println(g.getPawnsPromoted());
+//            System.out.println("move successful");
+//            if(!g.getCurrentPos().ended()) {
+//                botMove = bot.nextMove(g);
+//                System.out.println("Bot moved " + botMove.substring(0, 2) + " to " + botMove.substring(2, 4));
+//                if(g.getCurrentPos().promotingMove(botMove.substring(0, 2), botMove.substring(2, 4))) {
+//                    System.out.println("Bot promoted pawn to " + botMove.substring(4, 5));
+//                }
+//                g.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4, 5));
+//            }   
+//        }
+//        s.close();
+//    }
+//    
+//    public int getColour(String string) {
+//        return 0;
+//    }
 }

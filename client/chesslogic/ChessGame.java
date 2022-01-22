@@ -17,6 +17,7 @@ public class ChessGame {
     private Stack<String> stringMoves;
     private Stack<Piece> piecesTaken;
     private Stack<Piece> pawnsPromoted;
+    private int fiftyMoves;
     
     /**
      * Create a game
@@ -27,6 +28,7 @@ public class ChessGame {
         stringMoves = new Stack<String>();
         piecesTaken = new Stack<Piece>();
         pawnsPromoted = new Stack<Piece>();
+        fiftyMoves = 0;
     }
     
     /**
@@ -47,11 +49,19 @@ public class ChessGame {
                 piecesTaken.push(current.getTiles()[pos2[0]][pos2[1] + 2*current.getToMove() - 1].getPiece());
                 current.getTiles()[pos2[0]][pos2[1] + 2*current.getToMove() - 1].setPiece(null);
                 current.getPieces().get(1 - current.getToMove()).remove(current.getTiles()[pos2[0]][pos2[1] + 2*current.getToMove() - 1]);
+                fiftyMoves = 0;
             }
             else {
                 piecesTaken.push(current.getTile(t2).getPiece());
                 if(piecesTaken.peek() != null) {
                     current.getPieces().get(1 - current.getToMove()).remove(current.getTile(t2));
+                    fiftyMoves = 0;
+                }
+                else if(current.getTile(t1).getPiece().getName().equals("p")) {
+                    fiftyMoves = 0;
+                }
+                else {
+                    fiftyMoves++;
                 }
             }
             if(current.promotingMove(t1, t2)) {
@@ -174,7 +184,10 @@ public class ChessGame {
     }
     
     public boolean stalemate() {
-        if(!current.ended()) {
+        if(fiftyMoves == 50) {
+            return true;
+        }
+        else if(!current.ended()) {
             return false;
         }
         for(int i = 0; i < 2; i++) {
@@ -182,6 +195,7 @@ public class ChessGame {
                 return false;
             }
         }
+        return true;
     }
 
     //main method

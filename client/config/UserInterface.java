@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 
 import views.components.CustomButton;
 import views.pages.AbstractGamePanel;
+import views.pages.Settings;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -60,7 +61,8 @@ public class UserInterface {
     public static final int MENU_BUTTON_RADIUS = 20;
 
     // Settings
-    public static Font SETTINGS_FONT = new Font("Serif", Font.PLAIN, 15);
+    public static final Font SETTINGS_FONT = new Font("Serif", Font.PLAIN, 15);
+    public static final int NUM_SETTINGS = 5;
 
     // Game board
     public static int activeTheme = 0;
@@ -94,6 +96,20 @@ public class UserInterface {
     public static Color lighterTile = LIGHTER_TILE_COLOURS[activeTheme];
     public static Color darkerTile = DARKER_TILE_COLOURS[activeTheme];
 
+    // Background
+    public static int activeBackground = 0;
+    public static Color[] BACKGROUNDS = new Color[]{
+        FRAME_COLOUR,
+        new Color(220, 220, 220),
+        new Color(27, 27, 27),
+        new Color(194, 205, 220),
+        new Color(47, 63, 76)
+    };
+
+    // Chess Sets
+    private static int activeSetNum = 0;
+    public static String activePieceSet = PathsConsts.PIECE_SETS[0];
+    
     // Piece/board highlights
     public static final Color[] POSSIBLE_MOVE_COLOURS = new Color[]{
         new Color(61, 89, 169, 192),
@@ -106,6 +122,7 @@ public class UserInterface {
         new Color(2, 2, 2, 192),
         new Color(226, 185, 131, 192)
     };
+    private static int activeHighlight = 0;
     public static Color activeHighlightColour = POSSIBLE_MOVE_COLOURS[0];
     public static BasicStroke HIGHLIGHT_LINE_THICKNESS = new BasicStroke(5);
     
@@ -113,15 +130,6 @@ public class UserInterface {
     public static Color ON_COLOUR = new Color(7, 107, 29);
     public static Color OFF_COLOUR = new Color(131, 35, 29);
 
-    // Background
-    public static int activeBackground = 0;
-    public static Color[] BACKGROUNDS = new Color[]{
-        FRAME_COLOUR,
-        new Color(220, 220, 220),
-        new Color(27, 27, 27),
-        new Color(194, 205, 220),
-        new Color(47, 63, 76)
-    };
 
     // Borders
     public static final Border EMPTY_BORDER = new EmptyBorder(0, 0, 0, 0);
@@ -167,10 +175,20 @@ public class UserInterface {
     }
 
     /**
+     * Changes the chess set
+     * @param set
+     */
+    public static void changePieceSet(int set) {
+        activeSetNum = set;
+        activePieceSet = PathsConsts.PIECE_SETS[set];
+    }
+
+    /**
      * Changes highlight colour
      * @param colour
      */
     public static void changeHighlights(int colour) {
+        activeHighlight = colour;
         activeHighlightColour = POSSIBLE_MOVE_COLOURS[colour];
     }
 
@@ -189,5 +207,19 @@ public class UserInterface {
             button.setBackground(OFF_COLOUR);
             button.setHoverColor(UserInterface.OFF_COLOUR.brighter());
         }
+    }
+
+    /**
+     * returns all the current settings states
+     * @return int array containing state of all settings
+     */
+    public static int[] getCurrentSettings() {
+        int[] settings = new int[NUM_SETTINGS];
+        settings[0] = activeTheme;
+        settings[1] = activeBackground;
+        settings[2] = activeSetNum;
+        settings[3] = highlightToggle?1:0;
+        settings[4] = activeHighlight;
+        return settings;
     }
 }

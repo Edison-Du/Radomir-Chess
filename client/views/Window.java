@@ -158,4 +158,16 @@ public class Window extends JFrame {
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
     }
+    
+    /**
+     * Updates all the settings preferences when a user logs in
+     * @param userPreferences
+     */
+    public void setCurrentSettings(int[] userPreferences) {
+        UserInterface.changeBoard(userPreferences[0]);
+        UserInterface.changeBackground(userPreferences[1]);
+        UserInterface.changePieceSet(userPreferences[2]);
+        UserInterface.changeHighlights(userPreferences[4]);
+        settingsPanel.updateAfterLogin(userPreferences);
+    }
 }

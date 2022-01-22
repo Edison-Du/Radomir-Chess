@@ -3,6 +3,7 @@ package network;
 import config.GameState;
 import config.MessageTypes;
 import config.Page;
+import config.UserInterface;
 import views.Window;
 
 import java.util.ArrayList;
@@ -103,7 +104,7 @@ public class ConnectionHandler extends Thread {
             setLobbyVisibility(message);
 
         } else if (message.getType().equals(MessageTypes.LOGIN_ACCEPTED)) {
-            login(message.getParam(0));
+            login(message);
 
         } else if (message.getType().equals(MessageTypes.LOGIN_FAILED)) {
             window.loginPanel.displayLoginError();
@@ -143,10 +144,16 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.undoMove();
     }
 
-    public void login(String username){
-        clientName = username;
+    public void login(Message message){
+        clientName = message.getParam(0);
+        window.navigationBar.setUsername(clientName);
 
-        window.navigationBar.setUsername(username);
+        int[] userPreferences = new int[UserInterface.NUM_SETTINGS];
+        for (int i = 0; i < UserInterface.NUM_SETTINGS; i++) {
+            userPreferences[i] = Integer.parseInt(message.getParam(i+1));
+        }
+        window.setCurrentSettings(userPreferences);
+
         window.setLoggedIn(true);
         window.changePage(Page.PLAY);
     }

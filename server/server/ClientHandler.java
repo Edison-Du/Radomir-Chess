@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import config.Consts;
 import config.MessageTypes;
 import game.Lobby;
 
@@ -193,12 +194,11 @@ public class ClientHandler extends Thread{
     /*================================================================================================== */
 
     private void registerUser(Message message){
-        String username = message.getParam(0);
-        String password = message.getParam(1);
-        if (server.getDatabase().addUser(username, password)){
-            setClientName(username);
+        User newUser = User.convertMessageToUser(message);
+        if (server.getDatabase().addUser(newUser.getUsername(), newUser)){
+            setClientName(newUser.getUsername());
             Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
-            returnMessage.addParam(username);
+            returnMessage.addParam(newUser.getUsername());
             sendMessage(returnMessage); // Success
         } else{
             sendMessage(new Message(MessageTypes.REGISTER_FAILED)); // Failiure
@@ -208,12 +208,18 @@ public class ClientHandler extends Thread{
     private void loginUser(Message message){
         String username = message.getParam(0);
         String password = message.getParam(1);
-        if (server.getDatabase().validateUser(username, password)){        
-            setClientName(username);        
+        if (server.getDatabase().validateUser(username, password)) {
+            User existingUser = server.getDatabase().getUser(username);
+            setClientName(existingUser.getUsername());        
             Message returnMessage = new Message(MessageTypes.LOGIN_ACCEPTED);
-            returnMessage.addParam(username);
+            returnMessage.addParam(existingUser.getUsername());
+            returnMessage.addParam(existingUser.getBoard());
+            returnMessage.addParam(existingUser.getBackground());
+            returnMessage.addParam(existingUser.getChessSet());
+            returnMessage.addParam(existingUser.getHighlightStatus());
+            returnMessage.addParam(existingUser.getHighlight());
             sendMessage(returnMessage); // Success
-        } else{
+        } else {
             sendMessage(new Message(MessageTypes.LOGIN_FAILED)); // Failure
         }
     }

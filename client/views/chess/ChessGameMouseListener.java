@@ -16,7 +16,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
 
     private AbstractGamePanel gamePanel;
     ChessGame game;
-    int playerColour;
+    // int gamePanel.getPlayerColour();
 
     String t1 = "";
     String t2 = "";
@@ -36,17 +36,12 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     private String promotionT1;
     private String promotionT2;
 
-    public ChessGameMouseListener(ChessGame game, int playerColour, AbstractGamePanel gamePanel) {
+    public ChessGameMouseListener(ChessGame game,  AbstractGamePanel gamePanel) {
         this.game = game;
-        this.playerColour = playerColour;
         this.gamePanel = gamePanel;
     }
 
     public void mousePressed(MouseEvent e) {
-
-        // if (gamePanel.getGameState() != GameState.ONGOING) {
-        //     return;
-        // }
 
         // Initialize mouse coordinates
         mouseX = e.getX();
@@ -69,7 +64,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                 gamePanel.movesPanel.addMove(game.getCurrentPos().toAlgebraic(promotionT1, promotionT2, promotionChoice));
 
                 // Add piece to captured pieces
-                if (playerColour == 0) {
+                if (gamePanel.getPlayerColour() == 0) {
                     gamePanel.capturedPiecesPanelBlack.addCapturedPiece(
                         game.getCurrentPos().getTiles()[posX][posY].getPiece()
                     );
@@ -90,9 +85,9 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             }
         }
 
-        // adjust tile coords for the tile array based on playerColour
-        posX = (7 * playerColour) + (1 - 2 * playerColour) * mouseX / 60;
-        posY = (7 * (1 - playerColour)) + (2 * playerColour - 1) * mouseY / 60;
+        // adjust tile coords for the tile array based on gamePanel.getPlayerColour()
+        posX = (7 * gamePanel.getPlayerColour()) + (1 - 2 * gamePanel.getPlayerColour()) * mouseX / 60;
+        posY = (7 * (1 - gamePanel.getPlayerColour())) + (2 * gamePanel.getPlayerColour() - 1) * mouseY / 60;
 
         // Move piece
         if (!isSelected && !isPromoting) {
@@ -101,7 +96,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                 if (game.getCurrentPos().getTiles()[posX][posY].getPiece() != null) {
 
                     // check if piece is correct colour
-                    if(game.getCurrentPos().getTiles()[posX][posY].getPiece().getColour() == playerColour) {
+                    if(game.getCurrentPos().getTiles()[posX][posY].getPiece().getColour() == gamePanel.getPlayerColour()) {
                         t1 = String.valueOf((char) (posX + 97)) + "" + (posY + 1);
                         selectedPiece = game.getCurrentPos().getTiles()[posX][posY].getPiece();
                         heldPieceImage = selectedPiece.getImage();
@@ -117,17 +112,14 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
 
     public void mouseReleased(MouseEvent e) {
         
-        // if (gamePanel.getGameState() != GameState.ONGOING) {
-        //     return;
-        // }
 
         // Initialize mouse coordinates
         mouseX = e.getX();
         mouseY = e.getY();
 
-        // adjust tile coords for the tile array based on playerColour
-        posX = (7 * playerColour) + (1 - 2 * playerColour) * mouseX / 60;
-        posY = (7 * (1 - playerColour)) + (2 * playerColour - 1) * mouseY / 60;
+        // adjust tile coords for the tile array based on gamePanel.getPlayerColour()
+        posX = (7 * gamePanel.getPlayerColour()) + (1 - 2 * gamePanel.getPlayerColour()) * mouseX / 60;
+        posY = (7 * (1 - gamePanel.getPlayerColour())) + (2 * gamePanel.getPlayerColour() - 1) * mouseY / 60;
 
         // solve if piece dragged
         t2 = String.valueOf((char) (posX + 'a')) + "" + (posY + 1);
@@ -149,7 +141,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                     gamePanel.movesPanel.addMove(game.getCurrentPos().toAlgebraic(t1, t2, ""));
 
                     // Add piece to captured pieces
-                    if (playerColour == 0) {
+                    if (gamePanel.getPlayerColour() == 0) {
                         gamePanel.capturedPiecesPanelBlack.addCapturedPiece(
                             game.getCurrentPos().getTiles()[posX][posY].getPiece()
                         );
@@ -199,11 +191,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     public int getMouseY() {
         return mouseY;
     }
-
-    public void setPlayerColour(int colour) {
-        this.playerColour = colour;
-    }
-
+    
     /**
      * MouseMotionEventListener
      * A mouse motion listener that receives mouse motion inputs to

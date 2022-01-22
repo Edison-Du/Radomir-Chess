@@ -1,12 +1,15 @@
 package views.pages;
 
 import java.awt.image.BufferedImage;
+import java.awt.event.ActionEvent;
 
 import chesslogic.Bot;
+import chesslogic.ChessGame;
 import chesslogic.DepthSearchBotP2;
 import chesslogic.RandomBot;
 import config.GameState;
 import config.UserInterface;
+import views.Window;
 
 public class BotPanel extends AbstractGamePanel {
 
@@ -16,30 +19,33 @@ public class BotPanel extends AbstractGamePanel {
 
     DepthSearchBotP2 depthSearchBot;
     
-    public int playerColour;
-
     public BotPanel() {
+
         this.setBackground(UserInterface.BACKGROUNDS[UserInterface.activeBackground]);
-        
-        playerColour = (int)(Math.random() * 2);
+        resetGame();
+    }
 
-        this.boardPanel.setPlayerColour(playerColour);
+    @Override
+    public void resetGame() {
+        chessGame = new ChessGame();
 
-        depthSearchBot = new DepthSearchBotP2(4, (playerColour + 1) % 2);
-        // depthSearchBot = new RandomBot();
+        boardPanel.setChessGame(chessGame);
+        movesPanel.clearMoves();
+
+        setPlayerColour((int)(Math.random() * 2));
+
+        depthSearchBot = new DepthSearchBotP2(4, (getPlayerColour() + 1) % 2);
 
         // Bot goes first
-        if (playerColour == 1) {
+        if (getPlayerColour() == 1) {
             processMove("", "", "");
         }
 
         setGameState(GameState.ONGOING);
+
+        this.revalidate();
     }
 
-    @Override
-    public void actionPerformed(java.awt.event.ActionEvent e) {
-        // TODO Auto-generated method stub
-    }
     
     @Override
     public void processMove(String tile1, String tile2, String promotion) {
@@ -59,7 +65,7 @@ public class BotPanel extends AbstractGamePanel {
             movesPanel.addMove(chessMove);
 
             // Add piece to captured pieces
-            if (playerColour == 0) {
+            if (getPlayerColour() == 0) {
                 capturedPiecesPanelWhite.addCapturedPiece(
                     chessGame.getCurrentPos().getTiles()[posX][posY].getPiece()
                 );
@@ -80,5 +86,68 @@ public class BotPanel extends AbstractGamePanel {
         System.out.println("game ended!");
         setGameState(GameState.STALEMATE);
         this.boardPanel.gameResultOverlay.setMessage("Stalemate");
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == leaveLobby) {
+            handleLeaveLobbyButton();
+            return;
+        }
+
+        if (getGameState() == GameState.ONGOING) {
+
+            if (e.getSource() == takebackButton) {
+                handleTakebackButton();
+
+            } else if (e.getSource() == drawButton) {
+                handleDrawButton();
+
+            } else if (e.getSource() == resignButton) {
+                handleResignButton();
+            
+            }
+        }
+        this.revalidate();
+        this.repaint();
+    }
+
+    // Functions to handle each button when clicked
+    public void handleLeaveLobbyButton() {
+        // Message message = new Message(MessageTypes.LEAVE_GAME);
+        // ServerConnection.sendMessage(message);
+    }
+
+
+    public void handleTakebackButton() {
+        // Make sure the user has made a move
+        if (movesPanel.getNumMoves() > getPlayerColour()) {
+            if (chessGame.getCurrentPos().getToMove() == getPlayerColour()) {
+                undoMove();
+                undoMove();
+            } else {
+                undoMove();
+            }
+        }
+    }
+
+
+    public void handleDrawButton() {
+        setGameState(GameState.DRAW);
+        setOpponentPlayAgain(true); // Bot always plays again
+        boardPanel.gameResultOverlay.setMessage("Game Drawn");
+    }
+
+
+    public void handleResignButton() {
+        if (getPlayerColour() == 0) {
+            setGameState(GameState.BLACK_VICTORY_RESIGN);
+        } else {
+            setGameState(GameState.WHITE_VICTORY_RESIGN);
+        }
+
+        setOpponentPlayAgain(true); // Bot always plays again
+        boardPanel.gameResultOverlay.setMessage("You have resigned");
     }
 }

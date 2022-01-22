@@ -13,8 +13,7 @@ public class DepthSearchBotP2 extends Bot {
 
     private int[][] attackPoints;
     private int[][] placementPoints;
-    private int[] directionX;
-    private int[] directionY;
+    private int[] directionXOne, directionYOne, directionXTwo, directionYTwo;
     private String move;
 
     
@@ -23,8 +22,10 @@ public class DepthSearchBotP2 extends Bot {
         this.side = side;
         placementPoints = new int[8][8];
         attackPoints = new int[8][8];
-        directionX = new int[] {-2, 2, -2, 2, 0, 0, -2, 2, -1, 1, -2, 2, -1, 1, -2, 2};
-        directionY = new int[] {0, 0, -2, 2, -2, 2, 2, -2, 2, 2, -1, -1, -2, -2, 1, 1};
+        directionXOne = new int[] {-1, -1, 1, 1, 0, 0, -1, 1};
+        directionYOne = new int[] {1, -1, -1, 1, -1, 1, 0, 0};
+        directionXTwo = new int[] {-2, 2, -2, 2, 0, 0, -2, 2, -1, 1, -2, 2, -1, 1, -2, 2};
+        directionYTwo = new int[] {0, 0, -2, 2, -2, 2, 2, -2, 2, 2, -1, -1, -2, -2, 1, 1};
         resetPlacementPoints();
     }
 
@@ -55,9 +56,15 @@ public class DepthSearchBotP2 extends Bot {
             attackPoints[1][i] = 2;
             attackPoints[6][i] = 2;
         }
+        attackPoints[x][y] += 4;
         for (int i = 0; i < 16; i++){
-            if (check(x + directionX[i], y + directionY[i])){
-                attackPoints[x + directionX[i]][y + directionY[i]] += 2;
+            if (check(x + directionXTwo[i], y + directionYTwo[i])){
+                attackPoints[x + directionXTwo[i]][y + directionYTwo[i]] += 2;
+            }
+        }
+        for (int i = 0; i < 8; i++){
+            if (check(x + directionXOne[i], y + directionYOne[i])){
+                attackPoints[x + directionXOne[i]][y + directionYOne[i]] += 1;
             }
         }
     }
@@ -138,21 +145,13 @@ public class DepthSearchBotP2 extends Bot {
             return score(g.getCurrentPos());
         }
         else {
-            // int out = -99999;
             int temp;
             ArrayList<Move> possibleMoves = sortMoves(g.getCurrentPos(), legalMoves(g.getCurrentPos()));
             for(int i = 0; i < possibleMoves.size(); i++) {
                 String curMove = possibleMoves.get(i).move;
                 g.move(curMove.substring(0, 2), curMove.substring(2, 4), curMove.substring(4, 5));
                 temp = -search(g, depth - 1, -beta, -alpha, cnt+1);
-                // if (temp > 100) System.out.println("move: " + possibleMoves.get(i) + " score: " + temp);
                 g.undo();
-                // if(temp*(1 - 2*this.side) > out*(1 - 2*this.side) && g.getCurrentPos().getToMove() == this.side) {
-                //     out = temp;
-                // }
-                // else if(temp*(1 - 2*this.side) < out*(1 - 2*this.side) && g.getCurrentPos().getToMove() != this.side) {
-                //     out = temp;
-                // }
                 if (temp >= beta){
                     return beta;
                 }
@@ -189,41 +188,9 @@ public class DepthSearchBotP2 extends Bot {
         return sortedMoves;
     }
 
-    public String getMove(){
+    public String nextMove(ChessGame g){
+        this.search(g, this.depth, -999999, 999999, 0);
         return this.move;
-    }
-    
-    public String nextMove(ChessGame g) {
-        return "hey how you doing baby";
-        // countMoves = 0;
-        // countUndos = 0;
-        // ArrayList<String> possibleMoves = legalMoves(g.getCurrentPos());
-        // int curScore;
-        // String out;
-        // int temp;
-        // if(possibleMoves.size() > 0) {
-        //     out = possibleMoves.get(0);
-        //     g.move(out.substring(0, 2), out.substring(2, 4), out.substring(4, 5));
-        //     curScore = search(g, this.depth, 0, 0);
-        //     g.undo();
-        //     for(int i = 1; i < possibleMoves.size(); i++) {
-        //         g.move(possibleMoves.get(i).substring(0, 2), possibleMoves.get(i).substring(2, 4), possibleMoves.get(i).substring(4, 5));
-        //         temp = search(g, this.depth, -99999, 99999);
-        //         if (temp > curScore){
-        //             curScore = temp;
-        //             out = possibleMoves.get(i);
-        //         }
-        //         // if(temp*(1 - 2*this.side) > curScore*(1 - 2*this.side)) {
-        //         //     System.out.println(possibleMoves.get(i) + " is a better move than " + out + " with a score of " + temp + ", compared to " + curScore);
-        //         //     out = possibleMoves.get(i);
-        //         //     curScore = temp;
-        //         // }
-        //         g.undo();
-        //     }
-        //     System.out.println(curScore);
-        //     return out;
-        // }
-        // return null;
     }
     
 }

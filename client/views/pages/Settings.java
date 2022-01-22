@@ -5,28 +5,32 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import views.components.ContentPanel;
+import views.components.CustomButton;
 import config.UserInterface;
 import config.PathsConsts;
 import views.Window;
 
 public class Settings extends ContentPanel implements ActionListener {
-    // Constants
+
     private final JLabel titleLabel = new JLabel("Settings");
     private final JLabel boardThemeLabel = new JLabel("Boards");
     private final JLabel backgroundThemeLabel = new JLabel("Backgrounds");
     private final JLabel pieceSetLabel = new JLabel("Piece Sets");
+    private final JLabel highlightLabel = new JLabel("Highlights");
 
-    private final String[] THEMES = {
-        "Classic",
-        "Icy",
+    private final String[] BOARDS = {
+        "Greyscale",
+        "Ice",
         "Wood",
         "Bubblegum",
-        "Vivid",
-        "Amethyst",
-        "Evergreen"
+        "Starburst",
+        "Lavender",
+        "Evergreen",
+        "Arizona",
+        "Chess.com"
     };
     private final String[] BACKGROUNDS = {
-        "Classic",
+        "Default",
         "Light",
         "Dark",
         "Light Blue",
@@ -36,25 +40,39 @@ public class Settings extends ContentPanel implements ActionListener {
         "Classic",
         "Kosal"
     };
+    private final String[] HIGHLIGHTS = {
+        "Blue",
+        "Green",
+        "Red",
+        "Yellow",
+        "Orange",
+        "Purple",
+        "White",
+        "Black",
+        "Beige"
+    };
 
     private final JComboBox<String> boardThemes;
     private final JComboBox<String> backgroundThemes;
     private final JComboBox<String> pieceSets;
+    private final JComboBox<String> highlightThemes;
+
+    private final CustomButton toggleHighlightButton = new CustomButton("Turn Off Highlights");
 
     Window window;
 
     public Settings(Window window) {
         this.window = window;
-        boardThemes = new JComboBox<>(THEMES);
+        boardThemes = new JComboBox<>(BOARDS);
         backgroundThemes = new JComboBox<>(BACKGROUNDS);
         pieceSets = new JComboBox<>(CHESS_PIECE_SETS);
+        highlightThemes = new JComboBox<>(HIGHLIGHTS);
 
         titleLabel.setFont(UserInterface.JOIN_GAME_FONT_1);
         titleLabel.setForeground(UserInterface.TEXT_COLOUR);
         titleLabel.setBounds(30, 30, 210, 50);
         this.add(titleLabel);
 
-        //Maybe add for loop to make these drop down menus
 
         boardThemeLabel.setFont(UserInterface.SETTINGS_FONT);
         boardThemeLabel.setForeground(UserInterface.TEXT_COLOUR);
@@ -90,6 +108,27 @@ public class Settings extends ContentPanel implements ActionListener {
         pieceSets.setFocusable(false);
         pieceSets.addActionListener(this);
         this.add(pieceSets);
+
+        
+        highlightLabel.setFont(UserInterface.SETTINGS_FONT);
+        highlightLabel.setForeground(UserInterface.TEXT_COLOUR);
+        highlightLabel.setBounds(35, 240, 115, 35);
+        this.add(highlightLabel);
+
+        highlightThemes.setBounds(35, 340, 115, 35);
+        highlightThemes.setForeground(UserInterface.FRAME_COLOUR);
+        highlightThemes.setFocusable(false);
+        highlightThemes.addActionListener(this);
+        this.add(highlightThemes);
+
+        toggleHighlightButton.setBounds(35, 280, 160, 40);
+        toggleHighlightButton.setFont(UserInterface.SETTINGS_FONT);
+        toggleHighlightButton.setForeground(UserInterface.TEXT_COLOUR);
+        toggleHighlightButton.setBackground(UserInterface.ON_COLOUR);
+        toggleHighlightButton.setHoverColor(UserInterface.ON_COLOUR.brighter());
+        toggleHighlightButton.setFocusable(false);
+        toggleHighlightButton.addActionListener(this);
+        this.add(toggleHighlightButton);
     }
 
     //@Override
@@ -100,6 +139,10 @@ public class Settings extends ContentPanel implements ActionListener {
             window.changeGameBackground(backgroundThemes.getSelectedIndex());
         } else if (e.getSource() == pieceSets) {
             PathsConsts.changePieceSet(pieceSets.getSelectedIndex());
+        } else if (e.getSource() == highlightThemes) {
+            UserInterface.changeHighlights(highlightThemes.getSelectedIndex());
+        } else if (e.getSource() == toggleHighlightButton) {
+            UserInterface.toggleHighlight(toggleHighlightButton);
         }
     }
 }

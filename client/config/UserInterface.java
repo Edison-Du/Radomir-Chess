@@ -2,11 +2,13 @@ package config;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.BasicStroke;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import views.components.CustomButton;
 import views.pages.AbstractGamePanel;
 
 import javax.imageio.ImageIO;
@@ -68,44 +70,54 @@ public class UserInterface {
         new Color(218, 226, 234),
         new Color(206, 158, 106),
         new Color(255, 135, 178),
-        new Color(255, 56, 9),
-        new Color(159, 144, 176),
-        new Color(83, 148, 21)
+        new Color(253, 164, 72),
+        new Color(162, 144, 178),
+        new Color(87, 164, 24),
+        new Color(29, 209, 186),
+        new Color(238, 238, 210)
     };
     public static final Color[] DARKER_TILE_COLOURS = new Color[]{
         new Color(64, 64, 65),
         new Color(121, 156, 178),
         new Color(124, 88, 57),
         new Color(161, 216, 224),
-        new Color(132, 99, 247),
-        new Color(125, 74, 141),
-        new Color(25, 85, 21)
+        new Color(252, 63, 134),
+        new Color(128, 74, 145),
+        new Color(25, 85, 21),
+        new Color(236, 124, 158),
+        new Color(118, 150, 86)
     };
+    public static Color lighterTile = LIGHTER_TILE_COLOURS[activeTheme];
+    public static Color darkerTile = DARKER_TILE_COLOURS[activeTheme];
+
+    // Piece/board highlights
+    public static final Color[] POSSIBLE_MOVE_COLOURS = new Color[]{
+        new Color(61, 89, 169, 192),
+        new Color(23, 213, 77, 192),
+        new Color(208, 14, 37, 192),
+        new Color(253, 253, 18, 192),
+        new Color(254, 92, 13, 192),
+        new Color(173, 0, 234, 192),
+        new Color(252, 252, 252, 192),
+        new Color(2, 2, 2, 192),
+        new Color(226, 185, 131, 192)
+    };
+    public static Color activeHighlightColour = POSSIBLE_MOVE_COLOURS[0];
+    public static BasicStroke HIGHLIGHT_LINE_THICKNESS = new BasicStroke(5);
     
+    public static boolean highlightToggle = true;
+    public static Color ON_COLOUR = new Color(7, 107, 29);
+    public static Color OFF_COLOUR = new Color(131, 35, 29);
+
     // Background
     public static int activeBackground = 0;
     public static Color[] BACKGROUNDS = new Color[]{
         FRAME_COLOUR,
         new Color(220, 220, 220),
-        new Color(32, 32, 32),
-        new Color(200, 215, 227),
-        new Color(47, 78, 111)
+        new Color(27, 27, 27),
+        new Color(194, 205, 220),
+        new Color(47, 63, 76)
     };
-
-    public static Color lighterTile = LIGHTER_TILE_COLOURS[0];
-    public static Color darkerTile = DARKER_TILE_COLOURS[0];
-    
-    public static void changeBoard(int theme) {
-        activeTheme = theme;
-        lighterTile = LIGHTER_TILE_COLOURS[theme];
-        darkerTile = DARKER_TILE_COLOURS[theme];
-    }
-
-    public static Color changeBackground(int colour) {
-        activeBackground = colour;
-        return BACKGROUNDS[colour];
-    }
-
 
     // Borders
     public static final Border EMPTY_BORDER = new EmptyBorder(0, 0, 0, 0);
@@ -130,4 +142,48 @@ public class UserInterface {
 
     public static final Font LOBBY_INFO = new Font("Serif", Font.PLAIN, 40);
 
+    /**
+     * Changes the colour/theme of the board
+     * @param theme
+     */
+    public static void changeBoard(int theme) {
+        activeTheme = theme;
+        lighterTile = LIGHTER_TILE_COLOURS[theme];
+        darkerTile = DARKER_TILE_COLOURS[theme];
+    }
+
+    /**
+     * Changes the background colour variable and returns it
+     * @param colour
+     * @return Color change to
+     */
+    public static Color changeBackground(int colour) {
+        activeBackground = colour;
+        return BACKGROUNDS[colour];
+    }
+
+    /**
+     * Changes highlight colour
+     * @param colour
+     */
+    public static void changeHighlights(int colour) {
+        activeHighlightColour = POSSIBLE_MOVE_COLOURS[colour];
+    }
+
+    /**
+     * Turns highlight on or off
+     * @param button
+     */
+    public static void toggleHighlight(CustomButton button) {
+        highlightToggle ^= true;
+        if (highlightToggle) {
+            button.setText("Turn Off Highlights");
+            button.setBackground(ON_COLOUR);
+            button.setHoverColor(UserInterface.ON_COLOUR.brighter());
+        } else {
+            button.setText("Turn On Highlights");
+            button.setBackground(OFF_COLOUR);
+            button.setHoverColor(UserInterface.OFF_COLOUR.brighter());
+        }
+    }
 }

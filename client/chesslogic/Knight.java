@@ -10,7 +10,7 @@ public class Knight extends Piece {
      * @
      */
     public Knight(int col) {
-        super(col, "N", 20, getImage("N", col));
+        super(col, "N", 40, getImage("N", col));
     }
     
     @Override

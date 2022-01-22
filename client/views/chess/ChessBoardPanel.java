@@ -180,12 +180,12 @@ public class ChessBoardPanel extends ContentPanel {
 
                 // change based on playerColour
                 if(checkerBoard[x][y].getPiece() != null) {
-                    // Highlight selected piece
-                    if (checkerBoard[x][y].getPiece() == chessGameMouseListener.getSelectedPiece()) {
+                    if (checkerBoard[x][y].getPiece() != chessGameMouseListener.getSelectedPiece()) {
+                        g.drawImage(checkerBoard[x][y].getPiece().getImage(), xPos, yPos, this);
+                    } else if (UserInterface.highlightToggle) {
+                        // Highlight selected piece
                         g.setColor(UserInterface.activeHighlightColour); 
                         g.fillRect(xPos, yPos, tileSize, tileSize);
-                    } else {
-                        g.drawImage(checkerBoard[x][y].getPiece().getImage(), xPos, yPos, this);
                     }
                 }
             }

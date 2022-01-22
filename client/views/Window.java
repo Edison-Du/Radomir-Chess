@@ -22,6 +22,7 @@ public class Window extends JFrame {
     private JPanel content;
     
     private boolean inGame = false;
+    private boolean inBotGame = false;
     private boolean loggedIn = false;
 
     // Different pages
@@ -29,7 +30,7 @@ public class Window extends JFrame {
     public JoinGame joinGamePanel;
     public GameSetup gameSetupPanel;
     public BrowseGames browseGamesPanel;
-    public BotPanel playBotPanel;
+    // public BotPanel playBotPanel;
     public MultiplayerPanel gamePanel;
     public Settings settingsPanel;
     public About aboutPanel;
@@ -44,6 +45,7 @@ public class Window extends JFrame {
         gameSetupPanel = new GameSetup(this);
         browseGamesPanel = new BrowseGames();
         gamePanel = new MultiplayerPanel();
+        // playBotPanel = new BotPanel(this);
         settingsPanel = new Settings(this);
         aboutPanel = new About();
         loginPanel = new Login();
@@ -125,7 +127,9 @@ public class Window extends JFrame {
             content = browseGamesPanel;
         
         } else if (currentPage == Page.PLAY_BOT) {
+            // content = playBotPanel;
             content = new BotPanel();
+
         
         } else if (currentPage == Page.GAME) {
             // Reset game panel

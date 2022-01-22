@@ -11,7 +11,7 @@ public class About extends ContentPanel implements ActionListener {
     private final JLabel titleLabel = new JLabel("About");
 
     public About() {
-        titleLabel.setFont(UserInterface.JOIN_GAME_FONT_1);
+        titleLabel.setFont(UserInterface.HEADER_FONT);
         titleLabel.setForeground(UserInterface.TEXT_COLOUR);
         titleLabel.setBounds(30, 30, 210, 50);
         this.add(titleLabel);

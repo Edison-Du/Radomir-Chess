@@ -65,12 +65,7 @@ public class Board {
         this.kingTiles = new Tile[2];
         this.kingTiles[0] = this.tiles[4][0];
         this.kingTiles[1] = this.tiles[4][7];
-        // this.threeMoveRule = new ArrayList<Board>();
     }
-    
-    // public ArrayList<Board> getThreeMove() {
-    //     return this.threeMoveRule;
-    // }
     
     public ArrayList<ArrayList<Tile>> getPieces() {
         return this.pieces;

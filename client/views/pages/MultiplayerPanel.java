@@ -161,8 +161,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
         if (getGameState() == GameState.ONGOING) {
 
-            System.out.println(e.getSource());
-
             if (e.getSource() == takebackButton) {
                 ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_REQUESTED));
 

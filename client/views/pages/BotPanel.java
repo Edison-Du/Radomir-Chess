@@ -67,7 +67,7 @@ public class BotPanel extends AbstractGamePanel {
 
             System.out.println(botMove.substring(0,2) + ", " + botMove.substring(2, 4) + ", " + botMove.substring(4, 5) + "stop");
             
-            String chessMove = chessGame.getCurrentPos().toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
+            String chessMove = chessGame.toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
             movesPanel.addMove(chessMove);
 
             // Add piece to captured pieces

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 // import chesslogic.ChessGame;
 import config.UserInterface;
 import config.Page;
+import views.components.ContentPanel;
 import views.navigation.NavigationBar;
 import views.pages.*;
 
@@ -30,7 +31,7 @@ public class Window extends JFrame {
     public JoinGame joinGamePanel;
     public GameSetup gameSetupPanel;
     public BrowseGames browseGamesPanel;
-    // public BotPanel playBotPanel;
+    public BotPanel playBotPanel;
     public MultiplayerPanel gamePanel;
     public Settings settingsPanel;
     public About aboutPanel;
@@ -45,7 +46,7 @@ public class Window extends JFrame {
         gameSetupPanel = new GameSetup(this);
         browseGamesPanel = new BrowseGames();
         gamePanel = new MultiplayerPanel();
-        // playBotPanel = new BotPanel(this);
+        playBotPanel = new BotPanel(this);
         settingsPanel = new Settings(this);
         aboutPanel = new About();
         loginPanel = new Login();
@@ -113,6 +114,10 @@ public class Window extends JFrame {
                 content = gamePanel;
                 currentPage = Page.GAME;
 
+            } else if (inBotGame) {
+                content = playBotPanel;
+                currentPage = Page.PLAY_BOT;
+
             } else {
                 content = playPanel;
             }
@@ -127,8 +132,9 @@ public class Window extends JFrame {
             content = browseGamesPanel;
         
         } else if (currentPage == Page.PLAY_BOT) {
-            // content = playBotPanel;
-            content = new BotPanel();
+            setInBotGame(true);
+            content = playBotPanel;
+            // content = new BotPanel();
 
         
         } else if (currentPage == Page.GAME) {
@@ -161,6 +167,10 @@ public class Window extends JFrame {
 
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
+    }
+
+    public void setInBotGame(boolean inBotGame) {
+        this.inBotGame = inBotGame;
     }
     
     /**

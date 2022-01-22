@@ -46,6 +46,5 @@ public class LobbyInfoPanel extends JPanel {
                 g2d.drawString(lobbyType, 120, g2d.getFontMetrics().getMaxAscent() + getInsets().top + 20);
             }
         }
-
     }
 }

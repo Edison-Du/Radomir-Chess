@@ -53,15 +53,15 @@ public class UserInterface {
 
     // Join game page
     public static final Color JOIN_GAME_BUTTON_BACKGROUND = new Color(200, 200, 200);
-    public static final Font JOIN_GAME_FONT_1 = new Font("Serif", Font.PLAIN, 40);
-    public static final Font JOIN_GAME_FONT_2 = new Font("Serif", Font.PLAIN, 25);
+    public static final Font HEADER_FONT = new Font("Serif", Font.PLAIN, 40);
+    public static final Font TEXT_FONT_1 = new Font("Serif", Font.PLAIN, 25);
 
     public static final Color MENU_BUTTON_COLOUR = new Color(47, 78, 111);
     public static final Color MENU_BUTTON_HIGHLIGHT = MENU_BUTTON_COLOUR.brighter();
     public static final int MENU_BUTTON_RADIUS = 20;
 
     // Settings
-    public static final Font SETTINGS_FONT = new Font("Serif", Font.PLAIN, 15);
+    public static final Font SETTINGS_FONT = new Font("Serif", Font.PLAIN, 18);
     public static final int NUM_SETTINGS = 5;
 
     // Game board
@@ -78,7 +78,10 @@ public class UserInterface {
         new Color(29, 209, 186),
         new Color(238, 238, 210),
         new Color(34, 203, 209),
-        new Color(255, 243, 237)
+        new Color(211, 199, 181),
+        new Color(252, 241, 234),
+        new Color(120, 226, 247),
+        new Color(246, 205, 74)
     };
     public static final Color[] DARKER_TILE_COLOURS = new Color[]{
         new Color(64, 64, 65),
@@ -91,7 +94,10 @@ public class UserInterface {
         new Color(236, 124, 158),
         new Color(118, 150, 86),
         new Color(55, 37, 135),
-        new Color(95, 51, 31)
+        new Color(95, 51, 31),
+        new Color(194, 170, 134),
+        new Color(38, 179, 129),
+        new Color(57, 55, 46)
     };
     public static Color lighterTile = LIGHTER_TILE_COLOURS[activeTheme];
     public static Color darkerTile = DARKER_TILE_COLOURS[activeTheme];
@@ -120,7 +126,9 @@ public class UserInterface {
         new Color(173, 0, 234, 192),
         new Color(252, 252, 252, 192),
         new Color(2, 2, 2, 192),
-        new Color(226, 185, 131, 192)
+        new Color(226, 185, 131, 192),
+        new Color(218, 245, 41, 192),
+        new Color(232, 59, 149, 192)
     };
     private static int activeHighlight = 0;
     public static Color activeHighlightColour = POSSIBLE_MOVE_COLOURS[0];
@@ -199,11 +207,11 @@ public class UserInterface {
     public static void toggleHighlight(CustomButton button) {
         highlightToggle ^= true;
         if (highlightToggle) {
-            button.setText("Turn Off Highlights");
+            button.setText("Highlights On");
             button.setBackground(ON_COLOUR);
             button.setHoverColor(UserInterface.ON_COLOUR.brighter());
         } else {
-            button.setText("Turn On Highlights");
+            button.setText("Highlights Off");
             button.setBackground(OFF_COLOUR);
             button.setHoverColor(UserInterface.OFF_COLOUR.brighter());
         }

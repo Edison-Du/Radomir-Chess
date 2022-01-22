@@ -119,8 +119,6 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         );
         this.add(playerLabel);
 
-
-
         // Takeback
         takebackButton = new GamePanelButton("Takeback");
         takebackButton.setBounds(660, 240 - 1, 80, 60 + 2);
@@ -140,7 +138,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.add(resignButton);
 
         // Leave Lobby
-        leaveLobby = new CustomButton("Leave Lobby");
+        leaveLobby = new CustomButton("Leave Game");
         leaveLobby.setBounds(660, 630, 240, 30);
         leaveLobby.setBorder(UserInterface.EMPTY_BORDER);
         leaveLobby.setRound(true);
@@ -195,7 +193,6 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
     public void setPlayerColour(int colour) {
         this.playerColour = colour;
-        this.boardPanel.setPlayerColour(colour);
     }
 
     public void resetGame() {
@@ -203,7 +200,6 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         chessGame = new ChessGame();
 
         boardPanel.setChessGame(chessGame);
-        boardPanel.setPlayerColour(playerColour);
 
         movesPanel.clearMoves();
 

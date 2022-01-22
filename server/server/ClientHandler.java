@@ -119,7 +119,7 @@ public class ClientHandler extends Thread{
      * Performs tasks depending on the type of message sent by the client
      * @param request The message sent by the client
      */
-    public void evalRequest(Message request){
+    public void evalRequest(Message request) {
         
         if (request == null) {
             return;
@@ -193,7 +193,7 @@ public class ClientHandler extends Thread{
     /*-----------------The methods below handle each type of message sent by the client------------------*/
     /*================================================================================================== */
 
-    private void registerUser(Message message){
+    private void registerUser(Message message) {
         User newUser = User.convertMessageToUser(message);
         if (server.getDatabase().addUser(newUser.getUsername(), newUser)){
             setClientName(newUser.getUsername());

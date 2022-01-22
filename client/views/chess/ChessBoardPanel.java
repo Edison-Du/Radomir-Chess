@@ -28,7 +28,6 @@ public class ChessBoardPanel extends ContentPanel {
     BufferedImage heldPieceImage;
     BufferedImage woodBoard;
 
-    public int playerColour;
 
     private ChessGameMouseListener chessGameMouseListener;
     private AbstractGamePanel gamePanel;
@@ -39,7 +38,7 @@ public class ChessBoardPanel extends ContentPanel {
         this.game = game;
         this.gamePanel = gamePanel;
 
-        chessGameMouseListener = new ChessGameMouseListener(game, playerColour, gamePanel);
+        chessGameMouseListener = new ChessGameMouseListener(game, gamePanel);
         addMouseListener(chessGameMouseListener);
         addMouseMotionListener(chessGameMouseListener);
 
@@ -62,11 +61,6 @@ public class ChessBoardPanel extends ContentPanel {
         this.revalidate();
     }
 
-    public void setPlayerColour(int colour) {
-        this.playerColour = colour;
-        chessGameMouseListener.setPlayerColour(colour);
-    }
-
     public void setChessGame(ChessGame game) {
         this.game = game;
         this.chessGameMouseListener.game = game;
@@ -81,7 +75,7 @@ public class ChessBoardPanel extends ContentPanel {
         gamePanel.movesPanel.addMove(move);
 
         // Add piece to captured pieces
-        if (playerColour == 0) {
+        if (gamePanel.getPlayerColour() == 0) {
             gamePanel.capturedPiecesPanelWhite.addCapturedPiece(
                 game.getCurrentPos().getTiles()[posX][posY].getPiece()
             );
@@ -117,7 +111,7 @@ public class ChessBoardPanel extends ContentPanel {
         drawBoard(g);
 
         // Draw possible moves for piece
-        if (chessGameMouseListener.getSelectedPiece() != null && game.getCurrentPos().getToMove() == playerColour && UserInterface.highlightToggle) {
+        if (chessGameMouseListener.getSelectedPiece() != null && game.getCurrentPos().getToMove() == gamePanel.getPlayerColour() && UserInterface.highlightToggle) {
             drawPossibleMoves(g, game.getCurrentPos().getTile(chessGameMouseListener.t1));
         }
 
@@ -152,8 +146,8 @@ public class ChessBoardPanel extends ContentPanel {
             for (int y = 0; y < checkerBoard[0].length; y++) {
 
                 // flip board
-                int xPos = (7 * playerColour + (1 - 2 * playerColour) * x) * tileSize;
-                int yPos = (7 * (1 - playerColour) + (2 * playerColour - 1) * y) * tileSize;
+                int xPos = (7 * gamePanel.getPlayerColour() + (1 - 2 * gamePanel.getPlayerColour()) * x) * tileSize;
+                int yPos = (7 * (1 - gamePanel.getPlayerColour()) + (2 * gamePanel.getPlayerColour() - 1) * y) * tileSize;
                 
                 // checkerboard code
                 if (UserInterface.activeTheme != 2) {
@@ -167,17 +161,17 @@ public class ChessBoardPanel extends ContentPanel {
 
                 // write tile notation
                 if(x == 7) {
-                    if((y+playerColour) % 2 == 0) g.setColor(UserInterface.lighterTile);
+                    if((y+gamePanel.getPlayerColour()) % 2 == 0) g.setColor(UserInterface.lighterTile);
                     else g.setColor(UserInterface.darkerTile);
                     g.drawString(Integer.toString(y + 1), 1, yPos + 12);
                 }
                 if(y == 7) {
-                    if((x+playerColour) % 2 == 0) g.setColor(UserInterface.lighterTile);
+                    if((x+gamePanel.getPlayerColour()) % 2 == 0) g.setColor(UserInterface.lighterTile);
                     else g.setColor(UserInterface.darkerTile);
                     g.drawString(Character.toString((char)(x + 'a')), xPos + 52, 479);
                 }
 
-                // change based on playerColour
+                // change based on gamePanel.getPlayerColour()
                 if(checkerBoard[x][y].getPiece() != null) {
                     if (checkerBoard[x][y].getPiece() != chessGameMouseListener.getSelectedPiece()) {
                         g.drawImage(checkerBoard[x][y].getPiece().getImage(), xPos, yPos, this);
@@ -207,7 +201,7 @@ public class ChessBoardPanel extends ContentPanel {
         g.setColor(UserInterface.activeHighlightColour); 
         for (String i : possibleMoves) {
             // Determine coordinates for each colour
-            if (playerColour == Constants.WHITE) {
+            if (gamePanel.getPlayerColour() == Constants.WHITE) {
                 xPos = (i.charAt(0) - 'a') * tileSize;
                 yPos = (8 - Character.getNumericValue(i.charAt(1))) * tileSize;
             } else  {

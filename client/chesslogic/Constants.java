@@ -25,7 +25,7 @@ public class Constants {
      */
     public static final String coordToChess(int x, int y) {
         String out = "";
-        int j = x + 97;
+        int j = x + 'a';
         char n = (char) j;
         out = out + n;
         out = out + (y + 1);
@@ -41,7 +41,7 @@ public class Constants {
         int[] out = new int[2];
         char n = pos.charAt(0);
         int x = (int) n;
-        x = x - 97;
+        x = x - 'a';
         n = pos.charAt(1);
         int y = (int) n;
         y = y - 49;

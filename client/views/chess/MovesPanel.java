@@ -93,4 +93,8 @@ public class MovesPanel extends ContentPanel {
         numMoves = 0;
         movesList.setRowCount(0);
     }
+
+    public int getNumMoves() {
+        return this.numMoves;
+    }
 }

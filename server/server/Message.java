@@ -53,6 +53,15 @@ public class Message {
         return parameters.size();
     }
 
+    public static void addUserAsParams(Message message, User user) {
+        message.addParam(user.getUsername());
+        message.addParam(user.getBoard());
+        message.addParam(user.getBackground());
+        message.addParam(user.getChessSet());
+        message.addParam(user.getHighlightStatus());
+        message.addParam(user.getHighlight());
+    }
+
     public boolean validateString(String str) {
 
         if (str == null) {

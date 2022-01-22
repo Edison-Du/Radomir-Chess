@@ -70,7 +70,6 @@ public class BotPanel extends AbstractGamePanel {
                 );
             }
 
-
             chessGame.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
         }
     }

@@ -29,7 +29,7 @@ public class Login extends ContentPanel implements ActionListener{
     private final JButton loginButton = new JButton("Login");
     private final JLabel errorMessage = new JLabel();
     
-    public Login() {
+    public Login() {        
         title.setForeground(UserInterface.TEXT_COLOUR);
         title.setFont(new Font("Serif", Font.ITALIC, 36));
         title.setText(UserInterface.WINDOW_TITLE);
@@ -101,6 +101,11 @@ public class Login extends ContentPanel implements ActionListener{
                 Message m = new Message(MessageTypes.REGISTER);
                 m.addParam(username);
                 m.addParam(password);
+
+                int[] settings = UserInterface.getCurrentSettings();
+                for (int i = 0; i < UserInterface.NUM_SETTINGS; i++) {
+                    m.addParam(Integer.toString(settings[i]));
+                }
                 ServerConnection.sendMessage(m);
             }
         } else {

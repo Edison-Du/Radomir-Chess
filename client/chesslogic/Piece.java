@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.Buffer;
 
 import config.PathsConsts;
+import config.UserInterface;
 
 public abstract class Piece {
     private int colour;
@@ -64,7 +65,7 @@ public abstract class Piece {
      */
     public static BufferedImage getImage(String piece, int colour) {
         try {
-            return ImageIO.read(new File(PathsConsts.activePieceSet + piece + colour + PathsConsts.PNG_FILE));
+            return ImageIO.read(new File(UserInterface.activePieceSet + piece + colour + PathsConsts.PNG_FILE));
         } catch(IOException e) {
             System.out.println("Piece file not found");
         }

@@ -27,7 +27,9 @@ public class Settings extends ContentPanel implements ActionListener {
         "Lavender",
         "Evergreen",
         "Arizona",
-        "Chess.com"
+        "Chess.com",
+        "Jazz Cup",
+        "Ice Cweam"
     };
     private final String[] BACKGROUNDS = {
         "Default",
@@ -138,11 +140,25 @@ public class Settings extends ContentPanel implements ActionListener {
         } else if (e.getSource() == backgroundThemes) {
             window.changeGameBackground(backgroundThemes.getSelectedIndex());
         } else if (e.getSource() == pieceSets) {
-            PathsConsts.changePieceSet(pieceSets.getSelectedIndex());
+            UserInterface.changePieceSet(pieceSets.getSelectedIndex());
         } else if (e.getSource() == highlightThemes) {
             UserInterface.changeHighlights(highlightThemes.getSelectedIndex());
         } else if (e.getSource() == toggleHighlightButton) {
             UserInterface.toggleHighlight(toggleHighlightButton);
         }
+    }
+
+    /**
+     * Updates toggle highlight button (specifically for when a user logs in)
+     * @param state
+     */
+    public void updateAfterLogin(int[] settingStates) {
+        if (settingStates[3] != (UserInterface.highlightToggle?1:0)) {
+            UserInterface.toggleHighlight(toggleHighlightButton);
+        }
+        boardThemes.setSelectedIndex(settingStates[0]);
+        backgroundThemes.setSelectedIndex(settingStates[1]);
+        pieceSets.setSelectedIndex(settingStates[2]);
+        highlightThemes.setSelectedIndex(settingStates[4]);
     }
 }

@@ -10,6 +10,11 @@ public class Constants {
     
     public static final int WHITE = 0;
     public static final int BLACK = 1;
+    public static final int QUEEN_POINTS = 120;
+    public static final int ROOK_POINTS = 60;
+    public static final int BISHOP_POINTS = 40;
+    public static final int KNIGHT_POINTS = 40;
+    public static final int PAWN_POINTS = 15;
     
     /**
      * takes an integer array with two elements and converts it to chess coordinates

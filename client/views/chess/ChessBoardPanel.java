@@ -14,6 +14,7 @@ import java.util.HashSet;
 
 import chesslogic.ChessGame;
 import chesslogic.Tile;
+import chesslogic.Constants;
 import config.PathsConsts;
 import config.UserInterface;
 import views.components.ContentPanel;
@@ -116,6 +117,11 @@ public class ChessBoardPanel extends ContentPanel {
 
         drawBoard(g);
 
+        // Draw possible moves for piece
+        if (chessGameMouseListener.getSelectedPiece() != null && game.getCurrentPos().getToMove() == playerColour) {
+            drawPossibleMoves(g, game.getCurrentPos().getTile(chessGameMouseListener.t1));
+        }
+
         heldPieceImage = chessGameMouseListener.getHeldPieceImage();
         // System.out.println(heldPieceImage);
         if(heldPieceImage != null) {
@@ -172,11 +178,6 @@ public class ChessBoardPanel extends ContentPanel {
                 if(checkerBoard[x][y].getPiece() != null && checkerBoard[x][y].getPiece() != chessGameMouseListener.getSelectedPiece()) {
                     g.drawImage(checkerBoard[x][y].getPiece().getImage(), xPos, yPos, this);
                 }
-
-                // Draw possible moves
-                if (chessGameMouseListener.getSelectedPiece() != null && checkerBoard[x][y].getPiece() == chessGameMouseListener.getSelectedPiece()) {
-                    drawPossibleMoves(g, checkerBoard[x][y]);
-                }
             }
         }
 	}
@@ -184,20 +185,19 @@ public class ChessBoardPanel extends ContentPanel {
     public void drawPossibleMoves(Graphics g, Tile selectedPiecePos) {
         HashSet<String> possibleMoves = game.getCurrentPos().legalMoves(selectedPiecePos);
         Color temp = new Color(47, 78, 111, 195);
-                
+
         // Draw dots for possible moves
-        g.setColor(temp);
         int xPos = 0;
         int yPos = 0;
+        g.setColor(temp);
         for (String i : possibleMoves) {
-            if (playerColour == 0) {
+            if (playerColour == Constants.WHITE) {
                 xPos = (i.charAt(0) - 'a') * tileSize;
                 yPos = (8 - Character.getNumericValue(i.charAt(1))) * tileSize;
             } else  {
                 xPos = (7 - i.charAt(0) + 'a') * tileSize;
                 yPos = Character.getNumericValue(i.charAt(1) - 1) * tileSize;
             }
-
             g.fillOval(xPos + 23, yPos + 23, 14, 14);
         }
     }

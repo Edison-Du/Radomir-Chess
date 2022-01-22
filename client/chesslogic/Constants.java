@@ -6,7 +6,7 @@ package chesslogic;
  * @version 1.0, Jan. 2022
  */
 
-class Constants {
+public class Constants {
     
     public static final int WHITE = 0;
     public static final int BLACK = 1;

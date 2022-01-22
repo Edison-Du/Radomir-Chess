@@ -27,7 +27,9 @@ public class Settings extends ContentPanel implements ActionListener {
         "Lavender",
         "Evergreen",
         "Arizona",
-        "Chess.com"
+        "Chess.com",
+        "Jazz Cup",
+        "Ice Cweam"
     };
     private final String[] BACKGROUNDS = {
         "Default",

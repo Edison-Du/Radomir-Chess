@@ -14,6 +14,7 @@ import java.util.HashSet;
 
 import chesslogic.ChessGame;
 import chesslogic.Tile;
+import chesslogic.Constants;
 import config.PathsConsts;
 import config.UserInterface;
 import views.components.ContentPanel;
@@ -116,6 +117,11 @@ public class ChessBoardPanel extends ContentPanel {
 
         drawBoard(g);
 
+        // Draw possible moves for piece
+        if (chessGameMouseListener.getSelectedPiece() != null && game.getCurrentPos().getToMove() == playerColour && UserInterface.highlightToggle) {
+            drawPossibleMoves(g, game.getCurrentPos().getTile(chessGameMouseListener.t1));
+        }
+
         heldPieceImage = chessGameMouseListener.getHeldPieceImage();
         // System.out.println(heldPieceImage);
         if(heldPieceImage != null) {
@@ -135,6 +141,10 @@ public class ChessBoardPanel extends ContentPanel {
         }
     }
 
+    /**
+     * Draws the chess board and pieces
+     * @param g
+     */
     public void drawBoard(Graphics g) {
 		Tile[][] checkerBoard = game.getCurrentPos().getTiles();
         
@@ -169,36 +179,48 @@ public class ChessBoardPanel extends ContentPanel {
                 }
 
                 // change based on playerColour
-                if(checkerBoard[x][y].getPiece() != null && checkerBoard[x][y].getPiece() != chessGameMouseListener.getSelectedPiece()) {
-                    g.drawImage(checkerBoard[x][y].getPiece().getImage(), xPos, yPos, this);
-                }
-
-                // Draw possible moves
-                if (chessGameMouseListener.getSelectedPiece() != null && checkerBoard[x][y].getPiece() == chessGameMouseListener.getSelectedPiece()) {
-                    drawPossibleMoves(g, checkerBoard[x][y]);
+                if(checkerBoard[x][y].getPiece() != null) {
+                    if (checkerBoard[x][y].getPiece() != chessGameMouseListener.getSelectedPiece()) {
+                        g.drawImage(checkerBoard[x][y].getPiece().getImage(), xPos, yPos, this);
+                    } else if (UserInterface.highlightToggle) {
+                        // Highlight selected piece
+                        g.setColor(UserInterface.activeHighlightColour); 
+                        g.fillRect(xPos, yPos, tileSize, tileSize);
+                    }
                 }
             }
         }
 	}
 
+    /**
+     * Graphically displays relevant information for when user clicks on a piece
+     * @param g
+     * @param selectedPiecePos
+     */
     public void drawPossibleMoves(Graphics g, Tile selectedPiecePos) {
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.setStroke(UserInterface.HIGHLIGHT_LINE_THICKNESS);
+
         HashSet<String> possibleMoves = game.getCurrentPos().legalMoves(selectedPiecePos);
-        Color temp = new Color(47, 78, 111, 195);
-                
-        // Draw dots for possible moves
-        g.setColor(temp);
+
         int xPos = 0;
         int yPos = 0;
+        g.setColor(UserInterface.activeHighlightColour); 
         for (String i : possibleMoves) {
-            if (playerColour == 0) {
+            // Determine coordinates for each colour
+            if (playerColour == Constants.WHITE) {
                 xPos = (i.charAt(0) - 'a') * tileSize;
                 yPos = (8 - Character.getNumericValue(i.charAt(1))) * tileSize;
             } else  {
                 xPos = (7 - i.charAt(0) + 'a') * tileSize;
                 yPos = Character.getNumericValue(i.charAt(1) - 1) * tileSize;
             }
-
-            g.fillOval(xPos + 23, yPos + 23, 14, 14);
+            // Draw box around capturable pieces and dot for empty squares
+            if (game.getCurrentPos().getTile(i).getPiece() != null) {
+                g.drawOval(xPos + 2, yPos + 2, 56, 56);
+            } else {
+                g.fillOval(xPos + 23, yPos + 23, 14, 14);
+            }
         }
     }
 }

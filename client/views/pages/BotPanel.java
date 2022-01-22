@@ -8,6 +8,7 @@ import chesslogic.ChessGame;
 import chesslogic.DepthSearchBotP2;
 import chesslogic.RandomBot;
 import config.GameState;
+import config.Page;
 import config.UserInterface;
 import views.Window;
 
@@ -18,9 +19,12 @@ public class BotPanel extends AbstractGamePanel {
     BufferedImage heldPieceImage;
 
     DepthSearchBotP2 depthSearchBot;
-    
-    public BotPanel() {
 
+    private Window window;
+    
+    public BotPanel(Window window) {
+
+        this.window = window;
         this.setBackground(UserInterface.BACKGROUNDS[UserInterface.activeBackground]);
         resetGame();
     }
@@ -117,8 +121,9 @@ public class BotPanel extends AbstractGamePanel {
 
     // Functions to handle each button when clicked
     public void handleLeaveLobbyButton() {
-        // Message message = new Message(MessageTypes.LEAVE_GAME);
-        // ServerConnection.sendMessage(message);
+        window.setInBotGame(false);
+        window.changePage(Page.PLAY);
+        resetGame();
     }
 
 

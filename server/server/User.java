@@ -95,4 +95,21 @@ public class User {
 
         return new User(username, password, settings);
     }
+
+    /**
+     * returns all the data stored in this object as a string (separated by spaces)
+     */
+    @Override
+    public String toString() {
+        return (
+            "\n" +
+            getUsername() + " " +
+            getPassword() + " " +
+            getBoard() + " " +
+            getBackground() + " " +
+            getChessSet() + " " +
+            getHighlightStatus() + " " +
+            getHighlight()
+        );
+    }
 }

@@ -143,7 +143,13 @@ public class Settings extends ContentPanel implements ActionListener {
         this.add(toggleHighlightButton);
 
         
-        // updatePreferencesButton
+        updatePreferencesButton.setBounds(35, 500, 160, 37);
+        updatePreferencesButton.setForeground(UserInterface.TEXT_COLOUR);
+        updatePreferencesButton.setBackground(UserInterface.OFF_COLOUR);
+        updatePreferencesButton.setHoverColor(UserInterface.OFF_COLOUR.brighter());
+        updatePreferencesButton.setFocusable(false);
+        updatePreferencesButton.addActionListener(this);
+        this.add(updatePreferencesButton);
     }
 
     //@Override

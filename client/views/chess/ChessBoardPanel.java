@@ -92,7 +92,6 @@ public class ChessBoardPanel extends ContentPanel {
             );
         }
 
-
         this.game.move(t1, t2, p);
     }
 

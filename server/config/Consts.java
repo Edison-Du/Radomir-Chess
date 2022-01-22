@@ -5,4 +5,5 @@ public class Consts {
 
     // Users
     public static final int NUM_SETTINGS = 5;
+    public static final boolean APPEND = true;
 }

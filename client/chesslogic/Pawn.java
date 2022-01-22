@@ -10,7 +10,7 @@ public class Pawn extends Piece {
      * @
      */
     public Pawn(int col) {
-        super(col, "p", 10, getImage("p", col));
+        super(col, "p", 15, getImage("p", col));
     }
     
     @Override

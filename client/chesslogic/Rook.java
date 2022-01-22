@@ -10,7 +10,7 @@ public class Rook extends Piece {
      * @
      */
     public Rook(int col) {
-        super(col, "R", 30, getImage("R", col));
+        super(col, "R", 60, getImage("R", col));
     }
     
     @Override

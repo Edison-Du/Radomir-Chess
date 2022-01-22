@@ -10,7 +10,7 @@ public class Bishop extends Piece {
      * @
      */
     public Bishop(int col) {
-        super(col, "B", 20, getImage("B", col));
+        super(col, "B", 40, getImage("B", col));
     }
     
     @Override

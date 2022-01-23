@@ -1,7 +1,6 @@
 package server;
 
 import java.util.*;
-import java.io.FileWriter;
 
 import config.Consts;
 import config.PathConsts;
@@ -12,7 +11,6 @@ import java.io.*;
 public class Database {
     private HashMap<String, User> storage = new HashMap<String, User>();
     private File data;
-    private FileWriter out;
     
     public Database() {
         try {
@@ -37,18 +35,10 @@ public class Database {
     }
 
     public boolean addUser(String username, User user) {
-        try {
-            if (this.storage.containsKey(username)) return false;
-            else {
-                out = new FileWriter(PathConsts.USERS, Consts.APPEND);
-                this.storage.put(username, user);
-                out.write(user.toString());
-                out.close();
-                return true;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+        if (this.storage.containsKey(username)) return false;
+        else {
+            this.storage.put(username, user);
+            return true;
         }
     }
 
@@ -66,5 +56,9 @@ public class Database {
     public void updatePreferences(String username, int[] settings) {
         User updatedUser = new User(username, this.storage.get(username).getPassword(), settings);
         this.storage.replace(username, updatedUser);
+    }
+
+    public HashMap<String, User> getData() {
+        return this.storage;
     }
 }

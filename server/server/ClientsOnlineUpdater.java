@@ -1,5 +1,7 @@
 package server;
 
+import config.Consts;
+
 public class ClientsOnlineUpdater extends Thread {
     private ClientHandler clientHandler;
 
@@ -12,7 +14,7 @@ public class ClientsOnlineUpdater extends Thread {
         try { 
             while (clientHandler.isAlive()) {
                 clientHandler.updatePlayersOnline();
-                Thread.sleep(1000);
+                Thread.sleep(Consts.UPDATE_CLIENT_INTERVAL);
             }
         } catch (Exception e) {
             e.printStackTrace();

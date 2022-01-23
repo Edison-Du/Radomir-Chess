@@ -58,7 +58,8 @@ public class BotPanel extends AbstractGamePanel {
     public void processMove(String tile1, String tile2, String promotion) {
         if(!chessGame.getCurrentPos().ended()) {
             double s = System.currentTimeMillis();
-            String botMove = depthSearchBot.nextMove(chessGame);
+            ChessGame c = chessGame.copy();
+            String botMove = depthSearchBot.nextMove(c);
             double y = System.currentTimeMillis();
             System.out.println(y - s);
 

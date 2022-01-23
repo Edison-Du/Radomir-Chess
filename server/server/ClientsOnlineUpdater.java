@@ -21,4 +21,3 @@ public class ClientsOnlineUpdater extends Thread {
         }
     }
 }
-

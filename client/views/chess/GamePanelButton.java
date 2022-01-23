@@ -8,6 +8,5 @@ public class GamePanelButton extends CustomButton{
         super(text);
         this.setBorder(UserInterface.GAME_CHAT_BORDER);
         this.setBackground(UserInterface.NAVBAR_COLOUR);
-        // this.setPressedColor(color);
     }
 }

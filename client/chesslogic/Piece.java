@@ -60,19 +60,6 @@ public abstract class Piece {
     }
 
     /**
-     * return the image of the piece
-     * @return BufferedImage of piece
-     */
-    public static BufferedImage getImage(String piece, int colour) {
-        try {
-            return ImageIO.read(new File(UserInterface.activePieceSet + piece + colour + PathsConsts.PNG_FILE));
-        } catch(IOException e) {
-            System.out.println("Piece file not found");
-        }
-        return null;
-    }
-
-    /**
      * get the name of this piece
      * @return the name of the piece
      */
@@ -98,6 +85,14 @@ public abstract class Piece {
      */
     public BufferedImage getImage() {
         return this.image;
+    }
+
+    /**
+     * updates the image of the piece
+     * @param image
+     */
+    public void setImage(BufferedImage image) {
+        this.image = image;
     }
     
     /**

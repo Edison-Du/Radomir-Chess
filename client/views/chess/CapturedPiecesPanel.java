@@ -38,11 +38,11 @@ public class CapturedPiecesPanel extends ContentPanel {
         capturedPieceCount = new int[5];
 
         this.pieceImages = new Image[]{
-            Piece.getImage("p", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
-            Piece.getImage("B", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
-            Piece.getImage("N", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
-            Piece.getImage("R", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
-            Piece.getImage("Q", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST)
+            UserInterface.PIECES[UserInterface.activeSetNum][this.playerColour].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
+            UserInterface.PIECES[UserInterface.activeSetNum][this.playerColour].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
+            UserInterface.PIECES[UserInterface.activeSetNum][this.playerColour].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
+            UserInterface.PIECES[UserInterface.activeSetNum][this.playerColour].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
+            UserInterface.PIECES[UserInterface.activeSetNum][this.playerColour].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST)
         };
 
     }

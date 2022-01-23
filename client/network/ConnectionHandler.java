@@ -27,10 +27,10 @@ public class ConnectionHandler extends Thread {
             while (isActive) {
                 if (ServerConnection.hasMessage()) {
                     Message message = ServerConnection.getMessage();
-                    if (!message.getType().equals(MessageTypes.GET_PLAYERS_ONLINE)) {
+                    evalMessage(message);
+                    if (!message.getType().equals(MessageTypes.GET_PLAYERS_ONLINE) && !message.getType().equals(MessageTypes.DISPLAY_GAMES)) {
                         System.out.println("Received message: " + message.getText());
                     }
-                    evalMessage(message);
                 }
             }
         } catch (Exception e) {

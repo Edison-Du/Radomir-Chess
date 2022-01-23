@@ -88,14 +88,7 @@ public class Lobby {
     }
     
     public String getDisplayLobbyInfo() {
-        if (guestName.equals("")) {
-            return "  Lobby #" + lobbyCode + ",  Host: " + hostName + 
-            ",  Join as: " + getGuestColourString();
-        } else {
-            return "  Lobby #" + lobbyCode + ",  Host: " + hostName + 
-        ",  Host Colour: " + getHostColourString() + ",  Guest: " + guestName + ",  Guest Colour: " + getGuestColourString();
-        }
-        
+        return "  Lobby #" + lobbyCode + ",  Host: " + hostName + ",  Join as: " + getGuestColourString();
     }
 
     public static Lobby parseLobbyFromString(String string) {

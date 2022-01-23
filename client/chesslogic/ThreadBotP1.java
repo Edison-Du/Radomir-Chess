@@ -191,7 +191,6 @@ package chesslogic;
         this.search(g, this.depth, -999999, 999999, 0);
         return this.move;
     }
-<<<<<<< HEAD
     
     private class SearchThread extends Thread {
         
@@ -199,6 +198,3 @@ package chesslogic;
     */
     
 //}
-=======
-}
->>>>>>> 52d93ff3ac7c2e190e43570149d44a7cd59529e4

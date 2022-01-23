@@ -44,7 +44,7 @@ public class ClientHandler extends Thread {
         clientNum = ++ClientHandler.numClients;
         clientsOnline++;
         this.server = server;
-        this.clientName = "Guest#" + this.clientNum;
+        this.clientName = "Guest " + this.clientNum;
         this.userActive = true;
         
         try {
@@ -246,7 +246,7 @@ public class ClientHandler extends Thread {
     }
 
     private void logoutUser(Message message) {
-        this.clientName = "Guest #" + clientNum;
+        this.clientName = "Guest " + clientNum;
         sendMessage(message);
     }
 

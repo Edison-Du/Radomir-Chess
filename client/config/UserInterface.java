@@ -28,7 +28,7 @@ public class UserInterface {
 
     public static final int NAVBAR_WIDTH  = WINDOW_WIDTH/5;
     public static final int CONTENT_WIDTH = WINDOW_WIDTH - NAVBAR_WIDTH;
-    public static final int NAVBAR_BUTTON_HEIGHT = 91;
+    public static final int NAVBAR_BUTTON_HEIGHT = 80;
 
     //Right Panel
     public static final Color FRAME_COLOUR = new Color(41, 43, 45);
@@ -37,8 +37,8 @@ public class UserInterface {
     // Navbar
     public static final Color NAVBAR_COLOUR = new Color(26,26,27);
     public static final Color NAVBAR_BUTTON_HOVER_COLOUR = new Color(38,39,39);
-    public static final Border NAVBAR_BUTTON_MARGIN = new EmptyBorder(0, 20, 0, 0);
-    public static final Border NAVBAR_BUTTON_HOVER_MARGIN = new EmptyBorder(0, 30, 0, 0);
+    public static final Border NAVBAR_BUTTON_MARGIN = new EmptyBorder(5, 30, 0, 0);
+    public static final Border NAVBAR_BUTTON_HOVER_MARGIN = new EmptyBorder(5, 45, 0, 0);
 
     // wtf is this lol
     public static final String GUEST = "Guest";
@@ -144,6 +144,7 @@ public class UserInterface {
 
     // Borders
     public static final Border EMPTY_BORDER = new EmptyBorder(0, 0, 0, 0);
+    public static final Border FONT_OFFSET_BORDER = new EmptyBorder(5, 0, 0, 0);
 
     // Game Page
     public static final int GAME_BOARD_LENGTH = 480;
@@ -237,5 +238,43 @@ public class UserInterface {
         } else {
             button.setText("Creating Private Lobby");
         }
+    }
+
+    // Fonts
+    public static Font orkney;
+
+    // Different sizes of fonts deriving from Orkney
+    public static Font orkney12;
+    public static Font orkney18;
+    public static Font orkney24;
+    public static Font orkney36;
+    public static Font orkney48;
+    public static Font orkney96;
+
+
+    // Font sizes
+
+    // Loading
+    public static void loadFonts() {
+        if (readFonts()) {
+            orkney12 = orkney.deriveFont(Font.PLAIN, 12);
+            orkney18 = orkney.deriveFont(Font.PLAIN, 18);
+            orkney24 = orkney.deriveFont(Font.PLAIN, 24);
+            orkney36 = orkney.deriveFont(Font.PLAIN, 36);
+            orkney48 = orkney.deriveFont(Font.PLAIN, 48);
+            orkney96 = orkney.deriveFont(Font.PLAIN, 96);
+        }
+    }
+
+    public static boolean readFonts() {
+        try {
+            orkney = Font.createFont(Font.TRUETYPE_FONT, new File(PathsConsts.ORKNEY_FONT));
+            return true;
+            
+        } catch (Exception e) {
+            System.out.println("Could not load fonts.");
+            e.printStackTrace();
+        }
+        return false;
     }
 }

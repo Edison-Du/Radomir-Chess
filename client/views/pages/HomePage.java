@@ -44,8 +44,8 @@ public class HomePage extends ContentPanel implements ActionListener {
 
         //CHANGE INTO CONSTANTS
         gameTitle.setText("RADOMIR CHESS");
-        gameTitle.setBounds(100, -25, UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT / 2);
-        gameTitle.setFont(new Font("Serif", Font.PLAIN, 100));
+        gameTitle.setBounds(UserInterface.MENU_BUTTON_MARGIN, -25, UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT / 2);
+        gameTitle.setFont(UserInterface.orkney96);
         gameTitle.setForeground(UserInterface.TEXT_COLOUR);
         this.add(gameTitle);
 

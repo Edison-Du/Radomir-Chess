@@ -130,7 +130,8 @@ public class ConnectionHandler extends Thread {
 
     public void setClientInfo(Message message) {
         clientNum = Integer.parseInt(message.getParam(0)); 
-        clientName = "Guest #" + clientNum;
+        clientName = "Guest " + clientNum;
+        window.navigationBar.setUsername(clientName);
     }
     
     public void processWhiteCheckmate(Message message) {
@@ -171,7 +172,8 @@ public class ConnectionHandler extends Thread {
     }
 
     public void logout() {
-        clientName = "Guest #" + clientNum;
+        clientName = "Guest " + clientNum;
+        window.navigationBar.setUsername(clientName);
 
         window.loginPanel.clearError();
         window.setLoggedIn(false);
@@ -305,7 +307,7 @@ public class ConnectionHandler extends Thread {
     }
 
     public void setPlayersOnline(Message message) {
-        String playersOnline = message.getParam(0);
+        int playersOnline = Integer.parseInt(message.getParam(0));
         window.navigationBar.setPlayersOnline(playersOnline);
     }
 }

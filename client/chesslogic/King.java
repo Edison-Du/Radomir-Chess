@@ -185,6 +185,7 @@ public class King extends Piece {
         King out = new King(this.getColour());
         out.setCastled(this.hasCastled);
         out.setMoved(this.getTurnMoved());
+        System.out.println("Copied king moved" + out.getTurnMoved());
         return out;
     }
 }

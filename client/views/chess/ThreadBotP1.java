@@ -3,7 +3,7 @@ package views.chess;
 import javax.swing.SwingWorker;
 
 import chesslogic.ChessGame;
-import chesslogic.DepthSearchBotP2;
+import chesslogic.Bot;
 import views.pages.BotPanel;
 
 /*
@@ -15,14 +15,14 @@ public class ThreadBotP1 extends SwingWorker<String, Void> {
 
     private ChessGame chessGame;
     private ChessGame chessGameClone;
-    private DepthSearchBotP2 depthSearchBot;
+    private Bot bot;
     private MovesPanel movesPanel;
     private BotPanel gamePanel;
 
-    public ThreadBotP1(ChessGame chessGame, ChessGame chessGameClone, DepthSearchBotP2 depthSearchBotP2, MovesPanel movesPanel, BotPanel gamePanel) {
+    public ThreadBotP1(ChessGame chessGame, ChessGame chessGameClone, Bot bot, MovesPanel movesPanel, BotPanel gamePanel) {
         this.chessGame = chessGame;
         this.chessGameClone = chessGameClone;
-        this.depthSearchBot = depthSearchBotP2;
+        this.bot = bot;
         this.movesPanel = movesPanel;
         this.gamePanel = gamePanel;
     }
@@ -33,7 +33,7 @@ public class ThreadBotP1 extends SwingWorker<String, Void> {
             System.out.println("started next move");
             synchronized(chessGameClone) {
                 synchronized(chessGame) {
-                    botMove = depthSearchBot.nextMove(chessGameClone);
+                    botMove = bot.nextMove(chessGameClone);
                 }
             }
             System.out.println(chessGame.toString());

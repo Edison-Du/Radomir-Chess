@@ -61,6 +61,10 @@ public class Lobby {
         this.hostName = host.getClientName();
     }
 
+    public void setHostColour(int colour) {
+        this.hostColour = colour;
+    }
+
     public boolean setGuest(ClientHandler guest) {
 
         if (this.guest != null || !joinable) {

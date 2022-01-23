@@ -26,7 +26,7 @@ public class ChessBoardPanel extends ContentPanel {
     final int tileSize = 60;
 
     BufferedImage heldPieceImage;
-    BufferedImage woodBoard, iceBoard;
+    BufferedImage woodBoard;
 
 
     private ChessGameMouseListener chessGameMouseListener;
@@ -44,7 +44,6 @@ public class ChessBoardPanel extends ContentPanel {
 
         try {
             woodBoard = ImageIO.read(new File(PathsConsts.WOOD_THEME));
-            iceBoard = ImageIO.read(new File(PathsConsts.ICE_THEME));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,12 +67,24 @@ public class ChessBoardPanel extends ContentPanel {
     }
     
     public void makeOpponentMove(String t1, String t2, String p) {
-        String move = game.toAlgebraic(t1, t2, p);
+        String move = game.getCurrentPos().toAlgebraic(t1, t2, p);
 
         int posX = (t2.charAt(0) - 'a');
         int posY = (t2.charAt(1) - '0') - 1;
 
         gamePanel.movesPanel.addMove(move);
+
+        // Add piece to captured pieces
+        if (gamePanel.getPlayerColour() == 0) {
+            gamePanel.capturedPiecesPanelWhite.addCapturedPiece(
+                game.getCurrentPos().getTiles()[posX][posY].getPiece()
+            );
+
+        } else {
+            gamePanel.capturedPiecesPanelBlack.addCapturedPiece(
+                game.getCurrentPos().getTiles()[posX][posY].getPiece()
+            );
+        }
 
         this.game.move(t1, t2, p);
     }
@@ -92,11 +103,9 @@ public class ChessBoardPanel extends ContentPanel {
             RenderingHints.VALUE_ANTIALIAS_ON)
         );
 
-        // Draw board image if theme is selected
+        // Draw wood board image
         if (UserInterface.activeTheme == UserInterface.WOOD_BOARD) {
             g.drawImage(woodBoard, 0, 0, this);
-        } else if (UserInterface.activeTheme == UserInterface.ICE_BOARD) {
-            g.drawImage(iceBoard, 0, 0, this);
         }
 
         drawBoard(g);
@@ -130,7 +139,7 @@ public class ChessBoardPanel extends ContentPanel {
      * @param g
      */
     public void drawBoard(Graphics g) {
-  Tile[][] checkerBoard = game.getCurrentPos().getTiles();
+		Tile[][] checkerBoard = game.getCurrentPos().getTiles();
         
         // traverse entire maze and draw coloured square for each symbol in maze
         for (int x = 0; x < checkerBoard.length; x++) {
@@ -140,8 +149,8 @@ public class ChessBoardPanel extends ContentPanel {
                 int xPos = (7 * gamePanel.getPlayerColour() + (1 - 2 * gamePanel.getPlayerColour()) * x) * tileSize;
                 int yPos = (7 * (1 - gamePanel.getPlayerColour()) + (2 * gamePanel.getPlayerColour() - 1) * y) * tileSize;
                 
-                // Image/checkerboard code
-                if (!UserInterface.isImageTheme) {
+                // checkerboard code
+                if (UserInterface.activeTheme != 2) {
                     if (x % 2 - y % 2 == 0) {
                         g.setColor(UserInterface.darkerTile);
                     } else {
@@ -174,7 +183,7 @@ public class ChessBoardPanel extends ContentPanel {
                 }
             }
         }
- }
+	}
 
     /**
      * Graphically displays relevant information for when user clicks on a piece

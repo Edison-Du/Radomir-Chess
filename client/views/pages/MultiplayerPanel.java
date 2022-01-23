@@ -28,8 +28,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     private JLabel lobbyLabel;
     private JLabel otherClientLabel;
 
-    private final OpponentProposalPanel opponentProposalPanel;
-    private String activeProposal;
+
 
 
     public MultiplayerPanel() {
@@ -43,9 +42,9 @@ public class MultiplayerPanel extends AbstractGamePanel {
         this.hostName.setFont(UserInterface.USERNAME_FONT);
         this.add(hostName);
 
-        opponentProposalPanel = new OpponentProposalPanel(this);
-        opponentProposalPanel.setBounds(435, 20, 165, 200);
-        opponentProposalPanel.setProposalText("Accept draw?");
+        // opponentProposalPanel = new OpponentProposalPanel(this);
+        // opponentProposalPanel.setBounds(435, 20, 165, 200);
+        // opponentProposalPanel.setProposalText("Accept draw?");
     }
 
     public void setLobbyCode(String code) {
@@ -97,14 +96,12 @@ public class MultiplayerPanel extends AbstractGamePanel {
     }
 
 
-    public String getActiveProposal() {
-        return this.activeProposal;
-    }
+
 
     public void addTakebackRequest() {
         opponentProposalPanel.setProposalText("Accept takeback?");
         this.add(opponentProposalPanel);
-        this.activeProposal = MessageTypes.TAKEBACK_REQUESTED;
+        setActiveProposal(MessageTypes.TAKEBACK_REQUESTED);
 
         messagePanel.addTextMessage(otherClient + " wants a takeback");
 
@@ -114,8 +111,8 @@ public class MultiplayerPanel extends AbstractGamePanel {
     public void addDrawOffer() {
         opponentProposalPanel.setProposalText("Accept draw?");
         this.add(opponentProposalPanel);
-        this.activeProposal = MessageTypes.DRAW_OFFERED;
-        
+        setActiveProposal(MessageTypes.DRAW_OFFERED);
+
         messagePanel.addTextMessage(otherClient + " offers a draw");
 
         this.revalidate();
@@ -128,12 +125,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
         } else {
             undoMove();
         }
-    }
-
-    public void removeProposal() {
-        this.remove(opponentProposalPanel);
-        this.activeProposal = null;
-        this.revalidate();
     }
 
     @Override
@@ -190,16 +181,16 @@ public class MultiplayerPanel extends AbstractGamePanel {
             
             } else if (e.getSource() == opponentProposalPanel.acceptButton) {
 
-                if (activeProposal == MessageTypes.DRAW_OFFERED) {
+                if (getActiveProposal().equals(MessageTypes.DRAW_OFFERED)) {
                     handleDrawAcceptance();
 
-                } else if (activeProposal == MessageTypes.TAKEBACK_REQUESTED) {
+                } else if (getActiveProposal().equals(MessageTypes.TAKEBACK_REQUESTED)) {
                     handleTakeBackAcceptance();
                 }
 
                 removeProposal();
 
-            } else if (e.getSource() == opponentProposalPanel.declineButton) {
+            } else if (e.getSource() == opponentProposalPanel.declineButton){
                 removeProposal();
             }
         }

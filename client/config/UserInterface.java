@@ -53,9 +53,12 @@ public class UserInterface {
     public static final int MENU_BUTTON_Y_OFFSET = WINDOW_HEIGHT / 2 - 90;
     public static final int MENU_BUTTON_HEIGHT = WINDOW_HEIGHT / 4 - (int) (MENU_BUTTON_MARGIN * 1.5);
     public static final int MENU_BUTTON_WIDTH = CONTENT_WIDTH / 2 - (int) (MENU_BUTTON_MARGIN * 1.5);
-    public static final Font PLAY_BUTTONS_FONT = new Font("Serif", Font.PLAIN, 40);
 
     // Join game page
+    public static final int BACK_BUTTON_X = 20;
+    public static final int BACK_BUTTON_Y = 20;
+
+
     public static final Color JOIN_GAME_BUTTON_BACKGROUND = new Color(200, 200, 200);
     public static final Font HEADER_FONT = new Font("Serif", Font.PLAIN, 40);
     public static final Font TEXT_FONT_1 = new Font("Serif", Font.PLAIN, 25);

@@ -92,14 +92,16 @@ public class DepthSearchBotP2 extends Bot {
     private int score(Board b)  {
         int out = 0;
         if(b.ended()) {
-            if(b.getKings()[Constants.WHITE].isChecked(b, b.getKingTiles()[Constants.WHITE])) {
+            if(b.getKings()[0].isChecked(b, b.getKingTiles()[0])) {
                 out = -1000;
             }
-            else if(b.getKings()[Constants.BLACK].isChecked(b, b.getKingTiles()[Constants.BLACK])) {
+            else if(b.getKings()[1].isChecked(b, b.getKingTiles()[1])) {
                 out = 1000;
             }
             else out = 0;
         }
+        if (b.getKings()[0].isChecked(b, b.getKingTiles()[0])) out -= 10;
+        if (b.getKings()[1].isChecked(b, b.getKingTiles()[1])) out += 10;
         for(int i = 0; i < b.getPieces().get(0).size(); i++) {
             out = out + b.getPieces().get(0).get(i).getPiece().getPoints();
         }
@@ -169,7 +171,6 @@ public class DepthSearchBotP2 extends Bot {
     public ArrayList<Move> sortMoves(Board b, ArrayList<String> temp){
         ArrayList<Move> sortedMoves = new ArrayList<>();
         for (String move : temp){
-            int[] curPos = Constants.chessToCoord(move.substring(0, 2));
             int[] newPos = Constants.chessToCoord(move.substring(2, 4));
             String promotion = move.substring(4, 5);
             int score = 0;

@@ -40,7 +40,6 @@ public class GameSetup extends ContentPanel implements ActionListener {
             330
         );
         createPublicLobbyBtn.addActionListener(this);
-        createPublicLobbyBtn.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(createPublicLobbyBtn);
 
         //change constants
@@ -50,12 +49,10 @@ public class GameSetup extends ContentPanel implements ActionListener {
             420
         );
         createPrivateLobbyBtn.addActionListener(this);
-        createPrivateLobbyBtn.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(createPrivateLobbyBtn);
 
-        this.backButton = new PanelButton("Back", 20, 20);
+        this.backButton = new PanelButton("Back", UserInterface.BACK_BUTTON_X, UserInterface.BACK_BUTTON_Y);
         this.backButton.addActionListener(this);
-        this.backButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(backButton);
     }
 

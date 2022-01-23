@@ -38,9 +38,8 @@ public class JoinGame extends ContentPanel implements ActionListener {
         joinGameField.addActionListener(this);
         this.add(joinGameField);
 
-        this.backButton = new PanelButton("Back", 40, 40);
+        this.backButton = new PanelButton("Back", UserInterface.BACK_BUTTON_X, UserInterface.BACK_BUTTON_Y);
         this.backButton.addActionListener(this);
-        this.backButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(backButton);
     }
 

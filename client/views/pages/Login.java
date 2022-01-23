@@ -66,7 +66,6 @@ public class Login extends ContentPanel implements ActionListener{
             UserInterface.WINDOW_HEIGHT / 2 + 50
         );
         registerButton.addActionListener(this);
-        registerButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(registerButton);
 
         //change constants
@@ -76,7 +75,6 @@ public class Login extends ContentPanel implements ActionListener{
             UserInterface.WINDOW_HEIGHT / 2 + 140
         );
         loginButton.addActionListener(this);
-        loginButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(loginButton);
 
         errorMessage.setForeground(UserInterface.TEXT_COLOUR);

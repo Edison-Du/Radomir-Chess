@@ -86,13 +86,10 @@ public class BrowseGames extends ContentPanel implements ActionListener {
             400 
         );
         joinButton.addActionListener(this);
-        joinButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(joinButton);
 
-
-        this.backButton = new PanelButton("Back", 20, 20);
+        this.backButton = new PanelButton("Back", UserInterface.BACK_BUTTON_X, UserInterface.BACK_BUTTON_Y);
         this.backButton.addActionListener(this);
-        this.backButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(backButton);
     }
 

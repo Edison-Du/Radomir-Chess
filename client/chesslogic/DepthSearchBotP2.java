@@ -192,5 +192,4 @@ public class DepthSearchBotP2 extends Bot {
         this.search(g, this.depth, -999999, 999999, 0);
         return this.move;
     }
-    
 }

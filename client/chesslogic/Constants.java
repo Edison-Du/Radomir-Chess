@@ -49,5 +49,4 @@ public class Constants {
         out[1] = y;
         return out;
     }
-        
 }

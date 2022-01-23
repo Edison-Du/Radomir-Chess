@@ -187,5 +187,4 @@ public class King extends Piece {
         out.setMoved(this.getTurnMoved());
         return out;
     }
-    
 }

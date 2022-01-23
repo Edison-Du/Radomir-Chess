@@ -56,5 +56,4 @@ public class Bishop extends Piece {
         out.setMoved(this.getTurnMoved());
         return out;
     }
-    
 }

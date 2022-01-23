@@ -64,5 +64,4 @@ public class Pawn extends Piece {
         out.setMoved(this.getTurnMoved());
         return out;
     }
-    
 }

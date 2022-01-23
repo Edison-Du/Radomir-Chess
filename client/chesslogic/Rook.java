@@ -54,5 +54,4 @@ public class Rook extends Piece {
         out.setMoved(this.getTurnMoved());
         return out;
     }
-    
 }

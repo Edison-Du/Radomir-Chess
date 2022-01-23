@@ -51,6 +51,5 @@ public class Knight extends Piece {
         Knight out = new Knight(this.getColour());
         out.setMoved(this.getTurnMoved());
         return out;
-    }
-    
+    }   
 }

@@ -95,5 +95,4 @@ public class DepthSearchBotP1 extends Bot {
     private int[] average(ChessGame g)  {
         return average(g, depth);
     }
-    
 }

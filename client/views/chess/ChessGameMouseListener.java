@@ -193,5 +193,4 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     public Piece getSelectedPiece() {
         return selectedPiece;
     }
-
 }

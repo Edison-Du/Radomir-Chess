@@ -9,6 +9,7 @@ import config.Page;
 import config.UserInterface;
 import java.awt.Color;
 import views.Window;
+import views.chess.ThreadBotP1;
 
 public class BotPanel extends AbstractGamePanel {
 
@@ -44,7 +45,7 @@ public class BotPanel extends AbstractGamePanel {
 
         setPlayerColour((int)(Math.random() * 2));
 
-        depthSearchBot = new DepthSearchBotP2(2, (getPlayerColour() + 1) % 2);
+        depthSearchBot = new DepthSearchBotP2(5, (getPlayerColour() + 1) % 2);
 
         // Bot goes first
         if (getPlayerColour() == 1) {

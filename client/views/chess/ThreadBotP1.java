@@ -1,8 +1,9 @@
-package chesslogic;
+package views.chess;
 
 import javax.swing.SwingWorker;
 
-import views.chess.MovesPanel;
+import chesslogic.ChessGame;
+import chesslogic.DepthSearchBotP2;
 import views.pages.BotPanel;
 
 /*

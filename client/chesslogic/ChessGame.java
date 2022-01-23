@@ -262,7 +262,12 @@ public class ChessGame {
         Stack<Piece> temp2 = new Stack<Piece>();
         while(!this.piecesTaken.isEmpty()) {
             temp1.push(this.piecesTaken.peek());
-            temp2.push(this.piecesTaken.peek().copy());
+            if(this.piecesTaken.peek() != null) {
+                temp2.push(this.piecesTaken.peek().copy());
+            }
+            else {
+                temp2.push(null);
+            }
             this.piecesTaken.pop();
         }
         while(!temp1.isEmpty()) {
@@ -273,7 +278,12 @@ public class ChessGame {
         }
         while(!this.pawnsPromoted.isEmpty()) {
             temp1.push(this.pawnsPromoted.peek());
-            temp2.push(this.pawnsPromoted.peek().copy());
+            if(this.pawnsPromoted.peek() != null) {
+                temp2.push(this.pawnsPromoted.peek().copy());
+            }
+            else {
+                temp2.push(null);
+            }
             this.pawnsPromoted.pop();
         }
         while(!temp1.isEmpty()) {

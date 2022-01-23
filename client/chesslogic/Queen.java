@@ -12,7 +12,7 @@ public class Queen extends Piece {
      * @
      */
     public Queen(int col) {
-        super(col, "Q", 120, UserInterface.PIECES[UserInterface.activeSetNum][8 + col]);
+        super(col, "Q", 120, UserInterface.PIECES.get(col + 8));
     }
     
     @Override

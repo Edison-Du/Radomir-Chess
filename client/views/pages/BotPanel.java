@@ -3,16 +3,21 @@ package views.pages;
 import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 
+<<<<<<< HEAD
 import chesslogic.Bot;
 import chesslogic.ChessGame;
 import chesslogic.RadomirBot;
 import chesslogic.RandomBot;
 import chesslogic.DepthSearchBotP2;
+=======
+import chesslogic.*;
+>>>>>>> 6c1c634848f733f76367ab5cd93923ef01befb60
 import config.GameState;
 import config.Page;
 import config.UserInterface;
 import java.awt.Color;
 import views.Window;
+import views.chess.ThreadBotP1;
 
 public class BotPanel extends AbstractGamePanel {
 
@@ -23,16 +28,22 @@ public class BotPanel extends AbstractGamePanel {
     Bot depthSearchBot;
 
     private Window window;
-    
+
+    ThreadBotP1 threadBotP1;
+
+    ChessGame chessGameClone;
+
     public BotPanel(Window window) {
 
         this.window = window;
+
         resetGame();
     }
 
     @Override
     public void resetGame() {
         chessGame = new ChessGame();
+        chessGameClone = new ChessGame();
 
         boardPanel.setChessGame(chessGame);
         movesPanel.clearMoves();
@@ -53,29 +64,20 @@ public class BotPanel extends AbstractGamePanel {
 
         this.revalidate();
     }
-
     
     @Override
     public void processMove(String tile1, String tile2, String promotion) {
         if(!chessGame.getCurrentPos().ended()) {
-            double s = System.currentTimeMillis();
-            ChessGame c = chessGame.copy();
-            String botMove = depthSearchBot.nextMove(c);
-            double y = System.currentTimeMillis();
-            System.out.println(y - s);
 
-            int posX = (botMove.charAt(2) - 'a');
-            int posY = (botMove.charAt(3) - '0') - 1;
+            if(!tile1.equals("")) {
+                chessGameClone.move(tile1, tile2, promotion);
+            }
 
-            System.out.println(botMove);
-            System.out.println("Bot moved " + botMove.substring(0, 2) + ", " + botMove.substring(2, 4));
+            // bot move used to be here
+            System.out.println("execute the muthafuckin bot");
+            ThreadBotP1 newBot = new ThreadBotP1(chessGame, chessGameClone, depthSearchBot, movesPanel, this);
+            newBot.execute();
 
-            System.out.println(botMove.substring(0,2) + ", " + botMove.substring(2, 4) + ", " + botMove.substring(4, 5) + "stop");
-            
-            String chessMove = chessGame.toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
-            movesPanel.addMove(chessMove);
-
-            chessGame.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
         }
     }
 
@@ -137,8 +139,11 @@ public class BotPanel extends AbstractGamePanel {
             if (chessGame.getCurrentPos().getToMove() == getPlayerColour()) {
                 undoMove();
                 undoMove();
+                chessGameClone.undo();
+                chessGameClone.undo();
             } else {
                 undoMove();
+                chessGameClone.undo();
             }
         }
     }

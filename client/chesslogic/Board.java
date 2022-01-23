@@ -398,5 +398,4 @@ public class Board {
         System.out.println("Time taken: " + (end - start));
         System.out.println(copy);
     }
-
 }

@@ -129,6 +129,8 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                     gamePanel.movesPanel.addMove(game.toAlgebraic(t1, t2, ""));
                     
                     game.move(t1, t2, "");
+                    
+                    System.out.println("processing the move");
                     gamePanel.processMove(t1, t2, "");
 
                     // sleepy alex attempts to code again
@@ -193,5 +195,4 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     public Piece getSelectedPiece() {
         return selectedPiece;
     }
-
 }

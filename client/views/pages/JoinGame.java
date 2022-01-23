@@ -20,7 +20,7 @@ public class JoinGame extends ContentPanel implements ActionListener {
 
     public JoinGame() {
         joinGameLabel.setFont(UserInterface.TEXT_FONT_1);
-        joinGameLabel.setText("Room Code: ");
+        joinGameLabel.setText("Lobby Code: ");
         joinGameLabel.setForeground(UserInterface.TEXT_COLOUR);
         joinGameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 70, 280, 30);
         this.add(joinGameLabel);

@@ -69,6 +69,5 @@ public abstract class Bot {
         return output;
     }
     
-    public abstract String nextMove(ChessGame g) ;
-    
+    public abstract String nextMove(ChessGame g);
 }

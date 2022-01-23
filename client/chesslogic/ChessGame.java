@@ -306,5 +306,4 @@ public class ChessGame {
         System.out.println(copy);
         System.out.println(b);
     }
-    
 }

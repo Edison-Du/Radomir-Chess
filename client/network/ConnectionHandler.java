@@ -27,11 +27,12 @@ public class ConnectionHandler extends Thread {
             while (isActive) {
                 if (ServerConnection.hasMessage()) {
                     Message message = ServerConnection.getMessage();
-                    System.out.println("Received message: " + message.getText());
+                    if (!message.getType().equals(MessageTypes.GET_PLAYERS_ONLINE)) {
+                        System.out.println("Received message: " + message.getText());
+                    }
                     evalMessage(message);
                 }
             }
-
         } catch (Exception e) {
             System.out.println("Failed to receive message from server.");
             e.printStackTrace();
@@ -121,6 +122,9 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.EXIT_PROGRAM)) {
             isActive = false;
             ServerConnection.close();
+
+        } else if (message.getType().equals(MessageTypes.GET_PLAYERS_ONLINE)) {
+            setPlayersOnline(message);
         }
     }
 
@@ -288,7 +292,7 @@ public class ConnectionHandler extends Thread {
 
     public void displayLobbies(Message message) {
         ArrayList<Lobby> lobbies = new ArrayList<>();
-
+        
         for (int i = 0; i < message.getNumParams(); i++) {
             lobbies.add(Lobby.parseLobbyFromString(message.getParam(i)));
         }
@@ -298,5 +302,10 @@ public class ConnectionHandler extends Thread {
     public void setLobbyVisibility(Message message) {
         String visibility = message.getParam(0);
         window.gamePanel.setLobbyVisibility(visibility);
+    }
+
+    public void setPlayersOnline(Message message) {
+        String playersOnline = message.getParam(0);
+        window.navigationBar.setPlayersOnline(playersOnline);
     }
 }

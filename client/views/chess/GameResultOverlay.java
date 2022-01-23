@@ -47,8 +47,6 @@ public class GameResultOverlay extends JPanel implements ActionListener {
     }
 
 
-
-
     // public String getMessage() {
     //     return this.message;
     // } 

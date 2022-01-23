@@ -24,5 +24,4 @@ public class PlayerLabelPanel extends JPanel {
         this.labelText.setText(text);
         this.revalidate();
     }
-
 }

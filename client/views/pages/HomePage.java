@@ -14,9 +14,10 @@ import network.Message;
 import network.ServerConnection;
 import views.Window;
 import views.components.ContentPanel;
+import views.components.PlayMenuButton;
 import config.Page;
 
-public class Play extends ContentPanel implements ActionListener {
+public class HomePage extends ContentPanel implements ActionListener {
     
     private Window window;
 
@@ -37,13 +38,13 @@ public class Play extends ContentPanel implements ActionListener {
         "Play Bot"
     };
 
-    public Play(Window window) {
+    public HomePage(Window window) {
         this.window = window;
         this.setLayout(null);
 
         //CHANGE INTO CONSTANTS
         gameTitle.setText("RADOMIR CHESS");
-        gameTitle.setBounds(100, 0, UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT / 2);
+        gameTitle.setBounds(100, -25, UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT / 2);
         gameTitle.setFont(new Font("Serif", Font.PLAIN, 100));
         gameTitle.setForeground(UserInterface.TEXT_COLOUR);
         this.add(gameTitle);

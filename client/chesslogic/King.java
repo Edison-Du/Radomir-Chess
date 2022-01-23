@@ -188,5 +188,4 @@ public class King extends Piece {
         System.out.println("Copied king moved" + out.getTurnMoved());
         return out;
     }
-    
 }

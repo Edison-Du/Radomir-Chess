@@ -12,8 +12,6 @@ import config.UserInterface;
 import network.Lobby;
 import network.Message;
 import network.ServerConnection;
-import views.chess.OpponentProposalPanel;
-import views.components.CustomButton;
 
 public class MultiplayerPanel extends AbstractGamePanel {
 

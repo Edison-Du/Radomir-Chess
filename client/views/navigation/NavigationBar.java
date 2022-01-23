@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import javax.imageio.ImageIO;
 import java.awt.Image;
 import java.awt.Graphics;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -17,6 +19,7 @@ import config.PathsConsts;
 
 public class NavigationBar extends JPanel {
     
+    private Window window;
     private NavigationActionListener navigationActionListener;
 
     private final Page[] navbarPages = {
@@ -28,13 +31,16 @@ public class NavigationBar extends JPanel {
     };
 
     private final NavigationLink[] links;
-    private final Image radomirLogo = getLogoImage();
+    private final Image headerImage = getHeaderImage();
     private final int loginPage = 3;
-    private JLabel usernameLabel;
 
+
+    private JLabel playersOnlineLabel;
+    private JLabel usernameLabel;
     private String username;
     
     public NavigationBar (Window window) {
+        this.window = window;
 
         this.setBackground(UserInterface.NAVBAR_COLOUR);
         this.setPreferredSize(
@@ -50,7 +56,7 @@ public class NavigationBar extends JPanel {
 
         for (int i = 0; i < navbarPages.length; i++) {
             int x = 0;
-            int y = i * UserInterface.NAVBAR_BUTTON_HEIGHT;
+            int y = i * UserInterface.NAVBAR_BUTTON_HEIGHT + UserInterface.NAVBAR_WIDTH / 2 - 15;
             Page currentPage = navbarPages[i];
 
             links[i] = new NavigationLink(x, y, currentPage);
@@ -65,8 +71,17 @@ public class NavigationBar extends JPanel {
         this.usernameLabel.setBounds(30, UserInterface.WINDOW_HEIGHT - 47, 200, 25);
         this.usernameLabel.setFont(UserInterface.USERNAME_FONT);
         this.usernameLabel.setText(UserInterface.GUEST);
-        
         this.add(usernameLabel);
+
+        //change constants
+        this.playersOnlineLabel = new JLabel();
+        this.playersOnlineLabel.setForeground(UserInterface.TEXT_COLOUR);
+        this.playersOnlineLabel.setBounds(30, UserInterface.WINDOW_HEIGHT - 123, 200, 25);
+        this.playersOnlineLabel.setFont(UserInterface.USERNAME_FONT);
+        this.playersOnlineLabel.setText("Players Online: 0");
+        this.add(playersOnlineLabel);
+
+
 
         // Default page
         links[0].doClick();
@@ -74,9 +89,11 @@ public class NavigationBar extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(radomirLogo, UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT / 2 + 50, this);
+        g.drawImage(headerImage, 0, 0, this);
         g.setColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR.brighter());
-        g.fillRect(0, UserInterface.WINDOW_HEIGHT-70, UserInterface.NAVBAR_WIDTH, 70);
+        g.fillRect(0, UserInterface.WINDOW_HEIGHT - 70, UserInterface.NAVBAR_WIDTH, 70);
+        this.revalidate();
+        this.repaint();
     }
 
     public void setLoggedIn(boolean isLoggedIn) {
@@ -89,9 +106,9 @@ public class NavigationBar extends JPanel {
         }
     }
 
-    public static Image getLogoImage() {
+    public static Image getHeaderImage() {
         try {
-            return ImageIO.read(new File(PathsConsts.CHESS_LOGO)).getScaledInstance(140, 175, Image.SCALE_DEFAULT);
+            return ImageIO.read(new File(PathsConsts.NAVBAR_HEADER)).getScaledInstance(UserInterface.NAVBAR_WIDTH, UserInterface.NAVBAR_WIDTH / 2 - 15, Image.SCALE_DEFAULT);
         } catch(IOException e) {
             System.out.println("File not found");
             e.printStackTrace();
@@ -102,6 +119,10 @@ public class NavigationBar extends JPanel {
     public void setUsername(String newUsername) {
         this.username = newUsername;
         this.usernameLabel.setText(newUsername);
+    }
+
+    public void setPlayersOnline(String numPlayers) {
+        this.playersOnlineLabel.setText("Players Online: " + numPlayers);
     }
 
     public String getUsername() {

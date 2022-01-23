@@ -129,5 +129,4 @@ public abstract class Piece {
     }
     
     public abstract Piece copy();
-    
 }

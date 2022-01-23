@@ -33,7 +33,7 @@ public class ThreadBotP1 extends SwingWorker<String, Void> {
             System.out.println("started next move");
             synchronized(chessGameClone) {
                 synchronized(chessGame) {
-                    botMove = depthSearchBot.nextMove(chessGameClone);
+                    botMove = bot.nextMove(chessGameClone);
                 }
             }
             System.out.println(chessGame.toString());

@@ -9,7 +9,6 @@ import config.PathConsts;
 import java.io.*;
 
 
-
 public class Database {
     private HashMap<String, User> storage = new HashMap<String, User>();
     private File data;

@@ -26,7 +26,7 @@ public class ChessBoardPanel extends ContentPanel {
     final int tileSize = 60;
 
     BufferedImage heldPieceImage;
-    BufferedImage woodBoard;
+    BufferedImage woodBoard, iceBoard;
 
 
     private ChessGameMouseListener chessGameMouseListener;
@@ -44,6 +44,7 @@ public class ChessBoardPanel extends ContentPanel {
 
         try {
             woodBoard = ImageIO.read(new File(PathsConsts.WOOD_THEME));
+            iceBoard = ImageIO.read(new File(PathsConsts.ICE_THEME));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,9 +92,11 @@ public class ChessBoardPanel extends ContentPanel {
             RenderingHints.VALUE_ANTIALIAS_ON)
         );
 
-        // Draw wood board image
+        // Draw board image if theme is selected
         if (UserInterface.activeTheme == UserInterface.WOOD_BOARD) {
             g.drawImage(woodBoard, 0, 0, this);
+        } else if (UserInterface.activeTheme == UserInterface.ICE_BOARD) {
+            g.drawImage(iceBoard, 0, 0, this);
         }
 
         drawBoard(g);
@@ -137,8 +140,8 @@ public class ChessBoardPanel extends ContentPanel {
                 int xPos = (7 * gamePanel.getPlayerColour() + (1 - 2 * gamePanel.getPlayerColour()) * x) * tileSize;
                 int yPos = (7 * (1 - gamePanel.getPlayerColour()) + (2 * gamePanel.getPlayerColour() - 1) * y) * tileSize;
                 
-                // checkerboard code
-                if (UserInterface.activeTheme != 2) {
+                // Image/checkerboard code
+                if (!UserInterface.isImageTheme) {
                     if (x % 2 - y % 2 == 0) {
                         g.setColor(UserInterface.darkerTile);
                     } else {

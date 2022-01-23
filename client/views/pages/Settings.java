@@ -20,7 +20,7 @@ public class Settings extends ContentPanel implements ActionListener {
 
     private final String[] BOARDS = {
         "Greyscale",
-        "Blue Ice",
+        "Icy Sea",
         "Wood",
         "Bubblegum",
         "Starburst",

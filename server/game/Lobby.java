@@ -7,7 +7,6 @@ import server.Message;
 public class Lobby {
     
     private ClientHandler host, guest;
-    private String hostName, guestName;
     private String code;
     private int hostColour;
     private String lobbyVisibility;
@@ -18,9 +17,7 @@ public class Lobby {
     public Lobby(ClientHandler host) {
         generateCode();
         this.host = host;
-        this.hostName = this.host.getClientName();
         this.hostColour = (int)(Math.random() * 2);
-        this.guestName = "";
         this.lobbyVisibility = "public";
         this.joinable = true;
     }
@@ -50,24 +47,17 @@ public class Lobby {
     }
     
     public String getHostName() {
-        return this.hostName;
+        if (this.host == null) return null;
+        return this.host.getClientName();
     }
 
     public String getGuestName() {
-        return this.guestName;
-    }
-
-    public void setHostName(String name) {
-        this.hostName = name;
-    }
-
-    public void setGuestName(String name) {
-        this.guestName = name;
+        if (this.guest == null) return null;
+        return this.guest.getClientName();
     }
 
     public void setHost(ClientHandler host) {
         this.host = host;
-        this.hostName = host.getClientName();
     }
 
     public void setHostColour(int colour) {
@@ -85,11 +75,10 @@ public class Lobby {
 
         } else {
             this.guest = guest;
-            this.guestName = this.guest.getClientName();
 
             // Alert host that a guest has joined
             Message message = new Message(MessageTypes.GUEST_JOINED);
-            message.addParam(this.guestName);
+            message.addParam(getGuestName());
             host.sendMessage(message);
         }
         return true;
@@ -112,7 +101,6 @@ public class Lobby {
         this.joinable = joinable;
     }
 
-// Colours
     public int getHostColour() {
         return this.hostColour;
     }
@@ -125,23 +113,17 @@ public class Lobby {
         if (client != this.guest) {
             this.host = this.guest;
             this.hostColour = (hostColour + 1) % 2;
-            this.guestName = "";
         }
 
         this.guest = null;
 
         // Send host message
-        try {
-            if (this.host != null) {
-                Message messageToPlayerRemaining = new Message(MessageTypes.OPPONENT_LEFT);
-                this.host.sendMessage(messageToPlayerRemaining);
-            }
-            Message messageToLeaver = new Message(MessageTypes.LEFT_SUCCESFULLY);
-            client.sendMessage(messageToLeaver);
-
-        } catch (Exception e) {
-            System.out.println("Error sending message participants.");
+        if (this.host != null) {
+            Message messageToPlayerRemaining = new Message(MessageTypes.OPPONENT_LEFT);
+            this.host.sendMessage(messageToPlayerRemaining);
         }
+        Message messageToLeaver = new Message(MessageTypes.LEFT_SUCCESFULLY);
+        client.sendMessage(messageToLeaver);
     } 
 
     public void sendMessage(ClientHandler from, Message message) {

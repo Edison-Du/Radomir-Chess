@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.io.PrintWriter;
-import config.Consts;
 import config.MessageTypes;
 import game.Lobby;
 

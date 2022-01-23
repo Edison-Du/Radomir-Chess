@@ -7,15 +7,18 @@ import java.awt.event.ActionListener;
 import views.components.ContentPanel;
 import views.components.CustomButton;
 import config.UserInterface;
+import network.Message;
+import network.ServerConnection;
+import config.MessageTypes;
 import config.PathsConsts;
 import views.Window;
 
 public class Settings extends ContentPanel implements ActionListener {
 
     private final JLabel titleLabel = new JLabel("Settings");
-    private final JLabel boardThemeLabel = new JLabel("Boards");
+    private final JLabel boardThemeLabel = new JLabel("Board Themes");
     private final JLabel pieceSetLabel = new JLabel("Piece Sets");
-    private final JLabel highlightLabel = new JLabel("Highlights");
+    private final JLabel highlightLabel = new JLabel("Highlight Colours");
 
     private final String[] BOARDS = {
         "Greyscale",
@@ -56,7 +59,6 @@ public class Settings extends ContentPanel implements ActionListener {
     private final JComboBox<String> highlightThemes;
 
     private final CustomButton toggleHighlightButton = new CustomButton("Show Moves On");
-    private final CustomButton updatePreferencesButton = new CustomButton("Update Preferences");
 
     Window window;
 
@@ -118,15 +120,6 @@ public class Settings extends ContentPanel implements ActionListener {
         toggleHighlightButton.setFocusable(false);
         toggleHighlightButton.addActionListener(this);
         this.add(toggleHighlightButton);
-
-        
-        updatePreferencesButton.setBounds(35, 500, 160, 37);
-        updatePreferencesButton.setForeground(UserInterface.TEXT_COLOUR);
-        updatePreferencesButton.setBackground(UserInterface.OFF_COLOUR);
-        updatePreferencesButton.setHoverColor(UserInterface.OFF_COLOUR.brighter());
-        updatePreferencesButton.setFocusable(false);
-        updatePreferencesButton.addActionListener(this);
-        this.add(updatePreferencesButton);
     }
 
     //@Override
@@ -140,6 +133,7 @@ public class Settings extends ContentPanel implements ActionListener {
         } else if (e.getSource() == toggleHighlightButton) {
             UserInterface.toggleHighlight(toggleHighlightButton);
         }
+        if (window.isLoggedIn()) UserInterface.changeMade = true;
     }
 
     /**
@@ -147,7 +141,7 @@ public class Settings extends ContentPanel implements ActionListener {
      * @param state
      */
     public void updateAfterLogin(int[] settingStates) {
-        if (settingStates[3] != (UserInterface.highlightToggle?1:0)) {
+        if (settingStates[2] != (UserInterface.highlightToggle?1:0)) {
             UserInterface.toggleHighlight(toggleHighlightButton);
         }
         boardThemes.setSelectedIndex(settingStates[0]);

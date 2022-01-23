@@ -1,6 +1,6 @@
 package config;
 
-public class MessageTypes {
+public class    MessageTypes {
 
     public static final String UNDEFINED = "UNDEFINED";
     public static final String CONNECTION_ACCEPTED = "CONNECTION_ACCEPTED";
@@ -15,6 +15,8 @@ public class MessageTypes {
     public static final String LOGOUT = "LOGOUT";
     public static final String REGISTER_ACCEPTED = "REGISTER_ACCEPTED";
     public static final String REGISTER_FAILED = "REGISTER_FAILED";
+
+    public static final String UPDATE_PREFERENCES = "UPDATE_PREFERENCES";
 
     // Lobby related
     public static final String CREATE_GAME = "CREATE_GAME";

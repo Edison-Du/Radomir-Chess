@@ -63,6 +63,7 @@ public class UserInterface {
     // Settings
     public static final Font SETTINGS_FONT = new Font("Serif", Font.PLAIN, 18);
     public static final int NUM_SETTINGS = 4;
+    public static boolean changeMade = false;
 
     // Game board
     public static int activeTheme = 0;
@@ -109,7 +110,7 @@ public class UserInterface {
     public static Color darkerTile = DARKER_TILE_COLOURS[activeTheme];
 
     // Chess Sets
-    private static int activeSetNum = 0;
+    public static int activeSetNum = 0;
     public static String activePieceSet = PathsConsts.PIECE_SETS[0];
     
     // Piece/board highlights

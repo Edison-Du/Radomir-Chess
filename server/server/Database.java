@@ -62,4 +62,9 @@ public class Database {
     public User getUser(String username) {
         return this.storage.get(username);
     }
+
+    public void updatePreferences(String username, int[] settings) {
+        User updatedUser = new User(username, this.storage.get(username).getPassword(), settings);
+        this.storage.replace(username, updatedUser);
+    }
 }

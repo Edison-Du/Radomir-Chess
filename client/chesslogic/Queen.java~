@@ -52,11 +52,4 @@ public class Queen extends Piece {
         return output;
     }
     
-    @Override
-    public Piece copy() {
-        Queen out = new Queen(this.getColour());
-        out.setMoved(this.getTurnMoved());
-        return out;
-    }
-    
 }

@@ -12,7 +12,6 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class ChessGame {
-    private Stack<Board> moves;
     private Board current;
     private Stack<String> stringMoves;
     private Stack<Piece> piecesTaken;
@@ -100,20 +99,24 @@ public class ChessGame {
         }
     }
     
+    protected void setFiftyMoves(int x) {
+        this.fiftyMoves = x;
+    }
+    
+    protected void setCurrentPos(Board b) {
+        this.current = b;
+    }
+    
+    protected void setStringMoves(Stack<String> s) {
+        this.stringMoves = s;
+    }
+    
     /**
      * return the state of the board
      * @return the state of the board
      */
     public Board getCurrentPos() {
         return this.current;
-    }
-    
-    /**
-     * return a record of all previous moves
-     * @return a stack of Boards
-     */
-    public Stack<Board> getMoves() {
-        return this.moves;
     }
     
     public Stack<String> getStringMoves() {
@@ -249,6 +252,49 @@ public class ChessGame {
         }
         this.undo();
         return out;
+    }
+    
+    public ChessGame copy() {
+        ChessGame out = new ChessGame();
+        out.setCurrentPos(this.getCurrentPos().copy());
+        out.getStringMoves().addAll(this.stringMoves);
+        Stack<Piece> temp1 = new Stack<Piece>();
+        Stack<Piece> temp2 = new Stack<Piece>();
+        while(!this.piecesTaken.isEmpty()) {
+            temp1.push(this.piecesTaken.peek());
+            temp2.push(this.piecesTaken.peek().copy());
+            this.piecesTaken.pop();
+        }
+        while(!temp1.isEmpty()) {
+            this.piecesTaken.push(temp1.peek());
+            out.getPiecesTaken().push(temp2.peek());
+            temp1.pop();
+            temp2.pop();
+        }
+        while(!this.pawnsPromoted.isEmpty()) {
+            temp1.push(this.pawnsPromoted.peek());
+            temp2.push(this.pawnsPromoted.peek().copy());
+            this.pawnsPromoted.pop();
+        }
+        while(!temp1.isEmpty()) {
+            this.pawnsPromoted.push(temp1.peek());
+            out.getPawnsPromoted().push(temp2.peek());
+            temp1.pop();
+            temp2.pop();
+        }
+        out.setFiftyMoves(this.fiftyMoves);
+        return out;
+    }
+    
+    public static void main(String[] args) {
+        ChessGame b = new ChessGame();
+        System.out.println("Board created - copying board");
+        long start = System.currentTimeMillis();
+        ChessGame copy = b.copy();
+        long end = System.currentTimeMillis();
+        System.out.println("Time taken: " + (end - start));
+        System.out.println(copy);
+        System.out.println(b);
     }
     
 }

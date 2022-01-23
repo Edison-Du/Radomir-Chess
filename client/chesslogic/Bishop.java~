@@ -50,11 +50,4 @@ public class Bishop extends Piece {
         return output;
     }
     
-    @Override
-    public Piece copy() {
-        Bishop out = new Bishop(this.getColour());
-        out.setMoved(this.getTurnMoved());
-        return out;
-    }
-    
 }

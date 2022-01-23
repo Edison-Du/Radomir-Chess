@@ -83,12 +83,14 @@ public class ChessGame {
                     current.getTiles()[5][pos2[1]].getPiece().setMoved(current.getTurn());
                     current.getPieces().get(current.getToMove()).add(current.getTiles()[5][pos2[1]]);
                     current.getPieces().get(current.getToMove()).remove(current.getTiles()[7][pos2[1]]);
+                    current.getKings()[current.getToMove()].setCastled(true);
                 }
                 else if(pos1[0] - pos2[0] == 2) {
                     current.getTiles()[0][pos2[1]].getPiece().move(current.getTiles()[0][pos2[1]], current.getTiles()[3][pos2[1]]);
                     current.getTiles()[3][pos2[1]].getPiece().setMoved(current.getTurn());
                     current.getPieces().get(current.getToMove()).add(current.getTiles()[3][pos2[1]]);
                     current.getPieces().get(current.getToMove()).remove(current.getTiles()[0][pos2[1]]);
+                    current.getKings()[current.getToMove()].setCastled(true);
                 }
             }
             current.nextTurn();
@@ -140,12 +142,14 @@ public class ChessGame {
                     this.current.getTiles()[x2 - 1][t.getY()].getPiece().move(this.current.getTiles()[x2 - 1][t.getY()], this.current.getTiles()[7][t.getY()]);
                     this.current.getPieces().get(1 - this.current.getToMove()).remove(this.current.getTiles()[x2 - 1][t.getY()]);
                     this.current.getPieces().get(1 - this.current.getToMove()).add(this.current.getTiles()[7][t.getY()]);
+                    this.current.getKings()[1 - this.current.getToMove()].setCastled(false);
                 }
                 else if(t.getPiece().getName().equals("K") && x1 - x2 == 2) {
                     this.current.getTiles()[x2 + 1][t.getY()].getPiece().setMoved(0);
                     this.current.getTiles()[x2 + 1][t.getY()].getPiece().move(this.current.getTiles()[x2 + 1][t.getY()], this.current.getTiles()[0][t.getY()]);
                     this.current.getPieces().get(1 - this.current.getToMove()).remove(this.current.getTiles()[x2 + 1][t.getY()]);
                     this.current.getPieces().get(1 - this.current.getToMove()).add(this.current.getTiles()[0][t.getY()]);
+                    this.current.getKings()[1 - this.current.getToMove()].setCastled(false);
                 }
             }
             this.current.setToMove(1 - this.current.getToMove());

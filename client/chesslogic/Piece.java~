@@ -127,7 +127,4 @@ public abstract class Piece {
     public Image getSmallImage() {
         return smallImage;
     }
-    
-    public abstract Piece copy();
-    
 }

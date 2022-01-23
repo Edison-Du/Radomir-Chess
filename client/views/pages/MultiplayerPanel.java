@@ -29,8 +29,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
     private JLabel otherClientLabel;
 
 
-
-
     public MultiplayerPanel() {
 
         // CHESS GAME

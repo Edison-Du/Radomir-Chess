@@ -13,7 +13,6 @@ public class User {
     private String username;
     private String password;
     private int board;
-    private int background;
     private int chessSet;
     private int highlightsOn;
     private int highlight;
@@ -25,10 +24,9 @@ public class User {
         this.username = username;
         this.password = password;
         this.board = settingsPreferences[0];
-        this.background = settingsPreferences[1];
-        this.chessSet = settingsPreferences[2];
-        this.highlightsOn = settingsPreferences[3];
-        this.highlight = settingsPreferences[4];
+        this.chessSet = settingsPreferences[1];
+        this.highlightsOn = settingsPreferences[2];
+        this.highlight = settingsPreferences[3];
     }
 
     /**
@@ -50,13 +48,6 @@ public class User {
      */
     public String getBoard() {
         return Integer.toString(this.board);
-    }
-
-    /**
-     * returns background colour (index) as a string
-     */
-    public String getBackground() {
-        return Integer.toString(this.background);
     }
 
     /**
@@ -106,7 +97,6 @@ public class User {
             getUsername() + " " +
             getPassword() + " " +
             getBoard() + " " +
-            getBackground() + " " +
             getChessSet() + " " +
             getHighlightStatus() + " " +
             getHighlight()

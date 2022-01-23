@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 // import chesslogic.ChessGame;
 import config.UserInterface;
+import java.awt.Color;
 import config.Page;
 import views.components.ContentPanel;
 import views.navigation.NavigationBar;
@@ -136,9 +137,7 @@ public class Window extends JFrame {
                 playBotPanel = new BotPanel(this);
             }
             content = playBotPanel;
-            // content = new BotPanel();
 
-        
         } else if (currentPage == Page.GAME) {
             // Reset game panel
             content = gamePanel;
@@ -163,11 +162,6 @@ public class Window extends JFrame {
         this.add(content);
     }
 
-    public void changeGameBackground(int background) {
-        gamePanel.setBackground(UserInterface.changeBackground(background));
-        playBotPanel.setBackground(UserInterface.changeBackground(background));
-    }
-
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
     }
@@ -182,9 +176,8 @@ public class Window extends JFrame {
      */
     public void setCurrentSettings(int[] userPreferences) {
         UserInterface.changeBoard(userPreferences[0]);
-        UserInterface.changeBackground(userPreferences[1]);
-        UserInterface.changePieceSet(userPreferences[2]);
-        UserInterface.changeHighlights(userPreferences[4]);
+        UserInterface.changePieceSet(userPreferences[1]);
+        UserInterface.changeHighlights(userPreferences[3]);
         settingsPanel.updateAfterLogin(userPreferences);
     }
 }

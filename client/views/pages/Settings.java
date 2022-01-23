@@ -14,7 +14,6 @@ public class Settings extends ContentPanel implements ActionListener {
 
     private final JLabel titleLabel = new JLabel("Settings");
     private final JLabel boardThemeLabel = new JLabel("Boards");
-    private final JLabel backgroundThemeLabel = new JLabel("Backgrounds");
     private final JLabel pieceSetLabel = new JLabel("Piece Sets");
     private final JLabel highlightLabel = new JLabel("Highlights");
 
@@ -33,13 +32,6 @@ public class Settings extends ContentPanel implements ActionListener {
         "Ice Cweam",
         "Mouth Wash",
         "Test Dummy"
-    };
-    private final String[] BACKGROUNDS = {
-        "Default",
-        "Light",
-        "Dark",
-        "Light Blue",
-        "Dark Blue"
     };
     private final String[] CHESS_PIECE_SETS = {
         "Classic",
@@ -60,11 +52,10 @@ public class Settings extends ContentPanel implements ActionListener {
     };
 
     private final JComboBox<String> boardThemes;
-    private final JComboBox<String> backgroundThemes;
     private final JComboBox<String> pieceSets;
     private final JComboBox<String> highlightThemes;
 
-    private final CustomButton toggleHighlightButton = new CustomButton("Highlights On");
+    private final CustomButton toggleHighlightButton = new CustomButton("Show Moves On");
     private final CustomButton updatePreferencesButton = new CustomButton("Update Preferences");
 
     Window window;
@@ -73,7 +64,6 @@ public class Settings extends ContentPanel implements ActionListener {
         this.window = window;
 
         boardThemes = new JComboBox<>(BOARDS);
-        backgroundThemes = new JComboBox<>(BACKGROUNDS);
         pieceSets = new JComboBox<>(CHESS_PIECE_SETS);
         highlightThemes = new JComboBox<>(HIGHLIGHTS);
 
@@ -95,26 +85,13 @@ public class Settings extends ContentPanel implements ActionListener {
         boardThemes.addActionListener(this);
         this.add(boardThemes);
 
-        
-        backgroundThemeLabel.setFont(UserInterface.SETTINGS_FONT);
-        backgroundThemeLabel.setForeground(UserInterface.TEXT_COLOUR);
-        backgroundThemeLabel.setBounds(215, 110, 160, 37);
-        this.add(backgroundThemeLabel);
-
-        backgroundThemes.setBounds(215, 152, 160, 37);
-        backgroundThemes.setForeground(UserInterface.FRAME_COLOUR);
-        backgroundThemes.setFont(UserInterface.SETTINGS_FONT);
-        backgroundThemes.setFocusable(false);
-        backgroundThemes.addActionListener(this);
-        this.add(backgroundThemes);
-
 
         pieceSetLabel.setFont(UserInterface.SETTINGS_FONT);
         pieceSetLabel.setForeground(UserInterface.TEXT_COLOUR);
-        pieceSetLabel.setBounds(395, 110, 160, 37);
+        pieceSetLabel.setBounds(215, 110, 160, 37);
         this.add(pieceSetLabel);
 
-        pieceSets.setBounds(395, 152, 160, 37);
+        pieceSets.setBounds(215, 152, 160, 37);
         pieceSets.setForeground(UserInterface.FRAME_COLOUR);
         pieceSets.setFont(UserInterface.SETTINGS_FONT);
         pieceSets.setFocusable(false);
@@ -124,17 +101,17 @@ public class Settings extends ContentPanel implements ActionListener {
         
         highlightLabel.setFont(UserInterface.SETTINGS_FONT);
         highlightLabel.setForeground(UserInterface.TEXT_COLOUR);
-        highlightLabel.setBounds(575, 110, 160, 37);
+        highlightLabel.setBounds(395, 110, 160, 37);
         this.add(highlightLabel);
 
-        highlightThemes.setBounds(575, 152, 160, 37);
+        highlightThemes.setBounds(395, 152, 160, 37);
         highlightThemes.setForeground(UserInterface.FRAME_COLOUR);
         highlightThemes.setFont(UserInterface.SETTINGS_FONT);
         highlightThemes.setFocusable(false);
         highlightThemes.addActionListener(this);
         this.add(highlightThemes);
 
-        toggleHighlightButton.setBounds(575, 203, 160, 37);
+        toggleHighlightButton.setBounds(395, 203, 160, 37);
         toggleHighlightButton.setForeground(UserInterface.TEXT_COLOUR);
         toggleHighlightButton.setBackground(UserInterface.ON_COLOUR);
         toggleHighlightButton.setHoverColor(UserInterface.ON_COLOUR.brighter());
@@ -156,8 +133,6 @@ public class Settings extends ContentPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boardThemes) {
             UserInterface.changeBoard(boardThemes.getSelectedIndex());
-        } else if (e.getSource() == backgroundThemes) {
-            window.changeGameBackground(backgroundThemes.getSelectedIndex());
         } else if (e.getSource() == pieceSets) {
             UserInterface.changePieceSet(pieceSets.getSelectedIndex());
         } else if (e.getSource() == highlightThemes) {
@@ -176,8 +151,7 @@ public class Settings extends ContentPanel implements ActionListener {
             UserInterface.toggleHighlight(toggleHighlightButton);
         }
         boardThemes.setSelectedIndex(settingStates[0]);
-        backgroundThemes.setSelectedIndex(settingStates[1]);
-        pieceSets.setSelectedIndex(settingStates[2]);
-        highlightThemes.setSelectedIndex(settingStates[4]);
+        pieceSets.setSelectedIndex(settingStates[1]);
+        highlightThemes.setSelectedIndex(settingStates[3]);
     }
 }

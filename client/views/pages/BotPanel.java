@@ -10,6 +10,7 @@ import chesslogic.RandomBot;
 import config.GameState;
 import config.Page;
 import config.UserInterface;
+import java.awt.Color;
 import views.Window;
 
 public class BotPanel extends AbstractGamePanel {

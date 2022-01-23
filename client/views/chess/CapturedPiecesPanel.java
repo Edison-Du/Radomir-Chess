@@ -84,5 +84,4 @@ public class CapturedPiecesPanel extends ContentPanel {
         }
         offset = 0;
     }
-
 }

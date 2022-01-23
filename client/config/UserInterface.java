@@ -62,7 +62,7 @@ public class UserInterface {
 
     // Settings
     public static final Font SETTINGS_FONT = new Font("Serif", Font.PLAIN, 18);
-    public static final int NUM_SETTINGS = 5;
+    public static final int NUM_SETTINGS = 4;
 
     // Game board
     public static int activeTheme = 0;
@@ -107,16 +107,6 @@ public class UserInterface {
     };
     public static Color lighterTile = LIGHTER_TILE_COLOURS[activeTheme];
     public static Color darkerTile = DARKER_TILE_COLOURS[activeTheme];
-
-    // Background
-    public static int activeBackground = 0;
-    public static Color[] BACKGROUNDS = new Color[]{
-        FRAME_COLOUR,
-        new Color(220, 220, 220),
-        new Color(27, 27, 27),
-        new Color(194, 205, 220),
-        new Color(47, 63, 76)
-    };
 
     // Chess Sets
     private static int activeSetNum = 0;
@@ -186,16 +176,6 @@ public class UserInterface {
     }
 
     /**
-     * Changes the background colour variable and returns it
-     * @param colour
-     * @return Color change to
-     */
-    public static Color changeBackground(int colour) {
-        activeBackground = colour;
-        return BACKGROUNDS[colour];
-    }
-
-    /**
      * Changes the chess set
      * @param set
      */
@@ -220,11 +200,11 @@ public class UserInterface {
     public static void toggleHighlight(CustomButton button) {
         highlightToggle ^= true;
         if (highlightToggle) {
-            button.setText("Highlights On");
+            button.setText("Show Moves On");
             button.setBackground(ON_COLOUR);
             button.setHoverColor(UserInterface.ON_COLOUR.brighter());
         } else {
-            button.setText("Highlights Off");
+            button.setText("Show Moves Off");
             button.setBackground(OFF_COLOUR);
             button.setHoverColor(UserInterface.OFF_COLOUR.brighter());
         }
@@ -237,10 +217,9 @@ public class UserInterface {
     public static int[] getCurrentSettings() {
         int[] settings = new int[NUM_SETTINGS];
         settings[0] = activeTheme;
-        settings[1] = activeBackground;
-        settings[2] = activeSetNum;
-        settings[3] = highlightToggle?1:0;
-        settings[4] = activeHighlight;
+        settings[1] = activeSetNum;
+        settings[2] = highlightToggle?1:0;
+        settings[3] = activeHighlight;
         return settings;
     }
 }

@@ -16,4 +16,5 @@ public class PathsConsts {
     public static final String CHESS_LOGO = ASSETS + "radomirchess" + PNG_FILE;
 
     public static final String WOOD_THEME = THEMES + "wood" + PNG_FILE;
+    public static final String ICE_THEME = THEMES + "icysea" + PNG_FILE;
 }

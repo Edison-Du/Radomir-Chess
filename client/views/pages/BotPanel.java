@@ -5,8 +5,9 @@ import java.awt.event.ActionEvent;
 
 import chesslogic.Bot;
 import chesslogic.ChessGame;
-import chesslogic.DepthSearchBotP2;
+import chesslogic.RadomirBot;
 import chesslogic.RandomBot;
+import chesslogic.DepthSearchBotP2;
 import config.GameState;
 import config.Page;
 import config.UserInterface;
@@ -19,7 +20,7 @@ public class BotPanel extends AbstractGamePanel {
 
     BufferedImage heldPieceImage;
 
-    DepthSearchBotP2 depthSearchBot;
+    Bot depthSearchBot;
 
     private Window window;
     
@@ -41,7 +42,7 @@ public class BotPanel extends AbstractGamePanel {
 
         setPlayerColour((int)(Math.random() * 2));
 
-        depthSearchBot = new DepthSearchBotP2(5, (getPlayerColour() + 1) % 2);
+        depthSearchBot = new RadomirBot(5, (getPlayerColour() + 1) % 2, 4);
 
         // Bot goes first
         if (getPlayerColour() == 1) {

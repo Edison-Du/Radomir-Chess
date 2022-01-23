@@ -189,7 +189,10 @@ public class DepthSearchBotP2 extends Bot {
     }
 
     public String nextMove(ChessGame g){
+        long start = System.currentTimeMillis();
         this.search(g, this.depth, -999999, 999999, 0);
+        long end = System.currentTimeMillis();
+        System.out.println("DepthSearchBotP2 took " + (end - start) + " ms to process move");
         return this.move;
     }
     

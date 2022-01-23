@@ -81,8 +81,8 @@ public class GameResultOverlay extends JPanel implements ActionListener {
                     gamePanel.resetGame();
                     return;
                 }
-            }
-            ServerConnection.sendMessage(new Message(MessageTypes.PLAY_AGAIN));
+                ServerConnection.sendMessage(new Message(MessageTypes.PLAY_AGAIN));
+            } 
         }
     }
 }

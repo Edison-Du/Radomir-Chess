@@ -73,8 +73,11 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.CHESS_MOVE)) {
             processOpponentChessMove(message);
 
-        } else if(message.getType().equals(MessageTypes.CHECKMATE)) {
-            processCheckmate();
+        } else if(message.getType().equals(MessageTypes.WHITE_VICTORY_CHECKMATE)) {
+            processWhiteCheckmate(message);
+
+        } else if(message.getType().equals(MessageTypes.BLACK_VICTORY_CHECKMATE)) {
+            processBlackCheckmate(message);
 
         } else if(message.getType().equals(MessageTypes.STALEMATE)) {
             processStalemate();
@@ -126,9 +129,14 @@ public class ConnectionHandler extends Thread {
         clientName = "Guest #" + clientNum;
     }
     
-    public void processCheckmate() {
-        window.gamePanel.setGameState(GameState.CHECKMATE);
-        window.gamePanel.boardPanel.gameResultOverlay.setMessage("Checkmate");
+    public void processWhiteCheckmate(Message message) {
+        window.gamePanel.setGameState(GameState.WHITE_VICTORY_CHECKMATE);
+        window.gamePanel.boardPanel.gameResultOverlay.setMessage("White wins by checkmate");
+    }
+
+    public void processBlackCheckmate(Message message) {
+        window.gamePanel.setGameState(GameState.BLACK_VICTORY_CHECKMATE);
+        window.gamePanel.boardPanel.gameResultOverlay.setMessage("Black wins by checkmate");
     }
 
     public void processStalemate() {

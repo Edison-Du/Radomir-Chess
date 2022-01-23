@@ -123,8 +123,6 @@ public class Login extends ContentPanel implements ActionListener{
         } else {
             displayInputError();
         }
-        usernameField.setText("");
-        passwordField.setText("");
     }
 
     public boolean validateInput(String input){

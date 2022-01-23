@@ -22,10 +22,12 @@ import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
 
 import config.MessageTypes;
+import config.Page;
 import config.UserInterface;
 import network.Lobby;
 import network.Message;
 import network.ServerConnection;
+import views.Window;
 import views.components.ContentPanel;
 import views.components.PanelButton;
 
@@ -43,7 +45,12 @@ public class BrowseGames extends ContentPanel implements ActionListener {
     private static int lobbyNumber;
     private static String joinGameCode;
 
-    public BrowseGames() {
+    private PanelButton backButton;
+    private Window window;
+
+    public BrowseGames(Window window) {
+
+        this.window = window;
     
         lobbyListPanel = new JPanel();
         lobbyListPanel.setBounds(0, 0, UserInterface.CONTENT_WIDTH / 2 + 180, UserInterface.WINDOW_HEIGHT);
@@ -82,6 +89,12 @@ public class BrowseGames extends ContentPanel implements ActionListener {
         joinButton.addActionListener(this);
         joinButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(joinButton);
+
+
+        this.backButton = new PanelButton("Back", 715, 40);
+        this.backButton.addActionListener(this);
+        this.backButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
+        this.add(backButton);
     }
 
     @Override
@@ -90,6 +103,8 @@ public class BrowseGames extends ContentPanel implements ActionListener {
             Message message = new Message(MessageTypes.JOIN_GAME);
             message.addParam(joinGameCode);
             ServerConnection.sendMessage(message);
+        } else if (e.getSource() == backButton) {
+            window.changePage(Page.PLAY);
         }
         this.revalidate();
         this.repaint();

@@ -35,7 +35,9 @@ public class Settings extends ContentPanel implements ActionListener {
         "Ice Cweam",
         "Mouth Wash",
         "Test Dummy",
-        "Rado Chess"
+        "Rado Chess",
+        "Watermelon",
+        "Halloween"
     };
     private final String[] CHESS_PIECE_SETS = {
         "Classic",

@@ -128,7 +128,7 @@ public class Login extends ContentPanel implements ActionListener{
     }
 
     public boolean validateInput(String input){
-        if (input.length() > 16) return false;
+        if (input.length() > 16 || input.length() < 1) return false;
         for (int i = 0; i < input.length(); i++){
             Character c = input.charAt(i);
             if (!Character.isDigit(c) && !Character.isLetter(c)){

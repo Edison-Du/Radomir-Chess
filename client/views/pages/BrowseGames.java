@@ -27,6 +27,7 @@ import network.Lobby;
 import network.Message;
 import network.ServerConnection;
 import views.components.ContentPanel;
+import views.components.PanelButton;
 
 public class BrowseGames extends ContentPanel implements ActionListener {
 
@@ -45,13 +46,13 @@ public class BrowseGames extends ContentPanel implements ActionListener {
     public BrowseGames() {
     
         lobbyListPanel = new JPanel();
-        lobbyListPanel.setBounds(0, 0, UserInterface.CONTENT_WIDTH / 2, UserInterface.WINDOW_HEIGHT);
+        lobbyListPanel.setBounds(0, 0, UserInterface.CONTENT_WIDTH / 2 + 180, UserInterface.WINDOW_HEIGHT);
         lobbyListPanel.setLayout(new BoxLayout(lobbyListPanel, BoxLayout.X_AXIS));
         lobbyList = new JList<>(allLobbies);
         lobbyList.setBackground(UserInterface.FRAME_COLOUR);
         lobbyList.setForeground(UserInterface.TEXT_COLOUR);
-        lobbyList.setFont(new Font("Serif", Font.PLAIN, 20));
-        lobbyList.setFixedCellHeight(50);
+        lobbyList.setFont(new Font("Serif", Font.PLAIN, 14));
+        lobbyList.setFixedCellHeight(30);
         lobbyList.setBorder(new EmptyBorder(10,10, 10, 10));
         lobbyList.setCellRenderer(getRenderer());
         lobbyList.addMouseListener(new MouseAdapter() {
@@ -70,12 +71,12 @@ public class BrowseGames extends ContentPanel implements ActionListener {
         joinLabel.setText("Join Lobby: ");
         joinLabel.setForeground(UserInterface.TEXT_COLOUR);
         joinLabel.setFont(new Font("Serif", Font.ITALIC, 36));
-        joinLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 + 125, UserInterface.WINDOW_HEIGHT / 2 - 240, 400, 400);
+        joinLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 + 215, UserInterface.WINDOW_HEIGHT / 2 - 240, 400, 400);
         this.add(joinLabel);
 
         joinButton = new PanelButton(
             "JOIN",
-            615,
+            715,
             400 
         );
         joinButton.addActionListener(this);

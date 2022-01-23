@@ -17,6 +17,7 @@ public class    MessageTypes {
     public static final String REGISTER_FAILED = "REGISTER_FAILED";
 
     public static final String UPDATE_PREFERENCES = "UPDATE_PREFERENCES";
+    public static final String GET_PLAYERS_ONLINE = "GET_PLAYERS_ONLINE";
 
     // Lobby related
     public static final String CREATE_GAME = "CREATE_GAME";

@@ -59,6 +59,8 @@ public class LobbyManager {
             lobbyParameter += lobby.getCode() + ",";
             lobbyParameter += lobby.getHostName() + ",";
             lobbyParameter += lobby.getHostColour() + ",";
+            lobbyParameter += lobby.getGuestName() + ",";
+            lobbyParameter += lobby.getGuestColour() + ",";
             message.addParam(lobbyParameter);
         }
 

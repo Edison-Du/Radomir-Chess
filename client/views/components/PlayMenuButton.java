@@ -1,11 +1,10 @@
-package views.pages;
+package views.components;
 
 import java.awt.Color;
 
 import javax.swing.border.EmptyBorder;
 
 import config.UserInterface;
-import views.components.CustomButton;
 
 public class PlayMenuButton extends CustomButton {
     public PlayMenuButton (String text, int x, int y) {

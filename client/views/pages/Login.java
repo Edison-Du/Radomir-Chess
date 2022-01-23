@@ -1,11 +1,9 @@
 package views.pages;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -15,19 +13,19 @@ import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
 import views.components.ContentPanel;
+import views.components.PanelButton;
 
 public class Login extends ContentPanel implements ActionListener{
 
-    private final JLabel titleLabel = new JLabel("Login");
-    private final JLabel profile = new JLabel();
-
-    private final JLabel usernameLabel= new JLabel();
-    private final JTextField usernameField = new JTextField();
-    private final JLabel passwordLabel = new JLabel();
-    private final JPasswordField passwordField = new JPasswordField();
-    private final JButton registerButton = new JButton("Register");
-    private final JButton loginButton = new JButton("Login");
-    private final JLabel errorMessage = new JLabel();
+    private JLabel titleLabel = new JLabel("Login");
+    private JLabel profile = new JLabel();
+    private JLabel usernameLabel= new JLabel();
+    private JTextField usernameField = new JTextField();
+    private JLabel passwordLabel = new JLabel();
+    private JPasswordField passwordField = new JPasswordField();
+    private PanelButton registerButton;
+    private PanelButton loginButton;
+    private JLabel errorMessage = new JLabel();
     
     public Login() {        
 
@@ -40,31 +38,46 @@ public class Login extends ContentPanel implements ActionListener{
         profile.setText("Register");
         this.add(profile);
 
-        usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
+        usernameLabel.setFont(UserInterface.TEXT_FONT_1);
         usernameLabel.setText("Username: ");
-        usernameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 300, 150, 25);
+        usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
+        usernameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 160, 280, 30);
         this.add(usernameLabel);
 
-        usernameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 320, 150, 25);
+        usernameField.setFont(UserInterface.TEXT_FONT_1);
+        usernameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 110, 280, 30);
+        usernameField.addActionListener(this);
         this.add(usernameField);
 
-        passwordLabel.setForeground(UserInterface.TEXT_COLOUR);
+        passwordLabel.setFont(UserInterface.TEXT_FONT_1);
         passwordLabel.setText("Password: ");
-        passwordLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 350, 150, 25);
+        passwordLabel.setForeground(UserInterface.TEXT_COLOUR);
+        passwordLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 60, 280, 30);
         this.add(passwordLabel);
 
-        passwordField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 370, 150, 25);
+        passwordField.setFont(UserInterface.TEXT_FONT_1);
+        passwordField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 10, 280, 30);
+        passwordField.addActionListener(this);
         this.add(passwordField);
 
-        loginButton.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 410, 150, 25);
-        loginButton.addActionListener(this);
-        loginButton.setFocusable(false);
-        this.add(loginButton);
-
-        registerButton.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 450, 150, 25);
+        registerButton = new PanelButton(
+            "Register",
+            UserInterface.CONTENT_WIDTH / 2 - 140,
+            UserInterface.WINDOW_HEIGHT / 2 + 50
+        );
         registerButton.addActionListener(this);
-        registerButton.setFocusable(false);
+        registerButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(registerButton);
+
+        //change constants
+        loginButton = new PanelButton(
+            "Login",
+            UserInterface.CONTENT_WIDTH / 2 - 140,
+            UserInterface.WINDOW_HEIGHT / 2 + 140
+        );
+        loginButton.addActionListener(this);
+        loginButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
+        this.add(loginButton);
 
         errorMessage.setForeground(UserInterface.TEXT_COLOUR);
         errorMessage.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 500, 500, 100);

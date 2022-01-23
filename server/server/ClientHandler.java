@@ -13,10 +13,11 @@ import game.Lobby;
  * An individual thread manager a client socket, sending
  * and receiving messages with the client.
  */
-public class ClientHandler extends Thread{
+public class ClientHandler extends Thread {
     
     // General information
     private static int numClients = 0;
+    private static int clientsOnline = 0;
     private int clientNum;
     private String clientName;
     private boolean userActive;
@@ -41,6 +42,7 @@ public class ClientHandler extends Thread{
 
         clientSocket = socket;
         clientNum = ++ClientHandler.numClients;
+        clientsOnline++;
         this.server = server;
         this.clientName = "Guest#" + this.clientNum;
         this.userActive = true;
@@ -95,6 +97,8 @@ public class ClientHandler extends Thread{
     @Override   
     public void run() {
         try {
+            Thread thread = new ClientsOnlineUpdater(this);
+            thread.start();
             while (userActive) {
                 if (input.ready()) {
                     String msg = input.readLine();
@@ -102,7 +106,6 @@ public class ClientHandler extends Thread{
                     evalRequest(request);
                 }
             }
-
             // Close streams once finished
             input.close();
             output.close();
@@ -188,6 +191,10 @@ public class ClientHandler extends Thread{
 
         } else if (request.getType().equals(MessageTypes.EXIT_PROGRAM)) {
             disconnectClient(request);
+
+        } else if (request.getType().equals(MessageTypes.GET_PLAYERS_ONLINE)) {
+            updatePlayersOnline();
+
         }
 
         System.out.println("RECEIVED from #" + clientNum + ": " + request.getText());
@@ -352,11 +359,17 @@ public class ClientHandler extends Thread{
 
     private void disconnectClient(Message message) {
         this.userActive = false; // stops this thread
-        
+        clientsOnline--;
         if (lobby != null) {
             leaveGame();
         }
         // Echo the message back to let client know we heard the message
         sendMessage(message);
+    }
+
+    public void updatePlayersOnline() {
+        Message message = new Message(MessageTypes.GET_PLAYERS_ONLINE);
+        message.addParam(Integer.toString(clientsOnline));
+        this.sendMessage(message);
     }
 }

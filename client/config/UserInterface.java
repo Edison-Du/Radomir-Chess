@@ -28,7 +28,7 @@ public class UserInterface {
 
     public static final int NAVBAR_WIDTH  = WINDOW_WIDTH/5;
     public static final int CONTENT_WIDTH = WINDOW_WIDTH - NAVBAR_WIDTH;
-    public static final int NAVBAR_BUTTON_HEIGHT = 60;
+    public static final int NAVBAR_BUTTON_HEIGHT = 91;
 
     //Right Panel
     public static final Color FRAME_COLOUR = new Color(41, 43, 45);
@@ -46,7 +46,7 @@ public class UserInterface {
 
     // Play page
     public static final int MENU_BUTTON_MARGIN = 40;
-    public static final int MENU_BUTTON_Y_OFFSET = WINDOW_HEIGHT / 2 - 40;
+    public static final int MENU_BUTTON_Y_OFFSET = WINDOW_HEIGHT / 2 - 90;
     public static final int MENU_BUTTON_HEIGHT = WINDOW_HEIGHT / 4 - (int) (MENU_BUTTON_MARGIN * 1.5);
     public static final int MENU_BUTTON_WIDTH = CONTENT_WIDTH / 2 - (int) (MENU_BUTTON_MARGIN * 1.5);
     public static final Font PLAY_BUTTONS_FONT = new Font("Serif", Font.PLAIN, 40);

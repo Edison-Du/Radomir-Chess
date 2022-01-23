@@ -1,17 +1,16 @@
-package views.pages;
+package views.components;
 
 import java.awt.Color;
 
 import javax.swing.border.EmptyBorder;
 
 import config.UserInterface;
-import views.components.CustomButton;
 
 public class PanelButton extends CustomButton {
     public PanelButton (String text, int x, int y) {
         super(text);
         //change
-        this.setBounds(x, y, 300, UserInterface.MENU_BUTTON_HEIGHT);
+        this.setBounds(x, y, 280, UserInterface.MENU_BUTTON_HEIGHT / 2);
 
         this.setForeground(Color.WHITE);
         this.setBackground(UserInterface.MENU_BUTTON_COLOUR);

@@ -20,6 +20,7 @@ public class Lobby {
         this.host = host;
         this.hostName = this.host.getClientName();
         this.hostColour = (int)(Math.random() * 2);
+        this.guestName = "";
         this.lobbyVisibility = "public";
         this.joinable = true;
     }
@@ -54,6 +55,14 @@ public class Lobby {
 
     public String getGuestName() {
         return this.guestName;
+    }
+
+    public void setHostName(String name) {
+        this.hostName = name;
+    }
+
+    public void setGuestName(String name) {
+        this.guestName = name;
     }
 
     public void setHost(ClientHandler host) {
@@ -116,6 +125,7 @@ public class Lobby {
         if (client != this.guest) {
             this.host = this.guest;
             this.hostColour = (hostColour + 1) % 2;
+            this.guestName = "";
         }
 
         this.guest = null;

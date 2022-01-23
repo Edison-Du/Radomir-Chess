@@ -10,12 +10,17 @@ public class Lobby {
     private String lobbyCode;
     private String hostName;
     private int hostColour;
+    private String guestName;
+    private int guestColour;
+    
 
     public Lobby() {
         lobbyIndex = 0;
         lobbyCode = "";
         hostName = "";
         hostColour = 0;
+        guestName = "";
+        guestColour = 0;
     }
 
     public int getLobbyIndex() {
@@ -46,6 +51,10 @@ public class Lobby {
         return this.hostColour;
     }
 
+    public void setHostColour(int colour) {
+        this.hostColour = colour;
+    }
+
     public String getHostColourString() {
         if (this.hostColour == 0) {
             return "White";
@@ -54,12 +63,39 @@ public class Lobby {
         }
     }
 
-    public void setHostColour(int colour) {
-        this.hostColour = colour;
+    public String getGuestName() {
+        return this.guestName;
     }
 
+    public void setGuestName(String name) {
+        this.guestName = name;
+    }
+
+    public int getGuestColour() {
+        return this.guestColour;
+    }
+
+    public void setGuestColour(int colour) {
+        this.guestColour = colour;
+    }
+
+    public String getGuestColourString() {
+        if (this.hostColour == 0) {
+            return "Black";
+        } else {
+            return "White";
+        }
+    }
+    
     public String getDisplayLobbyInfo() {
-        return "  Lobby #" + lobbyIndex + ",  Code: " + lobbyCode + ",  Host: " + hostName + " " + getHostColourString();
+        if (guestName.equals("")) {
+            return "  Lobby #" + lobbyCode + ",  Host: " + hostName + 
+            ",  Join as: " + getGuestColourString();
+        } else {
+            return "  Lobby #" + lobbyCode + ",  Host: " + hostName + 
+        ",  Host Colour: " + getHostColourString() + ",  Guest: " + guestName + ",  Guest Colour: " + getGuestColourString();
+        }
+        
     }
 
     public static Lobby parseLobbyFromString(String string) {
@@ -79,6 +115,8 @@ public class Lobby {
         lobby.setLobbyCode(lobbyInfo.get(1));
         lobby.setHostName(lobbyInfo.get(2));
         lobby.setHostColour(Integer.parseInt(lobbyInfo.get(3)));
+        lobby.setGuestName(lobbyInfo.get(4));
+        lobby.setGuestColour(Integer.parseInt(lobbyInfo.get(5)));
         return lobby;
     }
 }

@@ -20,7 +20,7 @@ public class DatabaseUpdater extends Thread {
     public void run() {
         try {
             while (isActive) {
-                Thread.sleep(Consts.UPDATE_INTERVAL);
+                Thread.sleep(Consts.UPDATE_DATABASE_INTERVAL);
                 fileWriter = new FileWriter(PathConsts.USERS);
                 synchronized(database) {
                     for (Map.Entry<String, User> user : database.getData().entrySet()) {

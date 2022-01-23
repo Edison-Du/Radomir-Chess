@@ -10,6 +10,8 @@ import config.UserInterface;
 import java.awt.Color;
 import views.Window;
 import views.chess.ThreadBotP1;
+import views.chess.SoundEffect;
+import config.PathsConsts;
 
 public class BotPanel extends AbstractGamePanel {
 
@@ -45,7 +47,7 @@ public class BotPanel extends AbstractGamePanel {
 
         setPlayerColour((int)(Math.random() * 2));
 
-        depthSearchBot = new RadomirBot(5, (getPlayerColour() + 1) % 2, 4);
+        depthSearchBot = new RadomirBot(2, (getPlayerColour() + 1) % 2, 4);
 
         // Bot goes first
         if (getPlayerColour() == 1) {
@@ -59,7 +61,11 @@ public class BotPanel extends AbstractGamePanel {
     
     @Override
     public void processMove(String tile1, String tile2, String promotion) {
+
         if(!chessGame.getCurrentPos().ended()) {
+
+            // YA YEET
+            System.out.println("YA YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEET");
 
             if(!tile1.equals("")) {
                 chessGameClone.move(tile1, tile2, promotion);
@@ -162,4 +168,5 @@ public class BotPanel extends AbstractGamePanel {
         setOpponentPlayAgain(true); // Bot always plays again
         boardPanel.gameResultOverlay.setMessage("You have resigned");
     }
+
 }

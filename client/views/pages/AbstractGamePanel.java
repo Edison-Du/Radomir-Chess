@@ -11,6 +11,7 @@ import javax.xml.namespace.QName;
 import chesslogic.ChessGame;
 import config.GameState;
 import config.MessageTypes;
+import config.PathsConsts;
 import views.chess.CapturedPiecesPanel;
 import views.chess.ChessBoardPanel;
 import views.chess.GamePanelButton;
@@ -20,6 +21,7 @@ import views.chess.MessagePanel;
 import views.chess.MovesPanel;
 import views.chess.OpponentProposalPanel;
 import views.chess.PlayerLabelPanel;
+import views.chess.SoundEffect;
 import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
@@ -283,4 +285,5 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     }
 
     public abstract void handleGameEnded();
+
 }

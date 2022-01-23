@@ -1,5 +1,4 @@
 
-  0 0 1 0
 sdf fd 0 0 1 0
 SuperIdol DeXiaoRong 0 0 1 0
 1234 12344 0 0 1 0

@@ -12,6 +12,8 @@ import views.pages.AbstractGamePanel;
 
 import java.awt.image.BufferedImage;
 
+import config.PathsConsts;
+
 public class ChessGameMouseListener implements MouseListener, MouseMotionListener {
 
     private AbstractGamePanel gamePanel;
@@ -39,6 +41,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     public ChessGameMouseListener(ChessGame game,  AbstractGamePanel gamePanel) {
         this.game = game;
         this.gamePanel = gamePanel;
+
     }
 
     public void mousePressed(MouseEvent e) {
@@ -99,7 +102,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     }
 
     public void mouseReleased(MouseEvent e) {
-        
 
         // Initialize mouse coordinates
         mouseX = e.getX();
@@ -119,7 +121,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             System.out.println(", " + t2);
 
             if(gamePanel.getGameState() == GameState.ONGOING && game.getCurrentPos().legal(t1, t2)) {
-                
+
                 if(game.getCurrentPos().promotingMove(t1, t2)) {
                     isPromoting = true;
                     promotionT1 = t1;
@@ -127,9 +129,10 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                 }
                 else {
                     gamePanel.movesPanel.addMove(game.toAlgebraic(t1, t2, ""));
-                    
+
+                    playSound(t1, t2, "");
                     game.move(t1, t2, "");
-                    
+
                     System.out.println("processing the move");
                     gamePanel.processMove(t1, t2, "");
 
@@ -195,4 +198,47 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     public Piece getSelectedPiece() {
         return selectedPiece;
     }
+
+    public void playSound(String t1, String t2, String p) {
+        SoundEffect se = new SoundEffect();
+        Board current = game.getCurrentPos();
+        boolean soundChosen = false;
+
+        if(t1.equals("")) {
+            return;
+        }
+
+        game.move(t1, t2, p);
+        if(game.stalemate()) {
+            se.setFile(PathsConsts.STALEMATE);
+            game.undo();
+            soundChosen = true;
+        } else if(current.getKings()[0].isChecked(current, current.getKingTiles()[0]) || current.getKings()[1].isChecked(current, current.getKingTiles()[1])) {
+            if(game.whiteWins() || game.blackWins()) {
+                se.setFile(PathsConsts.CHECKMATE);
+                game.undo();
+                soundChosen = true;
+            } else {
+                se.setFile(PathsConsts.CHECK);
+                game.undo();
+                soundChosen = true;
+            }
+        }
+
+        if(!soundChosen) {
+            game.undo();
+
+            if(game.getCurrentPos().getTile(t1).getPiece().getName().equals("K") && Math.abs((t1.charAt(0) - '0') - (t2.charAt(0) - '0')) == 2) {
+                se.setFile(PathsConsts.CASTLE);
+            } else if(game.getCurrentPos().getTile(t2).getPiece() != null) {
+                System.out.println("checking the tile: " + game.getCurrentPos().getTile(t2).getPiece());
+                se.setFile(PathsConsts.CAPTURE);
+            } else {
+                se.setFile(PathsConsts.MOVE);
+            }
+        }
+
+        se.play();
+    }
+
 }

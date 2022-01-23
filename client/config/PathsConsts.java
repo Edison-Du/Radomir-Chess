@@ -3,10 +3,11 @@ package config;
 public class PathsConsts {
 
     public static final String PNG_FILE = ".png";
+    public static final String SOUND_FILE = ".wav";
 
     public static final String ASSETS = "assets/";
     public static final String IMAGES = ASSETS + "images/";
-
+    public static final String SOUNDS = ASSETS + "sounds/";
 
     public static final String THEMES = IMAGES + "themes/";
 
@@ -20,4 +21,12 @@ public class PathsConsts {
 
     public static final String WOOD_THEME = THEMES + "wood" + PNG_FILE;
     public static final String ICE_THEME = THEMES + "icysea" + PNG_FILE;
+
+    public static final String CHECK = SOUNDS + "check" + SOUND_FILE;
+    public static final String STALEMATE = SOUNDS + "stalemate" + SOUND_FILE;
+    public static final String CAPTURE = SOUNDS + "capture" + SOUND_FILE;
+    public static final String CASTLE = SOUNDS + "castle" + SOUND_FILE;
+    public static final String MOVE = SOUNDS + "move" + SOUND_FILE;
+    public static final String CHECKMATE = SOUNDS + "checkmate" + SOUND_FILE;
+
 }

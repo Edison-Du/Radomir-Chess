@@ -46,7 +46,6 @@ public class Window extends JFrame {
         gameSetupPanel = new GameSetup(this);
         browseGamesPanel = new BrowseGames();
         gamePanel = new MultiplayerPanel();
-        playBotPanel = new BotPanel(this);
         settingsPanel = new Settings(this);
         aboutPanel = new About();
         loginPanel = new Login();
@@ -133,6 +132,9 @@ public class Window extends JFrame {
         
         } else if (currentPage == Page.PLAY_BOT) {
             setInBotGame(true);
+            if (playBotPanel == null) {
+                playBotPanel = new BotPanel(this);
+            }
             content = playBotPanel;
             // content = new BotPanel();
 

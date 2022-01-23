@@ -151,6 +151,9 @@ public class ClientHandler extends Thread{
         } else if (request.getType().equals(MessageTypes.UNLOCK_LOBBY)) {
             unlockLobby();
         
+        } else if (request.getType().equals(MessageTypes.PLAYER_COLOUR)) {
+            updatePlayerColour(request);
+
         } else if (request.getType().equals(MessageTypes.CHESS_MOVE)) {
             sendChessMove(request);
 
@@ -307,6 +310,12 @@ public class ClientHandler extends Thread{
         }
 
         lobby = null;
+    }
+
+    private void updatePlayerColour(Message message) {
+        int colour = Integer.parseInt(message.getParam(0));
+        if (lobby == null) return;
+        lobby.setHostColour(colour);;
     }
 
     // The following 4 methods can be merged into one, maybe

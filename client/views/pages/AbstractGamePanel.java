@@ -3,7 +3,7 @@ package views.pages;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
+import java.awt.Rectangle;
 
 import javax.swing.JLabel;
 import javax.xml.namespace.QName;
@@ -55,6 +55,9 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public final CapturedPiecesPanel capturedPiecesPanelWhite;
     public final CapturedPiecesPanel capturedPiecesPanelBlack;
 
+    private Rectangle opponentCapturedPiecesBounds;
+    private Rectangle playerCapturedPiecesBounds;
+
     private int playerColour;
     private GameState gameState;
 
@@ -77,12 +80,14 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.add(boardPanel);
 
         // Captured Pieces
+        opponentCapturedPiecesBounds = new Rectangle(120, 60,480,30);
+        playerCapturedPiecesBounds   = new Rectangle(120,600,480,30);
+
+
         capturedPiecesPanelWhite = new CapturedPiecesPanel(chessGame, 0);
-        capturedPiecesPanelWhite.setBounds(120,60,480,30);
         this.add(capturedPiecesPanelWhite);
 
         capturedPiecesPanelBlack = new CapturedPiecesPanel(chessGame, 1);
-        capturedPiecesPanelBlack.setBounds(120,600,480,30);
         this.add(capturedPiecesPanelBlack);
 
         // Moves
@@ -217,12 +222,28 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
     public void setPlayerColour(int colour) {
         this.playerColour = colour;
+
+        if (playerColour == 0)  {
+            capturedPiecesPanelWhite.setBounds(opponentCapturedPiecesBounds);
+            capturedPiecesPanelBlack.setBounds(playerCapturedPiecesBounds);
+        } else {
+            capturedPiecesPanelWhite.setBounds(playerCapturedPiecesBounds);
+            capturedPiecesPanelBlack.setBounds(opponentCapturedPiecesBounds);
+        }
+        this.revalidate();
+
+        // Let server know we changed colours
+        Message updateColour = new Message(MessageTypes.PLAYER_COLOUR);
+        updateColour.addParam(Integer.toString(playerColour));
+        ServerConnection.sendMessage(updateColour);
     }
 
     public void resetGame() {
         chessGame = new ChessGame();
         boardPanel.setChessGame(chessGame);
         movesPanel.clearMoves();
+        capturedPiecesPanelBlack.setChessGame(chessGame);
+        capturedPiecesPanelWhite.setChessGame(chessGame);
         this.revalidate();
     }
 
@@ -244,6 +265,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         if (playAgain && opponentPlayAgain) {
             resetGame();
             setGameState(GameState.ONGOING);
+            setPlayerColour((playerColour + 1) % 2);
         }
     }
 
@@ -252,6 +274,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         if (playAgain && opponentPlayAgain) {
             resetGame();
             setGameState(GameState.ONGOING);
+            setPlayerColour((playerColour + 1) % 2);
         }
     }
 

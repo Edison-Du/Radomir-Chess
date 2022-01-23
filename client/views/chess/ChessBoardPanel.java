@@ -74,18 +74,6 @@ public class ChessBoardPanel extends ContentPanel {
 
         gamePanel.movesPanel.addMove(move);
 
-        // Add piece to captured pieces
-        if (gamePanel.getPlayerColour() == 0) {
-            gamePanel.capturedPiecesPanelWhite.addCapturedPiece(
-                game.getCurrentPos().getTiles()[posX][posY].getPiece()
-            );
-
-        } else {
-            gamePanel.capturedPiecesPanelBlack.addCapturedPiece(
-                game.getCurrentPos().getTiles()[posX][posY].getPiece()
-            );
-        }
-
         this.game.move(t1, t2, p);
     }
 

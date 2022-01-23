@@ -231,11 +231,6 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
             capturedPiecesPanelBlack.setBounds(opponentCapturedPiecesBounds);
         }
         this.revalidate();
-
-        // Let server know we changed colours
-        Message updateColour = new Message(MessageTypes.PLAYER_COLOUR);
-        updateColour.addParam(Integer.toString(playerColour));
-        ServerConnection.sendMessage(updateColour);
     }
 
     public void resetGame() {
@@ -265,7 +260,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         if (playAgain && opponentPlayAgain) {
             resetGame();
             setGameState(GameState.ONGOING);
-            setPlayerColour((playerColour + 1) % 2);
+            swapColours();
         }
     }
 
@@ -274,8 +269,17 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         if (playAgain && opponentPlayAgain) {
             resetGame();
             setGameState(GameState.ONGOING);
-            setPlayerColour((playerColour + 1) % 2);
+            swapColours();
         }
+    }
+
+    public void swapColours() {
+        setPlayerColour((playerColour + 1) % 2);
+
+        // Let server know we swapped colours
+        Message updateColour = new Message(MessageTypes.PLAYER_COLOUR);
+        updateColour.addParam(Integer.toString(playerColour));
+        ServerConnection.sendMessage(updateColour);
     }
 
     public abstract void handleGameEnded();

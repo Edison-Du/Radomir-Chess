@@ -315,7 +315,9 @@ public class ClientHandler extends Thread{
     private void updatePlayerColour(Message message) {
         int colour = Integer.parseInt(message.getParam(0));
         if (lobby == null) return;
-        lobby.setHostColour(colour);;
+        if (lobby.getHost() == this) {
+            lobby.setHostColour(colour);
+        }
     }
 
     // The following 4 methods can be merged into one, maybe

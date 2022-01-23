@@ -3,7 +3,7 @@
  * create a queue of moves & feed the moves into different threads, use alpha-beta pruning on each branch
  */
 
-class ThreadBotP1 {//extends Bot {
+//class ThreadBotP1 {//extends Bot {
     /*private int depth;
     private int side;
     private int countUndos;
@@ -198,4 +198,4 @@ class ThreadBotP1 {//extends Bot {
     }
     */
     
-}
+//}

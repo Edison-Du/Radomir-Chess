@@ -18,6 +18,7 @@ public class Server {
     private ServerSocket serverSocket;
     private LobbyManager lobbyManager;
     private Database database;
+    private DatabaseUpdater databaseUpdater;
 
     /**
      * Server
@@ -29,6 +30,9 @@ public class Server {
             serverSocket = new ServerSocket(Consts.PORT);
             lobbyManager = new LobbyManager();
             database = new Database();
+            databaseUpdater = new DatabaseUpdater(database);
+
+            databaseUpdater.start();
 
             System.out.println("Server has started.");
             

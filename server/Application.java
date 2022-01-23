@@ -3,8 +3,8 @@ import server.ShutdownHook;
 
 public class Application {
     public static void main(String[] args) {
-        new Server();
+        Server server = new Server();
 
-        Runtime.getRuntime().addShutdownHook(new ShutdownHook());
+        Runtime.getRuntime().addShutdownHook(new ShutdownHook(server));
     }
 }

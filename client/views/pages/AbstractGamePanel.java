@@ -110,8 +110,9 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         // Opponent label
         opponentLabel = new PlayerLabelPanel();
         opponentLabel.setBounds(
+            //change
             UserInterface.GAME_BOARD_X,
-            UserInterface.GAME_BOARD_Y - 60,
+            UserInterface.GAME_BOARD_Y - 40,
             UserInterface.GAME_BOARD_LENGTH/2,
             60
         );
@@ -121,7 +122,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         playerLabel = new PlayerLabelPanel();
         playerLabel.setBounds(
             UserInterface.GAME_BOARD_X,
-            UserInterface.GAME_BOARD_Y + UserInterface.GAME_BOARD_LENGTH,
+            UserInterface.GAME_BOARD_Y + UserInterface.GAME_BOARD_LENGTH + 10,
             UserInterface.GAME_BOARD_LENGTH/2,
             60
         );

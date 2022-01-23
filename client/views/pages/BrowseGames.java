@@ -12,9 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-// import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -48,6 +46,7 @@ public class BrowseGames extends ContentPanel implements ActionListener {
         lobbyListPanel = new JPanel();
         lobbyListPanel.setBounds(0, 0, UserInterface.CONTENT_WIDTH / 2 + 180, UserInterface.WINDOW_HEIGHT);
         lobbyListPanel.setLayout(new BoxLayout(lobbyListPanel, BoxLayout.X_AXIS));
+        
         lobbyList = new JList<>(allLobbies);
         lobbyList.setBackground(UserInterface.FRAME_COLOUR);
         lobbyList.setForeground(UserInterface.TEXT_COLOUR);
@@ -111,10 +110,9 @@ public class BrowseGames extends ContentPanel implements ActionListener {
     public void setLobbyList(ArrayList<Lobby> lobbies) {
         this.lobbies = lobbies;
         joinLabel.setText("Join Lobby: ");
-        lobbyList.setSelectedIndex(-1);
         joinGameCode = "";
+        lobbyList.setSelectedIndex(-1);
         allLobbies.clear();
-        joinButton.doClick();
         for (Lobby lobby : lobbies) {
             allLobbies.addElement(lobby.getDisplayLobbyInfo());
         }

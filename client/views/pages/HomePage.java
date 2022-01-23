@@ -95,8 +95,6 @@ public class HomePage extends ContentPanel implements ActionListener {
             window.changePage(Page.GAME_SETUP);
 
         } else if (e.getSource() == browseGameBtn) {
-            Message browseGames = new Message(MessageTypes.BROWSE_GAMES);
-            ServerConnection.sendMessage(browseGames);
             window.changePage(Page.BROWSE_GAMES);
 
         } else if (e.getSource() == playBotBtn) {

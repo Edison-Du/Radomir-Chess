@@ -2,6 +2,7 @@
  * idea: check each branch
  * create a queue of moves & feed the moves into different threads, use alpha-beta pruning on each branch
  */
+package chesslogic;
 
 //class ThreadBotP1 {//extends Bot {
     /*private int depth;
@@ -13,11 +14,9 @@
     private int[][] placementPoints;
     private int[] directionXOne, directionYOne, directionXTwo, directionYTwo;
     private String move;
-    
-    private int threads;
 
     
-    public ThreadBotP1(int depth, int side, int threads) {
+    public ThreadBotP1(int depth, int side) {
         this.depth = depth;
         this.side = side;
         placementPoints = new int[8][8];
@@ -192,6 +191,7 @@
         this.search(g, this.depth, -999999, 999999, 0);
         return this.move;
     }
+<<<<<<< HEAD
     
     private class SearchThread extends Thread {
         
@@ -199,3 +199,6 @@
     */
     
 //}
+=======
+}
+>>>>>>> 52d93ff3ac7c2e190e43570149d44a7cd59529e4

@@ -18,7 +18,7 @@ public class Settings extends ContentPanel implements ActionListener {
     private final JLabel titleLabel = new JLabel("Settings");
     private final JLabel boardThemeLabel = new JLabel("Board Themes");
     private final JLabel pieceSetLabel = new JLabel("Piece Sets");
-    private final JLabel highlightLabel = new JLabel("Highlight Colours");
+    private final JLabel highlightLabel = new JLabel("Possible Move Colours");
 
     private final String[] BOARDS = {
         "Greyscale",
@@ -66,6 +66,7 @@ public class Settings extends ContentPanel implements ActionListener {
     private final JComboBox<String> highlightThemes;
 
     private final CustomButton toggleHighlightButton = new CustomButton("Show Moves On");
+    private final CustomButton toggleSoundButton = new CustomButton("Sound On");
 
     Window window;
 
@@ -120,13 +121,21 @@ public class Settings extends ContentPanel implements ActionListener {
         highlightThemes.addActionListener(this);
         this.add(highlightThemes);
 
-        toggleHighlightButton.setBounds(395, 203, 160, 37);
+        toggleHighlightButton.setBounds(35, 253, 160, 37);
         toggleHighlightButton.setForeground(UserInterface.TEXT_COLOUR);
         toggleHighlightButton.setBackground(UserInterface.ON_COLOUR);
         toggleHighlightButton.setHoverColor(UserInterface.ON_COLOUR.brighter());
         toggleHighlightButton.setFocusable(false);
         toggleHighlightButton.addActionListener(this);
         this.add(toggleHighlightButton);
+
+        toggleSoundButton.setBounds(215, 253, 160, 37);
+        toggleSoundButton.setForeground(UserInterface.TEXT_COLOUR);
+        toggleSoundButton.setBackground(UserInterface.ON_COLOUR);
+        toggleSoundButton.setHoverColor(UserInterface.ON_COLOUR.brighter());
+        toggleSoundButton.setFocusable(false);
+        toggleSoundButton.addActionListener(this);
+        this.add(toggleSoundButton);
     }
 
     //@Override
@@ -139,7 +148,9 @@ public class Settings extends ContentPanel implements ActionListener {
             UserInterface.changeHighlights(highlightThemes.getSelectedIndex());
         } else if (e.getSource() == toggleHighlightButton) {
             UserInterface.toggleHighlight(toggleHighlightButton);
-        }
+        } else if (e.getSource() == toggleSoundButton) {
+            UserInterface.toggleSound(toggleSoundButton);
+        }   
         if (window.isLoggedIn()) UserInterface.changeMade = true;
     }
 
@@ -150,6 +161,9 @@ public class Settings extends ContentPanel implements ActionListener {
     public void updateAfterLogin(int[] settingStates) {
         if (settingStates[2] != (UserInterface.highlightToggle?1:0)) {
             UserInterface.toggleHighlight(toggleHighlightButton);
+        }
+        if (settingStates[4] != (UserInterface.soundOn?1:0)) {
+            UserInterface.toggleSound(toggleSoundButton);
         }
         boardThemes.setSelectedIndex(settingStates[0]);
         pieceSets.setSelectedIndex(settingStates[1]);

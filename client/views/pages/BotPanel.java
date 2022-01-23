@@ -3,15 +3,7 @@ package views.pages;
 import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 
-<<<<<<< HEAD
-import chesslogic.Bot;
-import chesslogic.ChessGame;
-import chesslogic.RadomirBot;
-import chesslogic.RandomBot;
-import chesslogic.DepthSearchBotP2;
-=======
 import chesslogic.*;
->>>>>>> 6c1c634848f733f76367ab5cd93923ef01befb60
 import config.GameState;
 import config.Page;
 import config.UserInterface;

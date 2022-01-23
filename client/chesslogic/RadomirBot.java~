@@ -243,11 +243,11 @@ public class RadomirBot extends Bot {
                         alpha = temp;
                         if (cnt == 0){
                             myMoves[mySection] = curMove;
-                            myScores[mySection] = alpha;
                         }
                     }
                 }
             }
+            myScores[mySection] = alpha;
             return alpha;
         }
         

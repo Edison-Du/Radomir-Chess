@@ -128,9 +128,5 @@ public abstract class Piece {
         return smallImage;
     }
     
-    public String toString() {
-        return this.name + " " + this.turnMoved;
-    }
-    
     public abstract Piece copy();
 }

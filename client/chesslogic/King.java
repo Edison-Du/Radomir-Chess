@@ -180,4 +180,12 @@ public class King extends Piece {
         this.hasCastled = x;
     }
     
+    @Override
+    public Piece copy() {
+        King out = new King(this.getColour());
+        out.setCastled(this.hasCastled);
+        out.setMoved(this.getTurnMoved());
+        return out;
+    }
+    
 }

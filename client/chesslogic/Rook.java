@@ -48,4 +48,11 @@ public class Rook extends Piece {
         return output;
     }
     
+    @Override
+    public Piece copy() {
+        Rook out = new Rook(this.getColour());
+        out.setMoved(this.getTurnMoved());
+        return out;
+    }
+    
 }

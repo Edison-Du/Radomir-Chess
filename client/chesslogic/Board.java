@@ -348,21 +348,24 @@ public class Board {
      * @
      */
     public Board copy() {
-        // long startTime = System.nanoTime();
         Board out = new Board();
-        out.setKingTiles(new Tile[2]);
-        for(int i = 0; i < 8; i++) {
-            for(int j = 0; j < 8; j++) {
-                out.getTiles()[i][j].setPiece(this.getTiles()[i][j].getPiece());
-                if(out.getTiles()[i][j].getPiece() != null && out.getTiles()[i][j].getPiece().getName().equals("K")) {
-                    out.getKingTiles()[out.getTiles()[i][j].getPiece().getColour()] = out.getTiles()[i][j];
+        out.getPieces().get(0).clear();
+        out.getPieces().get(1).clear();
+        for(int i = 0; i < 64; i++) {
+            if(this.tiles[i/8][i%8].getPiece() == null) {
+                out.getTiles()[i/8][i%8].setPiece(null);
+            }
+            else {
+                out.getTiles()[i/8][i%8].setPiece(this.tiles[i/8][i%8].getPiece().copy());
+                if(out.getTiles()[i/8][i%8].getPiece().getName().equals("K")) {
+                    out.getKings()[out.getTiles()[i/8][i%8].getPiece().getColour()] = (King) out.getTiles()[i/8][i%8].getPiece();
+                    out.getKingTiles()[out.getTiles()[i/8][i%8].getPiece().getColour()] = out.getTiles()[i/8][i%8];
+                    out.getPieces().get(out.getTiles()[i/8][i%8].getPiece().getColour()).add(out.getTiles()[i/8][i%8]);
                 }
             }
         }
         out.setTurn(this.turn);
         out.setToMove(this.toMove);
-        // long endTime = System.nanoTime();
-        // System.out.println("Time elapsed to copy board: " + (endTime - startTime));
         return out;
     }
     
@@ -384,6 +387,16 @@ public class Board {
             }
         }
         return true;
+    }
+    
+    public static void main(String[] args) {
+        Board b = new Board();
+        System.out.println("Board created - copying board");
+        long start = System.currentTimeMillis();
+        Board copy = b.copy();
+        long end = System.currentTimeMillis();
+        System.out.println("Time taken: " + (end - start));
+        System.out.println(copy);
     }
 
 }

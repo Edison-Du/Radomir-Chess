@@ -46,11 +46,4 @@ public class Knight extends Piece {
         return output;
     }
     
-    @Override
-    public Piece copy() {
-        Knight out = new Knight(this.getColour());
-        out.setMoved(this.getTurnMoved());
-        return out;
-    }
-    
 }

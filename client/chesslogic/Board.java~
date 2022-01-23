@@ -385,32 +385,5 @@ public class Board {
         }
         return true;
     }
-    
-    public String toAlgebraic(String t1, String t2, String p) {
-        String out = "";
-        if(this.getTile(t1).getPiece().getName().equals("K") && this.getTile(t2).getX() - this.getTile(t1).getX() == 2) {
-            return "O-O";
-        }
-        else if(this.getTile(t1).getPiece().getName().equals("K") && this.getTile(t2).getX() - this.getTile(t1).getX() == -2) {
-            return "O-O-O";
-        }
-        if(!this.getTile(t1).getPiece().getName().equals("p")) {
-            out = out + this.getTile(t1).getPiece().getName();
-        }
-        else if(this.getTile(t2).getX() == this.getTile(t1).getX()) { }
-        else {
-            out = out + t1.substring(0, 1) + "x";
-            out = out + t2;
-            if(this.getTile(t2).getPiece() == null) {
-                out = out + " e.p.";
-            }
-            return out;
-        }
-        if(this.getTile(t2).getPiece() != null) {
-            out = out + "x";
-        }
-        out = out + t2;
-        return out;
-    }
 
 }

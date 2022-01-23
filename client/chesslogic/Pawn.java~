@@ -58,11 +58,4 @@ public class Pawn extends Piece {
         return output;
     }
     
-    @Override
-    public Piece copy() {
-        Pawn out = new Pawn(this.getColour());
-        out.setMoved(this.getTurnMoved());
-        return out;
-    }
-    
 }

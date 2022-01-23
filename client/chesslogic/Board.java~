@@ -357,10 +357,10 @@ public class Board {
             }
             else {
                 out.getTiles()[i/8][i%8].setPiece(this.tiles[i/8][i%8].getPiece().copy());
-                out.getPieces().get(out.getTiles()[i/8][i%8].getPiece().getColour()).add(out.getTiles()[i/8][i%8]);
                 if(out.getTiles()[i/8][i%8].getPiece().getName().equals("K")) {
                     out.getKings()[out.getTiles()[i/8][i%8].getPiece().getColour()] = (King) out.getTiles()[i/8][i%8].getPiece();
                     out.getKingTiles()[out.getTiles()[i/8][i%8].getPiece().getColour()] = out.getTiles()[i/8][i%8];
+                    out.getPieces().get(out.getTiles()[i/8][i%8].getPiece().getColour()).add(out.getTiles()[i/8][i%8]);
                 }
             }
         }

@@ -7,6 +7,7 @@ import javax.swing.SwingConstants;
 
 import config.GameState;
 import config.MessageTypes;
+import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
 import views.components.CustomButton;
@@ -42,7 +43,12 @@ public class GameResultOverlay extends JPanel implements ActionListener {
 
         // Play Again
         playAgain = new CustomButton("Play Again");
-        playAgain.setBounds(150, 200, 150, 100);
+        playAgain.setBounds(45, 230, 390, 60);
+        playAgain.setBackground(new Color(0, 0, 0, 0));
+        playAgain.setHoverColor(new Color(0, 0, 0, 0));
+        playAgain.setPressedColor(new Color(0, 0, 0, 0));
+        playAgain.setBorder(UserInterface.EMPTY_BORDER);
+        playAgain.setForeground(Color.WHITE);
         playAgain.addActionListener(this);
         this.add(playAgain);
     }

@@ -22,4 +22,3 @@ public class ClientsDataUpdater extends Thread {
         }
     }
 }
-

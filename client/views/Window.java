@@ -43,6 +43,8 @@ public class Window extends JFrame {
         // Initialize fonts
         UserInterface.loadFonts();
 
+        UserInterface.readAllPieceImages();
+
         // Initialize panels
         homePagePanel = new HomePage(this);
         joinGamePanel = new JoinGame(this);

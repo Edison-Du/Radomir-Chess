@@ -14,7 +14,9 @@ import views.pages.Settings;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.IOException;
 
 public class UserInterface {
     
@@ -91,7 +93,8 @@ public class UserInterface {
         new Color(246, 205, 74),
         new Color(200, 215, 227),
         new Color(92, 240, 89),
-        new Color(239, 144, 49)
+        new Color(239, 144, 49),
+        new Color(193, 165, 255)
     };
     public static final Color[] DARKER_TILE_COLOURS = new Color[]{
         new Color(64, 64, 65),
@@ -110,14 +113,19 @@ public class UserInterface {
         new Color(57, 55, 46),
         new Color(47, 78, 111),
         new Color(247, 57, 119),
-        new Color(55, 47, 44)
+        new Color(55, 47, 44),
+        new Color(244, 46, 144)
     };
     public static Color lighterTile = LIGHTER_TILE_COLOURS[activeTheme];
     public static Color darkerTile = DARKER_TILE_COLOURS[activeTheme];
 
     // Chess Sets
+    private static int NUM_SETS = PathsConsts.PIECE_SETS.length;
+    private static int NUM_PIECES = PathsConsts.PIECE_NAMES.length;
     public static int activeSetNum = 0;
-    public static String activePieceSet = PathsConsts.PIECE_SETS[0];
+
+    public static final BufferedImage[][] PIECES = new BufferedImage[NUM_SETS][NUM_PIECES];
+
     
     // Piece/board highlights
     public static final Color[] POSSIBLE_MOVE_COLOURS = new Color[]{
@@ -182,6 +190,22 @@ public class UserInterface {
         }
         isImageTheme = false;
     }
+    
+    /**
+     * reads all the piece sets and stores them
+     */
+    public static void readAllPieceImages() {
+        try {
+            for (int set = 0; set < NUM_SETS; set++) {
+                for (int piece = 0; piece < PathsConsts.PIECE_NAMES.length; piece++) {
+                    PIECES[set][piece] = ImageIO.read(new File(PathsConsts.PIECE_SETS[set] + PathsConsts.PIECE_NAMES[piece] + PathsConsts.PNG_FILE));
+                }
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
+            System.out.println("didn't read");
+        }
+    }
 
     /**
      * Changes the chess set
@@ -189,7 +213,6 @@ public class UserInterface {
      */
     public static void changePieceSet(int set) {
         activeSetNum = set;
-        activePieceSet = PathsConsts.PIECE_SETS[set];
     }
 
     /**

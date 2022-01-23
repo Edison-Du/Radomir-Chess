@@ -29,6 +29,7 @@ public class BotPanel extends AbstractGamePanel {
 
         this.window = window;
 
+        lobbyInfoPanel.setlobbyTitle("Bot Game");
         resetGame();
     }
 

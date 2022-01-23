@@ -39,7 +39,8 @@ public class MessageTypes {
     public static final String PLAYER_COLOUR = "PLAYER_COLOUR";
     public static final String CHESS_MOVE = "CHESS_MOVE";
 
-    public static final String CHECKMATE = "CHECKMATE";
+    public static final String WHITE_VICTORY_CHECKMATE = "WHITE_VICTORY_CHECKMATE";
+    public static final String BLACK_VICTORY_CHECKMATE = "BLACK_VICTORY_CHECKMATE";
     public static final String STALEMATE = "STALEMATE";
     public static final String RESIGNATION = "RESIGNATION";
     public static final String PLAY_AGAIN = "PLAY_AGAIN";

@@ -143,7 +143,7 @@ public class ClientHandler extends Thread{
             leaveGame();
 
         } else if (request.getType().equals(MessageTypes.SENT_TEXT)) {
-            sendText(request);
+            sendMessageToOther(request);
 
         } else if (request.getType().equals(MessageTypes.LOCK_LOBBY)) {
             lockLobby();
@@ -151,26 +151,29 @@ public class ClientHandler extends Thread{
         } else if (request.getType().equals(MessageTypes.UNLOCK_LOBBY)) {
             unlockLobby();
         
+        } else if (request.getType().equals(MessageTypes.PLAYER_COLOUR)) {
+            updatePlayerColour(request);
+
+            // TODO Merge all these if statements that use the same method
         } else if (request.getType().equals(MessageTypes.CHESS_MOVE)) {
-            sendChessMove(request);
+            sendMessageToOther(request);
 
-        } else if(request.getType().equals(MessageTypes.CHECKMATE)) {
-            checkmateGame(request);
-
-        } else if(request.getType().equals(MessageTypes.STALEMATE)) {
-            stalemateGame(request);
+        } else if(request.getType().equals(MessageTypes.WHITE_VICTORY_CHECKMATE) ||
+                  request.getType().equals(MessageTypes.BLACK_VICTORY_CHECKMATE) ||
+                  request.getType().equals(MessageTypes.STALEMATE)) {
+            sendMessageToOther(request);
 
         } else if (request.getType().equals(MessageTypes.RESIGNATION)) {
-            resignGame(request);
+            sendMessageToOther(request);
 
         } else if (request.getType().equals(MessageTypes.PLAY_AGAIN)) {
-            sendPlayAgainRequest(request);
+            sendMessageToOther(request);
             
         } else if (request.getType().equals(MessageTypes.DRAW_OFFERED)) {
-            sendDrawOffer(request);
+            sendMessageToOther(request);
 
         } else if (request.getType().equals(MessageTypes.DRAW_ACCEPTED)) {
-            sendDrawAcceptance(request);
+            sendMessageToOther(request);
 
         } else if (request.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
             sendTakebackRequest(request);
@@ -309,44 +312,17 @@ public class ClientHandler extends Thread{
         lobby = null;
     }
 
+    private void updatePlayerColour(Message message) {
+        int colour = Integer.parseInt(message.getParam(0));
+        if (lobby == null) return;
+        if (lobby.getHost() == this) {
+            lobby.setHostColour(colour);
+        }
+    }
+
     // The following 4 methods can be merged into one, maybe
-    private void sendText(Message message) {
+    private void sendMessageToOther(Message message) {
         if(lobby==null) return;
-        lobby.sendMessage(this, message);
-    }
-
-    private void sendChessMove(Message message) {
-        if(lobby==null) return;
-        lobby.sendMessage(this, message);
-    }
-
-    private void checkmateGame(Message message) {
-        if (lobby==null) return;
-        lobby.sendMessage(this, message);
-    }
-
-    private void stalemateGame(Message message) {
-        if (lobby==null) return;
-        lobby.sendMessage(this, message);
-    }
-
-    private void resignGame(Message message) {
-        if (lobby==null) return;
-        lobby.sendMessage(this, message);
-    }
-
-    private void sendPlayAgainRequest(Message message) {
-        if (lobby==null) return;
-        lobby.sendMessage(this, message);
-    }
-
-    private void sendDrawOffer(Message message) {
-        if (lobby==null) return;
-        lobby.sendMessage(this, message);
-    }
-
-    private void sendDrawAcceptance(Message message) {
-        if (lobby==null) return;
         lobby.sendMessage(this, message);
     }
     // End of similar methods

@@ -62,11 +62,17 @@ public class UserInterface {
 
     // Settings
     public static final Font SETTINGS_FONT = new Font("Serif", Font.PLAIN, 18);
-    public static final int NUM_SETTINGS = 5;
+    public static final int NUM_SETTINGS = 4;
 
     // Game board
     public static int activeTheme = 0;
+    public static final int ICE_BOARD = 1;
     public static final int WOOD_BOARD = 2;
+    public static final int[] IMAGE_THEMES = {
+        ICE_BOARD,
+        WOOD_BOARD
+    };
+    public static boolean isImageTheme = false;
     public static final Color[] LIGHTER_TILE_COLOURS = new Color[]{
         new Color(192, 192, 193),
         new Color(218, 226, 234),
@@ -74,7 +80,7 @@ public class UserInterface {
         new Color(255, 135, 178),
         new Color(253, 164, 72),
         new Color(162, 144, 178),
-        new Color(87, 164, 24),
+        new Color(135, 211, 74),
         new Color(29, 209, 186),
         new Color(238, 238, 210),
         new Color(34, 203, 209),
@@ -90,7 +96,7 @@ public class UserInterface {
         new Color(161, 216, 224),
         new Color(252, 63, 134),
         new Color(128, 74, 145),
-        new Color(25, 85, 21),
+        new Color(23, 90, 21),
         new Color(236, 124, 158),
         new Color(118, 150, 86),
         new Color(55, 37, 135),
@@ -101,16 +107,6 @@ public class UserInterface {
     };
     public static Color lighterTile = LIGHTER_TILE_COLOURS[activeTheme];
     public static Color darkerTile = DARKER_TILE_COLOURS[activeTheme];
-
-    // Background
-    public static int activeBackground = 0;
-    public static Color[] BACKGROUNDS = new Color[]{
-        FRAME_COLOUR,
-        new Color(220, 220, 220),
-        new Color(27, 27, 27),
-        new Color(194, 205, 220),
-        new Color(47, 63, 76)
-    };
 
     // Chess Sets
     private static int activeSetNum = 0;
@@ -170,16 +166,13 @@ public class UserInterface {
         activeTheme = theme;
         lighterTile = LIGHTER_TILE_COLOURS[theme];
         darkerTile = DARKER_TILE_COLOURS[theme];
-    }
-
-    /**
-     * Changes the background colour variable and returns it
-     * @param colour
-     * @return Color change to
-     */
-    public static Color changeBackground(int colour) {
-        activeBackground = colour;
-        return BACKGROUNDS[colour];
+        for (int i = 0; i < IMAGE_THEMES.length; i++) {
+            if (theme == IMAGE_THEMES[i]) {
+                isImageTheme = true;
+                return;
+            }
+        }
+        isImageTheme = false;
     }
 
     /**
@@ -207,11 +200,11 @@ public class UserInterface {
     public static void toggleHighlight(CustomButton button) {
         highlightToggle ^= true;
         if (highlightToggle) {
-            button.setText("Highlights On");
+            button.setText("Show Moves On");
             button.setBackground(ON_COLOUR);
             button.setHoverColor(UserInterface.ON_COLOUR.brighter());
         } else {
-            button.setText("Highlights Off");
+            button.setText("Show Moves Off");
             button.setBackground(OFF_COLOUR);
             button.setHoverColor(UserInterface.OFF_COLOUR.brighter());
         }
@@ -224,10 +217,9 @@ public class UserInterface {
     public static int[] getCurrentSettings() {
         int[] settings = new int[NUM_SETTINGS];
         settings[0] = activeTheme;
-        settings[1] = activeBackground;
-        settings[2] = activeSetNum;
-        settings[3] = highlightToggle?1:0;
-        settings[4] = activeHighlight;
+        settings[1] = activeSetNum;
+        settings[2] = highlightToggle?1:0;
+        settings[3] = activeHighlight;
         return settings;
     }
 }

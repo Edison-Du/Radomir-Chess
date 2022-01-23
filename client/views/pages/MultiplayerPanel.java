@@ -29,8 +29,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
     private JLabel otherClientLabel;
 
 
-
-
     public MultiplayerPanel() {
 
         // CHESS GAME
@@ -140,23 +138,20 @@ public class MultiplayerPanel extends AbstractGamePanel {
     public void handleGameEnded() {
         System.out.println("game ended!");
 
-        boolean isChecked = true;
-
-        // someone fix this method pls
-        // boolean isChecked = chessGame.getCurrentPos().getKings()[chessGame.getCurrentPos().getTurn()].isChecked(chessGame.getCurrentPos(), chessGame.getCurrentPos().getKingTiles()[chessGame.getCurrentPos().getTurn()]);
-
-        if(isChecked) {
-            System.out.println("checkmate!");
-
-            setGameState(GameState.CHECKMATE);
-            ServerConnection.sendMessage(new Message(MessageTypes.CHECKMATE));
-            this.boardPanel.gameResultOverlay.setMessage("Checkmate");
-        } else {
-            System.out.println("stalemate!");
-
+        if(chessGame.stalemate()) {
             setGameState(GameState.STALEMATE);
             ServerConnection.sendMessage(new Message(MessageTypes.STALEMATE));
             this.boardPanel.gameResultOverlay.setMessage("Stalemate");
+
+        } else if (chessGame.whiteWins()){
+            setGameState(GameState.WHITE_VICTORY_CHECKMATE);
+            ServerConnection.sendMessage(new Message(MessageTypes.WHITE_VICTORY_CHECKMATE));
+            this.boardPanel.gameResultOverlay.setMessage("White wins by checkmate");
+        
+        } else if (chessGame.blackWins()) {
+            setGameState(GameState.BLACK_VICTORY_CHECKMATE);
+            ServerConnection.sendMessage(new Message(MessageTypes.BLACK_VICTORY_CHECKMATE));
+            this.boardPanel.gameResultOverlay.setMessage("Black wins by checkmate");
         }
     }
 

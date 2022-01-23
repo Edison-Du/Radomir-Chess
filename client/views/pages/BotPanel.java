@@ -10,6 +10,7 @@ import chesslogic.RandomBot;
 import config.GameState;
 import config.Page;
 import config.UserInterface;
+import java.awt.Color;
 import views.Window;
 
 public class BotPanel extends AbstractGamePanel {
@@ -34,6 +35,9 @@ public class BotPanel extends AbstractGamePanel {
 
         boardPanel.setChessGame(chessGame);
         movesPanel.clearMoves();
+
+        capturedPiecesPanelBlack.setChessGame(chessGame);
+        capturedPiecesPanelWhite.setChessGame(chessGame);
 
         setPlayerColour((int)(Math.random() * 2));
 
@@ -69,17 +73,6 @@ public class BotPanel extends AbstractGamePanel {
             String chessMove = chessGame.toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
             movesPanel.addMove(chessMove);
 
-            // Add piece to captured pieces
-            if (getPlayerColour() == 0) {
-                capturedPiecesPanelWhite.addCapturedPiece(
-                    chessGame.getCurrentPos().getTiles()[posX][posY].getPiece()
-                );
-            } else {
-                capturedPiecesPanelBlack.addCapturedPiece(
-                    chessGame.getCurrentPos().getTiles()[posX][posY].getPiece()
-                );
-            }
-
             chessGame.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
         }
     }
@@ -88,8 +81,19 @@ public class BotPanel extends AbstractGamePanel {
     public void handleGameEnded() {
         // TODO Auto-generated method stub
         System.out.println("game ended!");
-        setGameState(GameState.STALEMATE);
-        this.boardPanel.gameResultOverlay.setMessage("Stalemate");
+        if(chessGame.stalemate()) {
+            setGameState(GameState.STALEMATE);
+            this.boardPanel.gameResultOverlay.setMessage("Stalemate");
+
+        } else if (chessGame.whiteWins()){
+            setGameState(GameState.WHITE_VICTORY_CHECKMATE);
+            this.boardPanel.gameResultOverlay.setMessage("White wins by checkmate");
+        
+        } else if (chessGame.blackWins()) {
+            setGameState(GameState.BLACK_VICTORY_CHECKMATE);
+            this.boardPanel.gameResultOverlay.setMessage("Black wins by checkmate");
+        }
+        setOpponentPlayAgain(true);
     }
 
     @Override

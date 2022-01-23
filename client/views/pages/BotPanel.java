@@ -35,6 +35,9 @@ public class BotPanel extends AbstractGamePanel {
         boardPanel.setChessGame(chessGame);
         movesPanel.clearMoves();
 
+        capturedPiecesPanelBlack.setChessGame(chessGame);
+        capturedPiecesPanelWhite.setChessGame(chessGame);
+        
         setPlayerColour((int)(Math.random() * 2));
 
         depthSearchBot = new DepthSearchBotP2(5, (getPlayerColour() + 1) % 2);

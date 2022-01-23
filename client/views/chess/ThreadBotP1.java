@@ -29,9 +29,13 @@ public class ThreadBotP1 extends SwingWorker<String, Void> {
 
     @Override
     protected String doInBackground() throws Exception {
-
+            String botMove;
             System.out.println("started next move");
-            String botMove = bot.nextMove(chessGameClone);
+            synchronized(chessGameClone) {
+                synchronized(chessGame) {
+                    botMove = depthSearchBot.nextMove(chessGameClone);
+                }
+            }
             System.out.println(chessGame.toString());
             
             System.out.println("finished next move");
@@ -44,13 +48,18 @@ public class ThreadBotP1 extends SwingWorker<String, Void> {
 
             System.out.println(botMove.substring(0,2) + ", " + botMove.substring(2, 4) + ", " + botMove.substring(4, 5) + "stop");
 
-            chessGameClone.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
+            if (chessGame.getCurrentPos().getToMove() != gamePanel.getPlayerColour()) {
+                synchronized(chessGame) {
+                    synchronized(chessGameClone) {
+                        chessGameClone.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
+                        String chessMove = chessGame.toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
+                        movesPanel.addMove(chessMove);
+                        chessGame.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
 
-            String chessMove = chessGame.toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
-            movesPanel.addMove(chessMove);
-            chessGame.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
-
-            gamePanel.handleGameEnded();
+                        gamePanel.handleGameEnded();
+                    }
+                }
+            }
 
         return null;
     }

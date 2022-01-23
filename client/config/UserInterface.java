@@ -88,7 +88,10 @@ public class UserInterface {
         new Color(211, 199, 181),
         new Color(252, 241, 234),
         new Color(120, 226, 247),
-        new Color(246, 205, 74)
+        new Color(246, 205, 74),
+        new Color(200, 215, 227),
+        new Color(92, 240, 89),
+        new Color(239, 144, 49)
     };
     public static final Color[] DARKER_TILE_COLOURS = new Color[]{
         new Color(64, 64, 65),
@@ -104,7 +107,10 @@ public class UserInterface {
         new Color(95, 51, 31),
         new Color(194, 170, 134),
         new Color(38, 179, 129),
-        new Color(57, 55, 46)
+        new Color(57, 55, 46),
+        new Color(47, 78, 111),
+        new Color(247, 57, 119),
+        new Color(55, 47, 44)
     };
     public static Color lighterTile = LIGHTER_TILE_COLOURS[activeTheme];
     public static Color darkerTile = DARKER_TILE_COLOURS[activeTheme];

@@ -128,14 +128,18 @@ public class BotPanel extends AbstractGamePanel {
     public void handleTakebackButton() {
         // Make sure the user has made a move
         if (movesPanel.getNumMoves() > getPlayerColour()) {
-            if (chessGame.getCurrentPos().getToMove() == getPlayerColour()) {
-                undoMove();
-                undoMove();
-                chessGameClone.undo();
-                chessGameClone.undo();
-            } else {
-                undoMove();
-                chessGameClone.undo();
+            synchronized(chessGame) {
+                synchronized(chessGameClone) {
+                    if (chessGame.getCurrentPos().getToMove() == getPlayerColour()) {
+                        undoMove();
+                        undoMove();
+                        chessGameClone.undo();
+                        chessGameClone.undo();
+                    } else {
+                        undoMove();
+                        chessGameClone.undo();
+                    }
+                }
             }
         }
     }

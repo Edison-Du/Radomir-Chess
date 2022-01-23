@@ -15,7 +15,7 @@ public class King extends Piece {
      * @
      */
     public King(int col) {
-        super(col, "K", 0, UserInterface.PIECES[UserInterface.activeSetNum][10 + col]);
+        super(col, "K", 0, UserInterface.PIECES.get(col + 10));
         this.hasCastled = false;
     }
     

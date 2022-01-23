@@ -143,7 +143,6 @@ public class Window extends JFrame {
             content = playBotPanel;
 
         } else if (currentPage == Page.GAME) {
-            // Reset game panel
             content = gamePanel;
 
         } else if (currentPage == Page.SETTINGS) {

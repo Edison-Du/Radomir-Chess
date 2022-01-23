@@ -3,6 +3,8 @@ package views.chess;
 import javax.swing.SwingWorker;
 
 import chesslogic.ChessGame;
+import config.PathsConsts;
+import sounds.SoundEffect;
 import config.GameState;
 import chesslogic.Bot;
 import views.pages.BotPanel;
@@ -19,6 +21,7 @@ public class ThreadBotP1 extends SwingWorker<String, Void> {
     private Bot bot;
     private MovesPanel movesPanel;
     private BotPanel gamePanel;
+    private String botMove;
 
     public ThreadBotP1(ChessGame chessGame, ChessGame chessGameClone, Bot bot, MovesPanel movesPanel, BotPanel gamePanel) {
         this.chessGame = chessGame;
@@ -30,7 +33,6 @@ public class ThreadBotP1 extends SwingWorker<String, Void> {
 
     @Override
     protected String doInBackground() throws Exception {
-            String botMove;
             System.out.println("started next move");
             synchronized(chessGameClone) {
                 synchronized(chessGame) {
@@ -55,10 +57,12 @@ public class ThreadBotP1 extends SwingWorker<String, Void> {
                     synchronized(chessGameClone) {
                         chessGameClone.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
                         String chessMove = chessGame.toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
+
                         movesPanel.addMove(chessMove);
                         chessGame.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
 
                         gamePanel.handleGameEnded();
+
                     }
                 }
             }

@@ -12,6 +12,9 @@ import views.pages.AbstractGamePanel;
 
 import java.awt.image.BufferedImage;
 
+import config.PathsConsts;
+import sounds.SoundEffect;
+
 public class ChessGameMouseListener implements MouseListener, MouseMotionListener {
 
     private AbstractGamePanel gamePanel;
@@ -39,6 +42,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     public ChessGameMouseListener(ChessGame game,  AbstractGamePanel gamePanel) {
         this.game = game;
         this.gamePanel = gamePanel;
+
     }
 
     public void mousePressed(MouseEvent e) {
@@ -63,6 +67,8 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
 
                 gamePanel.movesPanel.addMove(game.toAlgebraic(promotionT1, promotionT2, promotionChoice));
                 
+                SoundEffect.playSound(t1, t2, promotionChoice, game);
+
                 game.move(promotionT1, promotionT2, promotionChoice);
                 gamePanel.processMove(promotionT1, promotionT2, promotionChoice);
 
@@ -99,7 +105,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     }
 
     public void mouseReleased(MouseEvent e) {
-        
 
         // Initialize mouse coordinates
         mouseX = e.getX();
@@ -119,7 +124,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             System.out.println(", " + t2);
 
             if(gamePanel.getGameState() == GameState.ONGOING && game.getCurrentPos().legal(t1, t2)) {
-                
+
                 if(game.getCurrentPos().promotingMove(t1, t2)) {
                     isPromoting = true;
                     promotionT1 = t1;
@@ -127,9 +132,10 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                 }
                 else {
                     gamePanel.movesPanel.addMove(game.toAlgebraic(t1, t2, ""));
-                    
+
+                    SoundEffect.playSound(t1, t2, "", game);
                     game.move(t1, t2, "");
-                    
+
                     System.out.println("processing the move");
                     gamePanel.processMove(t1, t2, "");
 
@@ -195,4 +201,5 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     public Piece getSelectedPiece() {
         return selectedPiece;
     }
+
 }

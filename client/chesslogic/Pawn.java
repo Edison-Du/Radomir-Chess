@@ -12,7 +12,7 @@ public class Pawn extends Piece {
      * @
      */
     public Pawn(int col) {
-        super(col, "p", 15, UserInterface.PIECES[UserInterface.activeSetNum][col]);
+        super(col, "p", 15, UserInterface.PIECES.get(col));
     }
     
     @Override

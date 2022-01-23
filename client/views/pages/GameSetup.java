@@ -53,7 +53,7 @@ public class GameSetup extends ContentPanel implements ActionListener {
         createPrivateLobbyBtn.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(createPrivateLobbyBtn);
 
-        this.backButton = new PanelButton("Back", 40, 40);
+        this.backButton = new PanelButton("Back", 20, 20);
         this.backButton.addActionListener(this);
         this.backButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(backButton);

@@ -44,9 +44,9 @@ public class Window extends JFrame {
 
         // Initialize panels
         homePagePanel = new HomePage(this);
-        joinGamePanel = new JoinGame();
+        joinGamePanel = new JoinGame(this);
         gameSetupPanel = new GameSetup(this);
-        browseGamesPanel = new BrowseGames();
+        browseGamesPanel = new BrowseGames(this);
         gamePanel = new MultiplayerPanel();
         settingsPanel = new Settings(this);
         aboutPanel = new About();

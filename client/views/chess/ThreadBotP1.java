@@ -3,7 +3,8 @@ package views.chess;
 import javax.swing.SwingWorker;
 
 import chesslogic.ChessGame;
-import chesslogic.DepthSearchBotP2;
+import config.GameState;
+import chesslogic.Bot;
 import views.pages.BotPanel;
 
 /*
@@ -15,14 +16,14 @@ public class ThreadBotP1 extends SwingWorker<String, Void> {
 
     private ChessGame chessGame;
     private ChessGame chessGameClone;
-    private DepthSearchBotP2 depthSearchBot;
+    private Bot bot;
     private MovesPanel movesPanel;
     private BotPanel gamePanel;
 
-    public ThreadBotP1(ChessGame chessGame, ChessGame chessGameClone, DepthSearchBotP2 depthSearchBotP2, MovesPanel movesPanel, BotPanel gamePanel) {
+    public ThreadBotP1(ChessGame chessGame, ChessGame chessGameClone, Bot bot, MovesPanel movesPanel, BotPanel gamePanel) {
         this.chessGame = chessGame;
         this.chessGameClone = chessGameClone;
-        this.depthSearchBot = depthSearchBotP2;
+        this.bot = bot;
         this.movesPanel = movesPanel;
         this.gamePanel = gamePanel;
     }
@@ -33,7 +34,7 @@ public class ThreadBotP1 extends SwingWorker<String, Void> {
             System.out.println("started next move");
             synchronized(chessGameClone) {
                 synchronized(chessGame) {
-                    botMove = depthSearchBot.nextMove(chessGameClone);
+                    botMove = bot.nextMove(chessGameClone);
                 }
             }
             System.out.println(chessGame.toString());
@@ -48,7 +49,8 @@ public class ThreadBotP1 extends SwingWorker<String, Void> {
 
             System.out.println(botMove.substring(0,2) + ", " + botMove.substring(2, 4) + ", " + botMove.substring(4, 5) + "stop");
 
-            if (chessGame.getCurrentPos().getToMove() != gamePanel.getPlayerColour()) {
+            if (chessGame.getCurrentPos().getToMove() != gamePanel.getPlayerColour() && 
+                gamePanel.getGameState() == GameState.ONGOING) {
                 synchronized(chessGame) {
                     synchronized(chessGameClone) {
                         chessGameClone.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));

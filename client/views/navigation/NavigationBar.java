@@ -28,7 +28,7 @@ public class NavigationBar extends JPanel {
     };
 
     private final NavigationLink[] links;
-    private final Image radomirLogo = getLogoImage();
+    private final Image headerImage = getHeaderImage();
     private final int loginPage = 3;
     private JLabel usernameLabel;
 
@@ -50,7 +50,7 @@ public class NavigationBar extends JPanel {
 
         for (int i = 0; i < navbarPages.length; i++) {
             int x = 0;
-            int y = i * UserInterface.NAVBAR_BUTTON_HEIGHT;
+            int y = i * UserInterface.NAVBAR_BUTTON_HEIGHT + UserInterface.NAVBAR_WIDTH / 2 - 15;
             Page currentPage = navbarPages[i];
 
             links[i] = new NavigationLink(x, y, currentPage);
@@ -74,9 +74,9 @@ public class NavigationBar extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(radomirLogo, UserInterface.NAVBAR_WIDTH / 2 - 70, UserInterface.WINDOW_HEIGHT / 2 + 50, this);
+        g.drawImage(headerImage, 0, 0, this);
         g.setColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR.brighter());
-        g.fillRect(0, UserInterface.WINDOW_HEIGHT-70, UserInterface.NAVBAR_WIDTH, 70);
+        g.fillRect(0, UserInterface.WINDOW_HEIGHT - 70, UserInterface.NAVBAR_WIDTH, 70);
     }
 
     public void setLoggedIn(boolean isLoggedIn) {
@@ -89,9 +89,9 @@ public class NavigationBar extends JPanel {
         }
     }
 
-    public static Image getLogoImage() {
+    public static Image getHeaderImage() {
         try {
-            return ImageIO.read(new File(PathsConsts.CHESS_LOGO)).getScaledInstance(140, 175, Image.SCALE_DEFAULT);
+            return ImageIO.read(new File(PathsConsts.CHESS_LOGO)).getScaledInstance(UserInterface.NAVBAR_WIDTH, UserInterface.NAVBAR_WIDTH / 2 - 15, Image.SCALE_DEFAULT);
         } catch(IOException e) {
             System.out.println("File not found");
             e.printStackTrace();

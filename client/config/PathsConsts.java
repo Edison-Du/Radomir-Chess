@@ -12,7 +12,7 @@ public class PathsConsts {
         ASSETS + "kosal pieces/"
     };
     public static final String PROMOTION_PLATTER = ASSETS + "promotion" + PNG_FILE;
-    public static final String CHESS_LOGO = ASSETS + "radomirchess" + PNG_FILE;
+    public static final String CHESS_LOGO = ASSETS + "navbarheader" + PNG_FILE;
 
     public static final String WOOD_THEME = THEMES + "wood" + PNG_FILE;
     public static final String ICE_THEME = THEMES + "icysea" + PNG_FILE;

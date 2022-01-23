@@ -18,7 +18,7 @@ import views.components.ContentPanel;
 
 public class Login extends ContentPanel implements ActionListener{
 
-    private final JLabel title = new JLabel();
+    private final JLabel titleLabel = new JLabel("Login");
     private final JLabel profile = new JLabel();
 
     private final JLabel usernameLabel= new JLabel();
@@ -30,13 +30,12 @@ public class Login extends ContentPanel implements ActionListener{
     private final JLabel errorMessage = new JLabel();
     
     public Login() {        
-        title.setForeground(UserInterface.TEXT_COLOUR);
-        title.setFont(new Font("Serif", Font.ITALIC, 36));
-        title.setText(UserInterface.WINDOW_TITLE);
-        title.setSize(new Dimension(280, 80));
-        title.setBounds(UserInterface.CONTENT_WIDTH / 2 - title.getWidth() / 2, 0, title.getWidth(), title.getHeight());
-        this.add(title);
 
+        titleLabel.setFont(UserInterface.HEADER_FONT);
+        titleLabel.setForeground(UserInterface.TEXT_COLOUR);
+        titleLabel.setBounds(30, 30, 210, 50);
+        this.add(titleLabel);
+        
         profile.setFont(new Font("Serif", Font.ITALIC, 36));
         profile.setText("Register");
         this.add(profile);

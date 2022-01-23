@@ -223,4 +223,13 @@ public class UserInterface {
         settings[3] = activeHighlight;
         return settings;
     }
+
+    public static void toggleLobbyVisibility(CustomButton button) {
+        highlightToggle ^= true;
+        if (highlightToggle) {
+            button.setText("Creating Public Lobby");
+        } else {
+            button.setText("Creating Private Lobby");
+        }
+    }
 }

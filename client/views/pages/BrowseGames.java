@@ -29,13 +29,11 @@ import network.ServerConnection;
 import views.components.ContentPanel;
 
 public class BrowseGames extends ContentPanel implements ActionListener {
-    // Constants
-    // private final JLabel titleLabel = new JLabel();
 
     private JList<String> lobbyList;
     private JScrollPane pane;
     private DefaultListModel<String> allLobbies = new DefaultListModel<>();
-    private JButton joinButton = new JButton();
+    private PanelButton joinButton;
     private JLabel joinLabel = new JLabel();
     private JPanel lobbyListPanel;
 
@@ -72,12 +70,16 @@ public class BrowseGames extends ContentPanel implements ActionListener {
         joinLabel.setText("Join Lobby: ");
         joinLabel.setForeground(UserInterface.TEXT_COLOUR);
         joinLabel.setFont(new Font("Serif", Font.ITALIC, 36));
-        joinLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 + 140, UserInterface.WINDOW_HEIGHT / 2 - 240, 400, 400);
+        joinLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 + 125, UserInterface.WINDOW_HEIGHT / 2 - 240, 400, 400);
         this.add(joinLabel);
 
-        joinButton.setBounds(UserInterface.CONTENT_WIDTH / 2 + 195, UserInterface.WINDOW_HEIGHT / 2 + 20, 150, 25);
+        joinButton = new PanelButton(
+            "JOIN",
+            615,
+            400 
+        );
         joinButton.addActionListener(this);
-        joinButton.setText("JOIN");
+        joinButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(joinButton);
     }
 
@@ -106,12 +108,12 @@ public class BrowseGames extends ContentPanel implements ActionListener {
     }
 
     public void setLobbyList(ArrayList<Lobby> lobbies) {
-        joinButton.doClick();
         this.lobbies = lobbies;
-        allLobbies.clear();
         joinLabel.setText("Join Lobby: ");
         lobbyList.setSelectedIndex(-1);
         joinGameCode = "";
+        allLobbies.clear();
+        joinButton.doClick();
         for (Lobby lobby : lobbies) {
             allLobbies.addElement(lobby.getDisplayLobbyInfo());
         }

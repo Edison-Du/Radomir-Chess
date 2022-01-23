@@ -20,39 +20,50 @@ import config.Page;
 public class GameSetup extends ContentPanel implements ActionListener {
 
     private Window window;
-
-    private String[] lobbyOptions = {"Public", "Private"};
-    private JComboBox<String> lobbyVisibilitySelection = new JComboBox<>(lobbyOptions);
-    private JButton playButton = new JButton();
+    private JLabel instructionsLabel = new JLabel();
+    private PanelButton createPublicLobbyBtn;
+    private PanelButton createPrivateLobbyBtn;
 
     public GameSetup(Window window) {
         this.window = window;
         this.setLayout(null);
 
-        lobbyVisibilitySelection.setBounds(650, 250, 115, 35);
-        lobbyVisibilitySelection.setForeground(UserInterface.FRAME_COLOUR);
-        lobbyVisibilitySelection.addActionListener(this);
-        lobbyVisibilitySelection.setVisible(true);
-        this.add(lobbyVisibilitySelection);
-        
+        instructionsLabel.setFont(UserInterface.TEXT_FONT_1);
+        instructionsLabel.setText("Choose Lobby Type: ");
+        instructionsLabel.setForeground(UserInterface.TEXT_COLOUR);
+        instructionsLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 120, UserInterface.WINDOW_HEIGHT / 2 - 115, 280, 30);
+        this.add(instructionsLabel);
 
-        playButton.setBounds(UserInterface.CONTENT_WIDTH / 2 + 195, UserInterface.WINDOW_HEIGHT / 2 + 20, 150, 25);
-        playButton.addActionListener(this);
-        playButton.setText("PLAY");
-        this.add(playButton);
+        //change and put the font in button class
+        createPublicLobbyBtn = new PanelButton(
+            "Public",
+            150,
+            365
+        );
+        createPublicLobbyBtn.addActionListener(this);
+        createPublicLobbyBtn.setFont(UserInterface.PLAY_BUTTONS_FONT);
+        this.add(createPublicLobbyBtn);
+
+        //change constants
+        createPrivateLobbyBtn = new PanelButton(
+            "Private",
+            550,
+            365
+        );
+        createPrivateLobbyBtn.addActionListener(this);
+        createPrivateLobbyBtn.setFont(UserInterface.PLAY_BUTTONS_FONT);
+        this.add(createPrivateLobbyBtn);
     }
 
     //@Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == playButton) {
-            Message createLobby = new Message(MessageTypes.CREATE_GAME);
-            if (lobbyVisibilitySelection.getSelectedIndex() == 0) {
-                createLobby.addParam("public");
-            } else if (lobbyVisibilitySelection.getSelectedIndex() == 1) {
-                createLobby.addParam("private");
-            }
-            ServerConnection.sendMessage(createLobby);
-            window.changePage(Page.GAME);
+        Message createLobby = new Message(MessageTypes.CREATE_GAME);
+        if (e.getSource() == createPublicLobbyBtn) {
+            createLobby.addParam("public");
+        } else if (e.getSource() == createPrivateLobbyBtn) {
+            createLobby.addParam("private");
         }
+        ServerConnection.sendMessage(createLobby);
+        window.changePage(Page.GAME);
     }
 }

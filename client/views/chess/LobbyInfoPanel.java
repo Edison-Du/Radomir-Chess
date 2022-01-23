@@ -38,12 +38,12 @@ public class LobbyInfoPanel extends JPanel {
         if (lobbyTitle.length() > 0) {
             g2d.setColor(getForeground());
             g2d.setFont(UserInterface.LOBBY_INFO);
-            g2d.drawString(lobbyTitle, 15, g2d.getFontMetrics().getMaxAscent() + getInsets().top + 5);
+            g2d.drawString(lobbyTitle, 15, g2d.getFontMetrics().getMaxAscent() + getInsets().top + 2);
 
             // This is nested so that it doesn't show when there's no title
             if (lobbyType.length() > 0) {
                 g2d.setFont(UserInterface.SETTINGS_FONT);
-                g2d.drawString(lobbyType, 120, g2d.getFontMetrics().getMaxAscent() + getInsets().top + 20);
+                g2d.drawString(lobbyType, 120, g2d.getFontMetrics().getMaxAscent() + getInsets().top + 16);
             }
         }
     }

@@ -59,8 +59,7 @@ public class GameResultOverlay extends JPanel implements ActionListener {
     // } 
 
     public void setMessage(String message) {
-        // this.message.setText(message);
-        this.message.setText("White wins by checkmate!");
+        this.message.setText(message);
         this.revalidate();
     }
 

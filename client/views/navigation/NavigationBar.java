@@ -4,14 +4,11 @@ import java.awt.Dimension;
 import javax.imageio.ImageIO;
 import java.awt.Image;
 import java.awt.Graphics;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import views.Window;
 import config.UserInterface;
@@ -20,7 +17,6 @@ import config.PathsConsts;
 
 public class NavigationBar extends JPanel {
     
-    private Window window;
     private NavigationActionListener navigationActionListener;
 
     private final Page[] navbarPages = {
@@ -41,7 +37,6 @@ public class NavigationBar extends JPanel {
     private String username;
     
     public NavigationBar (Window window) {
-        this.window = window;
 
         this.setBackground(UserInterface.NAVBAR_COLOUR);
         this.setPreferredSize(

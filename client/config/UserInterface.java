@@ -18,6 +18,8 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 
+import java.util.ArrayList;
+
 public class UserInterface {
     
     // JFrame related
@@ -120,12 +122,11 @@ public class UserInterface {
     public static Color darkerTile = DARKER_TILE_COLOURS[activeTheme];
 
     // Chess Sets
-    private static int NUM_SETS = PathsConsts.PIECE_SETS.length;
+    public static int NUM_SETS = PathsConsts.PIECE_SETS.length;
     private static int NUM_PIECES = PathsConsts.PIECE_NAMES.length;
     public static int activeSetNum = 0;
 
-    public static final BufferedImage[][] PIECES = new BufferedImage[NUM_SETS][NUM_PIECES];
-
+    public static final ArrayList<BufferedImage[]> PIECES = new ArrayList<BufferedImage[]>();
     
     // Piece/board highlights
     public static final Color[] POSSIBLE_MOVE_COLOURS = new Color[]{
@@ -196,14 +197,15 @@ public class UserInterface {
      */
     public static void readAllPieceImages() {
         try {
-            for (int set = 0; set < NUM_SETS; set++) {
-                for (int piece = 0; piece < PathsConsts.PIECE_NAMES.length; piece++) {
-                    PIECES[set][piece] = ImageIO.read(new File(PathsConsts.PIECE_SETS[set] + PathsConsts.PIECE_NAMES[piece] + PathsConsts.PNG_FILE));
+            for (int piece = 0; piece < NUM_PIECES; piece++) {
+                BufferedImage[] allImages = new BufferedImage[NUM_SETS];
+                for (int set = 0; set < NUM_SETS; set++) {
+                    allImages[set] = ImageIO.read(new File(PathsConsts.PIECE_SETS[set] + PathsConsts.PIECE_NAMES[piece] + PathsConsts.PNG_FILE));
                 }
+                PIECES.add(allImages);
             }
         } catch(IOException e) {
             e.printStackTrace();
-            System.out.println("didn't read");
         }
     }
 
@@ -274,10 +276,7 @@ public class UserInterface {
     public static Font orkney48;
     public static Font orkney96;
 
-
-    // Font sizes
-
-    // Loading
+    // Loading fonts
     public static void loadFonts() {
         if (readFonts()) {
             orkney12 = orkney.deriveFont(Font.PLAIN, 12);

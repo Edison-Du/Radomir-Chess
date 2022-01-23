@@ -13,6 +13,7 @@ import views.pages.AbstractGamePanel;
 import java.awt.image.BufferedImage;
 
 import config.PathsConsts;
+import sounds.SoundEffect;
 
 public class ChessGameMouseListener implements MouseListener, MouseMotionListener {
 
@@ -66,6 +67,8 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
 
                 gamePanel.movesPanel.addMove(game.toAlgebraic(promotionT1, promotionT2, promotionChoice));
                 
+                SoundEffect.playSound(t1, t2, promotionChoice, game);
+
                 game.move(promotionT1, promotionT2, promotionChoice);
                 gamePanel.processMove(promotionT1, promotionT2, promotionChoice);
 
@@ -130,7 +133,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                 else {
                     gamePanel.movesPanel.addMove(game.toAlgebraic(t1, t2, ""));
 
-                    playSound(t1, t2, "");
+                    SoundEffect.playSound(t1, t2, "", game);
                     game.move(t1, t2, "");
 
                     System.out.println("processing the move");
@@ -197,48 +200,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
 
     public Piece getSelectedPiece() {
         return selectedPiece;
-    }
-
-    public void playSound(String t1, String t2, String p) {
-        SoundEffect se = new SoundEffect();
-        Board current = game.getCurrentPos();
-        boolean soundChosen = false;
-
-        if(t1.equals("")) {
-            return;
-        }
-
-        game.move(t1, t2, p);
-        if(game.stalemate()) {
-            se.setFile(PathsConsts.STALEMATE);
-            game.undo();
-            soundChosen = true;
-        } else if(current.getKings()[0].isChecked(current, current.getKingTiles()[0]) || current.getKings()[1].isChecked(current, current.getKingTiles()[1])) {
-            if(game.whiteWins() || game.blackWins()) {
-                se.setFile(PathsConsts.CHECKMATE);
-                game.undo();
-                soundChosen = true;
-            } else {
-                se.setFile(PathsConsts.CHECK);
-                game.undo();
-                soundChosen = true;
-            }
-        }
-
-        if(!soundChosen) {
-            game.undo();
-
-            if(game.getCurrentPos().getTile(t1).getPiece().getName().equals("K") && Math.abs((t1.charAt(0) - '0') - (t2.charAt(0) - '0')) == 2) {
-                se.setFile(PathsConsts.CASTLE);
-            } else if(game.getCurrentPos().getTile(t2).getPiece() != null) {
-                System.out.println("checking the tile: " + game.getCurrentPos().getTile(t2).getPiece());
-                se.setFile(PathsConsts.CAPTURE);
-            } else {
-                se.setFile(PathsConsts.MOVE);
-            }
-        }
-
-        se.play();
     }
 
 }

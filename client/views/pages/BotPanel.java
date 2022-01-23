@@ -7,10 +7,11 @@ import chesslogic.*;
 import config.GameState;
 import config.Page;
 import config.UserInterface;
+import sounds.SoundEffect;
+
 import java.awt.Color;
 import views.Window;
 import views.chess.ThreadBotP1;
-import views.chess.SoundEffect;
 import config.PathsConsts;
 
 public class BotPanel extends AbstractGamePanel {
@@ -31,6 +32,7 @@ public class BotPanel extends AbstractGamePanel {
 
         this.window = window;
 
+        lobbyInfoPanel.setlobbyTitle("Bot Game");
         resetGame();
     }
 

@@ -3,6 +3,8 @@ package chesslogic;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import config.UserInterface;
+
 public class King extends Piece {
     
     private boolean hasCastled;
@@ -13,7 +15,7 @@ public class King extends Piece {
      * @
      */
     public King(int col) {
-        super(col, "K", 0, getImage("K", col));
+        super(col, "K", 0, UserInterface.PIECES[UserInterface.activeSetNum][10 + col]);
         this.hasCastled = false;
     }
     

@@ -47,6 +47,8 @@ public class NavigationLink extends JButton {
     @Override
     protected void paintComponent(Graphics g) {
 
+        g.setFont(UserInterface.orkney18);
+
         // Change appearance when hovered/pressed
         if (getModel().isPressed() || isActive) {
             g.setColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR.brighter());

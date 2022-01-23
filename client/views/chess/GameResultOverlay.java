@@ -7,6 +7,7 @@ import javax.swing.SwingConstants;
 
 import config.GameState;
 import config.MessageTypes;
+import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
 import views.components.CustomButton;
@@ -17,6 +18,7 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Graphics2D;
 
 public class GameResultOverlay extends JPanel implements ActionListener {
 
@@ -26,22 +28,27 @@ public class GameResultOverlay extends JPanel implements ActionListener {
     private AbstractGamePanel gamePanel;
 
     public GameResultOverlay(AbstractGamePanel gamePanel) {
-        setBackground(new Color(0, 0, 0, 50));
+        // setBackground(new Color(0, 0, 0, 50));
         setOpaque(false);
         setLayout(null);
 
         this.gamePanel = gamePanel;
 
         // Message
-        message = new JLabel("");
+        message = new JLabel("", SwingConstants.CENTER);
         message.setForeground(Color.WHITE);
-        message.setBounds(0, 100, 360, 100);
+        message.setBounds(45, 170, 390, 60);
         message.setHorizontalAlignment(JLabel.CENTER);
         this.add(message);
 
         // Play Again
         playAgain = new CustomButton("Play Again");
-        playAgain.setBounds(150, 200, 150, 100);
+        playAgain.setBounds(45, 230, 390, 60);
+        playAgain.setBackground(new Color(0, 0, 0, 0));
+        playAgain.setHoverColor(new Color(0, 0, 0, 0));
+        playAgain.setPressedColor(new Color(0, 0, 0, 0));
+        playAgain.setBorder(UserInterface.EMPTY_BORDER);
+        playAgain.setForeground(Color.WHITE);
         playAgain.addActionListener(this);
         this.add(playAgain);
     }
@@ -52,14 +59,17 @@ public class GameResultOverlay extends JPanel implements ActionListener {
     // } 
 
     public void setMessage(String message) {
-        this.message.setText(message);
+        // this.message.setText(message);
+        this.message.setText("White wins by checkmate!");
         this.revalidate();
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        g.setColor(getBackground());
-        g.fillRect(0, 0, getWidth(), getHeight());
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setColor(new Color(0, 0, 0, 127));
+        g2d.fillRoundRect(45, 170, 390, 120, 20, 20);
 
         if (gamePanel.isPlayingAgain()) {
             playAgain.setText("Waiting for Opponent");

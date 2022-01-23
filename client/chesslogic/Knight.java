@@ -2,6 +2,8 @@ package chesslogic;
 
 import java.util.HashSet;
 
+import config.UserInterface;
+
 public class Knight extends Piece {
     
     /**
@@ -10,7 +12,7 @@ public class Knight extends Piece {
      * @
      */
     public Knight(int col) {
-        super(col, "N", 40, getImage("N", col));
+        super(col, "N", 40, UserInterface.PIECES[UserInterface.activeSetNum][4 + col]);
     }
     
     @Override

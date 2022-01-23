@@ -274,10 +274,7 @@ public class UserInterface {
     public static Font orkney48;
     public static Font orkney96;
 
-
-    // Font sizes
-
-    // Loading
+    // Loading fonts
     public static void loadFonts() {
         if (readFonts()) {
             orkney12 = orkney.deriveFont(Font.PLAIN, 12);

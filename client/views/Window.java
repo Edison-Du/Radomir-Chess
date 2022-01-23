@@ -39,6 +39,9 @@ public class Window extends JFrame {
     public Login loginPanel;
 
     public Window ()  {
+        
+        // Initialize fonts
+        UserInterface.loadFonts();
 
         UserInterface.readAllPieceImages();
 

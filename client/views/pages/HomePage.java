@@ -2,16 +2,13 @@ package views.pages;
 
 import java.awt.event.ActionListener;
 
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 
 import config.UserInterface;
-import config.MessageTypes;
-import network.Message;
-import network.ServerConnection;
 import views.Window;
 import views.components.ContentPanel;
 import views.components.PlayMenuButton;
@@ -21,6 +18,7 @@ public class HomePage extends ContentPanel implements ActionListener {
     
     private Window window;
 
+    private final int TITLE_SIZE = 128;
     private final JLabel gameTitle = new JLabel();
 
     private PlayMenuButton joinGameBtn;
@@ -42,11 +40,11 @@ public class HomePage extends ContentPanel implements ActionListener {
         this.window = window;
         this.setLayout(null);
 
-        //CHANGE INTO CONSTANTS
-        gameTitle.setText("RADOMIR CHESS");
-        gameTitle.setBounds(100, -25, UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT / 2);
-        gameTitle.setFont(new Font("Serif", Font.PLAIN, 100));
+        gameTitle.setText(UserInterface.WINDOW_TITLE);
+        gameTitle.setBounds(0, 0, UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT / 2);
+        gameTitle.setFont(UserInterface.orkney.deriveFont(Font.ITALIC, TITLE_SIZE));
         gameTitle.setForeground(UserInterface.TEXT_COLOUR);
+        gameTitle.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(gameTitle);
 
         joinGameBtn = new PlayMenuButton(
@@ -81,12 +79,11 @@ public class HomePage extends ContentPanel implements ActionListener {
 
         for (PlayMenuButton button : buttons) {
             button.addActionListener(this);
-            button.setFont(UserInterface.PLAY_BUTTONS_FONT);
             this.add(button);
         }
     }
 
-    //@Override
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == joinGameBtn) {
             window.changePage(Page.JOIN_GAME);
@@ -98,7 +95,6 @@ public class HomePage extends ContentPanel implements ActionListener {
             window.changePage(Page.BROWSE_GAMES);
 
         } else if (e.getSource() == playBotBtn) {
-            
             window.changePage(Page.PLAY_BOT);
         }
     }
@@ -106,12 +102,4 @@ public class HomePage extends ContentPanel implements ActionListener {
     public String getjoinLobbyCode() {
         return this.joinLobbyCode;
     }
-
-    // public void displayUserName(){
-    //     System.out.println(window.loginPanel.getUsername());
-    //     username.setForeground(UserInterface.TEXT_COLOUR);
-    //     username.setText(window.loginPanel.getUsername());
-    //     username.setBounds(0, 0, 200, 25);
-    //     this.add(username);
-    // }
 }

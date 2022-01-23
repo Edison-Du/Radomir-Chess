@@ -6,6 +6,8 @@ public class PathsConsts {
 
     public static final String ASSETS = "assets/";
     public static final String IMAGES = ASSETS + "images/";
+    public static final String FONTS  = ASSETS + "fonts/";
+
 
 
     public static final String THEMES = IMAGES + "themes/";
@@ -33,4 +35,7 @@ public class PathsConsts {
 
     public static final String WOOD_THEME = THEMES + "wood" + PNG_FILE;
     public static final String ICE_THEME = THEMES + "icysea" + PNG_FILE;
+
+
+    public static final String ORKNEY_FONT = FONTS + "Orkney-Regular.ttf";
 }

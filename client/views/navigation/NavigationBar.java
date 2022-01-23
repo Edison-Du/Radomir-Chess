@@ -4,8 +4,6 @@ import java.awt.Dimension;
 import javax.imageio.ImageIO;
 import java.awt.Image;
 import java.awt.Graphics;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -19,7 +17,6 @@ import config.PathsConsts;
 
 public class NavigationBar extends JPanel {
     
-    private Window window;
     private NavigationActionListener navigationActionListener;
 
     private final Page[] navbarPages = {
@@ -40,7 +37,6 @@ public class NavigationBar extends JPanel {
     private String username;
     
     public NavigationBar (Window window) {
-        this.window = window;
 
         this.setBackground(UserInterface.NAVBAR_COLOUR);
         this.setPreferredSize(
@@ -69,16 +65,16 @@ public class NavigationBar extends JPanel {
         this.usernameLabel = new JLabel();
         this.usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
         this.usernameLabel.setBounds(30, UserInterface.WINDOW_HEIGHT - 47, 200, 25);
-        this.usernameLabel.setFont(UserInterface.USERNAME_FONT);
-        this.usernameLabel.setText(UserInterface.GUEST);
+        this.usernameLabel.setBorder(UserInterface.FONT_OFFSET_BORDER);
+        this.usernameLabel.setFont(UserInterface.orkney18);
         this.add(usernameLabel);
 
         //change constants
         this.playersOnlineLabel = new JLabel();
         this.playersOnlineLabel.setForeground(UserInterface.TEXT_COLOUR);
         this.playersOnlineLabel.setBounds(30, UserInterface.WINDOW_HEIGHT - 123, 200, 25);
-        this.playersOnlineLabel.setFont(UserInterface.USERNAME_FONT);
-        this.playersOnlineLabel.setText("Players Online: 0");
+        this.playersOnlineLabel.setBorder(UserInterface.FONT_OFFSET_BORDER);
+        this.playersOnlineLabel.setFont(UserInterface.orkney18);
         this.add(playersOnlineLabel);
 
 
@@ -101,7 +97,7 @@ public class NavigationBar extends JPanel {
             links[0].doClick();
             links[loginPage].changePage(Page.LOGOUT);
         } else {
-            this.setUsername(UserInterface.GUEST);
+            // this.setUsername(UserInterface.GUEST);
             links[loginPage].changePage(Page.LOGIN);
         }
     }
@@ -121,8 +117,12 @@ public class NavigationBar extends JPanel {
         this.usernameLabel.setText(newUsername);
     }
 
-    public void setPlayersOnline(String numPlayers) {
-        this.playersOnlineLabel.setText("Players Online: " + numPlayers);
+    public void setPlayersOnline(int numPlayers) {
+        if (numPlayers == 1) {
+            this.playersOnlineLabel.setText(numPlayers + " player online");
+        } else {
+            this.playersOnlineLabel.setText(numPlayers + " players online");
+        }
     }
 
     public String getUsername() {

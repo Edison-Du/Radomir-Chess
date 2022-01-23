@@ -184,6 +184,9 @@ public class ClientHandler extends Thread{
         } else if (request.getType().equals(MessageTypes.BROWSE_GAMES)) {
             browseGames();
 
+        } else if (request.getType().equals(MessageTypes.UPDATE_PREFERENCES)) {
+            updatePreferences(request);
+
         } else if (request.getType().equals(MessageTypes.EXIT_PROGRAM)) {
             disconnectClient(request);
         }
@@ -340,6 +343,12 @@ public class ClientHandler extends Thread{
     private void browseGames() {
         Message message = server.getLobbyManager().getPublicLobbyInfo();
         this.sendMessage(message);
+    }
+
+    private void updatePreferences(Message message) {
+        String username = message.getParam(0);
+        int[] updatedSettings = User.settingsToArray(message);
+        server.getDatabase().updatePreferences(username, updatedSettings);
     }
 
     private void disconnectClient(Message message) {

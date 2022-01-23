@@ -31,6 +31,8 @@ public class NavigationBar extends JPanel {
     private final Image radomirLogo = getLogoImage();
     private final int loginPage = 3;
     private JLabel usernameLabel;
+
+    private String username;
     
     public NavigationBar (Window window) {
 
@@ -97,7 +99,12 @@ public class NavigationBar extends JPanel {
         return null;
     }
 
-    public void setUsername(String newUsername){
+    public void setUsername(String newUsername) {
+        this.username = newUsername;
         this.usernameLabel.setText(newUsername);
+    }
+
+    public String getUsername() {
+        return this.username;
     }
 }

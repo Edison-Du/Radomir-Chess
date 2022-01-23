@@ -16,6 +16,8 @@ public class MessageTypes {
     public static final String REGISTER_ACCEPTED = "REGISTER_ACCEPTED";
     public static final String REGISTER_FAILED = "REGISTER_FAILED";
 
+    public static final String UPDATE_PREFERENCES = "UPDATE_PREFERENCES";
+
     // Lobby related
     public static final String CREATE_GAME = "CREATE_GAME";
     public static final String GAME_CREATED = "GAME_CREATED";
@@ -47,7 +49,7 @@ public class MessageTypes {
 
     public static final String DRAW_OFFERED = "DRAW_OFFERED";
     public static final String DRAW_ACCEPTED = "DRAW_ACCEPTED";
-    
+
     public static final String TAKEBACK_REQUESTED = "TAKEBACK_REQUESTED";
     public static final String TAKEBACK_ACCEPTED = "TAKEBACK_ACCEPTED";
 }

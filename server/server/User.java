@@ -51,10 +51,26 @@ public class User {
     }
 
     /**
+     * updates the board variable
+     * @param board
+     */
+    public void setBoard(String board) {
+        this.board = Integer.parseInt(board);
+    }
+
+    /**
      * returns chess set number as string
      */
     public String getChessSet() {
         return Integer.toString(this.chessSet);
+    }
+
+    /**
+     * updates the chess set variable
+     * @param chessSet
+     */
+    public void setChessSet(String chessSet) {
+        this.chessSet = Integer.parseInt(chessSet);
     }
 
     /**
@@ -63,6 +79,14 @@ public class User {
     public String getHighlightStatus() {
         return Integer.toString(this.highlightsOn);
     }
+    
+    /**
+     * updates the highlight status variable
+     * @param status
+     */
+    public void setHighlightStatus(String status) {
+        this.highlightsOn = Integer.parseInt(status);
+    }
 
     /**
      * returns highlight colour (index) as a string
@@ -70,9 +94,17 @@ public class User {
     public String getHighlight() {
         return Integer.toString(this.highlight);
     }
+    
+    /**
+     * updates the highlight variable
+     * @param highlight
+     */
+    public void setHighlight(String highlight) {
+        this.highlight = Integer.parseInt(highlight);
+    }
 
     /**
-     * Parse message and store in user object
+     * Parse message containing entire data set for user object
      * @param message
      */
     public static User convertMessageToUser(Message message) {
@@ -85,6 +117,14 @@ public class User {
         }
 
         return new User(username, password, settings);
+    }
+
+    public static int[] settingsToArray(Message message) {
+        int[] settings = new int[Consts.NUM_SETTINGS];
+        for (int i = 0; i < Consts.NUM_SETTINGS; i++) {
+            settings[i] = Integer.parseInt(message.getParam(i+1));
+        }
+        return settings;
     }
 
     /**

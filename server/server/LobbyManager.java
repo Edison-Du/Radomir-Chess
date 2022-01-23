@@ -1,7 +1,6 @@
 package server;
 
 import java.util.HashMap;
-import java.util.Set;
 
 import config.MessageTypes;
 import game.Lobby;

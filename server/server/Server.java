@@ -41,7 +41,6 @@ public class Server {
             System.out.println("Error starting server.");
             e.printStackTrace();
         }
-
     }
 
     /**

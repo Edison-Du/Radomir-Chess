@@ -51,7 +51,7 @@ public class BrowseGames extends ContentPanel implements ActionListener {
         this.window = window;
     
         lobbyListPanel = new JPanel();
-        lobbyListPanel.setBounds(0, 0, UserInterface.CONTENT_WIDTH / 2 + 180, UserInterface.WINDOW_HEIGHT);
+        lobbyListPanel.setBounds(320, 0, UserInterface.CONTENT_WIDTH - 320, UserInterface.WINDOW_HEIGHT);
         lobbyListPanel.setLayout(new BoxLayout(lobbyListPanel, BoxLayout.X_AXIS));
         
         lobbyList = new JList<>(allLobbies);
@@ -59,7 +59,7 @@ public class BrowseGames extends ContentPanel implements ActionListener {
         lobbyList.setForeground(UserInterface.TEXT_COLOUR);
         lobbyList.setFont(new Font("Serif", Font.PLAIN, 14));
         lobbyList.setFixedCellHeight(30);
-        lobbyList.setBorder(new EmptyBorder(10,10, 10, 10));
+        lobbyList.setBorder(new EmptyBorder(5, 5, 5, 5));
         lobbyList.setCellRenderer(getRenderer());
         lobbyList.addMouseListener(new MouseAdapter() {
             public void mouseReleased (MouseEvent e) {
@@ -76,13 +76,13 @@ public class BrowseGames extends ContentPanel implements ActionListener {
 
         joinLabel.setText("Join Lobby: ");
         joinLabel.setForeground(UserInterface.TEXT_COLOUR);
-        joinLabel.setFont(new Font("Serif", Font.ITALIC, 36));
-        joinLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 + 215, UserInterface.WINDOW_HEIGHT / 2 - 240, 400, 400);
+        joinLabel.setFont(new Font("Serif", Font.PLAIN, 36));
+        joinLabel.setBounds(30, UserInterface.WINDOW_HEIGHT / 2 - 240, 400, 400);
         this.add(joinLabel);
 
         joinButton = new PanelButton(
-            "JOIN",
-            715,
+            "Join",
+            20,
             400 
         );
         joinButton.addActionListener(this);
@@ -90,7 +90,7 @@ public class BrowseGames extends ContentPanel implements ActionListener {
         this.add(joinButton);
 
 
-        this.backButton = new PanelButton("Back", 715, 40);
+        this.backButton = new PanelButton("Back", 20, 20);
         this.backButton.addActionListener(this);
         this.backButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(backButton);

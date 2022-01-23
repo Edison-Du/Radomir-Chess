@@ -5,15 +5,18 @@ public class PathsConsts {
     public static final String PNG_FILE = ".png";
 
     public static final String ASSETS = "assets/";
-    public static final String THEMES = ASSETS + "themes/";
+    public static final String IMAGES = ASSETS + "images/";
+
+
+    public static final String THEMES = IMAGES + "themes/";
 
     public static final String[] PIECE_SETS = {
-        ASSETS + "classic pieces/",
-        ASSETS + "kosal pieces/"
+        IMAGES + "classic pieces/",
+        IMAGES + "kosal pieces/"
     };
-    public static final String PROMOTION_PLATTER = ASSETS + "promotion" + PNG_FILE;
-    public static final String CHESS_LOGO = ASSETS + "radomirchess3" + PNG_FILE;
-    public static final String NAVBAR_HEADER = ASSETS + "navbarheader" + PNG_FILE;
+    public static final String PROMOTION_PLATTER = IMAGES + "promotion" + PNG_FILE;
+    public static final String CHESS_LOGO = IMAGES + "radomirchess3" + PNG_FILE;
+    public static final String NAVBAR_HEADER = IMAGES + "navbarheader" + PNG_FILE;
 
     public static final String WOOD_THEME = THEMES + "wood" + PNG_FILE;
     public static final String ICE_THEME = THEMES + "icysea" + PNG_FILE;

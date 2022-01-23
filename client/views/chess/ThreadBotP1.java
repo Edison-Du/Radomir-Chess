@@ -3,6 +3,7 @@ package views.chess;
 import javax.swing.SwingWorker;
 
 import chesslogic.ChessGame;
+import config.GameState;
 import chesslogic.Bot;
 import views.pages.BotPanel;
 
@@ -48,7 +49,8 @@ public class ThreadBotP1 extends SwingWorker<String, Void> {
 
             System.out.println(botMove.substring(0,2) + ", " + botMove.substring(2, 4) + ", " + botMove.substring(4, 5) + "stop");
 
-            if (chessGame.getCurrentPos().getToMove() != gamePanel.getPlayerColour()) {
+            if (chessGame.getCurrentPos().getToMove() != gamePanel.getPlayerColour() && 
+                gamePanel.getGameState() == GameState.ONGOING) {
                 synchronized(chessGame) {
                     synchronized(chessGameClone) {
                         chessGameClone.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));

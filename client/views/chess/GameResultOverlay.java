@@ -17,6 +17,7 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Graphics2D;
 
 public class GameResultOverlay extends JPanel implements ActionListener {
 
@@ -26,16 +27,16 @@ public class GameResultOverlay extends JPanel implements ActionListener {
     private AbstractGamePanel gamePanel;
 
     public GameResultOverlay(AbstractGamePanel gamePanel) {
-        setBackground(new Color(0, 0, 0, 50));
+        // setBackground(new Color(0, 0, 0, 50));
         setOpaque(false);
         setLayout(null);
 
         this.gamePanel = gamePanel;
 
         // Message
-        message = new JLabel("");
+        message = new JLabel("", SwingConstants.CENTER);
         message.setForeground(Color.WHITE);
-        message.setBounds(0, 100, 360, 100);
+        message.setBounds(45, 170, 390, 60);
         message.setHorizontalAlignment(JLabel.CENTER);
         this.add(message);
 
@@ -52,14 +53,17 @@ public class GameResultOverlay extends JPanel implements ActionListener {
     // } 
 
     public void setMessage(String message) {
-        this.message.setText(message);
+        // this.message.setText(message);
+        this.message.setText("White wins by checkmate!");
         this.revalidate();
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        g.setColor(getBackground());
-        g.fillRect(0, 0, getWidth(), getHeight());
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setColor(new Color(0, 0, 0, 127));
+        g2d.fillRoundRect(45, 170, 390, 120, 20, 20);
 
         if (gamePanel.isPlayingAgain()) {
             playAgain.setText("Waiting for Opponent");

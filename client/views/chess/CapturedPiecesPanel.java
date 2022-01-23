@@ -16,7 +16,7 @@ public class CapturedPiecesPanel extends ContentPanel {
 
     public int playerColour;
 
-    public GameResultOverlay gameResultOverlay;
+    // public GameResultOverlay gameResultOverlay;
 
     public Stack<Piece> capturedPieces;
 

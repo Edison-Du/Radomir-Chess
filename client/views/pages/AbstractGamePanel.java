@@ -258,18 +258,18 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public void setPlayAgain(boolean playAgain) {
         this.playAgain = playAgain;
         if (playAgain && opponentPlayAgain) {
-            resetGame();
             setGameState(GameState.ONGOING);
             swapColours();
+            resetGame();
         }
     }
 
     public void setOpponentPlayAgain(boolean opponentPlayAgain) {
         this.opponentPlayAgain = opponentPlayAgain;
         if (playAgain && opponentPlayAgain) {
-            resetGame();
             setGameState(GameState.ONGOING);
             swapColours();
+            resetGame();
         }
     }
 

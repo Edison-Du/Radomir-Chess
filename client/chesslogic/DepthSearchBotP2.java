@@ -189,6 +189,7 @@ public class DepthSearchBotP2 extends Bot {
     }
 
     public String nextMove(ChessGame g){
+        System.out.println("executed the next move");
         this.search(g, this.depth, -999999, 999999, 0);
         return this.move;
     }

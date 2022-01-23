@@ -26,15 +26,7 @@ public class NavigationActionListener implements ActionListener{
         if (e.getSource() instanceof NavigationLink) {
             NavigationLink button = (NavigationLink) e.getSource();
 
-            if (currentButton != null) {
-                currentButton.toggleActive();
-            }
-            currentButton = button;
-
-            currentButton.toggleActive();
-
-            window.changePage(currentButton.getReference());
-
+            // Send message to server to save changes made in settings
             if (UserInterface.changeMade) {
                 UserInterface.changeMade = false;
                 int[] settings = UserInterface.getCurrentSettings();
@@ -45,6 +37,15 @@ public class NavigationActionListener implements ActionListener{
                 }
                 ServerConnection.sendMessage(m);
             }
+
+            if (currentButton != null) {
+                currentButton.toggleActive();
+            }
+            currentButton = button;
+
+            currentButton.toggleActive();
+
+            window.changePage(currentButton.getReference());
         }
     }
 }

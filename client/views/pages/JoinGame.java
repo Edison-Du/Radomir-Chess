@@ -48,6 +48,7 @@ public class JoinGame extends ContentPanel implements ActionListener {
         this.add(joinGameLabel);
 
         joinGameField.setPlaceholder("Type code here");
+        joinGameField.setPlaceholderColour(UserInterface.GAME_CHAT_TEXTFIELD_COLOUR);
         joinGameField.setFont(UserInterface.orkney24);
         joinGameField.setBorder(TEXT_FIELD_MARGIN);
         joinGameField.setPlaceholderY(TEXT_FIELD_PLACEHOLDER_Y);

@@ -2,7 +2,7 @@
 *.class
 
 # Dr Java thing
-.java~
+*.java~
 
 # Log file
 *.log

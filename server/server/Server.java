@@ -13,12 +13,13 @@ import config.Consts;
  * 
  * It also manages a lobby system for chess games, and a database for users.
  */
-public class Server {
+public class Server extends Thread {
 
     private ServerSocket serverSocket;
     private LobbyManager lobbyManager;
     private Database database;
     private DatabaseUpdater databaseUpdater;
+    private boolean isRunning;
 
     /**
      * Server
@@ -32,18 +33,21 @@ public class Server {
             database = new Database();
             databaseUpdater = new DatabaseUpdater(database);
 
-            databaseUpdater.start();
-
-            System.out.println("Server has started.");
-            
-            // Continuously accept connections
-            while (true) {
-                this.acceptConnection();
-            }
-
         } catch (Exception e) {
             System.out.println("Error starting server.");
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void run() {
+        // Continuously accept connections
+        System.out.println("Server has started.");
+
+        isRunning = true;
+        databaseUpdater.start();
+        while (isRunning) {
+            this.acceptConnection();
         }
     }
 

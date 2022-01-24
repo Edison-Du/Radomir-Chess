@@ -42,27 +42,29 @@ public class SoundEffect {
 
             System.out.println("checkingpoint 1");
 
-            game.move(t1, t2, p);
+            synchronized(game) {
+                game.move(t1, t2, p);
+            }
             if(game.stalemate()) {
                 se.setFile(PathsConsts.STALEMATE);
-                game.undo();
                 soundChosen = true;
             } else if(current.getKings()[0].isChecked(current, current.getKingTiles()[0]) || current.getKings()[1].isChecked(current, current.getKingTiles()[1])) {
                 if(game.whiteWins() || game.blackWins()) {
                     se.setFile(PathsConsts.CHECKMATE);
-                    game.undo();
                     soundChosen = true;
                 } else {
                     se.setFile(PathsConsts.CHECK);
-                    game.undo();
                     soundChosen = true;
                 }
+            }
+
+            synchronized(game) {
+                game.undo();
             }
 
             System.out.println("checkingpoint 2");
 
             if(!soundChosen) {
-                game.undo();
 
                 System.out.println("checkingpoint 3");
 

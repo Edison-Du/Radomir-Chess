@@ -29,9 +29,9 @@ public class Login extends ContentPanel implements ActionListener{
     
     public Login() {        
 
-        titleLabel.setFont(UserInterface.HEADER_FONT);
+        titleLabel.setFont(UserInterface.orkney36);
         titleLabel.setForeground(UserInterface.TEXT_COLOUR);
-        titleLabel.setBounds(30, 30, 210, 50);
+        titleLabel.setBounds(UserInterface.TITLE_BOUNDS);
         this.add(titleLabel);
         
         profile.setFont(UserInterface.orkney36);
@@ -41,22 +41,42 @@ public class Login extends ContentPanel implements ActionListener{
         usernameLabel.setFont(UserInterface.orkney24);
         usernameLabel.setText("Username: ");
         usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
-        usernameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 160, 280, 30);
+        usernameLabel.setBounds(
+            UserInterface.USERNAME_X,
+            UserInterface.USERNAME_LABEL_Y,
+            UserInterface.USERNAME_WIDTH,
+            UserInterface.LOGIN_LABEL_HEIGHT
+        );
         this.add(usernameLabel);
 
         usernameField.setFont(UserInterface.orkney24);
-        usernameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 110, 280, 40);
+        usernameField.setBounds(
+            UserInterface.USERNAME_X,
+            UserInterface.USERNAME_FIELD_Y,
+            UserInterface.USERNAME_WIDTH,
+            UserInterface.LOGIN_FIELD_HEIGHT
+        );
         usernameField.addActionListener(this);
         this.add(usernameField);
 
         passwordLabel.setFont(UserInterface.orkney24);
         passwordLabel.setText("Password: ");
         passwordLabel.setForeground(UserInterface.TEXT_COLOUR);
-        passwordLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 60, 280, 30);
+        passwordLabel.setBounds(
+            UserInterface.PASSWORD_X,
+            UserInterface.PASSWORD_LABEL_Y,
+            UserInterface.PASSWORD_WIDTH,
+            UserInterface.LOGIN_LABEL_HEIGHT
+        );
         this.add(passwordLabel);
 
         passwordField.setFont(UserInterface.orkney24);
-        passwordField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 10, 280, 40);
+        passwordField.setBounds(
+            UserInterface.PASSWORD_X,
+            UserInterface.PASSWORD_FIELD_Y,
+            UserInterface.PASSWORD_WIDTH,
+            UserInterface.LOGIN_FIELD_HEIGHT
+        );
         passwordField.addActionListener(this);
         this.add(passwordField);
 

@@ -7,9 +7,14 @@ import config.UserInterface;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Color;
 
 public class LobbyInfoPanel extends JPanel {
+
+    private final int TITLE_X = 15;
+    private final int TITLE_Y = 43;
+    private final int TYPE_X = 120;
+    private final int TYPE_Y = 45;
+
     private String lobbyTitle;
     private String lobbyType;
 
@@ -37,13 +42,13 @@ public class LobbyInfoPanel extends JPanel {
 
         if (lobbyTitle.length() > 0) {
             g2d.setColor(getForeground());
-            g2d.setFont(UserInterface.LOBBY_INFO);
-            g2d.drawString(lobbyTitle, 15, g2d.getFontMetrics().getMaxAscent() + getInsets().top + 2);
+            g2d.setFont(UserInterface.orkney36);
+            g2d.drawString(lobbyTitle, TITLE_X, TITLE_Y);
 
             // This is nested so that it doesn't show when there's no title
             if (lobbyType.length() > 0) {
-                g2d.setFont(UserInterface.SETTINGS_FONT);
-                g2d.drawString(lobbyType, 120, g2d.getFontMetrics().getMaxAscent() + getInsets().top + 16);
+                g2d.setFont(UserInterface.orkney18);
+                g2d.drawString(lobbyType, TYPE_X, TYPE_Y);
             }
         }
     }

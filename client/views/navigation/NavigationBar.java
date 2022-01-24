@@ -48,9 +48,6 @@ public class NavigationBar extends JPanel {
         navigationActionListener = new NavigationActionListener(window);
         links = new NavigationLink[navbarPages.length];
 
-        // Default page
-        links[0].doClick();
-
         for (int i = 0; i < navbarPages.length; i++) {
             int x = 0;
             //change
@@ -88,6 +85,9 @@ public class NavigationBar extends JPanel {
         this.usernameLabel.setFont(UserInterface.orkney18);
         this.add(usernameLabel);
 
+        // Default page
+        links[0].doClick();
+
     }
 
     public void paintComponent(Graphics g) {
@@ -104,7 +104,6 @@ public class NavigationBar extends JPanel {
             links[0].doClick();
             links[loginPage].changePage(Page.LOGOUT);
         } else {
-            // this.setUsername(UserInterface.GUEST);
             links[loginPage].changePage(Page.LOGIN);
         }
     }

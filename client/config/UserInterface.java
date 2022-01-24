@@ -3,6 +3,7 @@ package config;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.BasicStroke;
+import java.awt.Rectangle;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
@@ -57,6 +58,8 @@ public class UserInterface {
     public static final int LOGO_WIDTH = 360;
     public static final int LOGO_HEIGHT = 560;
 
+    public static final Rectangle TITLE_BOUNDS = new Rectangle(30, 30, 210, 50);
+
     // Play page
     public static final int MENU_BUTTON_MARGIN = 40;
     public static final int MENU_BUTTON_Y_OFFSET = WINDOW_HEIGHT / 2 - 90;
@@ -71,20 +74,30 @@ public class UserInterface {
     // Join game page
     public static final int BACK_BUTTON_X = 20;
     public static final int BACK_BUTTON_Y = 20;
+    public static final Color ERROR_COLOUR = new Color(255, 255, 0);
 
 
     public static final Color JOIN_GAME_BUTTON_BACKGROUND = new Color(200, 200, 200);
-    public static final Font HEADER_FONT = new Font("Serif", Font.PLAIN, 40);
-    public static final Font TEXT_FONT_1 = new Font("Serif", Font.PLAIN, 25);
 
     public static final Color MENU_BUTTON_COLOUR = new Color(47, 78, 111);
     public static final Color MENU_BUTTON_HIGHLIGHT = MENU_BUTTON_COLOUR.brighter();
     public static final int MENU_BUTTON_RADIUS = 20;
 
     // Settings
-    public static final Font SETTINGS_FONT = new Font("Serif", Font.PLAIN, 18);
     public static final int NUM_SETTINGS = 5;
     public static boolean changeMade = false;
+    
+    //Login page
+    public static final int USERNAME_X = CONTENT_WIDTH / 2 - 140;
+    public static final int PASSWORD_X = CONTENT_WIDTH / 2 - 140;
+    public static final int USERNAME_LABEL_Y = WINDOW_HEIGHT / 2 - 160;
+    public static final int USERNAME_FIELD_Y = WINDOW_HEIGHT / 2 - 120;
+    public static final int PASSWORD_LABEL_Y = WINDOW_HEIGHT / 2 - 60;
+    public static final int PASSWORD_FIELD_Y = WINDOW_HEIGHT / 2 - 20;
+    public static final int USERNAME_WIDTH = 280;
+    public static final int PASSWORD_WIDTH = 280;
+    public static final int LOGIN_LABEL_HEIGHT = 30;
+    public static final int LOGIN_FIELD_HEIGHT = 40; 
 
     // Game board
     public static int activeTheme = 0;
@@ -183,7 +196,7 @@ public class UserInterface {
 
     public static final int PLAYERS_LABEL_WIDTH = GAME_BOARD_LENGTH / 2;
     public static final int PLAYERS_LABEL_HEIGHT = 60;
-    public static final int OPPONENT_LABEL_Y = GAME_BOARD_Y - 40;
+    public static final int OPPONENT_LABEL_Y = GAME_BOARD_Y - 60;
     public static final int PLAYER_LABEL_Y = GAME_BOARD_Y + GAME_BOARD_LENGTH + 10;
 
     public static final int GAME_BUTTON_WIDTH = 80;
@@ -301,15 +314,6 @@ public class UserInterface {
         return settings;
     }
 
-    public static void toggleLobbyVisibility(CustomButton button) {
-        highlightToggle ^= true;
-        if (highlightToggle) {
-            button.setText("Creating Public Lobby");
-        } else {
-            button.setText("Creating Private Lobby");
-        }
-    }
-
     // Fonts
     public static Font orkney;
 
@@ -317,6 +321,7 @@ public class UserInterface {
     public static Font orkney12;
     public static Font orkney18;
     public static Font orkney24;
+    public static Font orkney30;
     public static Font orkney36;
     public static Font orkney48;
     public static Font orkney96;
@@ -327,6 +332,7 @@ public class UserInterface {
             orkney12 = orkney.deriveFont(Font.PLAIN, 12);
             orkney18 = orkney.deriveFont(Font.PLAIN, 18);
             orkney24 = orkney.deriveFont(Font.PLAIN, 24);
+            orkney30 = orkney.deriveFont(Font.PLAIN, 30);
             orkney36 = orkney.deriveFont(Font.PLAIN, 36);
             orkney48 = orkney.deriveFont(Font.PLAIN, 48);
             orkney96 = orkney.deriveFont(Font.PLAIN, 96);

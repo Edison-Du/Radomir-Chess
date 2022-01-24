@@ -28,6 +28,7 @@ public class ConnectionHandler extends Thread {
                 if (ServerConnection.hasMessage()) {
                     Message message = ServerConnection.getMessage();
                     evalMessage(message);
+                    // TODO we can remove this
                     if (!message.getType().equals(MessageTypes.GET_PLAYERS_ONLINE) && !message.getType().equals(MessageTypes.DISPLAY_GAMES)) {
                         System.out.println("Received message: " + message.getText());
                     }
@@ -54,7 +55,7 @@ public class ConnectionHandler extends Thread {
             joinGame(message);
 
         } else if (message.getType().equals(MessageTypes.JOIN_ERROR)) {
-            // TODO add join error message
+            processJoinError(message);
 
         } else if (message.getType().equals(MessageTypes.GUEST_JOINED)) {
             guestJoined(message);
@@ -132,6 +133,10 @@ public class ConnectionHandler extends Thread {
         clientNum = Integer.parseInt(message.getParam(0)); 
         clientName = "Guest " + clientNum;
         window.navigationBar.setUsername(clientName);
+    }
+
+    public void processJoinError(Message message) {
+        window.joinGamePanel.displayError(message.getParam(0));
     }
     
     public void processWhiteCheckmate(Message message) {

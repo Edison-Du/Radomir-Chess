@@ -9,12 +9,20 @@ import config.UserInterface;
 public class About extends ContentPanel implements ActionListener {
 
     private final JLabel titleLabel = new JLabel("About");
+    private final JLabel text = new JLabel();
 
     public About() {
-        titleLabel.setFont(UserInterface.HEADER_FONT);
+        titleLabel.setFont(UserInterface.orkney36);
         titleLabel.setForeground(UserInterface.TEXT_COLOUR);
-        titleLabel.setBounds(30, 30, 210, 50);
+        titleLabel.setBounds(UserInterface.TITLE_BOUNDS);
         this.add(titleLabel);
+
+        //remove
+        text.setFont(UserInterface.orkney18);
+        text.setForeground(UserInterface.TEXT_COLOUR);
+        text.setText("chess created by suspicious people");
+        text.setBounds(30, 120, UserInterface.CONTENT_WIDTH, 20);
+        this.add(text);
     }
 
     @Override

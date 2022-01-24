@@ -10,7 +10,7 @@ public class PathsConsts {
     public static final String SOUNDS = ASSETS + "sounds/";
     public static final String FONTS  = ASSETS + "fonts/";
 
-
+    public static final String OPENING_FILE = "chessfiles/openings.txt";
 
     public static final String THEMES = IMAGES + "themes/";
 

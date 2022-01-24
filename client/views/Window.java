@@ -5,11 +5,8 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-// import chesslogic.ChessGame;
 import config.UserInterface;
-import java.awt.Color;
 import config.Page;
-import views.components.ContentPanel;
 import views.navigation.NavigationBar;
 import views.pages.*;
 
@@ -127,6 +124,7 @@ public class Window extends JFrame {
             }
     
         } else if (currentPage == Page.JOIN_GAME) {
+            joinGamePanel.removeError();
             content = joinGamePanel;
         
         } else if (currentPage == Page.GAME_SETUP) {

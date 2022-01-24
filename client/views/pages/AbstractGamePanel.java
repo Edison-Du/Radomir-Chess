@@ -6,29 +6,29 @@ import java.awt.event.ActionListener;
 import java.awt.Rectangle;
 
 import javax.swing.JLabel;
-import javax.xml.namespace.QName;
 
 import chesslogic.ChessGame;
 import config.GameState;
 import config.MessageTypes;
-import config.PathsConsts;
 import views.chess.CapturedPiecesPanel;
 import views.chess.ChessBoardPanel;
 import views.chess.GamePanelButton;
-import views.chess.GameResultOverlay;
 import views.chess.LobbyInfoPanel;
 import views.chess.MessagePanel;
 import views.chess.MovesPanel;
 import views.chess.OpponentProposalPanel;
-import views.chess.PlayerLabelPanel;
+import views.chess.PlayerLabel;
 import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
-import sounds.SoundEffect;
 import views.components.ContentPanel;
 import views.components.CustomButton;
 
 abstract public class AbstractGamePanel extends ContentPanel implements ActionListener {
+
+    private final Rectangle MOVES_PANEL_BOUNDS = new Rectangle(660, 120, 240, 120);
+    private final Rectangle CHAT_PANEL_BOUNDS = new Rectangle(660, 300, 240, 330);
+    private final Rectangle BOARD_PANEL_BOUNDS = new Rectangle(660, 30, 240, 60);
 
     // Chess game
     public ChessGame chessGame;
@@ -41,15 +41,14 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public final LobbyInfoPanel lobbyInfoPanel;
 
     // Labels for player and opponent
-    public final PlayerLabelPanel playerLabel;
-    public final PlayerLabelPanel opponentLabel;
+    public final PlayerLabel playerLabel;
+    public final PlayerLabel opponentLabel;
 
     // Buttons
     public final GamePanelButton drawButton;
     public final GamePanelButton resignButton;
     public final GamePanelButton takebackButton;
     public final CustomButton leaveLobby;
-
 
     private boolean playAgain;
     private boolean opponentPlayAgain;
@@ -94,33 +93,33 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
         // Moves
         movesPanel = new MovesPanel();
-        movesPanel.setBounds(660, 120, 240, 120);
+        movesPanel.setBounds(MOVES_PANEL_BOUNDS);
         this.add(movesPanel, BorderLayout.CENTER);
 
         // Chat
         messagePanel = new MessagePanel();
-        messagePanel.setBounds(660, 300, 240, 330);
+        messagePanel.setBounds(CHAT_PANEL_BOUNDS);
         this.add(messagePanel);
 
         // Lobby Info
         lobbyInfoPanel = new LobbyInfoPanel();
-        lobbyInfoPanel.setBounds(660, 30, 240, 60);
+        lobbyInfoPanel.setBounds(BOARD_PANEL_BOUNDS);
         lobbyInfoPanel.setForeground(UserInterface.NAVBAR_COLOUR);
         lobbyInfoPanel.setBackground(Color.WHITE);
         this.add(lobbyInfoPanel);
 
         // Opponent label
-        opponentLabel = new PlayerLabelPanel();
+        opponentLabel = new PlayerLabel();
         opponentLabel.setBounds(
             UserInterface.GAME_BOARD_X,
             UserInterface.OPPONENT_LABEL_Y,
-            UserInterface.PLAYERS_LABEL_WIDTH,
+            UserInterface.GAME_BOARD_LENGTH,
             UserInterface.PLAYERS_LABEL_HEIGHT
         );
         this.add(opponentLabel);
 
         // Player label
-        playerLabel = new PlayerLabelPanel();
+        playerLabel = new PlayerLabel();
         playerLabel.setBounds(
             UserInterface.GAME_BOARD_X,
             UserInterface.PLAYER_LABEL_Y,
@@ -161,8 +160,9 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
         // Leave Lobby
         leaveLobby = new CustomButton("Leave Game");
+        leaveLobby.setFont(UserInterface.orkney18);
+        leaveLobby.setBorder(UserInterface.FONT_OFFSET_BORDER);
         leaveLobby.setBounds(660, 630, 240, 30);
-        leaveLobby.setBorder(UserInterface.EMPTY_BORDER);
         leaveLobby.setRound(true);
         leaveLobby.setBorderRadius(UserInterface.GAME_INFO_BORDER_RADIUS);
         leaveLobby.setForeground(UserInterface.NAVBAR_COLOUR);

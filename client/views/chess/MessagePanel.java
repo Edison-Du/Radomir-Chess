@@ -10,7 +10,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import config.MessageTypes;
@@ -22,7 +21,10 @@ import views.components.CustomTextField;
 
 public class MessagePanel extends ContentPanel implements ActionListener {
 
-    // private JTextField messageField;
+    private final EmptyBorder MESSAGE_FIELD_MARGIN = new EmptyBorder(5, 10, 0, 10);
+    private final int MESSAGE_PANEL_HEIGHT = 270;
+    private final int MESSAGE_FIELD_HEIGHT = 30;
+
     private CustomTextField messageField;
     private DefaultListModel<String> allTexts = new DefaultListModel<>();
     private JScrollPane pane;
@@ -33,37 +35,38 @@ public class MessagePanel extends ContentPanel implements ActionListener {
 
     public MessagePanel() {
 
-        // this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-
-        // messageListPanel (JPanel) contains pane (JScrollPane) which contains messageList (JList)
+        // JList to store messages
         messageList = new JList<>(allTexts);
+        messageList.setFont(UserInterface.orkney12);
         messageList.setBackground(UserInterface.NAVBAR_COLOUR);
         messageList.setForeground(UserInterface.CHAT_MESSAGE_COLOUR);
 
+        // Scroll pane containing message list
         pane = new JScrollPane(messageList);
         pane.setBackground(UserInterface.NAVBAR_COLOUR);
         pane.setBorder(UserInterface.GAME_CHAT_MARGIN);
 
+        // Panel containing scroll pane
         messageListPanel = new JPanel();
-        messageListPanel.setBounds(0, 0, UserInterface.GAME_SIDE_PANEL_WIDTH, 270);
+        messageListPanel.setBounds(0, 0, UserInterface.GAME_SIDE_PANEL_WIDTH, MESSAGE_PANEL_HEIGHT);
         messageListPanel.setLayout(new BoxLayout(messageListPanel, BoxLayout.X_AXIS));
-
         messageListPanel.setBorder(UserInterface.GAME_CHAT_BORDER);
         messageListPanel.setBackground(UserInterface.NAVBAR_COLOUR);
         messageListPanel.add(pane);   
-
         this.add(messageListPanel);
 
-        // For entering message
+        // Text field to enter messages
         messageField = new CustomTextField("Send message");
-        messageField.setBounds(0, 270, UserInterface.GAME_SIDE_PANEL_WIDTH, 30);
+        messageField.setPlaceholderY(20);
+        messageField.setFont(UserInterface.orkney12);
+        messageField.setBounds(0, MESSAGE_PANEL_HEIGHT, UserInterface.GAME_SIDE_PANEL_WIDTH, MESSAGE_FIELD_HEIGHT);
         messageField.setBackground(UserInterface.GAME_SIDE_HIGHLIGHT_COLOR);
         messageField.setForeground(UserInterface.CHAT_MESSAGE_COLOUR);
         messageField.setPlaceholderColour(UserInterface.GAME_CHAT_TEXTFIELD_COLOUR);
         messageField.setCaretColor(Color.WHITE);
         messageField.setBorder(BorderFactory.createCompoundBorder(
             UserInterface.GAME_CHAT_BORDER,
-            UserInterface.GAME_TEXTFIELD_MARGIN));
+            MESSAGE_FIELD_MARGIN));
         messageField.addActionListener(this);
         this.add(messageField);
     }
@@ -72,7 +75,6 @@ public class MessagePanel extends ContentPanel implements ActionListener {
         allTexts.addElement(message);
         messageList.ensureIndexIsVisible(this.numMessages++);
         this.revalidate();
-        // this.repaint();
     }
 
     public void clearMessages() {

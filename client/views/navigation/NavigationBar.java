@@ -77,8 +77,6 @@ public class NavigationBar extends JPanel {
         this.playersOnlineLabel.setFont(UserInterface.orkney18);
         this.add(playersOnlineLabel);
 
-
-
         // Default page
         links[0].doClick();
     }
@@ -97,7 +95,6 @@ public class NavigationBar extends JPanel {
             links[0].doClick();
             links[loginPage].changePage(Page.LOGOUT);
         } else {
-            // this.setUsername(UserInterface.GUEST);
             links[loginPage].changePage(Page.LOGIN);
         }
     }

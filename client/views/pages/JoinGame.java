@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import config.MessageTypes;

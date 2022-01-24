@@ -39,4 +39,4 @@ Thanks to Jeffrey for his expertise in UI implementation. Thanks to Peter for hi
 
 Credit to Lichess and Chess.com, from which much inspiration and assets for features and graphics were sourced.
 
-We hope that you enjoy Radomir Chess!
+**We hope that you enjoy Radomir Chess!**

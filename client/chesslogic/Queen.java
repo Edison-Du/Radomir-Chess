@@ -12,7 +12,7 @@ public class Queen extends Piece {
      * @
      */
     public Queen(int col) {
-        super(col, "Q", 120, UserInterface.PIECES.get(col + 8));
+        super(col, "Q", 130, UserInterface.PIECES.get(col + 8));
     }
     
     @Override

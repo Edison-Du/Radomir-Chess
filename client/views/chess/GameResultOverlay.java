@@ -19,8 +19,20 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 public class GameResultOverlay extends JPanel implements ActionListener {
+
+    private final Rectangle GAME_MESSAGE_BOUNDS = new Rectangle(45, 170, 390, 60);
+    private final Rectangle PLAY_AGAIN_BOUNDS = new Rectangle(45, 230, 390, 60);
+
+    private final int OVERLAY_X = 45;
+    private final int OVERLAY_Y = 170;
+    private final int OVERLAY_WIDTH = 390;
+    private final int OVERLAY_HEIGHT = 120;
+    private final int OVERLAY_ARC = 20;
+    private final Color OVERLAY_COLOUR = new Color(0, 0, 0, 127);
+
 
     public JLabel message;
     public final CustomButton playAgain;
@@ -36,16 +48,18 @@ public class GameResultOverlay extends JPanel implements ActionListener {
         // Message
         message = new JLabel("", SwingConstants.CENTER);
         message.setForeground(Color.WHITE);
-        message.setBounds(45, 170, 390, 60);
+        message.setFont(UserInterface.orkney30);
+        message.setBounds(GAME_MESSAGE_BOUNDS);
         message.setHorizontalAlignment(JLabel.CENTER);
         this.add(message);
 
         // Play Again
-        playAgain = new CustomButton("Play Again");
-        playAgain.setBounds(45, 230, 390, 60);
-        playAgain.setBackground(new Color(0, 0, 0, 0));
-        playAgain.setHoverColor(new Color(0, 0, 0, 0));
-        playAgain.setPressedColor(new Color(0, 0, 0, 0));
+        playAgain = new CustomButton("");
+        playAgain.setBounds(PLAY_AGAIN_BOUNDS);
+        playAgain.setFont(UserInterface.orkney18);
+        playAgain.setBackground(UserInterface.TRANSPARENT);
+        playAgain.setHoverColor(UserInterface.TRANSPARENT);
+        playAgain.setPressedColor(UserInterface.TRANSPARENT);
         playAgain.setBorder(UserInterface.EMPTY_BORDER);
         playAgain.setForeground(Color.WHITE);
         playAgain.addActionListener(this);
@@ -61,13 +75,20 @@ public class GameResultOverlay extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.setColor(new Color(0, 0, 0, 127));
-        g2d.fillRoundRect(45, 170, 390, 120, 20, 20);
+        g2d.setColor(OVERLAY_COLOUR);
+        g2d.fillRoundRect(OVERLAY_X, OVERLAY_Y, OVERLAY_WIDTH, OVERLAY_HEIGHT, OVERLAY_ARC, OVERLAY_ARC);
 
         if (gamePanel.isPlayingAgain()) {
             playAgain.setText("Waiting for Opponent");
+            
         } else {
             playAgain.setText("Play Again");
+
+            if (playAgain.getModel().isRollover() || playAgain.getModel().isPressed()) {
+                playAgain.setFont(UserInterface.orkney24);
+            } else {
+                playAgain.setFont(UserInterface.orkney18);
+            }
         }
     }
 

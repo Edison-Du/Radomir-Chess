@@ -39,6 +39,8 @@ public class UserInterface {
     public static final Color FRAME_COLOUR = new Color(41, 43, 45);
     public static final Color TEXT_COLOUR = new Color(250, 250, 250);
 
+    public static final Color TRANSPARENT = new Color(0, 0, 0, 0);
+
     // Navbar
     public static final Color NAVBAR_COLOUR = new Color(26,26,27);
     public static final Color NAVBAR_BUTTON_HOVER_COLOUR = new Color(38,39,39);
@@ -193,18 +195,6 @@ public class UserInterface {
     public static final int GAME_BOARD_Y = 120;
     public static final int GAME_SIDE_PANEL_WIDTH = 240;
     public static final int GAME_INFO_BORDER_RADIUS = 15;
-
-    public static final int PLAYERS_LABEL_WIDTH = GAME_BOARD_LENGTH / 2;
-    public static final int PLAYERS_LABEL_HEIGHT = 60;
-    public static final int OPPONENT_LABEL_Y = GAME_BOARD_Y - 60;
-    public static final int PLAYER_LABEL_Y = GAME_BOARD_Y + GAME_BOARD_LENGTH + 10;
-
-    public static final int GAME_BUTTON_WIDTH = 80;
-    public static final int GAME_BUTTON_HEIGHT = 62;
-    public static final int GAME_BUTTON_Y = 239;
-    public static final int TAKEBACK_BUTTON_X = 660;
-    public static final int DRAW_BUTTON_X = 740;
-    public static final int RESIGN_BUTTON_X = 820;
     
     // These are all greys, maybe just make a bunch of grey constsants GREY_1, GREY_2
     public static final Color CHAT_MESSAGE_COLOUR = new Color(230, 230, 230);
@@ -319,6 +309,8 @@ public class UserInterface {
 
     // Different sizes of fonts deriving from Orkney
     public static Font orkney12;
+    public static Font orkney14;
+    public static Font orkney16;
     public static Font orkney18;
     public static Font orkney24;
     public static Font orkney30;
@@ -330,6 +322,8 @@ public class UserInterface {
     public static void loadFonts() {
         if (readFonts()) {
             orkney12 = orkney.deriveFont(Font.PLAIN, 12);
+            orkney14 = orkney.deriveFont(Font.PLAIN, 14);
+            orkney16 = orkney.deriveFont(Font.PLAIN, 16);
             orkney18 = orkney.deriveFont(Font.PLAIN, 18);
             orkney24 = orkney.deriveFont(Font.PLAIN, 24);
             orkney30 = orkney.deriveFont(Font.PLAIN, 30);

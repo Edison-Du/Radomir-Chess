@@ -6,13 +6,9 @@ import java.awt.event.ActionEvent;
 import chesslogic.*;
 import config.GameState;
 import config.Page;
-import config.UserInterface;
-import sounds.SoundEffect;
 
-import java.awt.Color;
 import views.Window;
 import views.chess.ThreadBotP1;
-import config.PathsConsts;
 
 public class BotPanel extends AbstractGamePanel {
 
@@ -31,13 +27,18 @@ public class BotPanel extends AbstractGamePanel {
     public BotPanel(Window window) {
 
         this.window = window;
-
+        opponentLabel.setText("Devious Bot");
         lobbyInfoPanel.setlobbyTitle("Bot Game");
         resetGame();
     }
 
+    public void setPlayerName(String name) {
+        this.playerLabel.setText(name);
+    }
+
     @Override
     public void resetGame() {
+        
         chessGame = new ChessGame();
         chessGameClone = new ChessGame();
 
@@ -49,7 +50,7 @@ public class BotPanel extends AbstractGamePanel {
 
         setPlayerColour((int)(Math.random() * 2));
 
-        depthSearchBot = new DepthSearchBotP2(3, (getPlayerColour() + 1) % 2);
+        depthSearchBot = new RadomirBot(5, (getPlayerColour() + 1) % 2, 4);
 
         // Bot goes first
         if (getPlayerColour() == 1) {
@@ -57,6 +58,8 @@ public class BotPanel extends AbstractGamePanel {
         }
 
         setGameState(GameState.ONGOING);
+
+        playerLabel.setText(window.navigationBar.getUsername());
 
         this.revalidate();
     }
@@ -79,8 +82,6 @@ public class BotPanel extends AbstractGamePanel {
 
     @Override
     public void handleGameEnded() {
-        // TODO Auto-generated method stub
-        System.out.println("game ended!");
         if(chessGame.stalemate()) {
             setGameState(GameState.STALEMATE);
             this.boardPanel.gameResultOverlay.setMessage("Stalemate");

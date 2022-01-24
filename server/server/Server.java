@@ -8,10 +8,12 @@ import config.Consts;
 /**
  * [Server.java]
  * This class represents a server with a server socket on a chosen port,
- * it continuously accepts connections from clients and adds a new thread
- * to handle each client.
+ * it continuously accepts connections from clients and creates a new thread
+ * to handle each client. It also manages a lobby system for chess games and
+ * a database for user information.
  * 
- * It also manages a lobby system for chess games, and a database for users.
+ * @author Edison Du
+ * @version 1.0 Jan 24, 2022
  */
 public class Server extends Thread {
 
@@ -24,7 +26,6 @@ public class Server extends Thread {
     /**
      * Server
      * Creates server socket, lobby manager and database
-     * and continuousely accepts connections
      */
     public Server() {
         try {
@@ -39,13 +40,18 @@ public class Server extends Thread {
         }
     }
 
+    /**
+     * run
+     * Continuously accepts connections from clients and
+     * starts a thread to update the user database periodically
+     */
     @Override
     public void run() {
-        // Continuously accept connections
         System.out.println("Server has started.");
 
         isRunning = true;
         databaseUpdater.start();
+        
         while (isRunning) {
             this.acceptConnection();
         }
@@ -53,12 +59,11 @@ public class Server extends Thread {
 
     /**
      * acceptConnection
-     * Accepts a client and creates a new thread for that client
+     * Accepts a client and creates and starts a new thread for that client
      * @return Whether or not the connection was accepted
      */
     private boolean acceptConnection() {
         try {
-            // Accept socket and create new thread
             Socket socket = serverSocket.accept();
             Thread thread = new ClientHandler(this, socket);
             thread.start();

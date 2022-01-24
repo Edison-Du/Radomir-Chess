@@ -28,7 +28,6 @@ public class GameResultOverlay extends JPanel implements ActionListener {
     private AbstractGamePanel gamePanel;
 
     public GameResultOverlay(AbstractGamePanel gamePanel) {
-        // setBackground(new Color(0, 0, 0, 50));
         setOpaque(false);
         setLayout(null);
 
@@ -52,11 +51,6 @@ public class GameResultOverlay extends JPanel implements ActionListener {
         playAgain.addActionListener(this);
         this.add(playAgain);
     }
-
-
-    // public String getMessage() {
-    //     return this.message;
-    // } 
 
     public void setMessage(String message) {
         this.message.setText(message);

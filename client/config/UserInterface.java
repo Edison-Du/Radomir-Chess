@@ -57,6 +57,7 @@ public class UserInterface {
     // Join game page
     public static final int BACK_BUTTON_X = 20;
     public static final int BACK_BUTTON_Y = 20;
+    public static final Color ERROR_COLOUR = new Color(255, 255, 0);
 
 
     public static final Color JOIN_GAME_BUTTON_BACKGROUND = new Color(200, 200, 200);

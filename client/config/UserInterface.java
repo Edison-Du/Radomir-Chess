@@ -53,6 +53,8 @@ public class UserInterface {
     public static final int NAVBAR_LABEL_X = 30;
     public static final int USERNAME_Y = UserInterface.WINDOW_HEIGHT - 47;
     public static final int PLAYERS_ONLINE_Y = UserInterface.WINDOW_HEIGHT - 123;
+    public static final int PLAYERS_ONLINE_RADIUS = 12;
+    public static final Color PLAYERS_ONLINE_COLOR = new Color(59, 165, 93);
 
     //Content panel
     public static final int BACKGROUND_LOGO_X = CONTENT_WIDTH / 2 - 180;
@@ -89,6 +91,12 @@ public class UserInterface {
     public static final int NUM_SETTINGS = 5;
     public static boolean changeMade = false;
     
+    // About
+    public static final int ABOUT_PADDING = 30;
+    public static final int ABOUT_Y_BOUND = 120;
+    public static final int ABOUT_WIDTH = 994;
+    public static final int ABOUT_HEIGHT = 480;
+
     //Login page
     public static final int USERNAME_X = CONTENT_WIDTH / 2 - 140;
     public static final int PASSWORD_X = CONTENT_WIDTH / 2 - 140;

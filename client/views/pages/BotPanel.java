@@ -27,7 +27,7 @@ public class BotPanel extends AbstractGamePanel {
     public BotPanel(Window window) {
 
         this.window = window;
-        opponentLabel.setText("Devious Bot");
+        opponentLabel.setText("Radomir Bot");
         lobbyInfoPanel.setlobbyTitle("Bot Game");
         resetGame();
     }

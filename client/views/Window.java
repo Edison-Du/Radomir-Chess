@@ -2,17 +2,22 @@ package views;
 
 import java.awt.BorderLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import config.UserInterface;
 import config.Page;
+import config.PathsConsts;
 import views.navigation.NavigationBar;
 import views.pages.*;
 
 import config.MessageTypes;
 import network.ServerConnection;
 import network.Message;
+
+import java.awt.GraphicsEnvironment;
+import java.awt.GraphicsDevice;
 
 public class Window extends JFrame {
 
@@ -60,12 +65,16 @@ public class Window extends JFrame {
 
         this.setTitle(UserInterface.WINDOW_TITLE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
+        this.setResizable(true);
         this.setLayout(new BorderLayout());
         this.getContentPane().add(navigationBar, BorderLayout.WEST);
         this.getContentPane().add(content);
         this.setVisible(true);
         this.pack();
+
+        // Add icon
+        ImageIcon img = new ImageIcon(PathsConsts.CHESS_ICON);
+        this.setIconImage(img.getImage());
 
         // Repainting thread
         Thread frameUpdateThread = new Thread(

@@ -64,7 +64,7 @@ public class NavigationBar extends JPanel {
         this.playersOnlineLabel = new JLabel();
         this.playersOnlineLabel.setForeground(UserInterface.TEXT_COLOUR);
         this.playersOnlineLabel.setBounds(
-            UserInterface.NAVBAR_LABEL_X,
+            UserInterface.NAVBAR_LABEL_X + UserInterface.PLAYERS_ONLINE_RADIUS * 2,
             UserInterface.PLAYERS_ONLINE_Y,
             UserInterface.NAVBAR_LABEL_WIDTH,
             UserInterface.NAVBAR_LABEL_HEIGHT
@@ -95,6 +95,8 @@ public class NavigationBar extends JPanel {
         g.drawImage(headerImage, 0, 0, this);
         g.setColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR.brighter());
         g.fillRect(0, UserInterface.WINDOW_HEIGHT - 70, UserInterface.NAVBAR_WIDTH, 70);
+        g.setColor(UserInterface.PLAYERS_ONLINE_COLOR);
+        g.fillOval(UserInterface.NAVBAR_LABEL_X, UserInterface.PLAYERS_ONLINE_Y + 5, UserInterface.PLAYERS_ONLINE_RADIUS, UserInterface.PLAYERS_ONLINE_RADIUS);
         this.revalidate();
         this.repaint();
     }

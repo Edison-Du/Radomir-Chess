@@ -34,6 +34,7 @@ public class PathsConsts {
     public static final String PROMOTION_PLATTER = IMAGES + "promotion" + PNG_FILE;
     public static final String CHESS_LOGO = IMAGES + "radomirchess3" + PNG_FILE;
     public static final String NAVBAR_HEADER = IMAGES + "navbarheader" + PNG_FILE;
+    public static final String CHESS_ICON = IMAGES + "radomirchess2" + PNG_FILE;
 
     public static final String WOOD_THEME = THEMES + "wood" + PNG_FILE;
     public static final String ICE_THEME = THEMES + "icysea" + PNG_FILE;

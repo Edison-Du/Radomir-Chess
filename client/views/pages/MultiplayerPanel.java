@@ -77,7 +77,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
         this.add(opponentProposalPanel);
         setActiveProposal(MessageTypes.TAKEBACK_REQUESTED);
 
-        messagePanel.addTextMessage(otherClient + " wants a takeback");
+        messagePanel.addTextMessage(otherClient + " requests a takeback.");
 
         this.revalidate();
     }
@@ -87,7 +87,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
         this.add(opponentProposalPanel);
         setActiveProposal(MessageTypes.DRAW_OFFERED);
 
-        messagePanel.addTextMessage(otherClient + " offers a draw");
+        messagePanel.addTextMessage(otherClient + " offers a draw.");
 
         this.revalidate();
     }
@@ -204,7 +204,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
 
     public void handleDrawAcceptance() {
-        boardPanel.gameResultOverlay.setMessage("Game drawn");
+        boardPanel.gameResultOverlay.setMessage("Game Drawn");
         ServerConnection.sendMessage(new Message(MessageTypes.DRAW_ACCEPTED));
         setGameState(GameState.DRAW);
     }

@@ -25,7 +25,7 @@ public class DatabaseUpdater extends Thread {
                 int numAccounts = database.getData().size();
                 synchronized(database) {
                     for (Map.Entry<String, User> user : database.getData().entrySet()) {
-                        if (numAccounts == 0) {
+                        if (numAccounts == 1) {
                             fileWriter.write(user.getValue().toString().trim());
                         } else {
                             fileWriter.write(user.getValue().toString());

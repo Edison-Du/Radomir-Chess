@@ -6,6 +6,8 @@ Radomir Chess is our ambitious Lichess/Chess.com-like chess application that run
 
 We have packed Radomir Chess with features for a truly fun and functional chess application, but there are potential rooms for improvement. Mainly, implementing a chess clock could help create more timely matches, and an elo system could raise the stakes of the already exciting games.
 
+![image](https://user-images.githubusercontent.com/87958079/150734128-10a0350c-e4e7-4ffb-9230-502c47c1e710.png)
+
 ## How to Install
 
 Do the following:

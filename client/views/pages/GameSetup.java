@@ -18,14 +18,16 @@ import config.Page;
 public class GameSetup extends ContentPanel implements ActionListener {
 
     private final int INSTRUCTION_LABEL_X = UserInterface.CONTENT_WIDTH / 2 - 140;
-    private final int INSTRUCTION_LABEL_Y = UserInterface.WINDOW_HEIGHT / 2 - 95;
+    private final int INSTRUCTION_LABEL_Y = UserInterface.WINDOW_HEIGHT / 2 - 110;
     private final int INSTRUCTION_LABEL_WIDTH = 280;
     private final int INSTRUCTION_LABEL_HEIGHT = 50;
-    private final int PUBLIC_BUTTON_Y = 330;
-    private final int PRIVATE_BUTTON_Y = 420;
+    private final int PUBLIC_BUTTON_Y = 340;
+    private final int PRIVATE_BUTTON_Y = 430;
+    private final int CREATE_ERROR_Y = INSTRUCTION_LABEL_Y + 30;
 
     private Window window;
     private JLabel instructionsLabel = new JLabel();
+    private JLabel createErrorLabel = new JLabel("Failed to create lobby");
     private PanelButton createPublicLobbyBtn;
     private PanelButton createPrivateLobbyBtn;
     private PanelButton backButton;
@@ -59,23 +61,36 @@ public class GameSetup extends ContentPanel implements ActionListener {
         this.backButton = new PanelButton("Back", UserInterface.BACK_BUTTON_X, UserInterface.BACK_BUTTON_Y);
         this.backButton.addActionListener(this);
         this.add(backButton);
+
+        // Error
+        createErrorLabel.setFont(UserInterface.orkney18);
+        createErrorLabel.setForeground(UserInterface.ERROR_COLOUR);
+        createErrorLabel.setBounds(INSTRUCTION_LABEL_X, CREATE_ERROR_Y, INSTRUCTION_LABEL_WIDTH, INSTRUCTION_LABEL_HEIGHT);
+    }
+
+    public void displayError() {
+        this.add(createErrorLabel);
+        this.revalidate();
+    }
+
+    public void removeError() {
+        this.remove(createErrorLabel);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
+            removeError();
             window.changePage(Page.PLAY);
 
         } else if (e.getSource() == createPublicLobbyBtn) {
             Message createLobby = new Message(MessageTypes.CREATE_GAME);
             createLobby.addParam("public");
-            window.changePage(Page.GAME);
             ServerConnection.sendMessage(createLobby);
 
         } else if (e.getSource() == createPrivateLobbyBtn) {
             Message createLobby = new Message(MessageTypes.CREATE_GAME);
             createLobby.addParam("private");
-            window.changePage(Page.GAME);
             ServerConnection.sendMessage(createLobby);
         }
     }

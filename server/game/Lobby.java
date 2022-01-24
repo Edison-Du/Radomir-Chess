@@ -7,28 +7,23 @@ import server.Message;
 public class Lobby {
     
     private ClientHandler host, guest;
-    private String code;
+    private int code;
     private int hostColour;
     private String lobbyVisibility;
 
     private boolean joinable;
 
 
-    public Lobby(ClientHandler host) {
-        generateCode();
+    public Lobby(ClientHandler host, int code) {
+        this.code = code;
         this.host = host;
         this.hostColour = (int)(Math.random() * 2);
         this.lobbyVisibility = "public";
         this.joinable = true;
     }
 
-    public String getCode() {
+    public int getCode() {
         return this.code;
-    }
-
-    private void generateCode() {
-        // Temporary
-        this.code = Integer.toString((int) (Math.random() * (9999 - 1000)) + 1000);
     }
 
     public boolean isPublic() {

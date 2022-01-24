@@ -1,30 +1,54 @@
 package server;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import config.MessageTypes;
 import game.Lobby;
 
 public class LobbyManager {
-    private HashMap<String, Lobby> activeGames;
+    private final int MIN_CODE = 1000;
+    private final int MAX_CODE = 9999;
+    private final char LOBBY_INFO_SEPARATOR = ',';
+
+    private HashMap<Integer, Lobby> activeGames;
+    private Queue<Integer> lobbyCodes;
     
     public LobbyManager() {
         activeGames = new HashMap<>();
+        lobbyCodes = new LinkedList<>();
+
+        generateCodes();
     }
 
-    public boolean lobbyExists(String code) {
+    public void generateCodes() {
+        int[] codes = new int[MAX_CODE - MIN_CODE + 1];
+        for (int i = MIN_CODE; i <= MAX_CODE; i++) {
+            codes[i-MIN_CODE] = i;
+        }
+        // Shuffle codes
+        for (int i = 0; i <= MAX_CODE - MIN_CODE; i++) {
+            int index = (int)(Math.random() * (MAX_CODE - MIN_CODE));
+            lobbyCodes.add(codes[index]);
+            codes[index] = codes[i];
+        }
+    }
+
+    public boolean lobbyExists(int code) {
         return activeGames.get(code) != null;
     }
 
-    public Lobby getLobby(String code) {
+    public Lobby getLobby(int code) {
         return activeGames.get(code);
     }
 
     public Lobby createLobby(ClientHandler host) {
-        Lobby lobby = new Lobby(host);
-        while (lobbyExists(lobby.getCode())) {
-            lobby = new Lobby(host);
+        if (lobbyCodes.size() == 0) {
+            return null;
         }
+        int code = lobbyCodes.poll();
+        Lobby lobby = new Lobby(host, code);
         return lobby;
     }
 
@@ -32,9 +56,14 @@ public class LobbyManager {
         activeGames.put(lobby.getCode(), lobby);
     }
 
-    public boolean removeLobby(String code) {
-        Lobby lobby = activeGames.remove(code);
-        return lobby != null;
+    public boolean removeLobby(int code) {
+        if (lobbyExists(code)) {
+            Lobby lobby = activeGames.remove(code);
+            lobbyCodes.add(lobby.getCode());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Message getPublicLobbyInfo() {
@@ -43,12 +72,12 @@ public class LobbyManager {
         for (Lobby lobby : activeGames.values()) {
             if (lobby.isPublic() && lobby.isJoinable()) {
                 String lobbyParameter = "";
-                lobbyParameter += Integer.toString(++lobbyIndex) + ",";
-                lobbyParameter += lobby.getCode() + ",";
-                lobbyParameter += lobby.getHostName() + ",";
-                lobbyParameter += lobby.getHostColour() + ",";
-                lobbyParameter += lobby.getGuestName() + ",";
-                lobbyParameter += lobby.getGuestColour() + ",";
+                lobbyParameter += Integer.toString(++lobbyIndex) + LOBBY_INFO_SEPARATOR;
+                lobbyParameter += lobby.getCode() + LOBBY_INFO_SEPARATOR;
+                lobbyParameter += lobby.getHostName() + LOBBY_INFO_SEPARATOR;
+                lobbyParameter += lobby.getHostColour() + LOBBY_INFO_SEPARATOR;
+                lobbyParameter += lobby.getGuestName() + LOBBY_INFO_SEPARATOR;
+                lobbyParameter += lobby.getGuestColour() + LOBBY_INFO_SEPARATOR;
                 message.addParam(lobbyParameter);
             }
         }

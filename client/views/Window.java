@@ -65,7 +65,7 @@ public class Window extends JFrame {
 
         this.setTitle(UserInterface.WINDOW_TITLE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(true);
+        this.setResizable(false);
         this.setLayout(new BorderLayout());
         this.getContentPane().add(navigationBar, BorderLayout.WEST);
         this.getContentPane().add(content);
@@ -137,6 +137,7 @@ public class Window extends JFrame {
             content = joinGamePanel;
         
         } else if (currentPage == Page.GAME_SETUP) {
+            gameSetupPanel.removeError();
             content = gameSetupPanel;
         
         } else if (currentPage == Page.BROWSE_GAMES) {

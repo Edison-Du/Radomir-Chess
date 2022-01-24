@@ -5,8 +5,8 @@ import java.util.ArrayList;
 /**
  * A class for a board
  * Contains the player to move and all the tiles
- * @author Leo Guan
- * @version 1.0, Jan. 2022
+ * @author JPANEL
+ * @version 1.0
  */
 
 import java.util.HashSet;

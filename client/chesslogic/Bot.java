@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
+/**
+ * abstract class for a chess engine/bot
+ * @author JPANEL
+ * @version 1.0
+ */
+
 public abstract class Bot {
     
     public ArrayList<String> legalMoves(Board b)  {

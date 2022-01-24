@@ -1,8 +1,5 @@
 package chesslogic;
 
-import java.util.Scanner;
-import java.lang.Integer;
-
 /**
  * Class for a game of chess
  * Also holds main method
@@ -219,15 +216,58 @@ public class ChessGame {
         if(fiftyMoves == 100) {
             return true;
         }
-        else if(!current.ended()) {
+        else if(current.ended() && !current.getKings()[Constants.WHITE].isChecked(current, current.getKingTiles()[Constants.WHITE]) 
+        && !current.getKings()[Constants.BLACK].isChecked(current, current.getKingTiles()[Constants.BLACK])) {
+            return true;
+        }
+        else if(drawByInsufficientPieces()) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean ended() {
+        return stalemate() || whiteWins() || blackWins();
+    }
+
+    private boolean drawByInsufficientPieces() {
+        if(current.getPieces().get(0).size() > 2 || current.getPieces().get(1).size() > 2) {
             return false;
         }
-        for(int i = 0; i < 2; i++) {
-            if(current.getKings()[i].isChecked(current, current.getKingTiles()[i])) {
+        if(current.getPieces().get(0).size() == 1 && current.getPieces().get(1).size() == 1) {
+            return true;
+        }
+        else if(current.getPieces().get(0).size() == 1 && current.getPieces().get(1).size() == 2) {
+            return !(!current.getPieces().get(1).get(0).getPiece().getName().equals("N")
+                   && !current.getPieces().get(1).get(1).getPiece().getName().equals("N")
+                   && !current.getPieces().get(1).get(0).getPiece().getName().equals("B")
+                   && !current.getPieces().get(1).get(1).getPiece().getName().equals("B"));
+        }
+        else if(current.getPieces().get(0).size() == 2 && current.getPieces().get(1).size() == 1) {
+            return !(!current.getPieces().get(0).get(0).getPiece().getName().equals("N")
+                   && !current.getPieces().get(0).get(1).getPiece().getName().equals("N")
+                   && !current.getPieces().get(0).get(0).getPiece().getName().equals("B")
+                   && !current.getPieces().get(0).get(1).getPiece().getName().equals("B"));
+        }
+        else {
+            int whiteBish = 0;
+            int blackBish = 0;
+            for(int i = 0; i < 2; i++) {
+                if(current.getPieces().get(0).get(i).getPiece().getName().equals("B")) {
+                    whiteBish = i;
+                }
+                if(current.getPieces().get(1).get(i).getPiece().getName().equals("B")) {
+                    blackBish = i;
+                }
+            }
+            if(!current.getPieces().get(0).get(whiteBish).getPiece().getName().equals("B")) {
                 return false;
             }
+            else if(!current.getPieces().get(1).get(whiteBish).getPiece().getName().equals("B")) {
+                return false;
+            }
+            return (current.getPieces().get(0).get(whiteBish).getX() + current.getPieces().get(0).get(whiteBish).getY() - current.getPieces().get(0).get(blackBish).getX() - current.getPieces().get(0).get(blackBish).getY())%2 == 0;
         }
-        return true;
     }
     
     public String toAlgebraic(String t1, String t2, String p) {

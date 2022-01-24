@@ -3,6 +3,13 @@ package chesslogic;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * class for a bot that makes random moves
+ * @author JPANEL
+ * @version 1.0
+ * This bot is mostly for testing purposes.
+ */
+
 public class RandomBot extends Bot {
     
     @Override

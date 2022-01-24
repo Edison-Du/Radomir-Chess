@@ -1,13 +1,12 @@
 package chesslogic;
 
+import java.util.Stack;
+
 /**
  * Class for a game of chess
- * Also holds main method
- * @author Leo Guan
- * @version 1.0, Jan. 2022
+ * @author JPANEL
+ * @version 1.0
  */
-
-import java.util.Stack;
 
 public class ChessGame {
     private Board current;

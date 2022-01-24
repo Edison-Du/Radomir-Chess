@@ -1,10 +1,15 @@
 package chesslogic;
 
-//failed experiment
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.lang.InterruptedException;
+
+/**
+ * Multithreaded depth search bot
+ * @author JPANEL
+ * @version 1.0
+ * Each thread added increases the speed marginally. Tested with intel i3-8130U, 12 GB RAM (not sure what type, too lazy to find out)
+ */
 
 public class RadomirBot extends Bot {
     

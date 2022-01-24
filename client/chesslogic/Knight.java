@@ -4,6 +4,12 @@ import java.util.HashSet;
 
 import config.UserInterface;
 
+/**
+ * class for a Knight piece
+ * @author JPANEL
+ * @version 1.0
+ */
+
 public class Knight extends Piece {
     
     /**

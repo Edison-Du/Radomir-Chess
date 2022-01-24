@@ -4,6 +4,12 @@ import java.util.HashSet;
 
 import config.UserInterface;
 
+/**
+ * class for a Rook piece
+ * @author JPANEL
+ * @version 1.0
+ */
+
 public class Rook extends Piece {
     
     /**

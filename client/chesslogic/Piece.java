@@ -1,16 +1,15 @@
 package chesslogic;
 
-/**
- * Class for a generic piece
- * @author Leo Guan
- * @version 1.0, Jan. 2022
- */
-
 import java.util.HashSet;
-
 
 import java.awt.image.BufferedImage;
 import config.UserInterface;
+
+/**
+ * Class for a generic piece
+ * @author JPANEL
+ * @version 1.0
+ */
 
 public abstract class Piece {
     private int colour;

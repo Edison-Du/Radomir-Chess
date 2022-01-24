@@ -4,10 +4,17 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.Random;
 
 import config.PathsConsts;
+
+/**
+ * An implementation of an opening tree
+ * @author Leo Guan
+ * @version 1.0
+ */
 
 public class OpeningTreeV2 {
     
@@ -22,26 +29,42 @@ public class OpeningTreeV2 {
         this.depth = 1;
         r = new Random();
         try {
+            ChessGame c = new ChessGame();
+            int detectAnomaly = 0;
             Scanner in = new Scanner(new File(PathsConsts.OPENING_FILE_TWO));
             String curLine;
             while(in.hasNext()) {
                 curLine = in.nextLine();
+                detectAnomaly++;
                 if(curLine.length() == 0) { }
                 else if(curLine.substring(0, 1).equals("{")) {
-                    this.current.push(curLine.substring(1, 6));
-                    this.nextMove(curLine.substring(1, 6));
-                    if(curLine.length() > 6 && curLine.substring(6, 7).equals("}")) {
-                        prevMove();
+                    if(!c.getCurrentPos().legal(curLine.substring(1, 3), curLine.substring(3, 5))) {
+                        throw new TreeInvalidException("Illegal move detected at line " + detectAnomaly + " in file " + PathsConsts.OPENING_FILE_TWO);
                     }
-                }
+                    else {
+                        this.current.push(curLine.substring(1, 6));
+                        this.nextMove(curLine.substring(1, 6));
+                        c.move(curLine.substring(1, 3), curLine.substring(3, 5), curLine.substring(5, 6));
+                        if(curLine.length() > 6 && curLine.substring(6, 7).equals("}")) {
+                            prevMove();
+                            c.undo();
+                        }
+                    }
+               }
                 else if(curLine.substring(0, 1).equals("}")) {
                     prevMove();
+                    c.undo();
                 }
             }
             if(this.current != this.head) {
-                System.out.println("BAAAAAAAAAAAAAAAAAD!!!!!!!!!!!!!!!!");
+                throw new TreeInvalidException("Illegal move detected at line " + detectAnomaly + " in file " + PathsConsts.OPENING_FILE_TWO);
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (IOException e) { 
+            e.printStackTrace(); 
+        } catch (TreeInvalidException e) {
+            e.printStackTrace();
+        }
+        
     }
     
     public boolean nextMove(String next) {

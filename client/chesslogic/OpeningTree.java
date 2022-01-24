@@ -9,6 +9,12 @@ import config.PathsConsts;
 
 import java.util.Random;
 
+/**
+ * An implementation of an opening tree
+ * @author JPANEL
+ * @version 1.0
+ */
+
 public class OpeningTree {
 
     HashMap<String, ArrayList<String>> tree;

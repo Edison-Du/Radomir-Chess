@@ -2,8 +2,8 @@ package chesslogic;
 
 /**
  * Class for a tile
- * @author Leo Guan
- * @version 1.0, Jan. 2022
+ * @author JPANEL
+ * @version 1.0
  */
 
 public class Tile {

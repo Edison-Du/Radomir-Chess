@@ -1,8 +1,13 @@
 package chesslogic;
 
 import java.util.HashSet;
-
 import config.UserInterface;
+
+/**
+ * class for a bishop
+ * @author JPANEL
+ * @version 1.0
+ */
 
 public class Bishop extends Piece {
 

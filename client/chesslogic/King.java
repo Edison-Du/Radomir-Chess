@@ -5,6 +5,12 @@ import java.util.Iterator;
 
 import config.UserInterface;
 
+/**
+ * class for a King piece
+ * @author JPANEL
+ * @version 1.0
+ */
+
 public class King extends Piece {
     
     private boolean hasCastled;
@@ -69,7 +75,6 @@ public class King extends Piece {
                && (!b.getTiles()[pos.getX() - 4][pos.getY()].getPiece().hasMoved()) 
                && (!isChecked(b, b.getTiles()[pos.getX() - 1][pos.getY()]))
                && (!isChecked(b, b.getTiles()[pos.getX() - 2][pos.getY()])) 
-               && (!isChecked(b, b.getTiles()[pos.getX() -3][pos.getY()])) 
                && (!isChecked(b, pos))) {
             output.add(b.getTiles()[pos.getX() - 2][pos.getY()]);
         }

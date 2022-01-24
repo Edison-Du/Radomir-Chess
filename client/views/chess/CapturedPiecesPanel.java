@@ -76,6 +76,11 @@ public class CapturedPiecesPanel extends ContentPanel {
             if(numPieces > 0) offset += 10;
         }
         offset = 0;
+
+        // Check if we need to update the piece set
+        if (UserInterface.setChanged) {
+            updatePieces();
+        }
     }
 
     /**

@@ -11,6 +11,7 @@ public class CustomTextField extends JTextField {
     
     private String placeholder;
     private Color placeholderColour;
+    private int placeholderY;
     // private
 
     public CustomTextField() {
@@ -33,6 +34,10 @@ public class CustomTextField extends JTextField {
         placeholderColour = colour;
     }
 
+    public void setPlaceholderY(int y) {
+        this.placeholderY = y;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -44,6 +49,9 @@ public class CustomTextField extends JTextField {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2d.setColor(placeholderColour);
-        g2d.drawString(placeholder, getInsets().left, g2d.getFontMetrics().getMaxAscent() + getInsets().top);
+        g2d.drawString(
+            placeholder, 
+            getInsets().left, 
+            placeholderY);
     }
 }

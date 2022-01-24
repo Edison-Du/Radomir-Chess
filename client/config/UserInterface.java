@@ -57,6 +57,7 @@ public class UserInterface {
     // Join game page
     public static final int BACK_BUTTON_X = 20;
     public static final int BACK_BUTTON_Y = 20;
+    public static final Color ERROR_COLOUR = new Color(255, 255, 0);
 
 
     public static final Color JOIN_GAME_BUTTON_BACKGROUND = new Color(200, 200, 200);
@@ -291,6 +292,7 @@ public class UserInterface {
     public static Font orkney12;
     public static Font orkney18;
     public static Font orkney24;
+    public static Font orkney30;
     public static Font orkney36;
     public static Font orkney48;
     public static Font orkney96;
@@ -301,6 +303,7 @@ public class UserInterface {
             orkney12 = orkney.deriveFont(Font.PLAIN, 12);
             orkney18 = orkney.deriveFont(Font.PLAIN, 18);
             orkney24 = orkney.deriveFont(Font.PLAIN, 24);
+            orkney30 = orkney.deriveFont(Font.PLAIN, 30);
             orkney36 = orkney.deriveFont(Font.PLAIN, 36);
             orkney48 = orkney.deriveFont(Font.PLAIN, 48);
             orkney96 = orkney.deriveFont(Font.PLAIN, 96);

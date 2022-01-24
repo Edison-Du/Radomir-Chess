@@ -261,8 +261,9 @@ public class ClientHandler extends Thread {
             sendMessage(errorMessage);
 
         } else if (!lobby.setGuest(this)) {
-            Message gameFull = new Message(MessageTypes.GAME_FULL);
-            sendMessage(gameFull);
+            Message errorMessage = new Message(MessageTypes.JOIN_ERROR);
+            errorMessage.addParam("Game is full");
+            sendMessage(errorMessage);
 
         } else {
             Message joinedMessage = new Message(MessageTypes.JOINED_GAME);

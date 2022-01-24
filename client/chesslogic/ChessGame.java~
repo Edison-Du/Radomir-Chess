@@ -1,7 +1,6 @@
 package chesslogic;
 
 import java.util.Scanner;
-import java.lang.Integer;
 
 /**
  * Class for a game of chess
@@ -18,7 +17,6 @@ public class ChessGame {
     private Stack<Piece> piecesTaken;
     private Stack<Piece> pawnsPromoted;
     private int fiftyMoves;
-    private Stack<Integer> fiftyMoveStack;
     
     /**
      * Create a game
@@ -29,7 +27,6 @@ public class ChessGame {
         stringMoves = new Stack<String>();
         piecesTaken = new Stack<Piece>();
         pawnsPromoted = new Stack<Piece>();
-        fiftyMoveStack = new Stack<Integer>();
         fiftyMoves = 0;
     }
     
@@ -51,18 +48,15 @@ public class ChessGame {
                 piecesTaken.push(current.getTiles()[pos2[0]][pos2[1] + 2*current.getToMove() - 1].getPiece());
                 current.getTiles()[pos2[0]][pos2[1] + 2*current.getToMove() - 1].setPiece(null);
                 current.getPieces().get(1 - current.getToMove()).remove(current.getTiles()[pos2[0]][pos2[1] + 2*current.getToMove() - 1]);
-                fiftyMoveStack.push(fiftyMoves);
                 fiftyMoves = 0;
             }
             else {
                 piecesTaken.push(current.getTile(t2).getPiece());
                 if(piecesTaken.peek() != null) {
                     current.getPieces().get(1 - current.getToMove()).remove(current.getTile(t2));
-                    fiftyMoveStack.push(fiftyMoves);
                     fiftyMoves = 0;
                 }
                 else if(current.getTile(t1).getPiece().getName().equals("p")) {
-                    fiftyMoveStack.push(fiftyMoves);
                     fiftyMoves = 0;
                 }
                 else {
@@ -107,18 +101,6 @@ public class ChessGame {
     
     protected void setFiftyMoves(int x) {
         this.fiftyMoves = x;
-    }
-    
-    public int getFiftyMoves() {
-        return this.fiftyMoves;
-    }
-    
-    protected void setFiftyMoveStack(Stack<Integer> x) {
-        this.fiftyMoveStack = x;
-    }
-    
-    public Stack<Integer> getFiftyMoveStack() {
-        return this.fiftyMoveStack;
     }
     
     protected void setCurrentPos(Board b) {
@@ -197,13 +179,6 @@ public class ChessGame {
             this.piecesTaken.pop();
             this.pawnsPromoted.pop();
             this.stringMoves.pop();
-            if(fiftyMoves > 0) {
-                fiftyMoves--;
-            }
-            else {
-                fiftyMoves = fiftyMoveStack.peek();
-                fiftyMoveStack.pop();
-            }
         }
     }
     
@@ -216,7 +191,7 @@ public class ChessGame {
     }
     
     public boolean stalemate() {
-        if(fiftyMoves == 100) {
+        if(fiftyMoves == 50) {
             return true;
         }
         else if(!current.ended()) {
@@ -318,8 +293,17 @@ public class ChessGame {
             temp2.pop();
         }
         out.setFiftyMoves(this.fiftyMoves);
-        out.getFiftyMoveStack().addAll(this.fiftyMoveStack);
         return out;
     }
     
+    public static void main(String[] args) {
+        ChessGame b = new ChessGame();
+        System.out.println("Board created - copying board");
+        long start = System.currentTimeMillis();
+        ChessGame copy = b.copy();
+        long end = System.currentTimeMillis();
+        System.out.println("Time taken: " + (end - start));
+        System.out.println(copy);
+        System.out.println(b);
+    }
 }

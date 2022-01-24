@@ -389,13 +389,4 @@ public class Board {
         return true;
     }
     
-    public static void main(String[] args) {
-        Board b = new Board();
-        System.out.println("Board created - copying board");
-        long start = System.currentTimeMillis();
-        Board copy = b.copy();
-        long end = System.currentTimeMillis();
-        System.out.println("Time taken: " + (end - start));
-        System.out.println(copy);
-    }
 }

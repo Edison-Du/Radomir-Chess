@@ -1,0 +1,75 @@
+class OpeningTreeV2 {
+    
+    Node head;
+    Node current;
+    
+    public OpeningTreeV2() {
+        this.head = new Node(null, null);
+        this.current = this.head;
+    }
+    
+    public boolean nextMove(String next) {
+        if(this.current.contains(next)) {
+            this.current = this.current.getNext(next);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean hasNext() {
+        return !this.current.isLeaf();
+    }
+    
+    public boolean prevMove() {
+        if(this.current != this.head) {
+            this.current = this.current.getPrev();
+            return true;
+        }
+        return false;
+    }
+    
+    public String getData() {
+        return this.current.
+    
+    private class Node {
+        
+        private String data;
+        private HashMap<String, Node> map;
+        private int mapSize;
+        private Node prev;
+        
+        Node(String move, Node prev) {
+            this.data = move;
+            this.map = new HashMap<String, Node>();
+            this.mapSize = 0;
+            this.prev = prev;
+        }
+        
+        public boolean contains(String move) {
+            return map.containsKey(move);
+        }
+        
+        public void push(String nextMove) {
+            map.put(nextMove, new Node(nextMove, this));
+            this.mapSize++;
+        }
+        
+        public boolean isLeaf() {
+            return this.mapSize == 0;
+        }
+        
+        public Node getPrev() {
+            return this.prev;
+        }
+        
+        public Node getNext(String move) {
+            return map.get(move);
+        }
+        
+        public String getData() {
+            return this.data;
+        }
+        
+    }
+    
+}

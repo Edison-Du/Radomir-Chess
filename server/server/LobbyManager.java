@@ -73,14 +73,15 @@ public class LobbyManager {
             if (lobby.isPublic() && lobby.isJoinable()) {
                 String lobbyParameter = "";
                 lobbyParameter += Integer.toString(++lobbyIndex) + LOBBY_INFO_SEPARATOR;
-                lobbyParameter += lobby.getCode() + LOBBY_INFO_SEPARATOR;
+                lobbyParameter += Integer.toString(lobby.getCode()) + LOBBY_INFO_SEPARATOR;
                 lobbyParameter += lobby.getHostName() + LOBBY_INFO_SEPARATOR;
-                lobbyParameter += lobby.getHostColour() + LOBBY_INFO_SEPARATOR;
+                lobbyParameter += Integer.toString(lobby.getHostColour()) + LOBBY_INFO_SEPARATOR;
                 lobbyParameter += lobby.getGuestName() + LOBBY_INFO_SEPARATOR;
-                lobbyParameter += lobby.getGuestColour() + LOBBY_INFO_SEPARATOR;
+                lobbyParameter += Integer.toString(lobby.getGuestColour()) + LOBBY_INFO_SEPARATOR;
                 message.addParam(lobbyParameter);
             }
         }
+        System.out.println(message.getText());
         return message;
     }
 }

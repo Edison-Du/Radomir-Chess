@@ -104,6 +104,8 @@ public class Lobby {
             }
         }
 
+        System.out.println(lobbyInfo);
+
         lobby.setLobbyIndex(Integer.parseInt(lobbyInfo.get(0)));
         lobby.setLobbyCode(lobbyInfo.get(1));
         lobby.setHostName(lobbyInfo.get(2));

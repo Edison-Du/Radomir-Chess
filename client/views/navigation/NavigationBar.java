@@ -110,7 +110,7 @@ public class NavigationBar extends JPanel {
 
     public static Image getHeaderImage() {
         try {
-            return ImageIO.read(new File(PathsConsts.NAVBAR_HEADER)).getScaledInstance(UserInterface.NAVBAR_WIDTH, UserInterface.NAVBAR_WIDTH / 2 - 15, Image.SCALE_DEFAULT);
+            return ImageIO.read(new File(PathsConsts.NAVBAR_HEADER));
         } catch(IOException e) {
             System.out.println("File not found");
             e.printStackTrace();

@@ -28,7 +28,6 @@ public class Login extends ContentPanel implements ActionListener{
 
 
     private JLabel titleLabel = new JLabel("Login");
-    private JLabel profile = new JLabel();
     private JLabel usernameLabel= new JLabel();
     private JLabel passwordLabel = new JLabel();
     private JLabel errorLabel = new JLabel();
@@ -43,10 +42,6 @@ public class Login extends ContentPanel implements ActionListener{
         titleLabel.setForeground(UserInterface.TEXT_COLOUR);
         titleLabel.setBounds(UserInterface.TITLE_BOUNDS);
         this.add(titleLabel);
-        
-        profile.setFont(UserInterface.orkney36);
-        profile.setText("Register");
-        this.add(profile);
 
         usernameLabel.setFont(UserInterface.orkney24);
         usernameLabel.setText("Username");
@@ -61,8 +56,8 @@ public class Login extends ContentPanel implements ActionListener{
 
         usernameField.setFont(UserInterface.orkney24);
         usernameField.setPlaceholder("Enter Username");
-        usernameField.setFont(UserInterface.orkney24);
         usernameField.setBorder(TEXT_FIELD_MARGIN);
+        usernameField.setForeground(UserInterface.GAME_MOVES_HEADER_BACKGROUND);
         usernameField.setPlaceholderY(TEXT_FIELD_PLACEHOLDER_Y);
         usernameField.setBounds(
             UserInterface.USERNAME_X,
@@ -88,6 +83,7 @@ public class Login extends ContentPanel implements ActionListener{
         passwordField.setPlaceholder("Enter Password");
         passwordField.setFont(UserInterface.orkney24);
         passwordField.setBorder(TEXT_FIELD_MARGIN);
+        passwordField.setForeground(UserInterface.GAME_MOVES_HEADER_BACKGROUND);
         passwordField.setPlaceholderY(TEXT_FIELD_PLACEHOLDER_Y);
         passwordField.setBounds(
             UserInterface.PASSWORD_X,

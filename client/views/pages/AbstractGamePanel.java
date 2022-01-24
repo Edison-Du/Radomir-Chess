@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.Rectangle;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
 import chesslogic.ChessGame;
@@ -29,6 +30,23 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     private final Rectangle MOVES_PANEL_BOUNDS = new Rectangle(660, 120, 240, 120);
     private final Rectangle CHAT_PANEL_BOUNDS = new Rectangle(660, 300, 240, 330);
     private final Rectangle BOARD_PANEL_BOUNDS = new Rectangle(660, 30, 240, 60);
+    private final Rectangle OPPONENT_LABEL_BOUNDS = new Rectangle(
+        UserInterface.GAME_BOARD_X,
+        UserInterface.GAME_BOARD_Y - 80,
+        UserInterface.GAME_BOARD_LENGTH,
+        60);
+    private final Rectangle PLAYER_LABEL_BOUNDS = new Rectangle(
+        UserInterface.GAME_BOARD_X,
+        UserInterface.GAME_BOARD_Y + UserInterface.GAME_BOARD_LENGTH + 10,
+        UserInterface.GAME_BOARD_LENGTH,
+        60);
+    private final Rectangle OPPONENT_CAPTURED_PIECES_BOUNDS = new Rectangle(120, 80,480,30);
+    private final Rectangle PLAYER_CAPTURED_PIECES_BOUNDS = new Rectangle(120,650,480,30);
+    private final Rectangle TAKEBACK_BOUNDS = new Rectangle(660, 239, 80, 62);
+    private final Rectangle DRAW_BUTTON_BOUNDS = new Rectangle(740, 239, 80, 62);
+    private final Rectangle RESIGN_BOUNDS = new Rectangle(820, 239, 80, 62);
+    private final Rectangle PROPOSAL_BOUNDS = new Rectangle(435, 20, 165, 200);
+    private final Rectangle LEAVE_BUTTON_BOUNDS = new Rectangle(660, 630, 240, 30);
 
     // Chess game
     public ChessGame chessGame;
@@ -56,16 +74,11 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public final CapturedPiecesPanel capturedPiecesPanelWhite;
     public final CapturedPiecesPanel capturedPiecesPanelBlack;
 
-    private Rectangle opponentCapturedPiecesBounds;
-    private Rectangle playerCapturedPiecesBounds;
-
     private int playerColour;
     private GameState gameState;
 
     public final OpponentProposalPanel opponentProposalPanel;
     private String activeProposal;
-
-    public JLabel hostName, opponentName;
 
     public AbstractGamePanel() {
         
@@ -80,11 +93,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         );
         this.add(boardPanel);
 
-        // Captured Pieces
-        opponentCapturedPiecesBounds = new Rectangle(120, 60,480,30);
-        playerCapturedPiecesBounds   = new Rectangle(120,600,480,30);
-
-
+        // Captured pieces
         capturedPiecesPanelWhite = new CapturedPiecesPanel(chessGame, 0);
         this.add(capturedPiecesPanelWhite);
 
@@ -110,49 +119,29 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
         // Opponent label
         opponentLabel = new PlayerLabel();
-        opponentLabel.setBounds(
-            //change
-            UserInterface.GAME_BOARD_X,
-            UserInterface.GAME_BOARD_Y - 80,
-            UserInterface.GAME_BOARD_LENGTH,
-            60
-        );
+        opponentLabel.setBounds(OPPONENT_LABEL_BOUNDS);
         this.add(opponentLabel);
 
         // Player label
         playerLabel = new PlayerLabel();
-        playerLabel.setBounds(
-            UserInterface.GAME_BOARD_X,
-            UserInterface.GAME_BOARD_Y + UserInterface.GAME_BOARD_LENGTH + 10,
-            UserInterface.GAME_BOARD_LENGTH,
-            60
-        );
+        playerLabel.setBounds(PLAYER_LABEL_BOUNDS);
         this.add(playerLabel);
 
         // Takeback
         takebackButton = new GamePanelButton("Takeback");
-        takebackButton.setForeground(UserInterface.CHAT_MESSAGE_COLOUR);
-        takebackButton.setHoverColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR);
-        takebackButton.setPressedColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR.brighter());
-        takebackButton.setBounds(660, 240 - 1, 80, 60 + 2);
+        takebackButton.setBounds(TAKEBACK_BOUNDS);
         takebackButton.addActionListener(this);
         this.add(takebackButton);
 
         // Draw
         drawButton = new GamePanelButton("Draw");
-        drawButton.setForeground(UserInterface.CHAT_MESSAGE_COLOUR);
-        drawButton.setHoverColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR);
-        drawButton.setPressedColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR.brighter());
-        drawButton.setBounds(740, 240 - 1, 80, 60 + 2);
+        drawButton.setBounds(DRAW_BUTTON_BOUNDS);
         drawButton.addActionListener(this);
         this.add(drawButton);
 
         // Resign
         resignButton = new GamePanelButton("Resign");
-        resignButton.setForeground(UserInterface.CHAT_MESSAGE_COLOUR);
-        resignButton.setHoverColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR);
-        resignButton.setPressedColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR.brighter());
-        resignButton.setBounds(820, 240 - 1, 80, 60 + 2);
+        resignButton.setBounds(RESIGN_BOUNDS);
         resignButton.addActionListener(this);
         this.add(resignButton);
 
@@ -160,7 +149,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         leaveLobby = new CustomButton("Leave Game");
         leaveLobby.setFont(UserInterface.orkney18);
         leaveLobby.setBorder(UserInterface.FONT_OFFSET_BORDER);
-        leaveLobby.setBounds(660, 630, 240, 30);
+        leaveLobby.setBounds(LEAVE_BUTTON_BOUNDS);
         leaveLobby.setRound(true);
         leaveLobby.setBorderRadius(UserInterface.GAME_INFO_BORDER_RADIUS);
         leaveLobby.setForeground(UserInterface.NAVBAR_COLOUR);
@@ -173,7 +162,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
 
         // Proposal Panel
         opponentProposalPanel = new OpponentProposalPanel(this);
-        opponentProposalPanel.setBounds(435, 20, 165, 200);
+        opponentProposalPanel.setBounds(PROPOSAL_BOUNDS);
     }
 
     public abstract void processMove(String tile1, String tile2, String promotion);
@@ -197,7 +186,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         } else if (gameState != GameState.WAITING && state == GameState.WAITING) {
             ServerConnection.sendMessage(new Message(MessageTypes.UNLOCK_LOBBY));
 
-            opponentLabel.setText("Waiting for opponent");
+            opponentLabel.setText("Waiting for opponent . . .");
         }
 
         if ((state != GameState.WAITING) && (state != GameState.ONGOING)) {
@@ -236,11 +225,11 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.playerColour = colour;
 
         if (playerColour == 0)  {
-            capturedPiecesPanelWhite.setBounds(opponentCapturedPiecesBounds);
-            capturedPiecesPanelBlack.setBounds(playerCapturedPiecesBounds);
+            capturedPiecesPanelWhite.setBounds(OPPONENT_CAPTURED_PIECES_BOUNDS);
+            capturedPiecesPanelBlack.setBounds(PLAYER_CAPTURED_PIECES_BOUNDS);
         } else {
-            capturedPiecesPanelWhite.setBounds(playerCapturedPiecesBounds);
-            capturedPiecesPanelBlack.setBounds(opponentCapturedPiecesBounds);
+            capturedPiecesPanelWhite.setBounds(PLAYER_CAPTURED_PIECES_BOUNDS);
+            capturedPiecesPanelBlack.setBounds(OPPONENT_CAPTURED_PIECES_BOUNDS);
         }
         this.revalidate();
     }

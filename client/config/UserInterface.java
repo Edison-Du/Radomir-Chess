@@ -290,6 +290,8 @@ public class UserInterface {
 
     // Different sizes of fonts deriving from Orkney
     public static Font orkney12;
+    public static Font orkney14;
+    public static Font orkney16;
     public static Font orkney18;
     public static Font orkney24;
     public static Font orkney30;
@@ -301,6 +303,8 @@ public class UserInterface {
     public static void loadFonts() {
         if (readFonts()) {
             orkney12 = orkney.deriveFont(Font.PLAIN, 12);
+            orkney14 = orkney.deriveFont(Font.PLAIN, 14);
+            orkney16 = orkney.deriveFont(Font.PLAIN, 16);
             orkney18 = orkney.deriveFont(Font.PLAIN, 18);
             orkney24 = orkney.deriveFont(Font.PLAIN, 24);
             orkney30 = orkney.deriveFont(Font.PLAIN, 30);

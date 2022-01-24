@@ -22,25 +22,10 @@ public class MultiplayerPanel extends AbstractGamePanel {
     private String currentClient, otherClient;
     private boolean isAlone;
 
-    // Swing
-    private JLabel lobbyLabel;
-    private JLabel otherClientLabel;
-
 
     public MultiplayerPanel() {
 
-        // CHESS GAME
         setGameState(GameState.WAITING);
-
-        this.hostName = new JLabel();
-        this.hostName.setForeground(UserInterface.TEXT_COLOUR);
-        this.hostName.setBounds(100, 0, 400, 200);
-        this.hostName.setFont(UserInterface.USERNAME_FONT);
-        this.add(hostName);
-
-        // opponentProposalPanel = new OpponentProposalPanel(this);
-        // opponentProposalPanel.setBounds(435, 20, 165, 200);
-        // opponentProposalPanel.setProposalText("Accept draw?");
     }
 
     public void setLobbyCode(String code) {
@@ -61,8 +46,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     public void setClient(String clientName) {
         this.currentClient = clientName;
-
-
         this.playerLabel.setText(clientName);
     }
 

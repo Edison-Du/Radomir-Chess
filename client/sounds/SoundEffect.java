@@ -7,6 +7,7 @@ import javax.sound.sampled.Clip;
 
 import chesslogic.ChessGame;
 import config.PathsConsts;
+import config.UserInterface;
 
 public class SoundEffect {
 
@@ -30,50 +31,52 @@ public class SoundEffect {
     }
 
     public static void playSound(String t1, String t2, String p, ChessGame game) {
-        SoundEffect se = new SoundEffect();
-        chesslogic.Board current = game.getCurrentPos();
-        boolean soundChosen = false;
+        if (UserInterface.soundOn) {
+            SoundEffect se = new SoundEffect();
+            chesslogic.Board current = game.getCurrentPos();
+            boolean soundChosen = false;
 
-        if(t1.equals("")) {
-            return;
-        }
+            if(t1.equals("")) {
+                return;
+            }
 
-        System.out.println("checkingpoint 1");
+            System.out.println("checkingpoint 1");
 
-        game.move(t1, t2, p);
-        if(game.stalemate()) {
-            se.setFile(PathsConsts.STALEMATE);
-            game.undo();
-            soundChosen = true;
-        } else if(current.getKings()[0].isChecked(current, current.getKingTiles()[0]) || current.getKings()[1].isChecked(current, current.getKingTiles()[1])) {
-            if(game.whiteWins() || game.blackWins()) {
-                se.setFile(PathsConsts.CHECKMATE);
+            game.move(t1, t2, p);
+            if(game.stalemate()) {
+                se.setFile(PathsConsts.STALEMATE);
                 game.undo();
                 soundChosen = true;
-            } else {
-                se.setFile(PathsConsts.CHECK);
+            } else if(current.getKings()[0].isChecked(current, current.getKingTiles()[0]) || current.getKings()[1].isChecked(current, current.getKingTiles()[1])) {
+                if(game.whiteWins() || game.blackWins()) {
+                    se.setFile(PathsConsts.CHECKMATE);
+                    game.undo();
+                    soundChosen = true;
+                } else {
+                    se.setFile(PathsConsts.CHECK);
+                    game.undo();
+                    soundChosen = true;
+                }
+            }
+
+            System.out.println("checkingpoint 2");
+
+            if(!soundChosen) {
                 game.undo();
-                soundChosen = true;
+
+                System.out.println("checkingpoint 3");
+
+                if(game.getCurrentPos().getTile(t1).getPiece().getName().equals("K") && Math.abs((t1.charAt(0) - '0') - (t2.charAt(0) - '0')) == 2) {
+                    se.setFile(PathsConsts.CASTLE);
+                } else if(game.getCurrentPos().getTile(t2).getPiece() != null) {
+                    System.out.println("checking the tile: " + game.getCurrentPos().getTile(t2).getPiece());
+                    se.setFile(PathsConsts.CAPTURE);
+                } else {
+                    se.setFile(PathsConsts.MOVE);
+                }
             }
+
+            se.play();
         }
-
-        System.out.println("checkingpoint 2");
-
-        if(!soundChosen) {
-            game.undo();
-
-            System.out.println("checkingpoint 3");
-
-            if(game.getCurrentPos().getTile(t1).getPiece().getName().equals("K") && Math.abs((t1.charAt(0) - '0') - (t2.charAt(0) - '0')) == 2) {
-                se.setFile(PathsConsts.CASTLE);
-            } else if(game.getCurrentPos().getTile(t2).getPiece() != null) {
-                System.out.println("checking the tile: " + game.getCurrentPos().getTile(t2).getPiece());
-                se.setFile(PathsConsts.CAPTURE);
-            } else {
-                se.setFile(PathsConsts.MOVE);
-            }
-        }
-
-        se.play();
     }
 }

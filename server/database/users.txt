@@ -1,9 +1,0 @@
-
-sdf fd 0 0 1 0
-SuperIdol DeXiaoRong 0 0 1 0
-1234 12344 0 0 1 0
-Radomir Grigorov 0 0 1 0
-12345 12345 3 1 0 0
-nicky pants 0 0 1 0
-abcdefghijklmnop long 0 0 1 0
-Sussy Baka 0 0 1 0

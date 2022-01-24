@@ -20,14 +20,20 @@ public class ShutdownHook extends Thread {
     public void run() {
         // Saves user data before shutting down
         try {
+            fileWriter = new FileWriter(PathConsts.USERS);
+            int numAccounts = database.size();
             synchronized(database) {
-                fileWriter = new FileWriter(PathConsts.USERS);
-                for (Map.Entry<String, User> user : this.database.entrySet()) {
-                    fileWriter.write(user.getValue().toString());
+                for (Map.Entry<String, User> user : database.entrySet()) {
+                    if (numAccounts == 0) {
+                        fileWriter.write(user.getValue().toString().trim());
+                    } else {
+                        fileWriter.write(user.getValue().toString());
+                    }
+                    numAccounts--;
                 }
                 fileWriter.close();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

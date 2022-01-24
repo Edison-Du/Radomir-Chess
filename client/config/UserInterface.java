@@ -69,7 +69,7 @@ public class UserInterface {
 
     // Settings
     public static final Font SETTINGS_FONT = new Font("Serif", Font.PLAIN, 18);
-    public static final int NUM_SETTINGS = 4;
+    public static final int NUM_SETTINGS = 5;
     public static boolean changeMade = false;
 
     // Game board
@@ -153,6 +153,8 @@ public class UserInterface {
     public static Color ON_COLOUR = new Color(7, 107, 29);
     public static Color OFF_COLOUR = new Color(131, 35, 29);
 
+    // Audio
+    public static boolean soundOn = true;
 
     // Borders
     public static final Border EMPTY_BORDER = new EmptyBorder(0, 0, 0, 0);
@@ -246,6 +248,19 @@ public class UserInterface {
         }
     }
 
+    public static void toggleSound(CustomButton button) {
+        soundOn ^= true;
+        if (soundOn) {
+            button.setText("Sound On");
+            button.setBackground(ON_COLOUR);
+            button.setHoverColor(UserInterface.ON_COLOUR.brighter());
+        } else {
+            button.setText("Sound Off");
+            button.setBackground(OFF_COLOUR);
+            button.setHoverColor(UserInterface.OFF_COLOUR.brighter());
+        }
+    }
+
     /**
      * returns all the current settings states
      * @return int array containing state of all settings
@@ -256,6 +271,7 @@ public class UserInterface {
         settings[1] = activeSetNum;
         settings[2] = highlightToggle?1:0;
         settings[3] = activeHighlight;
+        settings[4] = soundOn?1:0;
         return settings;
     }
 

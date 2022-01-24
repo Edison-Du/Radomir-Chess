@@ -2,6 +2,8 @@ package chesslogic;
 
 import java.util.HashSet;
 
+import config.UserInterface;
+
 public class Bishop extends Piece {
 
     /**
@@ -10,7 +12,7 @@ public class Bishop extends Piece {
      * @
      */
     public Bishop(int col) {
-        super(col, "B", 40, getImage("B", col));
+        super(col, "B", 40, UserInterface.PIECES.get(col + 2));
     }
     
     @Override

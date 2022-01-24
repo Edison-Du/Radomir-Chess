@@ -16,7 +16,7 @@ public class CapturedPiecesPanel extends ContentPanel {
 
     public int playerColour;
 
-    public GameResultOverlay gameResultOverlay;
+    // public GameResultOverlay gameResultOverlay;
 
     public Stack<Piece> capturedPieces;
 
@@ -38,13 +38,12 @@ public class CapturedPiecesPanel extends ContentPanel {
         capturedPieceCount = new int[5];
 
         this.pieceImages = new Image[]{
-            Piece.getImage("p", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
-            Piece.getImage("B", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
-            Piece.getImage("N", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
-            Piece.getImage("R", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
-            Piece.getImage("Q", playerColour).getScaledInstance(30, 30, java.awt.Image.SCALE_FAST)
+            UserInterface.PIECES.get(this.playerColour)[UserInterface.activeSetNum].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
+            UserInterface.PIECES.get(this.playerColour + 2)[UserInterface.activeSetNum].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
+            UserInterface.PIECES.get(this.playerColour + 4)[UserInterface.activeSetNum].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
+            UserInterface.PIECES.get(this.playerColour + 6)[UserInterface.activeSetNum].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
+            UserInterface.PIECES.get(this.playerColour + 8)[UserInterface.activeSetNum].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST)
         };
-
     }
 
     public void setChessGame(ChessGame game) {

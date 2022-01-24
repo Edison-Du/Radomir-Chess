@@ -7,6 +7,9 @@ import javax.swing.border.EmptyBorder;
 import config.UserInterface;
 
 public class PlayMenuButton extends CustomButton {
+
+    private final EmptyBorder BUTTON_MARGIN = new EmptyBorder(15, 0, 0, 0);
+
     public PlayMenuButton (String text, int x, int y) {
         super(text);
         this.setBounds(x, y, UserInterface.MENU_BUTTON_WIDTH, UserInterface.MENU_BUTTON_HEIGHT);
@@ -18,6 +21,8 @@ public class PlayMenuButton extends CustomButton {
 
         this.setRound(true);
         this.setBorderRadius(UserInterface.MENU_BUTTON_RADIUS);
-        this.setBorder(new EmptyBorder(0,0,0,0));
+        this.setBorder(BUTTON_MARGIN);
+
+        this.setFont(UserInterface.orkney36);
     }
 }

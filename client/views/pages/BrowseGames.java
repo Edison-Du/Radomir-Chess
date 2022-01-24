@@ -12,9 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-// import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,10 +20,12 @@ import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
 
 import config.MessageTypes;
+import config.Page;
 import config.UserInterface;
 import network.Lobby;
 import network.Message;
 import network.ServerConnection;
+import views.Window;
 import views.components.ContentPanel;
 import views.components.PanelButton;
 
@@ -43,17 +43,23 @@ public class BrowseGames extends ContentPanel implements ActionListener {
     private static int lobbyNumber;
     private static String joinGameCode;
 
-    public BrowseGames() {
+    private PanelButton backButton;
+    private Window window;
+
+    public BrowseGames(Window window) {
+
+        this.window = window;
     
         lobbyListPanel = new JPanel();
-        lobbyListPanel.setBounds(0, 0, UserInterface.CONTENT_WIDTH / 2 + 180, UserInterface.WINDOW_HEIGHT);
+        lobbyListPanel.setBounds(320, 0, UserInterface.CONTENT_WIDTH - 320, UserInterface.WINDOW_HEIGHT);
         lobbyListPanel.setLayout(new BoxLayout(lobbyListPanel, BoxLayout.X_AXIS));
+        
         lobbyList = new JList<>(allLobbies);
         lobbyList.setBackground(UserInterface.FRAME_COLOUR);
         lobbyList.setForeground(UserInterface.TEXT_COLOUR);
         lobbyList.setFont(new Font("Serif", Font.PLAIN, 14));
         lobbyList.setFixedCellHeight(30);
-        lobbyList.setBorder(new EmptyBorder(10,10, 10, 10));
+        lobbyList.setBorder(new EmptyBorder(5, 5, 5, 5));
         lobbyList.setCellRenderer(getRenderer());
         lobbyList.addMouseListener(new MouseAdapter() {
             public void mouseReleased (MouseEvent e) {
@@ -70,18 +76,21 @@ public class BrowseGames extends ContentPanel implements ActionListener {
 
         joinLabel.setText("Join Lobby: ");
         joinLabel.setForeground(UserInterface.TEXT_COLOUR);
-        joinLabel.setFont(new Font("Serif", Font.ITALIC, 36));
-        joinLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 + 215, UserInterface.WINDOW_HEIGHT / 2 - 240, 400, 400);
+        joinLabel.setFont(new Font("Serif", Font.PLAIN, 36));
+        joinLabel.setBounds(30, UserInterface.WINDOW_HEIGHT / 2 - 240, 400, 400);
         this.add(joinLabel);
 
         joinButton = new PanelButton(
-            "JOIN",
-            715,
+            "Join",
+            20,
             400 
         );
         joinButton.addActionListener(this);
-        joinButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(joinButton);
+
+        this.backButton = new PanelButton("Back", UserInterface.BACK_BUTTON_X, UserInterface.BACK_BUTTON_Y);
+        this.backButton.addActionListener(this);
+        this.add(backButton);
     }
 
     @Override
@@ -90,6 +99,8 @@ public class BrowseGames extends ContentPanel implements ActionListener {
             Message message = new Message(MessageTypes.JOIN_GAME);
             message.addParam(joinGameCode);
             ServerConnection.sendMessage(message);
+        } else if (e.getSource() == backButton) {
+            window.changePage(Page.PLAY);
         }
         this.revalidate();
         this.repaint();
@@ -111,10 +122,9 @@ public class BrowseGames extends ContentPanel implements ActionListener {
     public void setLobbyList(ArrayList<Lobby> lobbies) {
         this.lobbies = lobbies;
         joinLabel.setText("Join Lobby: ");
-        lobbyList.setSelectedIndex(-1);
         joinGameCode = "";
+        lobbyList.setSelectedIndex(-1);
         allLobbies.clear();
-        joinButton.doClick();
         for (Lobby lobby : lobbies) {
             allLobbies.addElement(lobby.getDisplayLobbyInfo());
         }

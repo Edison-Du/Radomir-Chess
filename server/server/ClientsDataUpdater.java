@@ -2,10 +2,10 @@ package server;
 
 import config.Consts;
 
-public class ClientsOnlineUpdater extends Thread {
+public class ClientsDataUpdater extends Thread {
     private ClientHandler clientHandler;
 
-    public ClientsOnlineUpdater(ClientHandler clientHandler) {
+    public ClientsDataUpdater(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
     }
 
@@ -14,6 +14,7 @@ public class ClientsOnlineUpdater extends Thread {
         try { 
             while (clientHandler.isAlive()) {
                 clientHandler.updatePlayersOnline();
+                clientHandler.browseGames();
                 Thread.sleep(Consts.UPDATE_CLIENT_INTERVAL);
             }
         } catch (Exception e) {
@@ -21,4 +22,3 @@ public class ClientsOnlineUpdater extends Thread {
         }
     }
 }
-

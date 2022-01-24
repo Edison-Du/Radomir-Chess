@@ -2,6 +2,8 @@ package chesslogic;
 
 import java.util.HashSet;
 
+import config.UserInterface;
+
 public class Rook extends Piece {
     
     /**
@@ -10,7 +12,7 @@ public class Rook extends Piece {
      * @
      */
     public Rook(int col) {
-        super(col, "R", 60, getImage("R", col));
+        super(col, "R", 60, UserInterface.PIECES.get(col + 6));
     }
     
     @Override

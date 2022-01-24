@@ -16,6 +16,7 @@ public class User {
     private int chessSet;
     private int highlightsOn;
     private int highlight;
+    private int soundOn;
 
     /**
      * User object constructor
@@ -27,6 +28,7 @@ public class User {
         this.chessSet = settingsPreferences[1];
         this.highlightsOn = settingsPreferences[2];
         this.highlight = settingsPreferences[3];
+        this.soundOn = settingsPreferences[4];
     }
 
     /**
@@ -104,6 +106,21 @@ public class User {
     }
 
     /**
+     * returns whether sound is on or not (1 or 0 as boolean) as string
+     */
+    public String getSoundStatus() {
+        return Integer.toString(this.soundOn);
+    }
+
+    /**
+     * updates the sound status variable
+     * @param status
+     */
+    public void setSoundStatus(String status) {
+        this.soundOn = Integer.parseInt(status);
+    }
+
+    /**
      * Parse message containing entire data set for user object
      * @param message
      */
@@ -133,13 +150,13 @@ public class User {
     @Override
     public String toString() {
         return (
-            "\n" +
             getUsername() + " " +
             getPassword() + " " +
             getBoard() + " " +
             getChessSet() + " " +
             getHighlightStatus() + " " +
-            getHighlight()
+            getHighlight() + " " + 
+            getSoundStatus() + "\n"
         );
     }
 }

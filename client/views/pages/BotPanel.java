@@ -7,9 +7,12 @@ import chesslogic.*;
 import config.GameState;
 import config.Page;
 import config.UserInterface;
+import sounds.SoundEffect;
+
 import java.awt.Color;
 import views.Window;
 import views.chess.ThreadBotP1;
+import config.PathsConsts;
 
 public class BotPanel extends AbstractGamePanel {
 
@@ -29,6 +32,7 @@ public class BotPanel extends AbstractGamePanel {
 
         this.window = window;
 
+        lobbyInfoPanel.setlobbyTitle("Bot Game");
         resetGame();
     }
 
@@ -45,7 +49,7 @@ public class BotPanel extends AbstractGamePanel {
 
         setPlayerColour((int)(Math.random() * 2));
 
-        depthSearchBot = new RadomirBot(5, (getPlayerColour() + 1) % 2, 4);
+        depthSearchBot = new DepthSearchBotP2(3, (getPlayerColour() + 1) % 2);
 
         // Bot goes first
         if (getPlayerColour() == 1) {
@@ -59,6 +63,7 @@ public class BotPanel extends AbstractGamePanel {
     
     @Override
     public void processMove(String tile1, String tile2, String promotion) {
+
         if(!chessGame.getCurrentPos().ended()) {
 
             if(!tile1.equals("")) {
@@ -66,7 +71,6 @@ public class BotPanel extends AbstractGamePanel {
             }
 
             // bot move used to be here
-            System.out.println("execute the muthafuckin bot");
             ThreadBotP1 newBot = new ThreadBotP1(chessGame, chessGameClone, depthSearchBot, movesPanel, this);
             newBot.execute();
 
@@ -162,4 +166,5 @@ public class BotPanel extends AbstractGamePanel {
         setOpponentPlayAgain(true); // Bot always plays again
         boardPanel.gameResultOverlay.setMessage("You have resigned");
     }
+
 }

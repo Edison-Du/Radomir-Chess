@@ -5,11 +5,8 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-// import chesslogic.ChessGame;
 import config.UserInterface;
-import java.awt.Color;
 import config.Page;
-import views.components.ContentPanel;
 import views.navigation.NavigationBar;
 import views.pages.*;
 
@@ -40,11 +37,16 @@ public class Window extends JFrame {
 
     public Window ()  {
         
+        // Initialize fonts
+        UserInterface.loadFonts();
+
+        UserInterface.readAllPieceImages();
+
         // Initialize panels
         homePagePanel = new HomePage(this);
-        joinGamePanel = new JoinGame();
+        joinGamePanel = new JoinGame(this);
         gameSetupPanel = new GameSetup(this);
-        browseGamesPanel = new BrowseGames();
+        browseGamesPanel = new BrowseGames(this);
         gamePanel = new MultiplayerPanel();
         settingsPanel = new Settings(this);
         aboutPanel = new About();
@@ -122,6 +124,7 @@ public class Window extends JFrame {
             }
     
         } else if (currentPage == Page.JOIN_GAME) {
+            joinGamePanel.removeError();
             content = joinGamePanel;
         
         } else if (currentPage == Page.GAME_SETUP) {
@@ -138,7 +141,6 @@ public class Window extends JFrame {
             content = playBotPanel;
 
         } else if (currentPage == Page.GAME) {
-            // Reset game panel
             content = gamePanel;
 
         } else if (currentPage == Page.SETTINGS) {

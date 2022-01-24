@@ -17,6 +17,7 @@ import chesslogic.Tile;
 import chesslogic.Constants;
 import config.PathsConsts;
 import config.UserInterface;
+import sounds.SoundEffect;
 import views.components.ContentPanel;
 import views.pages.AbstractGamePanel;
 
@@ -74,6 +75,8 @@ public class ChessBoardPanel extends ContentPanel {
         int posY = (t2.charAt(1) - '0') - 1;
 
         gamePanel.movesPanel.addMove(move);
+
+        SoundEffect.playSound(t1, t2, p, game);
 
         this.game.move(t1, t2, p);
     }
@@ -207,4 +210,5 @@ public class ChessBoardPanel extends ContentPanel {
             }
         }
     }
+
 }

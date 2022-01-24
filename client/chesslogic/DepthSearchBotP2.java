@@ -15,9 +15,11 @@ public class DepthSearchBotP2 extends Bot {
     private int[][] placementPoints;
     private int[] directionXOne, directionYOne, directionXTwo, directionYTwo;
     private String move;
+    private OpeningTree opening;
 
     
-    public DepthSearchBotP2(int depth, int side) {
+    public DepthSearchBotP2(int depth, int side){
+        opening = new OpeningTree();
         this.depth = depth;
         this.side = side;
         placementPoints = new int[8][8];
@@ -189,6 +191,14 @@ public class DepthSearchBotP2 extends Bot {
     }
 
     public String nextMove(ChessGame g){
+        if (g.getStringMoves().size() == 0) return opening.getMove("start").substring(0, 4) + " ";
+
+        String lastMove = g.getStringMoves().peek().substring(0, 4) + "-" + (g.getCurrentPos().getTurn()-1);
+        if (opening.checkMove(lastMove)){
+            System.out.println("LETSGOO");
+            return opening.getMove(lastMove).substring(0, 4) + " ";
+        }
+
         long start = System.currentTimeMillis();
         System.out.println("executed the next move");
         this.search(g, this.depth, -999999, 999999, 0);

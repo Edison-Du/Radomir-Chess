@@ -59,6 +59,7 @@ public class Message {
         message.addParam(user.getChessSet());
         message.addParam(user.getHighlightStatus());
         message.addParam(user.getHighlight());
+        message.addParam(user.getSoundStatus());
     }
 
     public boolean validateString(String str) {

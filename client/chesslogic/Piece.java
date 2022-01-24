@@ -23,8 +23,8 @@ public abstract class Piece {
     private int colour;
     private int turnMoved;
     private String name;
-    private BufferedImage image;
-    private Image smallImage;
+    private BufferedImage[] images;
+    private Image smallImages[];
     private int points;
     
     /**
@@ -32,11 +32,15 @@ public abstract class Piece {
      * @param col colour of the piece
      * @param name name of the piece (fixed depending on the type of piece)
      */
-    Piece(int col, String name, int points, BufferedImage image) {
+    Piece(int col, String name, int points, BufferedImage[] images) {
         this.colour = col;
         this.name = name;
-        this.image = image;
-        this.smallImage = image.getScaledInstance(30, 30, java.awt.Image.SCALE_FAST);
+        this.images = new BufferedImage[UserInterface.NUM_SETS];
+        this.smallImages = new Image[UserInterface.NUM_SETS];
+        for (int i = 0; i < UserInterface.NUM_SETS; i++) {
+            this.images[i] = images[i];
+            this.smallImages[i] = images[i].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST);
+        }
         this.turnMoved = 0;
         this.points = points;
     }
@@ -57,19 +61,6 @@ public abstract class Piece {
     public void move(Tile curPos, Tile nextPos) {
         curPos.setPiece(null);
         nextPos.setPiece(this);
-    }
-
-    /**
-     * return the image of the piece
-     * @return BufferedImage of piece
-     */
-    public static BufferedImage getImage(String piece, int colour) {
-        try {
-            return ImageIO.read(new File(UserInterface.activePieceSet + piece + colour + PathsConsts.PNG_FILE));
-        } catch(IOException e) {
-            System.out.println("Piece file not found");
-        }
-        return null;
     }
 
     /**
@@ -97,9 +88,9 @@ public abstract class Piece {
      * @return the image of the piece
      */
     public BufferedImage getImage() {
-        return this.image;
+        return this.images[UserInterface.activeSetNum];
     }
-    
+
     /**
      * get whether this piece has moved yet or not
      * @return true if the piece has move, false otherwise
@@ -125,7 +116,7 @@ public abstract class Piece {
     }
 
     public Image getSmallImage() {
-        return smallImage;
+        return smallImages[UserInterface.activeSetNum];
     }
     
     public String toString() {

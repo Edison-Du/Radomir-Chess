@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.io.PrintWriter;
-import config.Consts;
 import config.MessageTypes;
 import game.Lobby;
 
@@ -17,7 +16,7 @@ public class ClientHandler extends Thread {
     
     // General information
     private static int numClients = 0;
-    private static int clientsOnline = 0;
+    public static int clientsOnline = 0;
     private int clientNum;
     private String clientName;
     private boolean userActive;
@@ -44,7 +43,7 @@ public class ClientHandler extends Thread {
         clientNum = ++ClientHandler.numClients;
         clientsOnline++;
         this.server = server;
-        this.clientName = "Guest#" + this.clientNum;
+        this.clientName = "Guest " + this.clientNum;
         this.userActive = true;
         
         try {
@@ -97,7 +96,7 @@ public class ClientHandler extends Thread {
     @Override   
     public void run() {
         try {
-            Thread thread = new ClientsOnlineUpdater(this);
+            Thread thread = new ClientsDataUpdater(this);
             thread.start();
             while (userActive) {
                 if (input.ready()) {
@@ -246,7 +245,7 @@ public class ClientHandler extends Thread {
     }
 
     private void logoutUser(Message message) {
-        this.clientName = "Guest #" + clientNum;
+        this.clientName = "Guest " + clientNum;
         sendMessage(message);
     }
 
@@ -262,8 +261,9 @@ public class ClientHandler extends Thread {
             sendMessage(errorMessage);
 
         } else if (!lobby.setGuest(this)) {
-            Message gameFull = new Message(MessageTypes.GAME_FULL);
-            sendMessage(gameFull);
+            Message errorMessage = new Message(MessageTypes.JOIN_ERROR);
+            errorMessage.addParam("Game is full");
+            sendMessage(errorMessage);
 
         } else {
             Message joinedMessage = new Message(MessageTypes.JOINED_GAME);
@@ -346,11 +346,6 @@ public class ClientHandler extends Thread {
         lobby.setJoinable(true);
     }
 
-    private void browseGames() {
-        Message message = server.getLobbyManager().getPublicLobbyInfo();
-        this.sendMessage(message);
-    }
-
     private void updatePreferences(Message message) {
         String username = message.getParam(0);
         int[] updatedSettings = User.settingsToArray(message);
@@ -365,6 +360,11 @@ public class ClientHandler extends Thread {
         }
         // Echo the message back to let client know we heard the message
         sendMessage(message);
+    }
+
+    public void browseGames() {
+        Message message = server.getLobbyManager().getPublicLobbyInfo();
+        this.sendMessage(message);
     }
 
     public void updatePlayersOnline() {

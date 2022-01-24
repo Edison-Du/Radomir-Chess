@@ -27,10 +27,11 @@ public class ConnectionHandler extends Thread {
             while (isActive) {
                 if (ServerConnection.hasMessage()) {
                     Message message = ServerConnection.getMessage();
-                    if (!message.getType().equals(MessageTypes.GET_PLAYERS_ONLINE)) {
+                    evalMessage(message);
+                    // TODO we can remove this
+                    if (!message.getType().equals(MessageTypes.GET_PLAYERS_ONLINE) && !message.getType().equals(MessageTypes.DISPLAY_GAMES)) {
                         System.out.println("Received message: " + message.getText());
                     }
-                    evalMessage(message);
                 }
             }
         } catch (Exception e) {
@@ -54,7 +55,7 @@ public class ConnectionHandler extends Thread {
             joinGame(message);
 
         } else if (message.getType().equals(MessageTypes.JOIN_ERROR)) {
-            // TODO add join error message
+            processJoinError(message);
 
         } else if (message.getType().equals(MessageTypes.GUEST_JOINED)) {
             guestJoined(message);
@@ -130,7 +131,12 @@ public class ConnectionHandler extends Thread {
 
     public void setClientInfo(Message message) {
         clientNum = Integer.parseInt(message.getParam(0)); 
-        clientName = "Guest #" + clientNum;
+        clientName = "Guest " + clientNum;
+        window.navigationBar.setUsername(clientName);
+    }
+
+    public void processJoinError(Message message) {
+        window.joinGamePanel.displayError(message.getParam(0));
     }
     
     public void processWhiteCheckmate(Message message) {
@@ -171,7 +177,8 @@ public class ConnectionHandler extends Thread {
     }
 
     public void logout() {
-        clientName = "Guest #" + clientNum;
+        clientName = "Guest " + clientNum;
+        window.navigationBar.setUsername(clientName);
 
         window.loginPanel.clearError();
         window.setLoggedIn(false);
@@ -305,7 +312,7 @@ public class ConnectionHandler extends Thread {
     }
 
     public void setPlayersOnline(Message message) {
-        String playersOnline = message.getParam(0);
+        int playersOnline = Integer.parseInt(message.getParam(0));
         window.navigationBar.setPlayersOnline(playersOnline);
     }
 }

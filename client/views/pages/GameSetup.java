@@ -1,9 +1,9 @@
 package views.pages;
 
-import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 
+import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import config.UserInterface;
@@ -17,6 +17,13 @@ import config.Page;
 
 public class GameSetup extends ContentPanel implements ActionListener {
 
+    private final int INSTRUCTION_LABEL_X = UserInterface.CONTENT_WIDTH / 2 - 140;
+    private final int INSTRUCTION_LABEL_Y = UserInterface.WINDOW_HEIGHT / 2 - 95;
+    private final int INSTRUCTION_LABEL_WIDTH = 280;
+    private final int INSTRUCTION_LABEL_HEIGHT = 50;
+    private final int PUBLIC_BUTTON_Y = 330;
+    private final int PRIVATE_BUTTON_Y = 420;
+
     private Window window;
     private JLabel instructionsLabel = new JLabel();
     private PanelButton createPublicLobbyBtn;
@@ -27,47 +34,44 @@ public class GameSetup extends ContentPanel implements ActionListener {
         this.window = window;
         this.setLayout(null);
 
-        instructionsLabel.setFont(UserInterface.TEXT_FONT_1);
-        instructionsLabel.setText("Choose Lobby Type: ");
+        instructionsLabel.setFont(UserInterface.orkney30);
+        instructionsLabel.setText("Choose Lobby Type");
         instructionsLabel.setForeground(UserInterface.TEXT_COLOUR);
-        instructionsLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 115, UserInterface.WINDOW_HEIGHT / 2 - 95, 280, 30);
+        instructionsLabel.setBounds(INSTRUCTION_LABEL_X, INSTRUCTION_LABEL_Y, INSTRUCTION_LABEL_WIDTH, INSTRUCTION_LABEL_HEIGHT);
         this.add(instructionsLabel);
 
-        //change and put the font in button class
         createPublicLobbyBtn = new PanelButton(
             "Public",
-            UserInterface.CONTENT_WIDTH / 2 - 140,
-            330
+            INSTRUCTION_LABEL_X,
+            PUBLIC_BUTTON_Y
         );
         createPublicLobbyBtn.addActionListener(this);
-        createPublicLobbyBtn.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(createPublicLobbyBtn);
 
-        //change constants
         createPrivateLobbyBtn = new PanelButton(
             "Private",
-            UserInterface.CONTENT_WIDTH / 2 - 140,
-            420
+            INSTRUCTION_LABEL_X,
+            PRIVATE_BUTTON_Y
         );
         createPrivateLobbyBtn.addActionListener(this);
-        createPrivateLobbyBtn.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(createPrivateLobbyBtn);
 
-        this.backButton = new PanelButton("Back", 40, 40);
+        this.backButton = new PanelButton("Back", UserInterface.BACK_BUTTON_X, UserInterface.BACK_BUTTON_Y);
         this.backButton.addActionListener(this);
-        this.backButton.setFont(UserInterface.PLAY_BUTTONS_FONT);
         this.add(backButton);
     }
 
-    //@Override
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
             window.changePage(Page.PLAY);
+
         } else if (e.getSource() == createPublicLobbyBtn) {
             Message createLobby = new Message(MessageTypes.CREATE_GAME);
             createLobby.addParam("public");
             window.changePage(Page.GAME);
             ServerConnection.sendMessage(createLobby);
+
         } else if (e.getSource() == createPrivateLobbyBtn) {
             Message createLobby = new Message(MessageTypes.CREATE_GAME);
             createLobby.addParam("private");

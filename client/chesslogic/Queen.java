@@ -2,6 +2,8 @@ package chesslogic;
 
 import java.util.HashSet;
 
+import config.UserInterface;
+
 public class Queen extends Piece {
     
     /**
@@ -10,7 +12,7 @@ public class Queen extends Piece {
      * @
      */
     public Queen(int col) {
-        super(col, "Q", 120, getImage("Q", col));
+        super(col, "Q", 120, UserInterface.PIECES.get(col + 8));
     }
     
     @Override

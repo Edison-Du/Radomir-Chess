@@ -205,7 +205,6 @@ public class ConnectionHandler extends Thread {
         window.setInGame(true);
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setClient(clientName);
-        window.gamePanel.setHost(true);
 
         window.gamePanel.resetGame();
         window.gamePanel.resetChat();
@@ -221,7 +220,7 @@ public class ConnectionHandler extends Thread {
         window.setInGame(true);
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setClient(clientName);
-        window.gamePanel.setHost(false);
+
         window.gamePanel.addOther(hostName);
         window.gamePanel.setLobbyVisibility(visibility);
 
@@ -240,9 +239,8 @@ public class ConnectionHandler extends Thread {
     }
 
     public void opponentLeft(Message message) {
-        // TODO Move this to multiplayerpanel so it gets the actual name of hte opponent
-        window.gamePanel.messagePanel.addTextMessage("Opponent has left lobby");
-
+        String opponentName = window.gamePanel.getOpponent();
+        window.gamePanel.messagePanel.addTextMessage(opponentName + " has left the lobby.");
 
         if (window.gamePanel.getGameState() == GameState.ONGOING) {
             processOpponentResignation();

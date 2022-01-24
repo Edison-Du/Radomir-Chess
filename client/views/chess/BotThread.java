@@ -3,8 +3,6 @@ package views.chess;
 import javax.swing.SwingWorker;
 
 import chesslogic.ChessGame;
-import config.PathsConsts;
-import sounds.SoundEffect;
 import config.GameState;
 import chesslogic.Bot;
 import views.pages.BotPanel;
@@ -14,7 +12,7 @@ import views.pages.BotPanel;
  * create a queue of moves & feed the moves into different threads, use alpha-beta pruning on each branch
  */
 
-public class ThreadBotP1 extends SwingWorker<String, Void> {
+public class BotThread extends SwingWorker<String, Void> {
 
     private ChessGame chessGame;
     private ChessGame chessGameClone;
@@ -23,7 +21,7 @@ public class ThreadBotP1 extends SwingWorker<String, Void> {
     private BotPanel gamePanel;
     private String botMove;
 
-    public ThreadBotP1(ChessGame chessGame, ChessGame chessGameClone, Bot bot, MovesPanel movesPanel, BotPanel gamePanel) {
+    public BotThread(ChessGame chessGame, ChessGame chessGameClone, Bot bot, MovesPanel movesPanel, BotPanel gamePanel) {
         this.chessGame = chessGame;
         this.chessGameClone = chessGameClone;
         this.bot = bot;
@@ -42,9 +40,6 @@ public class ThreadBotP1 extends SwingWorker<String, Void> {
             System.out.println(chessGame.toString());
             
             System.out.println("finished next move");
-
-            int posX = (botMove.charAt(2) - 'a');
-            int posY = (botMove.charAt(3) - '0') - 1;
 
             System.out.println(botMove);
             System.out.println("Bot moved " + botMove.substring(0, 2) + ", " + botMove.substring(2, 4));

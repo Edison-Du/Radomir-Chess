@@ -1,7 +1,6 @@
 package chesslogic;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class DepthSearchBotP1 extends Bot {
     

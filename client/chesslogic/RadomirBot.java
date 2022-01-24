@@ -3,7 +3,6 @@ package chesslogic;
 //failed experiment
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.lang.InterruptedException;
 

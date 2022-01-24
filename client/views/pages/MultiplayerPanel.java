@@ -10,11 +10,7 @@ import network.ServerConnection;
 
 public class MultiplayerPanel extends AbstractGamePanel {
 
-    private String lobbyCode = "";
-    private String lobbyVisibility = "";
-    private boolean isHost;
-
-    private String currentClient, otherClient;
+    private String otherClient;
     private boolean isAlone;
 
 
@@ -24,23 +20,18 @@ public class MultiplayerPanel extends AbstractGamePanel {
     }
 
     public void setLobbyCode(String code) {
-        this.lobbyCode = code;
-        // lobbyLabel.setText(lobbyCode);
         lobbyInfoPanel.setlobbyTitle(code);
     }
 
     public void setLobbyVisibility(String visibility) {
-        this.lobbyVisibility = visibility;
-
         lobbyInfoPanel.setlobbyType(visibility);
     }
 
-    public void setHost(boolean isHost) {
-        this.isHost = isHost;
-    }
+    // public void setHost(boolean isHost) {
+    //     this.isHost = isHost;
+    // }
 
     public void setClient(String clientName) {
-        this.currentClient = clientName;
         this.playerLabel.setText(clientName);
     }
 
@@ -62,6 +53,10 @@ public class MultiplayerPanel extends AbstractGamePanel {
         messagePanel.addTextMessage(clientName + " has joined the lobby.");
 
         setGameState(GameState.ONGOING);
+    }
+
+    public String getOpponent() {
+        return this.otherClient;
     }
 
     // Text

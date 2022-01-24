@@ -31,8 +31,8 @@ public class Login extends ContentPanel implements ActionListener{
     private JLabel usernameLabel= new JLabel();
     private JLabel passwordLabel = new JLabel();
     private JLabel errorLabel = new JLabel();
-    private CustomTextField usernameField = new CustomTextField();
-    private CustomPasswordField passwordField = new CustomPasswordField();
+    private CustomTextField usernameField = new CustomTextField("Enter Username");
+    private CustomPasswordField passwordField = new CustomPasswordField("Enter Password");
     private PanelButton registerButton;
     private PanelButton loginButton;
     
@@ -55,7 +55,7 @@ public class Login extends ContentPanel implements ActionListener{
         this.add(usernameLabel);
 
         usernameField.setFont(UserInterface.orkney24);
-        usernameField.setPlaceholder("Enter Username");
+        usernameField.setPlaceholderColour(UserInterface.GAME_CHAT_TEXTFIELD_COLOUR);
         usernameField.setBorder(TEXT_FIELD_MARGIN);
         usernameField.setForeground(UserInterface.GAME_MOVES_HEADER_BACKGROUND);
         usernameField.setPlaceholderY(TEXT_FIELD_PLACEHOLDER_Y);
@@ -80,7 +80,7 @@ public class Login extends ContentPanel implements ActionListener{
         this.add(passwordLabel);
 
         passwordField.setFont(UserInterface.orkney24);
-        passwordField.setPlaceholder("Enter Password");
+        passwordField.setPlaceholderColour(UserInterface.GAME_CHAT_TEXTFIELD_COLOUR);
         passwordField.setFont(UserInterface.orkney24);
         passwordField.setBorder(TEXT_FIELD_MARGIN);
         passwordField.setForeground(UserInterface.GAME_MOVES_HEADER_BACKGROUND);

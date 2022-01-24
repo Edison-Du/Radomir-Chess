@@ -48,6 +48,7 @@ public class JoinGame extends ContentPanel implements ActionListener {
         this.add(joinGameLabel);
 
         joinGameField.setPlaceholder("Type code here");
+        joinGameField.setPlaceholderColour(UserInterface.GAME_CHAT_TEXTFIELD_COLOUR);
         joinGameField.setFont(UserInterface.orkney24);
         joinGameField.setBorder(TEXT_FIELD_MARGIN);
         joinGameField.setPlaceholderY(TEXT_FIELD_PLACEHOLDER_Y);
@@ -60,7 +61,6 @@ public class JoinGame extends ContentPanel implements ActionListener {
         this.add(backButton);
 
         joinErrorLabel.setFont(UserInterface.orkney18);
-        joinErrorLabel.setForeground(UserInterface.GAME_MOVES_HEADER_BACKGROUND);
         joinErrorLabel.setForeground(UserInterface.ERROR_COLOUR);
         joinErrorLabel.setBounds(JOIN_LABEL_X, JOIN_ERROR_Y, JOIN_LABEL_WIDTH, JOIN_LABEL_HEIGHT);
     }

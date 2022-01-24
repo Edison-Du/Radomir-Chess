@@ -44,37 +44,35 @@ public class RadomirBot extends Bot {
         long start = System.currentTimeMillis();
         ArrayList<String> moves = legalMoves(g.getCurrentPos());
         ArrayList<ArrayList<String>> partition = new ArrayList<ArrayList<String>>();
-        for(int i = 0; i < this.numThreads; i++) {
+        for(int i = 0; i < this.numThreads && i < moves.size(); i++) {
             partition.add(new ArrayList<String>());
         }
         for(int i = 0; i < moves.size(); i++) {
             partition.get(i%numThreads).add(moves.get(i));
         }
-        for(int i = 0; i < numThreads; i++) {
+        for(int i = 0; i < numThreads && i < moves.size(); i++) {
             runnables[i] = new RunSearch(g.copy(), this.depth, this.side, partition.get(i), this.myMoves, this.myScores, i, this.directionXOne, this.directionYOne, this.directionXTwo, this.directionYTwo);
             threads[i] = new Thread(runnables[i]);
-            System.out.println(threads[i]);
             threads[i].start();
         }
-        for(int i = 0; i < numThreads; i++) {
+        for(int i = 0; i < numThreads && i < moves.size(); i++) {
             try {
                 threads[i].join();
             } catch(InterruptedException e) {System.out.println("Interrupted"); }
         }
         int index = 0;
         int temp = myScores[0];
-        for(int i = 1; i < numThreads; i++) {
-            if(this.side == 0 && myScores[i] > temp) {
-                temp = myScores[i];
-                index = i;
-            }
-            else if(this.side == 1 && myScores[i] < temp) {
+        for(int i = 1; i < numThreads && i < moves.size(); i++) {
+            if(myScores[i] > temp) {
                 temp = myScores[i];
                 index = i;
             }
         }
         long end  = System.currentTimeMillis();
         System.out.println("RadomirBot took " + (end - start) + " ms to process move");
+        for(int i = 0; i < numThreads && i < moves.size(); i++) {
+            System.out.print(myMoves[i] + myScores[i] + ", ");
+        }
         return myMoves[index];
     }
     

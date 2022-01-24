@@ -21,11 +21,13 @@ public class RadomirBot extends Bot {
     private int[] myScores;
     private int numThreads;
     
-    private OpeningTree opening;
+    private OpeningTreeV2 opening;
+    private boolean isOpening;
     
     
     public RadomirBot(int depth, int side, int threads) {
-        opening = new OpeningTree();
+        opening = new OpeningTreeV2();
+        isOpening = true;
         this.depth = depth;
         this.side = side;
         directionXOne = new int[] {-1, -1, 1, 1, 0, 0, -1, 1};
@@ -44,42 +46,60 @@ public class RadomirBot extends Bot {
     }
     
     public String nextMove(ChessGame g) {
-        if (g.getStringMoves().size() == 0) return opening.getMove("start").substring(0, 4) + " ";
-        
-        String lastMove = g.getStringMoves().peek().substring(0, 4) + "-" + (g.getCurrentPos().getTurn()-1);
-        if (opening.checkMove(lastMove)){
-            return opening.getMove(lastMove).substring(0, 4) + " ";
-        }
-        
-        else {
-            ArrayList<String> moves = legalMoves(g.getCurrentPos());
-            ArrayList<ArrayList<String>> partition = new ArrayList<ArrayList<String>>();
-            for(int i = 0; i < this.numThreads && i < moves.size(); i++) {
-                partition.add(new ArrayList<String>());
+        if(isOpening) {
+            if(g.getStringMoves().isEmpty()) { //occurs only if bot is white
+                return opening.getRandomMove();
             }
-            for(int i = 0; i < moves.size(); i++) {
-                partition.get(i%numThreads).add(moves.get(i));
-            }
-            for(int i = 0; i < numThreads && i < moves.size(); i++) {
-                runnables[i] = new RunSearch(g.copy(), this.depth, this.side, partition.get(i), this.myMoves, this.myScores, i, this.directionXOne, this.directionYOne, this.directionXTwo, this.directionYTwo);
-                threads[i] = new Thread(runnables[i]);
-                threads[i].start();
-            }
-            for(int i = 0; i < numThreads && i < moves.size(); i++) {
-                try {
-                    threads[i].join();
-                } catch(InterruptedException e) {e.printStackTrace(); }
-            }
-            int index = 0;
-            int temp = myScores[0];
-            for(int i = 1; i < numThreads && i < moves.size(); i++) {
-                if(myScores[i] > temp) {
-                    temp = myScores[i];
-                    index = i;
+            else {
+                String prevMove = g.getStringMoves().peek().substring(0, 4) + " ";
+                if(!opening.hasNext()) {
+                    isOpening = false;
+                    opening.reset();
+                }
+                else if(!opening.hasNext(prevMove)) {
+                    isOpening = false;
+                    opening.reset();
+                }
+                else {
+                    opening.nextMove(prevMove);
+                    if(opening.hasNext()) {
+                        return opening.getRandomMove();
+                    }
+                    else {
+                        isOpening = false;
+                        opening.reset();
+                    }
                 }
             }
-            return myMoves[index];
         }
+        
+        ArrayList<String> moves = legalMoves(g.getCurrentPos());
+        ArrayList<ArrayList<String>> partition = new ArrayList<ArrayList<String>>();
+        for(int i = 0; i < this.numThreads && i < moves.size(); i++) {
+            partition.add(new ArrayList<String>());
+        }
+        for(int i = 0; i < moves.size(); i++) {
+            partition.get(i%numThreads).add(moves.get(i));
+        }
+        for(int i = 0; i < numThreads && i < moves.size(); i++) {
+            runnables[i] = new RunSearch(g.copy(), this.depth, this.side, partition.get(i), this.myMoves, this.myScores, i, this.directionXOne, this.directionYOne, this.directionXTwo, this.directionYTwo);
+            threads[i] = new Thread(runnables[i]);
+            threads[i].start();
+        }
+        for(int i = 0; i < numThreads && i < moves.size(); i++) {
+            try {
+                threads[i].join();
+            } catch(InterruptedException e) {e.printStackTrace(); }
+        }
+        int index = 0;
+        int temp = myScores[0];
+        for(int i = 1; i < numThreads && i < moves.size(); i++) {
+            if(myScores[i] > temp) {
+                temp = myScores[i];
+                index = i;
+            }
+        }
+        return myMoves[index];
     }
     
     //all calculations are done in separate threads

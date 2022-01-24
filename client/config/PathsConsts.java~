@@ -11,7 +11,6 @@ public class PathsConsts {
     public static final String FONTS  = ASSETS + "fonts/";
 
     public static final String OPENING_FILE = "chessfiles/openings.txt";
-    public static final String OPENING_FILE_TWO = "chessfiles/openings2.txt";
 
     public static final String THEMES = IMAGES + "themes/";
 
@@ -35,7 +34,6 @@ public class PathsConsts {
     public static final String PROMOTION_PLATTER = IMAGES + "promotion" + PNG_FILE;
     public static final String CHESS_LOGO = IMAGES + "radomirchess3" + PNG_FILE;
     public static final String NAVBAR_HEADER = IMAGES + "navbarheader" + PNG_FILE;
-    public static final String CHESS_ICON = IMAGES + "radomirchess2" + PNG_FILE;
 
     public static final String WOOD_THEME = THEMES + "wood" + PNG_FILE;
     public static final String ICE_THEME = THEMES + "icysea" + PNG_FILE;

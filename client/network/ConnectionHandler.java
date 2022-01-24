@@ -112,10 +112,10 @@ public class ConnectionHandler extends Thread {
             login(message);
 
         } else if (message.getType().equals(MessageTypes.LOGIN_FAILED)) {
-            window.loginPanel.displayLoginError();
+            handleLoginFailed();
         
         } else if (message.getType().equals(MessageTypes.REGISTER_FAILED)){
-            window.loginPanel.displayRegisterError();
+            handleRegisterFailed();
     
         } else if (message.getType().equals(MessageTypes.LOGOUT)){
             logout();
@@ -180,9 +180,16 @@ public class ConnectionHandler extends Thread {
         clientName = "Guest " + clientNum;
         window.navigationBar.setUsername(clientName);
 
-        window.loginPanel.clearError();
         window.setLoggedIn(false);
         window.changePage(Page.LOGIN);
+    }
+
+    public void handleLoginFailed() {
+        window.loginPanel.displayError("Invalid credentials");
+    }
+
+    public void handleRegisterFailed() {
+        window.loginPanel.displayError("Username is taken");
     }
 
     public void createGame(Message message) {

@@ -94,12 +94,12 @@ public class UserInterface {
     public static final int PASSWORD_X = CONTENT_WIDTH / 2 - 140;
     public static final int USERNAME_LABEL_Y = WINDOW_HEIGHT / 2 - 160;
     public static final int USERNAME_FIELD_Y = WINDOW_HEIGHT / 2 - 120;
-    public static final int PASSWORD_LABEL_Y = WINDOW_HEIGHT / 2 - 60;
-    public static final int PASSWORD_FIELD_Y = WINDOW_HEIGHT / 2 - 20;
+    public static final int PASSWORD_LABEL_Y = WINDOW_HEIGHT / 2 - 50;
+    public static final int PASSWORD_FIELD_Y = WINDOW_HEIGHT / 2 - 10;
     public static final int USERNAME_WIDTH = 280;
     public static final int PASSWORD_WIDTH = 280;
     public static final int LOGIN_LABEL_HEIGHT = 30;
-    public static final int LOGIN_FIELD_HEIGHT = 40; 
+    public static final int LOGIN_FIELD_HEIGHT = 50; 
 
     // Game board
     public static int activeTheme = 0;

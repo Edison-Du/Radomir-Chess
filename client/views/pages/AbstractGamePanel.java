@@ -5,9 +5,6 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.Rectangle;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-
 import chesslogic.ChessGame;
 import config.GameState;
 import config.MessageTypes;

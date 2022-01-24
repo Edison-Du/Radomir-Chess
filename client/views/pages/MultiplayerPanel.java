@@ -1,15 +1,10 @@
 package views.pages;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JLabel;
 
 import config.GameState;
 import config.MessageTypes;
-import config.UserInterface;
-import network.Lobby;
 import network.Message;
 import network.ServerConnection;
 

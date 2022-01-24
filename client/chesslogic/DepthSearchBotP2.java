@@ -195,15 +195,9 @@ public class DepthSearchBotP2 extends Bot {
 
         String lastMove = g.getStringMoves().peek().substring(0, 4) + "-" + (g.getCurrentPos().getTurn()-1);
         if (opening.checkMove(lastMove)){
-            System.out.println("LETSGOO");
             return opening.getMove(lastMove).substring(0, 4) + " ";
         }
-
-        long start = System.currentTimeMillis();
-        System.out.println("executed the next move");
         this.search(g, this.depth, -999999, 999999, 0);
-        long end = System.currentTimeMillis();
-        System.out.println("DepthSearchBotP2 took " + (end - start) + " ms to process move");
         return this.move;
     }
 }

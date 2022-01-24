@@ -48,12 +48,10 @@ public class RadomirBot extends Bot {
         
         String lastMove = g.getStringMoves().peek().substring(0, 4) + "-" + (g.getCurrentPos().getTurn()-1);
         if (opening.checkMove(lastMove)){
-            System.out.println("LETSGOO");
             return opening.getMove(lastMove).substring(0, 4) + " ";
         }
         
         else {
-            long start = System.currentTimeMillis();
             ArrayList<String> moves = legalMoves(g.getCurrentPos());
             ArrayList<ArrayList<String>> partition = new ArrayList<ArrayList<String>>();
             for(int i = 0; i < this.numThreads && i < moves.size(); i++) {
@@ -70,7 +68,7 @@ public class RadomirBot extends Bot {
             for(int i = 0; i < numThreads && i < moves.size(); i++) {
                 try {
                     threads[i].join();
-                } catch(InterruptedException e) {System.out.println("Interrupted"); }
+                } catch(InterruptedException e) {e.printStackTrace(); }
             }
             int index = 0;
             int temp = myScores[0];
@@ -79,11 +77,6 @@ public class RadomirBot extends Bot {
                     temp = myScores[i];
                     index = i;
                 }
-            }
-            long end  = System.currentTimeMillis();
-            System.out.println("RadomirBot took " + (end - start) + " ms to process move");
-            for(int i = 0; i < numThreads && i < moves.size(); i++) {
-                System.out.print(myMoves[i] + myScores[i] + ", ");
             }
             return myMoves[index];
         }

@@ -15,9 +15,11 @@ public class DepthSearchBotP2 extends Bot {
     private int[][] placementPoints;
     private int[] directionXOne, directionYOne, directionXTwo, directionYTwo;
     private String move;
+    private OpeningTree opening;
 
     
-    public DepthSearchBotP2(int depth, int side) {
+    public DepthSearchBotP2(int depth, int side){
+        opening = new OpeningTree();
         this.depth = depth;
         this.side = side;
         placementPoints = new int[8][8];
@@ -92,16 +94,14 @@ public class DepthSearchBotP2 extends Bot {
     private int score(Board b)  {
         int out = 0;
         if(b.ended()) {
-            if(b.getKings()[0].isChecked(b, b.getKingTiles()[0])) {
+            if(b.getKings()[Constants.WHITE].isChecked(b, b.getKingTiles()[Constants.WHITE])) {
                 out = -1000;
             }
-            else if(b.getKings()[1].isChecked(b, b.getKingTiles()[1])) {
+            else if(b.getKings()[Constants.BLACK].isChecked(b, b.getKingTiles()[Constants.BLACK])) {
                 out = 1000;
             }
             else out = 0;
         }
-        if (b.getKings()[0].isChecked(b, b.getKingTiles()[0])) out -= 10;
-        if (b.getKings()[1].isChecked(b, b.getKingTiles()[1])) out += 10;
         for(int i = 0; i < b.getPieces().get(0).size(); i++) {
             out = out + b.getPieces().get(0).get(i).getPiece().getPoints();
         }
@@ -171,6 +171,7 @@ public class DepthSearchBotP2 extends Bot {
     public ArrayList<Move> sortMoves(Board b, ArrayList<String> temp){
         ArrayList<Move> sortedMoves = new ArrayList<>();
         for (String move : temp){
+            int[] curPos = Constants.chessToCoord(move.substring(0, 2));
             int[] newPos = Constants.chessToCoord(move.substring(2, 4));
             String promotion = move.substring(4, 5);
             int score = 0;
@@ -190,6 +191,14 @@ public class DepthSearchBotP2 extends Bot {
     }
 
     public String nextMove(ChessGame g){
+        if (g.getStringMoves().size() == 0) return opening.getMove("start").substring(0, 4) + " ";
+
+        String lastMove = g.getStringMoves().peek().substring(0, 4) + "-" + (g.getCurrentPos().getTurn()-1);
+        if (opening.checkMove(lastMove)){
+            System.out.println("LETSGOO");
+            return opening.getMove(lastMove).substring(0, 4) + " ";
+        }
+
         long start = System.currentTimeMillis();
         System.out.println("executed the next move");
         this.search(g, this.depth, -999999, 999999, 0);

@@ -22,6 +22,7 @@ public class MessageTypes {
     // Lobby related
     public static final String CREATE_GAME = "CREATE_GAME";
     public static final String GAME_CREATED = "GAME_CREATED";
+    public static final String CREATE_ERROR = "CREATE_ERROR";
 
     public static final String LOBBY_VISIBILITY = "LOBBY_VISIBILITY";
 

@@ -90,6 +90,7 @@ public class UserInterface {
     // Settings
     public static final int NUM_SETTINGS = 5;
     public static boolean changeMade = false;
+    public static Font COMBOBOX_FONT = new Font("Serif", Font.PLAIN, 18);
     
     // About
     public static final int ABOUT_PADDING = 30;
@@ -165,6 +166,7 @@ public class UserInterface {
     public static int NUM_SETS = PathsConsts.PIECE_SETS.length;
     private static int NUM_PIECES = PathsConsts.PIECE_NAMES.length;
     public static int activeSetNum = 0;
+    public static boolean setChanged = false;
 
     public static final ArrayList<BufferedImage[]> PIECES = new ArrayList<BufferedImage[]>();
     
@@ -257,6 +259,7 @@ public class UserInterface {
      */
     public static void changePieceSet(int set) {
         activeSetNum = set;
+        setChanged = true;
     }
 
     /**

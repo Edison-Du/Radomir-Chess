@@ -1,6 +1,7 @@
 package views.pages;
 
 import javax.swing.JLabel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,7 +54,6 @@ public class Settings extends ContentPanel implements ActionListener {
         "Chartreuse",
         "Fuchsia"
     };
-
     
     private final int SETTINGS_LEFT = 35;
     private final int COMBOBOX_WIDTH = 160;
@@ -69,10 +69,11 @@ public class Settings extends ContentPanel implements ActionListener {
     private final JLabel pieceSetLabel = new JLabel("Piece Sets");
     private final JLabel highlightLabel = new JLabel("Possible Move Colours");
 
-
     private final JComboBox<String> boardThemes;
     private final JComboBox<String> pieceSets;
     private final JComboBox<String> highlightThemes;
+    
+    private final EmptyBorder ORKNEY_OFFSET = new EmptyBorder(7, 0, 0, 0);
 
     private final CustomButton toggleHighlightButton = new CustomButton("Show Moves On");
     private final CustomButton toggleSoundButton = new CustomButton("Sound On");
@@ -89,17 +90,19 @@ public class Settings extends ContentPanel implements ActionListener {
         titleLabel.setFont(UserInterface.orkney36);
         titleLabel.setForeground(UserInterface.TEXT_COLOUR);
         titleLabel.setBounds(UserInterface.TITLE_BOUNDS);
+        titleLabel.setBorder(ORKNEY_OFFSET);
         this.add(titleLabel);
 
 
         boardThemeLabel.setFont(UserInterface.orkney18);
         boardThemeLabel.setForeground(UserInterface.TEXT_COLOUR);
         boardThemeLabel.setBounds(SETTINGS_LEFT, LABEL_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
+        boardThemeLabel.setBorder(ORKNEY_OFFSET);
         this.add(boardThemeLabel);
 
         boardThemes.setBounds(SETTINGS_LEFT, COMBOBOX_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         boardThemes.setForeground(UserInterface.FRAME_COLOUR);
-        boardThemes.setFont(UserInterface.orkney18);
+        boardThemes.setFont(UserInterface.COMBOBOX_FONT);
         boardThemes.setFocusable(false);
         boardThemes.addActionListener(this);
         this.add(boardThemes);
@@ -108,11 +111,12 @@ public class Settings extends ContentPanel implements ActionListener {
         pieceSetLabel.setFont(UserInterface.orkney18);
         pieceSetLabel.setForeground(UserInterface.TEXT_COLOUR);
         pieceSetLabel.setBounds(SETTINGS_LEFT + COMBOBOX_GAP, LABEL_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
+        pieceSetLabel.setBorder(ORKNEY_OFFSET);
         this.add(pieceSetLabel);
 
         pieceSets.setBounds(SETTINGS_LEFT + COMBOBOX_GAP, COMBOBOX_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         pieceSets.setForeground(UserInterface.FRAME_COLOUR);
-        pieceSets.setFont(UserInterface.orkney18);
+        pieceSets.setFont(UserInterface.COMBOBOX_FONT);
         pieceSets.setFocusable(false);
         pieceSets.addActionListener(this);
         this.add(pieceSets);
@@ -120,12 +124,13 @@ public class Settings extends ContentPanel implements ActionListener {
         //change constant for width
         highlightLabel.setFont(UserInterface.orkney18);
         highlightLabel.setForeground(UserInterface.TEXT_COLOUR);
+        highlightLabel.setBorder(ORKNEY_OFFSET);
         highlightLabel.setBounds(SETTINGS_LEFT + 2*COMBOBOX_GAP, LABEL_Y, COMBOBOX_WIDTH + 60, COMBOBOX_HEIGHT);
         this.add(highlightLabel);
 
         highlightThemes.setBounds(SETTINGS_LEFT + 2*COMBOBOX_GAP, COMBOBOX_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         highlightThemes.setForeground(UserInterface.FRAME_COLOUR);
-        highlightThemes.setFont(UserInterface.orkney18);
+        highlightThemes.setFont(UserInterface.COMBOBOX_FONT);
         highlightThemes.setFocusable(false);
         highlightThemes.addActionListener(this);
         this.add(highlightThemes);
@@ -136,6 +141,7 @@ public class Settings extends ContentPanel implements ActionListener {
         toggleHighlightButton.setBackground(UserInterface.ON_COLOUR);
         toggleHighlightButton.setHoverColor(UserInterface.ON_COLOUR.brighter());
         toggleHighlightButton.setFocusable(false);
+        toggleHighlightButton.setBorder(ORKNEY_OFFSET);
         toggleHighlightButton.addActionListener(this);
         this.add(toggleHighlightButton);
 
@@ -145,6 +151,7 @@ public class Settings extends ContentPanel implements ActionListener {
         toggleSoundButton.setBackground(UserInterface.ON_COLOUR);
         toggleSoundButton.setHoverColor(UserInterface.ON_COLOUR.brighter());
         toggleSoundButton.setFocusable(false);
+        toggleSoundButton.setBorder(ORKNEY_OFFSET);
         toggleSoundButton.addActionListener(this);
         this.add(toggleSoundButton);
     }

@@ -251,7 +251,7 @@ public class ClientHandler extends Thread {
 
     private void joinGame(Message message) {
 
-        String code = message.getParam(0);
+        int code = Integer.parseInt(message.getParam(0));
         lobby = server.getLobbyManager().getLobby(code);
 
         if (lobby == null) {
@@ -267,7 +267,7 @@ public class ClientHandler extends Thread {
 
         } else {
             Message joinedMessage = new Message(MessageTypes.JOINED_GAME);
-            joinedMessage.addParam(lobby.getCode());
+            joinedMessage.addParam(Integer.toString(lobby.getCode()));
             joinedMessage.addParam(lobby.getHost().getClientName());
             joinedMessage.addParam(lobby.getLobbyVisibility());
             this.sendMessage(joinedMessage);
@@ -281,19 +281,28 @@ public class ClientHandler extends Thread {
 
     private void createGame(Message message) {
         lobby = server.getLobbyManager().createLobby(this);
+
+        // Could not create lobby
+        if (lobby == null) {
+            Message createError = new Message(MessageTypes.CREATE_ERROR);
+            this.sendMessage(createError);
+            return;
+        }
+
+        // Set lobby visibility
         if (message.getParam(0).equals("public")) {
             lobby.setPublicStatus("Public");
+
         } else if (message.getParam(0).equals("private")) {
             lobby.setPublicStatus("Private");
         }
 
-
+        // Add lobby
         server.getLobbyManager().addLobby(lobby);
-        lobby.setHost(this);
 
         // Create lobby
         Message createGameMessage = new Message(MessageTypes.GAME_CREATED);
-        createGameMessage.addParam(lobby.getCode());
+        createGameMessage.addParam(Integer.toString(lobby.getCode()));
         this.sendMessage(createGameMessage);
 
         // Player colour
@@ -301,6 +310,7 @@ public class ClientHandler extends Thread {
         colourMessage.addParam(Integer.toString(lobby.getHostColour()));
         this.sendMessage(colourMessage);
 
+        // Lobby visibility
         Message lobbyVisibilityMessage = new Message(MessageTypes.LOBBY_VISIBILITY);
         lobbyVisibilityMessage.addParam(lobby.getLobbyVisibility());
         this.sendMessage(lobbyVisibilityMessage);

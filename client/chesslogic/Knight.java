@@ -12,7 +12,7 @@ public class Knight extends Piece {
      * @
      */
     public Knight(int col) {
-        super(col, "N", 40, UserInterface.PIECES.get(col + 4));
+        super(col, "N", 55, UserInterface.PIECES.get(col + 4));
     }
     
     @Override

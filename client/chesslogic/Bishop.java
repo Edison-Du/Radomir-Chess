@@ -12,7 +12,7 @@ public class Bishop extends Piece {
      * @
      */
     public Bishop(int col) {
-        super(col, "B", 40, UserInterface.PIECES.get(col + 2));
+        super(col, "B", 55, UserInterface.PIECES.get(col + 2));
     }
     
     @Override

@@ -43,10 +43,19 @@ public class UserInterface {
     public static final Color NAVBAR_BUTTON_HOVER_COLOUR = new Color(38,39,39);
     public static final Border NAVBAR_BUTTON_MARGIN = new EmptyBorder(5, 30, 0, 0);
     public static final Border NAVBAR_BUTTON_HOVER_MARGIN = new EmptyBorder(5, 45, 0, 0);
-
-    // wtf is this lol
     public static final String GUEST = "Guest";
     public static final Font USERNAME_FONT = new Font("Arial", Font.PLAIN, 20);
+    public static final int NAVBAR_LABEL_WIDTH = 200;
+    public static final int NAVBAR_LABEL_HEIGHT = 25;
+    public static final int NAVBAR_LABEL_X = 30;
+    public static final int USERNAME_Y = UserInterface.WINDOW_HEIGHT - 47;
+    public static final int PLAYERS_ONLINE_Y = UserInterface.WINDOW_HEIGHT - 123;
+
+    //Content panel
+    public static final int BACKGROUND_LOGO_X = CONTENT_WIDTH / 2 - 180;
+    public static final int BACKGROUND_LOGO_Y = WINDOW_HEIGHT / 2 - 280;
+    public static final int LOGO_WIDTH = 360;
+    public static final int LOGO_HEIGHT = 560;
 
     // Play page
     public static final int MENU_BUTTON_MARGIN = 40;
@@ -54,6 +63,11 @@ public class UserInterface {
     public static final int MENU_BUTTON_HEIGHT = WINDOW_HEIGHT / 4 - (int) (MENU_BUTTON_MARGIN * 1.5);
     public static final int MENU_BUTTON_WIDTH = CONTENT_WIDTH / 2 - (int) (MENU_BUTTON_MARGIN * 1.5);
 
+    //Panel Button
+    public static final int PANEL_BUTTON_WIDTH = 280;
+    public static final int PANEL_BUTTON_HEIGHT = 60;
+    public static final EmptyBorder PANEL_BUTTON_BORDER = new EmptyBorder(10, 0, 0, 0);
+    
     // Join game page
     public static final int BACK_BUTTON_X = 20;
     public static final int BACK_BUTTON_Y = 20;
@@ -166,6 +180,18 @@ public class UserInterface {
     public static final int GAME_BOARD_Y = 120;
     public static final int GAME_SIDE_PANEL_WIDTH = 240;
     public static final int GAME_INFO_BORDER_RADIUS = 15;
+
+    public static final int PLAYERS_LABEL_WIDTH = GAME_BOARD_LENGTH / 2;
+    public static final int PLAYERS_LABEL_HEIGHT = 60;
+    public static final int OPPONENT_LABEL_Y = GAME_BOARD_Y - 40;
+    public static final int PLAYER_LABEL_Y = GAME_BOARD_Y + GAME_BOARD_LENGTH + 10;
+
+    public static final int GAME_BUTTON_WIDTH = 80;
+    public static final int GAME_BUTTON_HEIGHT = 62;
+    public static final int GAME_BUTTON_Y = 239;
+    public static final int TAKEBACK_BUTTON_X = 660;
+    public static final int DRAW_BUTTON_X = 740;
+    public static final int RESIGN_BUTTON_X = 820;
     
     // These are all greys, maybe just make a bunch of grey constsants GREY_1, GREY_2
     public static final Color CHAT_MESSAGE_COLOUR = new Color(230, 230, 230);

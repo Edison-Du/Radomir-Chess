@@ -17,6 +17,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import config.MessageTypes;
@@ -57,8 +58,8 @@ public class BrowseGames extends ContentPanel implements ActionListener {
         lobbyList = new JList<>(allLobbies);
         lobbyList.setBackground(UserInterface.FRAME_COLOUR);
         lobbyList.setForeground(UserInterface.TEXT_COLOUR);
-        lobbyList.setFont(new Font("Serif", Font.PLAIN, 14));
-        lobbyList.setFixedCellHeight(30);
+        lobbyList.setFont(UserInterface.orkney18);
+        lobbyList.setFixedCellHeight(40);
         lobbyList.setBorder(new EmptyBorder(5, 5, 5, 5));
         lobbyList.setCellRenderer(getRenderer());
         lobbyList.addMouseListener(new MouseAdapter() {
@@ -76,8 +77,8 @@ public class BrowseGames extends ContentPanel implements ActionListener {
 
         joinLabel.setText("Join Lobby: ");
         joinLabel.setForeground(UserInterface.TEXT_COLOUR);
-        joinLabel.setFont(new Font("Serif", Font.PLAIN, 36));
-        joinLabel.setBounds(30, UserInterface.WINDOW_HEIGHT / 2 - 240, 400, 400);
+        joinLabel.setFont(UserInterface.orkney36);
+        joinLabel.setBounds(20, UserInterface.WINDOW_HEIGHT / 2 - 240, 400, 400);
         this.add(joinLabel);
 
         joinButton = new PanelButton(
@@ -113,7 +114,8 @@ public class BrowseGames extends ContentPanel implements ActionListener {
                     Object value, int index, boolean isSelected,
                     boolean cellHasFocus) {
                 JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
-                listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UserInterface.TEXT_COLOUR));
+                listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, UserInterface.TEXT_COLOUR));
+                listCellRendererComponent.setVerticalAlignment(SwingConstants.CENTER);
                 return listCellRendererComponent;
             }
         };

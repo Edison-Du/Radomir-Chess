@@ -112,11 +112,10 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         // Opponent label
         opponentLabel = new PlayerLabelPanel();
         opponentLabel.setBounds(
-            //change
             UserInterface.GAME_BOARD_X,
-            UserInterface.GAME_BOARD_Y - 40,
-            UserInterface.GAME_BOARD_LENGTH/2,
-            60
+            UserInterface.OPPONENT_LABEL_Y,
+            UserInterface.PLAYERS_LABEL_WIDTH,
+            UserInterface.PLAYERS_LABEL_HEIGHT
         );
         this.add(opponentLabel);
 
@@ -124,27 +123,39 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         playerLabel = new PlayerLabelPanel();
         playerLabel.setBounds(
             UserInterface.GAME_BOARD_X,
-            UserInterface.GAME_BOARD_Y + UserInterface.GAME_BOARD_LENGTH + 10,
-            UserInterface.GAME_BOARD_LENGTH/2,
-            60
+            UserInterface.PLAYER_LABEL_Y,
+            UserInterface.PLAYERS_LABEL_WIDTH,
+            UserInterface.PLAYERS_LABEL_HEIGHT
         );
         this.add(playerLabel);
 
         // Takeback
         takebackButton = new GamePanelButton("Takeback");
-        takebackButton.setBounds(660, 240 - 1, 80, 60 + 2);
+        takebackButton.setBounds(
+            UserInterface.TAKEBACK_BUTTON_X,
+            UserInterface.GAME_BUTTON_Y,
+            UserInterface.GAME_BUTTON_WIDTH,
+            UserInterface.GAME_BUTTON_HEIGHT);
         takebackButton.addActionListener(this);
         this.add(takebackButton);
 
         // Draw
         drawButton = new GamePanelButton("Draw");
-        drawButton.setBounds(740, 240 - 1, 80, 60 + 2);
+        drawButton.setBounds(
+            UserInterface.DRAW_BUTTON_X,
+            UserInterface.GAME_BUTTON_Y,
+            UserInterface.GAME_BUTTON_WIDTH,
+            UserInterface.GAME_BUTTON_HEIGHT);
         drawButton.addActionListener(this);
         this.add(drawButton);
 
         // Resign
         resignButton = new GamePanelButton("Resign");
-        resignButton.setBounds(820, 240 - 1, 80, 60 + 2);
+        resignButton.setBounds(
+            UserInterface.RESIGN_BUTTON_X,
+            UserInterface.GAME_BUTTON_Y,
+            UserInterface.GAME_BUTTON_WIDTH,
+            UserInterface.GAME_BUTTON_HEIGHT);
         resignButton.addActionListener(this);
         this.add(resignButton);
 

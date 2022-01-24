@@ -27,7 +27,7 @@ public class GameSetup extends ContentPanel implements ActionListener {
         this.window = window;
         this.setLayout(null);
 
-        instructionsLabel.setFont(UserInterface.TEXT_FONT_1);
+        instructionsLabel.setFont(UserInterface.orkney24);
         instructionsLabel.setText("Choose Lobby Type: ");
         instructionsLabel.setForeground(UserInterface.TEXT_COLOUR);
         instructionsLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 115, UserInterface.WINDOW_HEIGHT / 2 - 95, 280, 30);

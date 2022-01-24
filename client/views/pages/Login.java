@@ -34,29 +34,29 @@ public class Login extends ContentPanel implements ActionListener{
         titleLabel.setBounds(30, 30, 210, 50);
         this.add(titleLabel);
         
-        profile.setFont(new Font("Serif", Font.ITALIC, 36));
+        profile.setFont(UserInterface.orkney36);
         profile.setText("Register");
         this.add(profile);
 
-        usernameLabel.setFont(UserInterface.TEXT_FONT_1);
+        usernameLabel.setFont(UserInterface.orkney24);
         usernameLabel.setText("Username: ");
         usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
         usernameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 160, 280, 30);
         this.add(usernameLabel);
 
-        usernameField.setFont(UserInterface.TEXT_FONT_1);
-        usernameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 110, 280, 30);
+        usernameField.setFont(UserInterface.orkney24);
+        usernameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 110, 280, 40);
         usernameField.addActionListener(this);
         this.add(usernameField);
 
-        passwordLabel.setFont(UserInterface.TEXT_FONT_1);
+        passwordLabel.setFont(UserInterface.orkney24);
         passwordLabel.setText("Password: ");
         passwordLabel.setForeground(UserInterface.TEXT_COLOUR);
         passwordLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 60, 280, 30);
         this.add(passwordLabel);
 
-        passwordField.setFont(UserInterface.TEXT_FONT_1);
-        passwordField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 10, 280, 30);
+        passwordField.setFont(UserInterface.orkney24);
+        passwordField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 10, 280, 40);
         passwordField.addActionListener(this);
         this.add(passwordField);
 

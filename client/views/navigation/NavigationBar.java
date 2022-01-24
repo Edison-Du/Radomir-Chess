@@ -45,13 +45,15 @@ public class NavigationBar extends JPanel {
         this.setBounds(0, 0,  UserInterface.NAVBAR_WIDTH, UserInterface.WINDOW_HEIGHT);
         this.setLayout(null);
 
-
         navigationActionListener = new NavigationActionListener(window);
-
         links = new NavigationLink[navbarPages.length];
+
+        // Default page
+        links[0].doClick();
 
         for (int i = 0; i < navbarPages.length; i++) {
             int x = 0;
+            //change
             int y = i * UserInterface.NAVBAR_BUTTON_HEIGHT + UserInterface.NAVBAR_WIDTH / 2 - 15;
             Page currentPage = navbarPages[i];
 
@@ -62,25 +64,30 @@ public class NavigationBar extends JPanel {
 
         }
 
-        this.usernameLabel = new JLabel();
-        this.usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
-        this.usernameLabel.setBounds(30, UserInterface.WINDOW_HEIGHT - 47, 200, 25);
-        this.usernameLabel.setBorder(UserInterface.FONT_OFFSET_BORDER);
-        this.usernameLabel.setFont(UserInterface.orkney18);
-        this.add(usernameLabel);
-
-        //change constants
         this.playersOnlineLabel = new JLabel();
         this.playersOnlineLabel.setForeground(UserInterface.TEXT_COLOUR);
-        this.playersOnlineLabel.setBounds(30, UserInterface.WINDOW_HEIGHT - 123, 200, 25);
+        this.playersOnlineLabel.setBounds(
+            UserInterface.NAVBAR_LABEL_X,
+            UserInterface.PLAYERS_ONLINE_Y,
+            UserInterface.NAVBAR_LABEL_WIDTH,
+            UserInterface.NAVBAR_LABEL_HEIGHT
+        );
         this.playersOnlineLabel.setBorder(UserInterface.FONT_OFFSET_BORDER);
         this.playersOnlineLabel.setFont(UserInterface.orkney18);
         this.add(playersOnlineLabel);
 
+        this.usernameLabel = new JLabel();
+        this.usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
+        this.usernameLabel.setBounds(
+            UserInterface.NAVBAR_LABEL_X,
+            UserInterface.USERNAME_Y,
+            UserInterface.NAVBAR_LABEL_WIDTH,
+            UserInterface.NAVBAR_LABEL_HEIGHT
+            );
+        this.usernameLabel.setBorder(UserInterface.FONT_OFFSET_BORDER);
+        this.usernameLabel.setFont(UserInterface.orkney18);
+        this.add(usernameLabel);
 
-
-        // Default page
-        links[0].doClick();
     }
 
     public void paintComponent(Graphics g) {

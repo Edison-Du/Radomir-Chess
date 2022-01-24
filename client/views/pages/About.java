@@ -68,6 +68,7 @@ public class About extends ContentPanel implements ActionListener {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setEditable(false);
+        textArea.setFocusable(false);
         textArea.setOpaque(false);
         textArea.setBackground(UserInterface.FRAME_COLOUR);
 
@@ -80,7 +81,5 @@ public class About extends ContentPanel implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
+    public void actionPerformed(ActionEvent e) {}
 }

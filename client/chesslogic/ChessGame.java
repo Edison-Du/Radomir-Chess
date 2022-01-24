@@ -220,7 +220,8 @@ public class ChessGame {
         if(fiftyMoves == 100) {
             return true;
         }
-        else if(current.ended()) {
+        else if(current.ended() && !current.getKings()[Constants.WHITE].isChecked(current, current.getKingTiles()[Constants.WHITE]) 
+        && !current.getKings()[Constants.BLACK].isChecked(current, current.getKingTiles()[Constants.BLACK])) {
             return true;
         }
         else if(drawByInsufficientPieces()) {
@@ -232,7 +233,7 @@ public class ChessGame {
     public boolean ended() {
         return stalemate() || whiteWins() || blackWins();
     }
-    
+
     private boolean drawByInsufficientPieces() {
         if(current.getPieces().get(0).size() > 2 || current.getPieces().get(1).size() > 2) {
             return false;

@@ -90,6 +90,7 @@ public class UserInterface {
     // Settings
     public static final int NUM_SETTINGS = 5;
     public static boolean changeMade = false;
+    public static Font COMBOBOX_FONT = new Font("Serif", Font.PLAIN, 18);
     
     // About
     public static final int ABOUT_PADDING = 30;

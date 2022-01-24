@@ -23,7 +23,7 @@ public class CapturedPiecesPanel extends ContentPanel {
     public int offset;
     
     // p B N R Q
-    public final Image[] pieceImages;
+    public final Image[] pieceImages = new Image[5];
     public final int[] capturedPieceCount;    
 
     public CapturedPiecesPanel(ChessGame game, int playerColour) {
@@ -37,13 +37,9 @@ public class CapturedPiecesPanel extends ContentPanel {
 
         capturedPieceCount = new int[5];
 
-        this.pieceImages = new Image[]{
-            UserInterface.PIECES.get(this.playerColour)[UserInterface.activeSetNum].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
-            UserInterface.PIECES.get(this.playerColour + 2)[UserInterface.activeSetNum].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
-            UserInterface.PIECES.get(this.playerColour + 4)[UserInterface.activeSetNum].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
-            UserInterface.PIECES.get(this.playerColour + 6)[UserInterface.activeSetNum].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST),
-            UserInterface.PIECES.get(this.playerColour + 8)[UserInterface.activeSetNum].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST)
-        };
+        for (int i = 0; i < capturedPieceCount.length; i++) {
+            this.pieceImages[i] = UserInterface.PIECES.get(this.playerColour + i*2)[UserInterface.activeSetNum].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST);
+        }
     }
 
     public void setChessGame(ChessGame game) {
@@ -52,8 +48,6 @@ public class CapturedPiecesPanel extends ContentPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        // g.setColor(UserInterface.BACKGROUNDS[UserInterface.activeBackground]);
-        // g.fillRect(0, 0, UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT);  // What are even the dimensions of this panel and how do I fill it
         
         // Reset piece count array
         for (int i = 0; i < capturedPieceCount.length; i++) {
@@ -82,5 +76,14 @@ public class CapturedPiecesPanel extends ContentPanel {
             if(numPieces > 0) offset += 10;
         }
         offset = 0;
+    }
+
+    /**
+     * Updates the piece set theme
+     */
+    public void updatePieces() {
+        for (int i = 0; i < capturedPieceCount.length; i++) {
+            this.pieceImages[i] = UserInterface.PIECES.get(this.playerColour + i*2)[UserInterface.activeSetNum].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST);
+        }
     }
 }

@@ -4,22 +4,15 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Rectangle;
+
 import views.components.ContentPanel;
 import views.components.CustomButton;
 import config.UserInterface;
-import network.Message;
-import network.ServerConnection;
-import config.MessageTypes;
-import config.PathsConsts;
 import views.Window;
 
 public class Settings extends ContentPanel implements ActionListener {
-
-    private final JLabel titleLabel = new JLabel("Settings");
-    private final JLabel boardThemeLabel = new JLabel("Board Themes");
-    private final JLabel pieceSetLabel = new JLabel("Piece Sets");
-    private final JLabel highlightLabel = new JLabel("Possible Move Colours");
-
+    // Constants
     private final String[] BOARDS = {
         "Greyscale",
         "Icy Sea",
@@ -61,6 +54,22 @@ public class Settings extends ContentPanel implements ActionListener {
         "Fuchsia"
     };
 
+    private final Rectangle TITLE_BOUNDS = new Rectangle(30, 30, 210, 50);
+    private final int SETTINGS_LEFT = 35;
+    private final int COMBOBOX_WIDTH = 160;
+    private final int COMBOBOX_HEIGHT = 37;
+    private final int LABEL_Y = 110;
+    private final int COMBOBOX_Y = LABEL_Y + COMBOBOX_HEIGHT + 5;
+    private final int COMBOBOX_GAP = COMBOBOX_WIDTH + 20;
+    private final int BUTTON_Y = 253;
+
+    // Buttons, labels, etc
+    private final JLabel titleLabel = new JLabel("Settings");
+    private final JLabel boardThemeLabel = new JLabel("Board Themes");
+    private final JLabel pieceSetLabel = new JLabel("Piece Sets");
+    private final JLabel highlightLabel = new JLabel("Possible Move Colours");
+
+
     private final JComboBox<String> boardThemes;
     private final JComboBox<String> pieceSets;
     private final JComboBox<String> highlightThemes;
@@ -79,16 +88,16 @@ public class Settings extends ContentPanel implements ActionListener {
 
         titleLabel.setFont(UserInterface.HEADER_FONT);
         titleLabel.setForeground(UserInterface.TEXT_COLOUR);
-        titleLabel.setBounds(30, 30, 210, 50);
+        titleLabel.setBounds(TITLE_BOUNDS);
         this.add(titleLabel);
 
 
         boardThemeLabel.setFont(UserInterface.SETTINGS_FONT);
         boardThemeLabel.setForeground(UserInterface.TEXT_COLOUR);
-        boardThemeLabel.setBounds(35, 110, 160, 37);
+        boardThemeLabel.setBounds(SETTINGS_LEFT, LABEL_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         this.add(boardThemeLabel);
 
-        boardThemes.setBounds(35, 152, 160, 37);
+        boardThemes.setBounds(SETTINGS_LEFT, COMBOBOX_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         boardThemes.setForeground(UserInterface.FRAME_COLOUR);
         boardThemes.setFont(UserInterface.SETTINGS_FONT);
         boardThemes.setFocusable(false);
@@ -98,10 +107,10 @@ public class Settings extends ContentPanel implements ActionListener {
 
         pieceSetLabel.setFont(UserInterface.SETTINGS_FONT);
         pieceSetLabel.setForeground(UserInterface.TEXT_COLOUR);
-        pieceSetLabel.setBounds(215, 110, 160, 37);
+        pieceSetLabel.setBounds(SETTINGS_LEFT + COMBOBOX_GAP, LABEL_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         this.add(pieceSetLabel);
 
-        pieceSets.setBounds(215, 152, 160, 37);
+        pieceSets.setBounds(SETTINGS_LEFT + COMBOBOX_GAP, COMBOBOX_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         pieceSets.setForeground(UserInterface.FRAME_COLOUR);
         pieceSets.setFont(UserInterface.SETTINGS_FONT);
         pieceSets.setFocusable(false);
@@ -111,17 +120,17 @@ public class Settings extends ContentPanel implements ActionListener {
         
         highlightLabel.setFont(UserInterface.SETTINGS_FONT);
         highlightLabel.setForeground(UserInterface.TEXT_COLOUR);
-        highlightLabel.setBounds(395, 110, 160, 37);
+        highlightLabel.setBounds(SETTINGS_LEFT + 2*COMBOBOX_GAP, LABEL_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         this.add(highlightLabel);
 
-        highlightThemes.setBounds(395, 152, 160, 37);
+        highlightThemes.setBounds(SETTINGS_LEFT + 2*COMBOBOX_GAP, COMBOBOX_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         highlightThemes.setForeground(UserInterface.FRAME_COLOUR);
         highlightThemes.setFont(UserInterface.SETTINGS_FONT);
         highlightThemes.setFocusable(false);
         highlightThemes.addActionListener(this);
         this.add(highlightThemes);
 
-        toggleHighlightButton.setBounds(35, 253, 160, 37);
+        toggleHighlightButton.setBounds(SETTINGS_LEFT, BUTTON_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         toggleHighlightButton.setForeground(UserInterface.TEXT_COLOUR);
         toggleHighlightButton.setBackground(UserInterface.ON_COLOUR);
         toggleHighlightButton.setHoverColor(UserInterface.ON_COLOUR.brighter());
@@ -129,7 +138,7 @@ public class Settings extends ContentPanel implements ActionListener {
         toggleHighlightButton.addActionListener(this);
         this.add(toggleHighlightButton);
 
-        toggleSoundButton.setBounds(215, 253, 160, 37);
+        toggleSoundButton.setBounds(SETTINGS_LEFT + COMBOBOX_GAP, BUTTON_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         toggleSoundButton.setForeground(UserInterface.TEXT_COLOUR);
         toggleSoundButton.setBackground(UserInterface.ON_COLOUR);
         toggleSoundButton.setHoverColor(UserInterface.ON_COLOUR.brighter());

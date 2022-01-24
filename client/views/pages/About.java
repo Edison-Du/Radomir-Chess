@@ -46,7 +46,7 @@ public class About extends ContentPanel implements ActionListener {
             "3. How to Use\n\n" + 
 
             "The Swing interface is intuitive. Use the left navigation bar to navigate between pages. The landing page will allow you to enter a chess match.\n" + 
-            "* To create a game (public or private), press Create Game. To join a game, you can find it in the Browse Games page or type in a game code in the Join Game page. Private games can only be joined by entering a code on the Join Game page. To play against our bot, click Play Bot.\n" + 
+            "* To create a game (public or private), press Create Game. To join a public game, you can find it in the Browse Games page or type in a game code in the Join Game page. Private games can only be joined by entering the lobby code on the Join Game page. To play against our bot, click Play Bot.\n" + 
             "* In the chess match, drag the pieces to make move. On the right bar, you can chat with your opponent and offer a takeback, draw, or resign.\n" + 
             "* In Settings, you can customize your game experience from 18 custom chess board themes, 5 custom chess piece sets, and 11 possible move colours. You can also toggle on/off move sounds and possible moves.\n" + 
             "* The About Page tells you about Radomir Chess. You are here right now!\n" + 
@@ -55,9 +55,9 @@ public class About extends ContentPanel implements ActionListener {
 
             "4. Credits\n\n" + 
 
-            "This application was built by Team JPANEL, which incredibly, is an acronym for the team's developers Jeffrey X, Peter G, Alex Z, Nicolas C, Edison D, and Leo G.\n\n" + 
+            "This application was built by Team JPANEL, which incredibly, is an acronym for the team's developers Jeffrey X, Peter G, Alex Z, Nicholas C, Edison D, and Leo G.\n\n" + 
 
-            "Thanks to Jeffrey for his expertise in UI implementation. Thanks to Peter for his work on the chess engine and the account system. Thanks to Alex for his networking and chess game UI/UX contributions. Thanks to Nicolas for his handling of the game lobbies. THanks to Edison for designing the overall project and lending a hand to everyone. And Thanks to Leo for his crafting of the chess engine and game logic.\n\n" + 
+            "Thanks to Jeffrey for his expertise in UI implementation. Thanks to Peter for his work on the chess engine and the account system. Thanks to Alex for his networking and chess game UI/UX contributions. Thanks to Nicholas for his handling of game lobbies and UI design. Thanks to Edison for designing the overall client/server system, leading the project and lending a hand to everyone. And Thanks to Leo for his crafting of the chess engine and game logic.\n\n" + 
 
             "Credit to Lichess and Chess.com, from which much inspiration and assets for features and graphics were sourced.\n\n" + 
 

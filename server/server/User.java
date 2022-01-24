@@ -155,7 +155,7 @@ public class User {
             getBoard() + " " +
             getChessSet() + " " +
             getHighlightStatus() + " " +
-            getHighlight() + " " + 
+            getHighlight() + " " +
             getSoundStatus() + "\n"
         );
     }

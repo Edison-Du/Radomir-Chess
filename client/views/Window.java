@@ -16,9 +16,6 @@ import config.MessageTypes;
 import network.ServerConnection;
 import network.Message;
 
-import java.awt.GraphicsEnvironment;
-import java.awt.GraphicsDevice;
-
 public class Window extends JFrame {
 
     public NavigationBar navigationBar;

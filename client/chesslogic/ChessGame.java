@@ -1,9 +1,5 @@
 package chesslogic;
 
-import java.util.Scanner;
-import java.lang.Integer;
-import java.util.Arrays;
-
 /**
  * Class for a game of chess
  * Also holds main method

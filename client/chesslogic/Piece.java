@@ -8,15 +8,8 @@ package chesslogic;
 
 import java.util.HashSet;
 
-import javax.imageio.ImageIO;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.Buffer;
-
-import config.PathsConsts;
 import config.UserInterface;
 
 public abstract class Piece {

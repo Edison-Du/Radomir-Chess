@@ -10,12 +10,9 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import views.components.CustomButton;
-import views.pages.AbstractGamePanel;
-import views.pages.Settings;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 

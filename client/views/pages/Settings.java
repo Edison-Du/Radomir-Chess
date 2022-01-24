@@ -5,7 +5,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Rectangle;
 
 import views.components.ContentPanel;
 import views.components.CustomButton;

@@ -8,7 +8,7 @@ import config.GameState;
 import config.Page;
 
 import views.Window;
-import views.chess.ThreadBotP1;
+import views.chess.BotThread;
 
 public class BotPanel extends AbstractGamePanel {
 
@@ -20,7 +20,7 @@ public class BotPanel extends AbstractGamePanel {
 
     private Window window;
 
-    ThreadBotP1 threadBotP1;
+    BotThread threadBotP1;
 
     ChessGame chessGameClone;
 
@@ -50,7 +50,7 @@ public class BotPanel extends AbstractGamePanel {
 
         setPlayerColour((int)(Math.random() * 2));
 
-        depthSearchBot = new RadomirBot(5, (getPlayerColour() + 1) % 2, 3);
+        depthSearchBot = new DepthSearchBotP2(5, (getPlayerColour() + 1) % 2);
 
         // Bot goes first
         if (getPlayerColour() == 1) {
@@ -74,7 +74,7 @@ public class BotPanel extends AbstractGamePanel {
             }
 
             // bot move used to be here
-            ThreadBotP1 newBot = new ThreadBotP1(chessGame, chessGameClone, depthSearchBot, movesPanel, this);
+            BotThread newBot = new BotThread(chessGame, chessGameClone, depthSearchBot, movesPanel, this);
             newBot.execute();
 
         }

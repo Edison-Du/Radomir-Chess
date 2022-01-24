@@ -37,7 +37,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     public void setLobbyVisibility(String visibility) {
         this.lobbyVisibility = visibility;
 
-        lobbyInfoPanel.setlobbyType(visibility + " Lobby");
+        lobbyInfoPanel.setlobbyType(visibility);
     }
 
     public void setHost(boolean isHost) {

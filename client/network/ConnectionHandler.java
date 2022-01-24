@@ -272,12 +272,11 @@ public class ConnectionHandler extends Thread {
     public void processOpponentResignation() {
         if (window.gamePanel.getPlayerColour() == 0) {
             window.gamePanel.setGameState(GameState.WHITE_VICTORY_RESIGN);
+            window.gamePanel.boardPanel.gameResultOverlay.setMessage("Black has resigned");
         } else {
             window.gamePanel.setGameState(GameState.BLACK_VICTORY_RESIGN);
+            window.gamePanel.boardPanel.gameResultOverlay.setMessage("White has resigned");
         }
-        // TODO Move this to multiplayerpanel so it gets the actual name of hte opponent
-
-        window.gamePanel.boardPanel.gameResultOverlay.setMessage("Your Opponent Has Resigned");
     }
 
     public void processDrawOffer() {
@@ -286,8 +285,6 @@ public class ConnectionHandler extends Thread {
 
     public void processDraw() {
         window.gamePanel.setGameState(GameState.DRAW);
-
-        // TODO Move this to multiplayerpanel so it gets the actual name of hte opponent
 
         window.gamePanel.boardPanel.gameResultOverlay.setMessage("Game Drawn");
     }

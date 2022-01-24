@@ -38,6 +38,8 @@ public class UserInterface {
     public static final Color FRAME_COLOUR = new Color(41, 43, 45);
     public static final Color TEXT_COLOUR = new Color(250, 250, 250);
 
+    public static final Color TRANSPARENT = new Color(0, 0, 0, 0);
+
     // Navbar
     public static final Color NAVBAR_COLOUR = new Color(26,26,27);
     public static final Color NAVBAR_BUTTON_HOVER_COLOUR = new Color(38,39,39);

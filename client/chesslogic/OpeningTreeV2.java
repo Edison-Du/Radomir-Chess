@@ -15,17 +15,20 @@ public class OpeningTreeV2 {
     Node head;
     Node current;
     Random r;
+    int depth;
     
     public OpeningTreeV2() {
         this.head = new Node(null, null);
         this.current = this.head;
+        this.depth = 1;
         r = new Random();
         try {
             Scanner in = new Scanner(new File(PathsConsts.OPENING_FILE_TWO));
             String curLine;
             while(in.hasNext()) {
                 curLine = in.nextLine();
-                if(curLine.substring(0, 1).equals("{")) {
+                if(curLine.length() == 0) { }
+                else if(curLine.substring(0, 1).equals("{")) {
                     this.current.push(curLine.substring(1, 6));
                     this.nextMove(curLine.substring(1, 6));
                     if(curLine.length() > 6 && curLine.substring(6, 7).equals("}")) {
@@ -36,12 +39,16 @@ public class OpeningTreeV2 {
                     prevMove();
                 }
             }
+            if(this.current != this.head) {
+                System.out.println("BAAAAAAAAAAAAAAAAAD!!!!!!!!!!!!!!!!");
+            }
         } catch (Exception e) { e.printStackTrace(); }
     }
     
     public boolean nextMove(String next) {
         if(this.current.contains(next)) {
             this.current = this.current.getNext(next);
+            this.depth++;
             return true;
         }
         return false;
@@ -58,12 +65,14 @@ public class OpeningTreeV2 {
     public boolean prevMove() {
         if(this.current != this.head) {
             this.current = this.current.getPrev();
+            this.depth--;
             return true;
         }
         return false;
     }
     
     public String getData() {
+        System.out.println(current);
         return this.current.getData();
     }
     
@@ -80,6 +89,11 @@ public class OpeningTreeV2 {
     
     public void reset() {
         this.current = this.head;
+        this.depth = 1;
+    }
+    
+    public int depth() {
+        return this.depth;
     }
     
     private class Node {

@@ -46,28 +46,62 @@ public class RadomirBot extends Bot {
     }
     
     public String nextMove(ChessGame g) {
+        System.out.println("Opening depth: " + opening.depth());
+        System.out.println("Game depth: " + g.getCurrentPos().getTurn());
+        System.out.println("isOpening: " + isOpening);
+        if(g.getStringMoves().isEmpty()) {
+            isOpening = true;
+        }
+        else if(opening.depth() >= g.getCurrentPos().getTurn()) {
+            System.out.println("in loop");
+            for(int i = opening.depth(); i >= g.getCurrentPos().getTurn(); i--) {
+                opening.prevMove();
+            }
+            if(opening.getData() != null) {
+                System.out.println("Current move: " + opening.getData());
+            }
+            System.out.println("Next openings: " + opening.getNextMoves());
+            System.out.println("Move to check: " + g.getStringMoves().peek().substring(0, 4));
+            if(opening.hasNext(g.getStringMoves().peek().substring(0, 4) + " ")) {
+                isOpening = true;
+                System.out.println("true");
+            }
+            else {
+                isOpening = false;
+                System.out.println("false");
+            }
+            System.out.println("out of loop");
+        }
+        
         if(isOpening) {
+            System.out.println("checking openings");
             if(g.getStringMoves().isEmpty()) { //occurs only if bot is white
+                System.out.println("it is turn 1");
                 return opening.getRandomMove();
             }
             else {
+                System.out.println("it is not turn 1");
                 String prevMove = g.getStringMoves().peek().substring(0, 4) + " ";
+                System.out.println(prevMove);
                 if(!opening.hasNext()) {
                     isOpening = false;
-                    opening.reset();
+                    System.out.println("this node is a leaf");
                 }
                 else if(!opening.hasNext(prevMove)) {
                     isOpening = false;
-                    opening.reset();
+                    System.out.println("this node does not contain " + prevMove);
+                    System.out.println("Available moves: " + opening.getNextMoves());
                 }
                 else {
                     opening.nextMove(prevMove);
+                    System.out.println("this move works");
                     if(opening.hasNext()) {
+                        System.out.println("Found in opening database, ending search");
                         return opening.getRandomMove();
                     }
                     else {
+                        System.out.println("This move is a leaf");
                         isOpening = false;
-                        opening.reset();
                     }
                 }
             }

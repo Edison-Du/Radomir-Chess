@@ -33,6 +33,7 @@ public class NavigationBar extends JPanel {
 
 
     private JLabel playersOnlineLabel;
+    private boolean numPlayersOdd;
     private JLabel usernameLabel;
     private String username;
     
@@ -72,6 +73,7 @@ public class NavigationBar extends JPanel {
         this.playersOnlineLabel.setBorder(UserInterface.FONT_OFFSET_BORDER);
         this.playersOnlineLabel.setFont(UserInterface.orkney18);
         this.add(playersOnlineLabel);
+        this.numPlayersOdd = false;
 
         this.usernameLabel = new JLabel();
         this.usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
@@ -96,7 +98,12 @@ public class NavigationBar extends JPanel {
         g.setColor(UserInterface.NAVBAR_BUTTON_HOVER_COLOUR.brighter());
         g.fillRect(0, UserInterface.WINDOW_HEIGHT - 70, UserInterface.NAVBAR_WIDTH, 70);
         g.setColor(UserInterface.PLAYERS_ONLINE_COLOR);
-        g.fillOval(UserInterface.NAVBAR_LABEL_X, UserInterface.PLAYERS_ONLINE_Y + 5, UserInterface.PLAYERS_ONLINE_RADIUS, UserInterface.PLAYERS_ONLINE_RADIUS);
+        if(numPlayersOdd) {
+            g.drawOval(UserInterface.NAVBAR_LABEL_X, UserInterface.PLAYERS_ONLINE_Y + 5, UserInterface.PLAYERS_ONLINE_RADIUS, UserInterface.PLAYERS_ONLINE_RADIUS);
+            g.fillArc(UserInterface.NAVBAR_LABEL_X, UserInterface.PLAYERS_ONLINE_Y + 5, UserInterface.PLAYERS_ONLINE_RADIUS, UserInterface.PLAYERS_ONLINE_RADIUS, 90, 180);
+        } else {
+            g.fillOval(UserInterface.NAVBAR_LABEL_X, UserInterface.PLAYERS_ONLINE_Y + 5, UserInterface.PLAYERS_ONLINE_RADIUS, UserInterface.PLAYERS_ONLINE_RADIUS);
+        }
         this.revalidate();
         this.repaint();
     }
@@ -130,6 +137,11 @@ public class NavigationBar extends JPanel {
             this.playersOnlineLabel.setText(numPlayers + " player online");
         } else {
             this.playersOnlineLabel.setText(numPlayers + " players online");
+        }
+        if(numPlayers % 2 == 1) {
+            numPlayersOdd = true;
+        } else {
+            numPlayersOdd = false;
         }
     }
 

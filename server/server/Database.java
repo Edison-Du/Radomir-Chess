@@ -9,56 +9,62 @@ import java.io.*;
 
 
 public class Database {
-    private HashMap<String, User> storage = new HashMap<String, User>();
+    private final int SETTINGS_INDEX = 2;
+    private HashMap<String, User> users;
     private File data;
     
     public Database() {
+        int[] settingsPreferences = new int[Consts.NUM_SETTINGS];
+
+        users = new HashMap<String, User>();
+        data = new File(PathConsts.USERS);
+
         try {
-            int[] settingsPreferences = new int[Consts.NUM_SETTINGS];
-            data = new File(PathConsts.USERS);
             Scanner in = new Scanner(data);
             while (in.hasNextLine()) {
-                String username = in.next();
-                String password = in.next();
+                String[] line = in.nextLine().split(" ");
+                String username = line[0];
+                String password = line[1];
 
                 for (int i = 0; i < Consts.NUM_SETTINGS; i++) {
-                    settingsPreferences[i] = Integer.parseInt(in.next());
+                    settingsPreferences[i] = Integer.parseInt(line[i + SETTINGS_INDEX]);
                 }
 
-                storage.put(username, new User(username, password, settingsPreferences));
+                users.put(username, new User(username, password, settingsPreferences));
             }
             in.close();
+            
         } catch (FileNotFoundException e) {
-            System.out.println("Database not found");
+            System.out.println("Database file not found");
             e.printStackTrace();
         }
     }
 
     public boolean addUser(String username, User user) {
-        if (this.storage.containsKey(username)) return false;
+        if (this.users.containsKey(username)) return false;
         else {
-            this.storage.put(username, user);
+            this.users.put(username, user);
             return true;
         }
     }
 
     public boolean validateUser(String username, String password){
-        if (!this.storage.containsKey(username)) return false;
-        else if (this.storage.get(username).getPassword().equals(password)) return true;
+        if (!this.users.containsKey(username)) return false;
+        else if (this.users.get(username).getPassword().equals(password)) return true;
         System.out.println("Started from the bottom now im here");
         return false;
     }
 
     public User getUser(String username) {
-        return this.storage.get(username);
+        return this.users.get(username);
     }
 
     public void updatePreferences(String username, int[] settings) {
-        User updatedUser = new User(username, this.storage.get(username).getPassword(), settings);
-        this.storage.replace(username, updatedUser);
+        User updatedUser = new User(username, this.users.get(username).getPassword(), settings);
+        this.users.replace(username, updatedUser);
     }
 
-    public HashMap<String, User> getData() {
-        return this.storage;
+    public HashMap<String, User> getUsers() {
+        return this.users;
     }
 }

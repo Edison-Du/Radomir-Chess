@@ -7,13 +7,11 @@ import java.util.HashMap;
 
 public class ShutdownHook extends Thread {
 
-    Server server;
-    HashMap<String, User> database;
-    FileWriter fileWriter;
+    private HashMap<String, User> database;
+    private FileWriter fileWriter;
 
     public ShutdownHook(Server server) {
-        this.server = server;
-        this.database = server.getDatabase().getData();
+        this.database = server.getDatabase().getUsers();
     }
 
     @Override
@@ -21,15 +19,9 @@ public class ShutdownHook extends Thread {
         // Saves user data before shutting down
         try {
             fileWriter = new FileWriter(PathConsts.USERS);
-            int numAccounts = database.size();
             synchronized(database) {
                 for (Map.Entry<String, User> user : database.entrySet()) {
-                    if (numAccounts == 0) {
-                        fileWriter.write(user.getValue().toString().trim());
-                    } else {
-                        fileWriter.write(user.getValue().toString());
-                    }
-                    numAccounts--;
+                    fileWriter.write(user.getValue().toString());
                 }
                 fileWriter.close();
             }

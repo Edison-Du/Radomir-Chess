@@ -51,6 +51,9 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.GAME_CREATED)) { 
             createGame(message);
 
+        } else if (message.getType().equals(MessageTypes.CREATE_ERROR)) { 
+            processGameCreationError();
+
         } else if (message.getType().equals(MessageTypes.JOINED_GAME)) {
             joinGame(message);
 
@@ -139,6 +142,10 @@ public class ConnectionHandler extends Thread {
         window.joinGamePanel.displayError(message.getParam(0));
     }
     
+    public void processGameCreationError() {
+        window.gameSetupPanel.displayError();
+    }
+    
     public void processWhiteCheckmate(Message message) {
         window.gamePanel.setGameState(GameState.WHITE_VICTORY_CHECKMATE);
         window.gamePanel.boardPanel.gameResultOverlay.setMessage("White wins by checkmate");
@@ -198,10 +205,10 @@ public class ConnectionHandler extends Thread {
         window.setInGame(true);
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setClient(clientName);
-        window.gamePanel.setHost(true);
 
         window.gamePanel.resetGame();
         window.gamePanel.resetChat();
+        window.changePage(Page.GAME);
     }
 
     public void joinGame(Message message) {
@@ -213,7 +220,7 @@ public class ConnectionHandler extends Thread {
         window.setInGame(true);
         window.gamePanel.setLobbyCode(code);
         window.gamePanel.setClient(clientName);
-        window.gamePanel.setHost(false);
+
         window.gamePanel.addOther(hostName);
         window.gamePanel.setLobbyVisibility(visibility);
 
@@ -232,9 +239,8 @@ public class ConnectionHandler extends Thread {
     }
 
     public void opponentLeft(Message message) {
-        // TODO Move this to multiplayerpanel so it gets the actual name of hte opponent
-        window.gamePanel.messagePanel.addTextMessage("Opponent has left lobby");
-
+        String opponentName = window.gamePanel.getOpponent();
+        window.gamePanel.messagePanel.addTextMessage(opponentName + " has left the lobby.");
 
         if (window.gamePanel.getGameState() == GameState.ONGOING) {
             processOpponentResignation();

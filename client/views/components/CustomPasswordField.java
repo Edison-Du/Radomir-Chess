@@ -13,7 +13,7 @@ public class CustomPasswordField extends JPasswordField{
     // private
 
     public CustomPasswordField() {
-        this.placeholder = "";   
+        this.placeholder = "";
     }
 
     public CustomPasswordField(String placeholder) {

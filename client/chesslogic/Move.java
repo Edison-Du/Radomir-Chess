@@ -1,7 +1,5 @@
 package chesslogic;
 
-import java.util.Comparator;
-
 class Move implements Comparable<Move> {
 
     String move;

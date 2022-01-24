@@ -1,6 +1,5 @@
 package views.chess;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -70,9 +69,6 @@ public class ChessBoardPanel extends ContentPanel {
     
     public void makeOpponentMove(String t1, String t2, String p) {
         String move = game.toAlgebraic(t1, t2, p);
-
-        int posX = (t2.charAt(0) - 'a');
-        int posY = (t2.charAt(1) - '0') - 1;
 
         gamePanel.movesPanel.addMove(move);
 

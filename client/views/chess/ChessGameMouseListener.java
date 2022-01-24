@@ -12,7 +12,6 @@ import views.pages.AbstractGamePanel;
 
 import java.awt.image.BufferedImage;
 
-import config.PathsConsts;
 import sounds.SoundEffect;
 
 public class ChessGameMouseListener implements MouseListener, MouseMotionListener {

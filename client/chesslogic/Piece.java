@@ -8,15 +8,8 @@ package chesslogic;
 
 import java.util.HashSet;
 
-import javax.imageio.ImageIO;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.Buffer;
-
-import config.PathsConsts;
 import config.UserInterface;
 
 public abstract class Piece {
@@ -24,7 +17,6 @@ public abstract class Piece {
     private int turnMoved;
     private String name;
     private BufferedImage[] images;
-    private Image smallImages[];
     private int points;
     
     /**
@@ -36,10 +28,8 @@ public abstract class Piece {
         this.colour = col;
         this.name = name;
         this.images = new BufferedImage[UserInterface.NUM_SETS];
-        this.smallImages = new Image[UserInterface.NUM_SETS];
         for (int i = 0; i < UserInterface.NUM_SETS; i++) {
             this.images[i] = images[i];
-            this.smallImages[i] = images[i].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST);
         }
         this.turnMoved = 0;
         this.points = points;
@@ -113,10 +103,6 @@ public abstract class Piece {
      */
     public void setMoved(int turn) {
         this.turnMoved = turn;
-    }
-
-    public Image getSmallImage() {
-        return smallImages[UserInterface.activeSetNum];
     }
     
     public String toString() {

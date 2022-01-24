@@ -1,7 +1,6 @@
 package views.chess;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import config.UserInterface;

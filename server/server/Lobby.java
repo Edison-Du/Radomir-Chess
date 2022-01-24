@@ -1,8 +1,6 @@
-package game;
+package server;
 
 import config.MessageTypes;
-import server.ClientHandler;
-import server.Message;
 
 public class Lobby {
     

@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import config.MessageTypes;
-import game.Lobby;
 
 public class LobbyManager {
     private final int MIN_CODE = 1000;

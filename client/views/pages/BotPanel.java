@@ -49,11 +49,7 @@ public class BotPanel extends AbstractGamePanel {
 
         setPlayerColour((int)(Math.random() * 2));
 
-<<<<<<< HEAD
-        depthSearchBot = new DepthSearchBotP2(1, (getPlayerColour() + 1) % 2);
-=======
         depthSearchBot = new DepthSearchBotP2(5, (getPlayerColour() + 1) % 2);
->>>>>>> 98c5df3008dabfe06ce80b58689186e377daf7bf
 
         // Bot goes first
         if (getPlayerColour() == 1) {

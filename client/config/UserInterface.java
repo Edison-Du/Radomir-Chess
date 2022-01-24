@@ -3,6 +3,7 @@ package config;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.BasicStroke;
+import java.awt.Rectangle;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
@@ -38,15 +39,28 @@ public class UserInterface {
     public static final Color FRAME_COLOUR = new Color(41, 43, 45);
     public static final Color TEXT_COLOUR = new Color(250, 250, 250);
 
+    public static final Color TRANSPARENT = new Color(0, 0, 0, 0);
+
     // Navbar
     public static final Color NAVBAR_COLOUR = new Color(26,26,27);
     public static final Color NAVBAR_BUTTON_HOVER_COLOUR = new Color(38,39,39);
     public static final Border NAVBAR_BUTTON_MARGIN = new EmptyBorder(5, 30, 0, 0);
     public static final Border NAVBAR_BUTTON_HOVER_MARGIN = new EmptyBorder(5, 45, 0, 0);
-
-    // wtf is this lol
     public static final String GUEST = "Guest";
     public static final Font USERNAME_FONT = new Font("Arial", Font.PLAIN, 20);
+    public static final int NAVBAR_LABEL_WIDTH = 200;
+    public static final int NAVBAR_LABEL_HEIGHT = 25;
+    public static final int NAVBAR_LABEL_X = 30;
+    public static final int USERNAME_Y = UserInterface.WINDOW_HEIGHT - 47;
+    public static final int PLAYERS_ONLINE_Y = UserInterface.WINDOW_HEIGHT - 123;
+
+    //Content panel
+    public static final int BACKGROUND_LOGO_X = CONTENT_WIDTH / 2 - 180;
+    public static final int BACKGROUND_LOGO_Y = WINDOW_HEIGHT / 2 - 280;
+    public static final int LOGO_WIDTH = 360;
+    public static final int LOGO_HEIGHT = 560;
+
+    public static final Rectangle TITLE_BOUNDS = new Rectangle(30, 30, 210, 50);
 
     // Play page
     public static final int MENU_BUTTON_MARGIN = 40;
@@ -54,6 +68,11 @@ public class UserInterface {
     public static final int MENU_BUTTON_HEIGHT = WINDOW_HEIGHT / 4 - (int) (MENU_BUTTON_MARGIN * 1.5);
     public static final int MENU_BUTTON_WIDTH = CONTENT_WIDTH / 2 - (int) (MENU_BUTTON_MARGIN * 1.5);
 
+    //Panel Button
+    public static final int PANEL_BUTTON_WIDTH = 280;
+    public static final int PANEL_BUTTON_HEIGHT = 60;
+    public static final EmptyBorder PANEL_BUTTON_BORDER = new EmptyBorder(10, 0, 0, 0);
+    
     // Join game page
     public static final int BACK_BUTTON_X = 20;
     public static final int BACK_BUTTON_Y = 20;
@@ -61,17 +80,26 @@ public class UserInterface {
 
 
     public static final Color JOIN_GAME_BUTTON_BACKGROUND = new Color(200, 200, 200);
-    public static final Font HEADER_FONT = new Font("Serif", Font.PLAIN, 40);
-    public static final Font TEXT_FONT_1 = new Font("Serif", Font.PLAIN, 25);
 
     public static final Color MENU_BUTTON_COLOUR = new Color(47, 78, 111);
     public static final Color MENU_BUTTON_HIGHLIGHT = MENU_BUTTON_COLOUR.brighter();
     public static final int MENU_BUTTON_RADIUS = 20;
 
     // Settings
-    public static final Font SETTINGS_FONT = new Font("Serif", Font.PLAIN, 18);
     public static final int NUM_SETTINGS = 5;
     public static boolean changeMade = false;
+    
+    //Login page
+    public static final int USERNAME_X = CONTENT_WIDTH / 2 - 140;
+    public static final int PASSWORD_X = CONTENT_WIDTH / 2 - 140;
+    public static final int USERNAME_LABEL_Y = WINDOW_HEIGHT / 2 - 160;
+    public static final int USERNAME_FIELD_Y = WINDOW_HEIGHT / 2 - 120;
+    public static final int PASSWORD_LABEL_Y = WINDOW_HEIGHT / 2 - 50;
+    public static final int PASSWORD_FIELD_Y = WINDOW_HEIGHT / 2 - 10;
+    public static final int USERNAME_WIDTH = 280;
+    public static final int PASSWORD_WIDTH = 280;
+    public static final int LOGIN_LABEL_HEIGHT = 30;
+    public static final int LOGIN_FIELD_HEIGHT = 50; 
 
     // Game board
     public static int activeTheme = 0;
@@ -276,20 +304,13 @@ public class UserInterface {
         return settings;
     }
 
-    public static void toggleLobbyVisibility(CustomButton button) {
-        highlightToggle ^= true;
-        if (highlightToggle) {
-            button.setText("Creating Public Lobby");
-        } else {
-            button.setText("Creating Private Lobby");
-        }
-    }
-
     // Fonts
     public static Font orkney;
 
     // Different sizes of fonts deriving from Orkney
     public static Font orkney12;
+    public static Font orkney14;
+    public static Font orkney16;
     public static Font orkney18;
     public static Font orkney24;
     public static Font orkney30;
@@ -301,6 +322,8 @@ public class UserInterface {
     public static void loadFonts() {
         if (readFonts()) {
             orkney12 = orkney.deriveFont(Font.PLAIN, 12);
+            orkney14 = orkney.deriveFont(Font.PLAIN, 14);
+            orkney16 = orkney.deriveFont(Font.PLAIN, 16);
             orkney18 = orkney.deriveFont(Font.PLAIN, 18);
             orkney24 = orkney.deriveFont(Font.PLAIN, 24);
             orkney30 = orkney.deriveFont(Font.PLAIN, 30);

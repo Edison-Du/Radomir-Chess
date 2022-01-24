@@ -54,7 +54,7 @@ public class Settings extends ContentPanel implements ActionListener {
         "Fuchsia"
     };
 
-    private final Rectangle TITLE_BOUNDS = new Rectangle(30, 30, 210, 50);
+    
     private final int SETTINGS_LEFT = 35;
     private final int COMBOBOX_WIDTH = 160;
     private final int COMBOBOX_HEIGHT = 37;
@@ -86,51 +86,52 @@ public class Settings extends ContentPanel implements ActionListener {
         pieceSets = new JComboBox<>(CHESS_PIECE_SETS);
         highlightThemes = new JComboBox<>(HIGHLIGHTS);
 
-        titleLabel.setFont(UserInterface.HEADER_FONT);
+        titleLabel.setFont(UserInterface.orkney36);
         titleLabel.setForeground(UserInterface.TEXT_COLOUR);
-        titleLabel.setBounds(TITLE_BOUNDS);
+        titleLabel.setBounds(UserInterface.TITLE_BOUNDS);
         this.add(titleLabel);
 
 
-        boardThemeLabel.setFont(UserInterface.SETTINGS_FONT);
+        boardThemeLabel.setFont(UserInterface.orkney18);
         boardThemeLabel.setForeground(UserInterface.TEXT_COLOUR);
         boardThemeLabel.setBounds(SETTINGS_LEFT, LABEL_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         this.add(boardThemeLabel);
 
         boardThemes.setBounds(SETTINGS_LEFT, COMBOBOX_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         boardThemes.setForeground(UserInterface.FRAME_COLOUR);
-        boardThemes.setFont(UserInterface.SETTINGS_FONT);
+        boardThemes.setFont(UserInterface.orkney18);
         boardThemes.setFocusable(false);
         boardThemes.addActionListener(this);
         this.add(boardThemes);
 
 
-        pieceSetLabel.setFont(UserInterface.SETTINGS_FONT);
+        pieceSetLabel.setFont(UserInterface.orkney18);
         pieceSetLabel.setForeground(UserInterface.TEXT_COLOUR);
         pieceSetLabel.setBounds(SETTINGS_LEFT + COMBOBOX_GAP, LABEL_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         this.add(pieceSetLabel);
 
         pieceSets.setBounds(SETTINGS_LEFT + COMBOBOX_GAP, COMBOBOX_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         pieceSets.setForeground(UserInterface.FRAME_COLOUR);
-        pieceSets.setFont(UserInterface.SETTINGS_FONT);
+        pieceSets.setFont(UserInterface.orkney18);
         pieceSets.setFocusable(false);
         pieceSets.addActionListener(this);
         this.add(pieceSets);
 
-        
-        highlightLabel.setFont(UserInterface.SETTINGS_FONT);
+        //change constant for width
+        highlightLabel.setFont(UserInterface.orkney18);
         highlightLabel.setForeground(UserInterface.TEXT_COLOUR);
-        highlightLabel.setBounds(SETTINGS_LEFT + 2*COMBOBOX_GAP, LABEL_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
+        highlightLabel.setBounds(SETTINGS_LEFT + 2*COMBOBOX_GAP, LABEL_Y, COMBOBOX_WIDTH + 60, COMBOBOX_HEIGHT);
         this.add(highlightLabel);
 
         highlightThemes.setBounds(SETTINGS_LEFT + 2*COMBOBOX_GAP, COMBOBOX_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         highlightThemes.setForeground(UserInterface.FRAME_COLOUR);
-        highlightThemes.setFont(UserInterface.SETTINGS_FONT);
+        highlightThemes.setFont(UserInterface.orkney18);
         highlightThemes.setFocusable(false);
         highlightThemes.addActionListener(this);
         this.add(highlightThemes);
 
         toggleHighlightButton.setBounds(SETTINGS_LEFT, BUTTON_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
+        toggleHighlightButton.setFont(UserInterface.orkney12);
         toggleHighlightButton.setForeground(UserInterface.TEXT_COLOUR);
         toggleHighlightButton.setBackground(UserInterface.ON_COLOUR);
         toggleHighlightButton.setHoverColor(UserInterface.ON_COLOUR.brighter());
@@ -139,6 +140,7 @@ public class Settings extends ContentPanel implements ActionListener {
         this.add(toggleHighlightButton);
 
         toggleSoundButton.setBounds(SETTINGS_LEFT + COMBOBOX_GAP, BUTTON_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
+        toggleSoundButton.setFont(UserInterface.orkney12);
         toggleSoundButton.setForeground(UserInterface.TEXT_COLOUR);
         toggleSoundButton.setBackground(UserInterface.ON_COLOUR);
         toggleSoundButton.setHoverColor(UserInterface.ON_COLOUR.brighter());

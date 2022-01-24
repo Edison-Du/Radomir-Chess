@@ -42,7 +42,7 @@ public class HomePage extends ContentPanel implements ActionListener {
 
         gameTitle.setText(UserInterface.WINDOW_TITLE);
         gameTitle.setBounds(0, 0, UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT / 2);
-        gameTitle.setFont(UserInterface.orkney.deriveFont(Font.ITALIC, TITLE_SIZE));
+        gameTitle.setFont(UserInterface.orkney.deriveFont(Font.PLAIN, TITLE_SIZE));
         gameTitle.setForeground(UserInterface.TEXT_COLOUR);
         gameTitle.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(gameTitle);

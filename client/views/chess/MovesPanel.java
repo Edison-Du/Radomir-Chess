@@ -12,13 +12,16 @@ import views.components.ContentPanel;
 
 public class MovesPanel extends ContentPanel {
     
-    String[] columnNames = {"#", "White", "Black"};
+    private final Rectangle TABLE_BOUNDS = new Rectangle(0, 0, 240, 120);
+    private final int ROW_HEIGHT = 15;
 
-    JTable table;
-    JScrollPane pane;
+    private String[] columnNames = {"#", "White", "Black"};
 
-    DefaultTableModel movesList;
-    int numMoves = 0;
+    private JTable table;
+    private JScrollPane pane;
+
+    private DefaultTableModel movesList;
+    private int numMoves = 0;
 
     public MovesPanel() {
 
@@ -29,16 +32,15 @@ public class MovesPanel extends ContentPanel {
             }
         };
 
-
         for (String column : columnNames) {
             movesList.addColumn(column);
         }
 
-        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
         table = new JTable(movesList);
 
-        table.setRowHeight(15);
+        table.setRowHeight(ROW_HEIGHT);
 
         // Table function removal
         table.getTableHeader().setReorderingAllowed(false);
@@ -59,7 +61,7 @@ public class MovesPanel extends ContentPanel {
         table.getTableHeader().setBackground(UserInterface.GAME_MOVES_HEADER_BACKGROUND);
 
         pane = new JScrollPane(table);           
-        pane.setBounds(0, 0, 240, 120);
+        pane.setBounds(TABLE_BOUNDS);
         pane.setBorder(UserInterface.EMPTY_BORDER);
         
         this.add(pane);

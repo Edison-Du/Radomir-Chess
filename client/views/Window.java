@@ -150,6 +150,7 @@ public class Window extends JFrame {
             content = aboutPanel;
             
         } else if (currentPage == Page.LOGIN) {
+            loginPanel.removeError();
             content = loginPanel;
 
         } else if (currentPage == Page.LOGOUT) {

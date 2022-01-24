@@ -1,15 +1,10 @@
 package views.pages;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JLabel;
 
 import config.GameState;
 import config.MessageTypes;
-import config.UserInterface;
-import network.Lobby;
 import network.Message;
 import network.ServerConnection;
 
@@ -22,25 +17,10 @@ public class MultiplayerPanel extends AbstractGamePanel {
     private String currentClient, otherClient;
     private boolean isAlone;
 
-    // Swing
-    private JLabel lobbyLabel;
-    private JLabel otherClientLabel;
-
 
     public MultiplayerPanel() {
 
-        // CHESS GAME
         setGameState(GameState.WAITING);
-
-        this.hostName = new JLabel();
-        this.hostName.setForeground(UserInterface.TEXT_COLOUR);
-        this.hostName.setBounds(100, 0, 400, 200);
-        this.hostName.setFont(UserInterface.USERNAME_FONT);
-        this.add(hostName);
-
-        // opponentProposalPanel = new OpponentProposalPanel(this);
-        // opponentProposalPanel.setBounds(435, 20, 165, 200);
-        // opponentProposalPanel.setProposalText("Accept draw?");
     }
 
     public void setLobbyCode(String code) {
@@ -52,7 +32,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     public void setLobbyVisibility(String visibility) {
         this.lobbyVisibility = visibility;
 
-        lobbyInfoPanel.setlobbyType(visibility + " Lobby");
+        lobbyInfoPanel.setlobbyType(visibility);
     }
 
     public void setHost(boolean isHost) {
@@ -61,8 +41,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     public void setClient(String clientName) {
         this.currentClient = clientName;
-
-
         this.playerLabel.setText(clientName);
     }
 

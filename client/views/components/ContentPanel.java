@@ -26,17 +26,15 @@ public class ContentPanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        //change
-        g.drawImage(logoImage, UserInterface.CONTENT_WIDTH / 2 - 180, UserInterface.WINDOW_HEIGHT / 2 - 280, this);
+        g.drawImage(logoImage, UserInterface.BACKGROUND_LOGO_X, UserInterface.BACKGROUND_LOGO_Y, this);
         this.revalidate();
         this.repaint();
     }
 
     public static Image getLogoImage() {
         try {
-            return ImageIO.read(new File(PathsConsts.CHESS_LOGO)).getScaledInstance(360, 560, Image.SCALE_DEFAULT);
+            return ImageIO.read(new File(PathsConsts.CHESS_LOGO)).getScaledInstance(UserInterface.LOGO_WIDTH, UserInterface.LOGO_HEIGHT, Image.SCALE_DEFAULT);
         } catch(IOException e) {
-            System.out.println("File not found");
             e.printStackTrace();
         }
         return null;

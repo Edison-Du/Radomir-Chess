@@ -12,8 +12,8 @@ public class LobbyInfoPanel extends JPanel {
 
     private final int TITLE_X = 15;
     private final int TITLE_Y = 43;
-    private final int TYPE_X = 120;
-    private final int TYPE_Y = 45;
+    private final int TYPE_X = 130;
+    private final int TYPE_Y = 35;
 
     private String lobbyTitle;
     private String lobbyType;

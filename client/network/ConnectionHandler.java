@@ -112,10 +112,10 @@ public class ConnectionHandler extends Thread {
             login(message);
 
         } else if (message.getType().equals(MessageTypes.LOGIN_FAILED)) {
-            window.loginPanel.displayLoginError();
+            handleLoginFailed();
         
         } else if (message.getType().equals(MessageTypes.REGISTER_FAILED)){
-            window.loginPanel.displayRegisterError();
+            handleRegisterFailed();
     
         } else if (message.getType().equals(MessageTypes.LOGOUT)){
             logout();
@@ -180,9 +180,16 @@ public class ConnectionHandler extends Thread {
         clientName = "Guest " + clientNum;
         window.navigationBar.setUsername(clientName);
 
-        window.loginPanel.clearError();
         window.setLoggedIn(false);
         window.changePage(Page.LOGIN);
+    }
+
+    public void handleLoginFailed() {
+        window.loginPanel.displayError("Invalid credentials");
+    }
+
+    public void handleRegisterFailed() {
+        window.loginPanel.displayError("Username is taken");
     }
 
     public void createGame(Message message) {
@@ -272,12 +279,11 @@ public class ConnectionHandler extends Thread {
     public void processOpponentResignation() {
         if (window.gamePanel.getPlayerColour() == 0) {
             window.gamePanel.setGameState(GameState.WHITE_VICTORY_RESIGN);
+            window.gamePanel.boardPanel.gameResultOverlay.setMessage("Black has resigned");
         } else {
             window.gamePanel.setGameState(GameState.BLACK_VICTORY_RESIGN);
+            window.gamePanel.boardPanel.gameResultOverlay.setMessage("White has resigned");
         }
-        // TODO Move this to multiplayerpanel so it gets the actual name of hte opponent
-
-        window.gamePanel.boardPanel.gameResultOverlay.setMessage("Your Opponent Has Resigned");
     }
 
     public void processDrawOffer() {
@@ -286,8 +292,6 @@ public class ConnectionHandler extends Thread {
 
     public void processDraw() {
         window.gamePanel.setGameState(GameState.DRAW);
-
-        // TODO Move this to multiplayerpanel so it gets the actual name of hte opponent
 
         window.gamePanel.boardPanel.gameResultOverlay.setMessage("Game Drawn");
     }

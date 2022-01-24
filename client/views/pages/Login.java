@@ -1,101 +1,126 @@
 package views.pages;
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 import config.MessageTypes;
 import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
 import views.components.ContentPanel;
+import views.components.CustomPasswordField;
+import views.components.CustomTextField;
 import views.components.PanelButton;
 
 public class Login extends ContentPanel implements ActionListener{
 
+    private final EmptyBorder TEXT_FIELD_MARGIN = new EmptyBorder(7, 5, 0, 5);
+    private final int TEXT_FIELD_PLACEHOLDER_Y = 33;
+    private final int BUTTON_X = UserInterface.CONTENT_WIDTH / 2 - 140;
+    private final int REGISTER_BUTTON_Y = UserInterface.WINDOW_HEIGHT / 2 + 90;
+    private final int LOGIN_BUTTON_Y = UserInterface.WINDOW_HEIGHT / 2 + 180;
+    private final int ERROR_LABEL_Y = UserInterface.WINDOW_HEIGHT / 2 + 50;
+    private final int ERROR_LABEL_HEIGHT = 30;
+    private final int MAX_INPUT_LENGTH = 16;
+
+
     private JLabel titleLabel = new JLabel("Login");
     private JLabel profile = new JLabel();
     private JLabel usernameLabel= new JLabel();
-    private JTextField usernameField = new JTextField();
     private JLabel passwordLabel = new JLabel();
-    private JPasswordField passwordField = new JPasswordField();
+    private JLabel errorLabel = new JLabel();
+    private CustomTextField usernameField = new CustomTextField();
+    private CustomPasswordField passwordField = new CustomPasswordField();
     private PanelButton registerButton;
     private PanelButton loginButton;
-    private JLabel errorMessage = new JLabel();
     
     public Login() {        
 
-        titleLabel.setFont(UserInterface.HEADER_FONT);
+        titleLabel.setFont(UserInterface.orkney36);
         titleLabel.setForeground(UserInterface.TEXT_COLOUR);
-        titleLabel.setBounds(30, 30, 210, 50);
+        titleLabel.setBounds(UserInterface.TITLE_BOUNDS);
         this.add(titleLabel);
         
-        profile.setFont(new Font("Serif", Font.ITALIC, 36));
+        profile.setFont(UserInterface.orkney36);
         profile.setText("Register");
         this.add(profile);
 
-        usernameLabel.setFont(UserInterface.TEXT_FONT_1);
-        usernameLabel.setText("Username: ");
+        usernameLabel.setFont(UserInterface.orkney24);
+        usernameLabel.setText("Username");
         usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
-        usernameLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 160, 280, 30);
+        usernameLabel.setBounds(
+            UserInterface.USERNAME_X,
+            UserInterface.USERNAME_LABEL_Y,
+            UserInterface.USERNAME_WIDTH,
+            UserInterface.LOGIN_LABEL_HEIGHT
+        );
         this.add(usernameLabel);
 
-        usernameField.setFont(UserInterface.TEXT_FONT_1);
-        usernameField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 110, 280, 30);
+        usernameField.setFont(UserInterface.orkney24);
+        usernameField.setPlaceholder("Enter Username");
+        usernameField.setFont(UserInterface.orkney24);
+        usernameField.setBorder(TEXT_FIELD_MARGIN);
+        usernameField.setPlaceholderY(TEXT_FIELD_PLACEHOLDER_Y);
+        usernameField.setBounds(
+            UserInterface.USERNAME_X,
+            UserInterface.USERNAME_FIELD_Y,
+            UserInterface.USERNAME_WIDTH,
+            UserInterface.LOGIN_FIELD_HEIGHT
+        );
         usernameField.addActionListener(this);
         this.add(usernameField);
 
-        passwordLabel.setFont(UserInterface.TEXT_FONT_1);
-        passwordLabel.setText("Password: ");
+        passwordLabel.setFont(UserInterface.orkney24);
+        passwordLabel.setText("Password");
         passwordLabel.setForeground(UserInterface.TEXT_COLOUR);
-        passwordLabel.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 60, 280, 30);
+        passwordLabel.setBounds(
+            UserInterface.PASSWORD_X,
+            UserInterface.PASSWORD_LABEL_Y,
+            UserInterface.PASSWORD_WIDTH,
+            UserInterface.LOGIN_LABEL_HEIGHT
+        );
         this.add(passwordLabel);
 
-        passwordField.setFont(UserInterface.TEXT_FONT_1);
-        passwordField.setBounds(UserInterface.CONTENT_WIDTH / 2 - 140, UserInterface.WINDOW_HEIGHT / 2 - 10, 280, 30);
+        passwordField.setFont(UserInterface.orkney24);
+        passwordField.setPlaceholder("Enter Password");
+        passwordField.setFont(UserInterface.orkney24);
+        passwordField.setBorder(TEXT_FIELD_MARGIN);
+        passwordField.setPlaceholderY(TEXT_FIELD_PLACEHOLDER_Y);
+        passwordField.setBounds(
+            UserInterface.PASSWORD_X,
+            UserInterface.PASSWORD_FIELD_Y,
+            UserInterface.PASSWORD_WIDTH,
+            UserInterface.LOGIN_FIELD_HEIGHT
+        );
         passwordField.addActionListener(this);
         this.add(passwordField);
 
-        registerButton = new PanelButton(
-            "Register",
-            UserInterface.CONTENT_WIDTH / 2 - 140,
-            UserInterface.WINDOW_HEIGHT / 2 + 50
-        );
+
+        registerButton = new PanelButton("Register", BUTTON_X, REGISTER_BUTTON_Y);
         registerButton.addActionListener(this);
         this.add(registerButton);
 
-        //change constants
-        loginButton = new PanelButton(
-            "Login",
-            UserInterface.CONTENT_WIDTH / 2 - 140,
-            UserInterface.WINDOW_HEIGHT / 2 + 140
-        );
+
+        loginButton = new PanelButton("Login", BUTTON_X, LOGIN_BUTTON_Y);
         loginButton.addActionListener(this);
         this.add(loginButton);
 
-        errorMessage.setForeground(UserInterface.TEXT_COLOUR);
-        errorMessage.setBounds(UserInterface.CONTENT_WIDTH / 2 - 75, 500, 500, 100);
-        this.add(errorMessage);
+        errorLabel.setFont(UserInterface.orkney18);
+        errorLabel.setForeground(UserInterface.ERROR_COLOUR);
+        errorLabel.setBounds(BUTTON_X, ERROR_LABEL_Y, UserInterface.USERNAME_WIDTH, ERROR_LABEL_HEIGHT);
     }
 
-    public void displayLoginError(){
-        errorMessage.setText("Hey man your username or password is incorrect. Are you mentally slow or something?");
+    public void displayError(String errorMessage) {
+        errorLabel.setText(errorMessage);
+        this.add(errorLabel);
+        this.revalidate();
     }
 
-    public void displayRegisterError(){
-        errorMessage.setText("Username is taken u dumbdumb");
-    }
-
-    public void displayInputError(){
-        errorMessage.setText("Alright buddy only numbers or letters allowed");
-    }
-
-    public void clearError(){
-        errorMessage.setText("");
+    public void removeError() {
+        this.remove(errorLabel);
     }
 
     public void actionPerformed(ActionEvent e){
@@ -119,12 +144,14 @@ public class Login extends ContentPanel implements ActionListener{
                 ServerConnection.sendMessage(m);
             }
         } else {
-            displayInputError();
+            displayError("Invalid characters used");
         }
     }
 
     public boolean validateInput(String input){
-        if (input.length() > 16 || input.length() < 1) return false;
+        if (input.length() > MAX_INPUT_LENGTH || input.length() < 1) {
+            return false;
+        }
         for (int i = 0; i < input.length(); i++){
             Character c = input.charAt(i);
             if (!Character.isDigit(c) && !Character.isLetter(c)){

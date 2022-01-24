@@ -24,6 +24,7 @@ public class MessagePanel extends ContentPanel implements ActionListener {
     private final EmptyBorder MESSAGE_FIELD_MARGIN = new EmptyBorder(5, 10, 0, 10);
     private final int MESSAGE_PANEL_HEIGHT = 270;
     private final int MESSAGE_FIELD_HEIGHT = 30;
+    private final int MESSAGE_FIELD_PLACEHOLDER_Y = 20;
 
     private CustomTextField messageField;
     private DefaultListModel<String> allTexts = new DefaultListModel<>();
@@ -57,7 +58,7 @@ public class MessagePanel extends ContentPanel implements ActionListener {
 
         // Text field to enter messages
         messageField = new CustomTextField("Send message");
-        messageField.setPlaceholderY(20);
+        messageField.setPlaceholderY(MESSAGE_FIELD_PLACEHOLDER_Y);
         messageField.setFont(UserInterface.orkney12);
         messageField.setBounds(0, MESSAGE_PANEL_HEIGHT, UserInterface.GAME_SIDE_PANEL_WIDTH, MESSAGE_FIELD_HEIGHT);
         messageField.setBackground(UserInterface.GAME_SIDE_HIGHLIGHT_COLOR);

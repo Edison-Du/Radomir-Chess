@@ -14,8 +14,8 @@ import config.Page;
 
 /**
  * [BotGameSetup.java]
- * 
- * @author
+ * Page where user selects difficulty level of 
+ * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
 public class BotGameSetup extends ContentPanel implements ActionListener {
@@ -28,7 +28,6 @@ public class BotGameSetup extends ContentPanel implements ActionListener {
     private final int EASY_BUTTON_Y = 340;
     private final int MEDIUM_BUTTON_Y = 430;
     private final int HARD_BUTTON_Y = 520;
-    private final int CREATE_ERROR_Y = INSTRUCTION_LABEL_Y + 30;
     private final int EASY_DEPTH = 1;
     private final int MEDIUM_DEPTH = 3;
     private final int HARD_DEPTH = 5;
@@ -38,7 +37,6 @@ public class BotGameSetup extends ContentPanel implements ActionListener {
 
     private Window window;
     private JLabel instructionsLabel = new JLabel();
-    private JLabel createErrorLabel = new JLabel("Failed to create lobby");
     private PanelButton createLowDepthGameBtn;
     private PanelButton createMediumDepthGameBtn;
     private PanelButton createHighDepthGameBtn;
@@ -82,12 +80,8 @@ public class BotGameSetup extends ContentPanel implements ActionListener {
         this.backButton.addActionListener(this);
         this.add(backButton);
 
-        // Error
-        createErrorLabel.setFont(UserInterface.orkney18);
-        createErrorLabel.setForeground(UserInterface.ERROR_COLOUR);
-        createErrorLabel.setBounds(INSTRUCTION_LABEL_X, CREATE_ERROR_Y, INSTRUCTION_LABEL_WIDTH, INSTRUCTION_LABEL_HEIGHT);
-
     }
+
 
     /**
      * actionPerformed

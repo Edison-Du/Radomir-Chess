@@ -178,8 +178,8 @@ public class ConnectionHandler extends Thread {
 
     /**
      * login
-     * Logs the user in,
-     * @param message
+     * Logs the user in, keeping track of their username and setting preferences
+     * @param message message containing the user's data
      */
     public void login(Message message){
         clientName = message.getParam(0);
@@ -195,14 +195,26 @@ public class ConnectionHandler extends Thread {
         window.changePage(Page.PLAY);
     }
 
+    /**
+     * handleLoginFailed
+     * Displays an error on the login page for failed login
+     */
     public void handleLoginFailed() {
         window.loginPanel.displayError("Invalid credentials");
     }
 
+    /**
+     * handleRegisterFailed
+     * Displays an error on the register page for failed register
+     */
     public void handleRegisterFailed() {
         window.loginPanel.displayError("Username is taken");
     }
 
+    /**
+     * logout
+     * Logs out the user, remove their username
+     */
     public void logout() {
         clientName = "Guest " + clientNum;
         window.navigationBar.setUsername(clientName);
@@ -211,45 +223,11 @@ public class ConnectionHandler extends Thread {
         window.changePage(Page.LOGIN);
     }
 
-
-
-
-
-
-
-    public void processJoinError(Message message) {
-        window.joinGamePanel.displayError(message.getParam(0));
-    }
-    
-    public void processGameCreationError() {
-        window.gameSetupPanel.displayError();
-    }
-    
-    public void processWhiteCheckmate(Message message) {
-        window.gamePanel.setGameState(GameState.WHITE_VICTORY_CHECKMATE);
-        window.gamePanel.boardPanel.gameResultOverlay.setMessage("White wins by checkmate");
-    }
-
-    public void processBlackCheckmate(Message message) {
-        window.gamePanel.setGameState(GameState.BLACK_VICTORY_CHECKMATE);
-        window.gamePanel.boardPanel.gameResultOverlay.setMessage("Black wins by checkmate");
-    }
-
-    public void processStalemate() {
-        window.gamePanel.setGameState(GameState.STALEMATE);
-        window.gamePanel.boardPanel.gameResultOverlay.setMessage("Stalemate");
-    }
-
-    public void processTakebackRequest(){
-        window.gamePanel.addTakebackRequest();
-    }
-
-    public void processTakebackAcceptance(){
-        window.gamePanel.performTakeback();
-    }
-
-
-
+    /**
+     * createGame
+     * Creates a new multiplayer game for the user, resetting the game panel
+     * @param message the message containing the lobby code
+     */
     public void createGame(Message message) {
         String code = message.getParam(0);
 
@@ -261,6 +239,12 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.resetChat();
         window.gamePanel.setGameState(GameState.WAITING);
         window.changePage(Page.GAME);
+    }
+
+
+
+    public void processGameCreationError() {
+        window.gameSetupPanel.displayError();
     }
 
     public void joinGame(Message message) {
@@ -280,6 +264,19 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.resetChat();
     }
 
+
+
+    public void processJoinError(Message message) {
+        window.joinGamePanel.displayError(message.getParam(0));
+    }
+    
+
+    public void leaveGame(Message message) {
+        window.setInGame(false);
+        window.changePage(Page.PLAY);
+    }
+
+
     public void guestJoined(Message message) {
         String guestName = message.getParam(0);
 
@@ -289,6 +286,7 @@ public class ConnectionHandler extends Thread {
 
         window.gamePanel.addOther(guestName);
     }
+    
 
     public void opponentLeft(Message message) {
         String opponentName = window.gamePanel.getOpponent();
@@ -304,19 +302,16 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.setAlone(true);
     }
 
-    public void leaveGame(Message message) {
-        window.setInGame(false);
-        window.changePage(Page.PLAY);
-    }
-
-    public void processPlayAgain() {
-        window.gamePanel.setOpponentPlayAgain(true);
-    }
 
     public void setPlayerColour(Message message) {
         int colour = Integer.parseInt(message.getParam(0));
-        
         window.gamePanel.setPlayerColour(colour);
+    }
+
+
+    public void addTextMessage(Message message) {
+        String text = message.getParam(0);
+        window.gamePanel.addMessageFromOther(text);
     }
 
     public void processOpponentChessMove(Message message) {
@@ -334,6 +329,24 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.boardPanel.makeOpponentMove(t1, t2, p);
     }
 
+
+
+    
+    public void processWhiteCheckmate(Message message) {
+        window.gamePanel.setGameState(GameState.WHITE_VICTORY_CHECKMATE);
+        window.gamePanel.boardPanel.gameResultOverlay.setMessage("White wins by checkmate");
+    }
+
+    public void processBlackCheckmate(Message message) {
+        window.gamePanel.setGameState(GameState.BLACK_VICTORY_CHECKMATE);
+        window.gamePanel.boardPanel.gameResultOverlay.setMessage("Black wins by checkmate");
+    }
+
+    public void processStalemate() {
+        window.gamePanel.setGameState(GameState.STALEMATE);
+        window.gamePanel.boardPanel.gameResultOverlay.setMessage("Stalemate");
+    }
+
     public void processOpponentResignation() {
         if (window.gamePanel.getPlayerColour() == 0) {
             window.gamePanel.setGameState(GameState.WHITE_VICTORY_RESIGN);
@@ -343,6 +356,16 @@ public class ConnectionHandler extends Thread {
             window.gamePanel.boardPanel.gameResultOverlay.setMessage("White has resigned");
         }
     }
+
+
+    public void processTakebackRequest(){
+        window.gamePanel.addTakebackRequest();
+    }
+
+    public void processTakebackAcceptance(){
+        window.gamePanel.performTakeback();
+    }
+
 
     public void processDrawOffer() {
         window.gamePanel.addDrawOffer();
@@ -354,10 +377,15 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.boardPanel.gameResultOverlay.setMessage("Game Drawn");
     }
 
-    public void addTextMessage(Message message) {
-        String text = message.getParam(0);
-        window.gamePanel.addMessageFromOther(text);
+
+
+
+
+    public void processPlayAgain() {
+        window.gamePanel.setOpponentPlayAgain(true);
     }
+
+
 
     public void displayLobbies(Message message) {
         ArrayList<Lobby> lobbies = new ArrayList<>();

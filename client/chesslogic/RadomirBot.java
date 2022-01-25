@@ -119,7 +119,7 @@ public class RadomirBot extends Bot {
             partition.get(i%numThreads).add(moves.get(i));
         }
         for(int i = 0; i < numThreads && i < moves.size(); i++) {
-            runnables[i] = new RunSearch(g.copy(), this.depth, partition.get(i), this.myMoves, this.myScores, i, this.directionXOne, this.directionYOne, this.directionXTwo, this.directionYTwo);
+            runnables[i] = new RunSearch(this, g.copy(), this.depth, partition.get(i), this.myMoves, this.myScores, i, this.directionXOne, this.directionYOne, this.directionXTwo, this.directionYTwo);
             threads[i] = new Thread(runnables[i]);
             threads[i].start();
         }

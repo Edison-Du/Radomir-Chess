@@ -105,7 +105,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                         selectedPiece = game.getCurrentPos().getTiles()[posX][posY].getPiece();
                         heldPieceImage = selectedPiece.getImage();
                         isSelected = true;
-                        // System.out.print(t1);
                     }
                 }
             }

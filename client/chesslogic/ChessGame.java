@@ -97,9 +97,6 @@ public class ChessGame {
             }
             current.nextTurn();
         }
-        else {
-            System.out.println(t1 + t2 + p + " is not legal");
-        }
     }
     
     protected void setFiftyMoves(int x) {

@@ -38,7 +38,6 @@ public class BotThread extends SwingWorker<String, Void> {
                     botMove = bot.nextMove(chessGameClone);
                 }
             }
-            // System.out.println("Bot moved " + botMove.substring(0, 2) + ", " + botMove.substring(2, 4));
             if (chessGame.getCurrentPos().getToMove() != gamePanel.getPlayerColour() && 
                 gamePanel.getGameState() == GameState.ONGOING) {
                 synchronized(chessGame) {

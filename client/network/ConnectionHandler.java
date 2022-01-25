@@ -53,7 +53,6 @@ public class ConnectionHandler extends Thread {
             }
         } catch (Exception e) {
             System.out.println("Failed to receive message from server.");
-            e.printStackTrace();
         }
     }
 

@@ -95,17 +95,11 @@ public class MessagePanel extends ContentPanel implements ActionListener {
             String userMessage = messageField.getText();
             messageField.setText("");
 
-            try {
-                Message message = new Message(MessageTypes.SENT_TEXT);
-                message.addParam(userMessage);
-                ServerConnection.sendMessage(message);
+            Message message = new Message(MessageTypes.SENT_TEXT);
+            message.addParam(userMessage);
+            ServerConnection.sendMessage(message);
 
-                addTextMessage("You: " + userMessage);
-                
-            } catch(Exception ex) {
-                System.out.println("Failed to create message");
-                ex.printStackTrace();
-            }
+            addTextMessage("You: " + userMessage);
         }
     } 
 }

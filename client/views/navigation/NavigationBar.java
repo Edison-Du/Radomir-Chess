@@ -153,7 +153,7 @@ public class NavigationBar extends JPanel {
         try {
             return ImageIO.read(new File(PathConsts.NAVBAR_HEADER));
         } catch(Exception e) {
-            System.out.println("File not found");
+            System.out.println("Could not load navigation bar icon");
         }
         return null;
     }

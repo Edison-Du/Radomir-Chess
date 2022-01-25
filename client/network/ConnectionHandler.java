@@ -8,6 +8,8 @@ import views.Window;
 
 import java.util.ArrayList;
 
+import chesslogic.ChessConsts;
+
 /**
  * [ConnectionHandler.java]
  * An individual thread that manages messages received by the server
@@ -101,14 +103,14 @@ public class ConnectionHandler extends Thread {
 
         // Leaving a game
         } else if (message.getType().equals(MessageTypes.LEFT_SUCCESFULLY)) {
-            leaveGame(message);
+            leaveGame();
 
         // The opponent player leaves/joins the game ------------------------------
         } else if (message.getType().equals(MessageTypes.GUEST_JOINED)) {
             guestJoined(message);
 
         } else if (message.getType().equals(MessageTypes.OPPONENT_LEFT)) {
-            opponentLeft(message);
+            opponentLeft();
 
         // Player colour in chess game ---------------------------------------------------
         } else if (message.getType().equals(MessageTypes.PLAYER_COLOUR)) {
@@ -123,10 +125,10 @@ public class ConnectionHandler extends Thread {
 
         // Game over states ----------------------------------------------------------------
         } else if(message.getType().equals(MessageTypes.WHITE_VICTORY_CHECKMATE)) {
-            processWhiteCheckmate(message);
+            processWhiteCheckmate();
 
         } else if(message.getType().equals(MessageTypes.BLACK_VICTORY_CHECKMATE)) {
-            processBlackCheckmate(message);
+            processBlackCheckmate();
 
         } else if(message.getType().equals(MessageTypes.STALEMATE)) {
             processStalemate();
@@ -241,12 +243,20 @@ public class ConnectionHandler extends Thread {
         window.changePage(Page.GAME);
     }
 
-
-
+    /**
+     * processGameCreationError
+     * Displays an error on the game setup page for failed game creation
+     */
     public void processGameCreationError() {
         window.gameSetupPanel.displayError();
     }
 
+    /**
+     * joinGame
+     * Updates the multiplayer game panel to display information about the
+     * opponent player
+     * @param message the message containing information about the opposing player
+     */
     public void joinGame(Message message) {
         String code = message.getParam(0);
         String hostName = message.getParam(1);
@@ -264,19 +274,29 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.resetChat();
     }
 
-
-
+    /**
+     * processJoinError
+     * Displays an error on the join game page for failing to join a game
+     * @param message the message containing error details
+     */
     public void processJoinError(Message message) {
         window.joinGamePanel.displayError(message.getParam(0));
     }
     
-
-    public void leaveGame(Message message) {
+    /**
+     * leaveGame
+     * Removes the user from their current game
+     */
+    public void leaveGame() {
         window.setInGame(false);
         window.changePage(Page.PLAY);
     }
 
-
+    /**
+     * guestJoined
+     * Adds opposing player to the user's lobby
+     * @param message message containing information about the opposing player
+     */
     public void guestJoined(Message message) {
         String guestName = message.getParam(0);
 
@@ -287,8 +307,12 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.addOther(guestName);
     }
     
-
-    public void opponentLeft(Message message) {
+    /**
+     * opponentLeft
+     * Removes opposing player from the user's lobby, which
+     * counts as a resignation in the chess game
+     */
+    public void opponentLeft() {
         String opponentName = window.gamePanel.getOpponent();
         window.gamePanel.messagePanel.addTextMessage(opponentName + " has left the lobby.");
 
@@ -302,53 +326,78 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.setAlone(true);
     }
 
-
+    /**
+     * setPlayerColour
+     * Sets the colour the user is play as in the chess game
+     * @param message message containing player colour
+     */
     public void setPlayerColour(Message message) {
         int colour = Integer.parseInt(message.getParam(0));
         window.gamePanel.setPlayerColour(colour);
     }
 
-
+    /**
+     * addTextMessage
+     * Adds a text message from the opponent to the chat
+     * @param message message containing text message from opponent
+     */
     public void addTextMessage(Message message) {
         String text = message.getParam(0);
         window.gamePanel.addMessageFromOther(text);
     }
 
+    /**
+     * processOpponentChessMove
+     * Makes the opponent's chess move, removing takeback proposals
+     * if there are any
+     * @param message message containing details of the opponents moves
+     */
     public void processOpponentChessMove(Message message) {
-        String t1 = message.getParam(0);
-        String t2 = message.getParam(1);
-        String p = message.getParam(2);
+        String tile1 = message.getParam(0);
+        String tile2 = message.getParam(1);
+        String promotion = message.getParam(2);
 
-        // If takeback request is active, remove it
         if (window.gamePanel.getActiveProposal() != null && 
             window.gamePanel.getActiveProposal().equals(MessageTypes.TAKEBACK_REQUESTED)) {
-            
             window.gamePanel.removeProposal();
         }
 
-        window.gamePanel.boardPanel.makeOpponentMove(t1, t2, p);
+        window.gamePanel.boardPanel.makeOpponentMove(tile1, tile2, promotion);
     }
 
-
-
-    
-    public void processWhiteCheckmate(Message message) {
+    /**
+     * processWhiteCheckmate
+     * Displays a game-over overlay in the game panel for white checkmating black
+     */
+    public void processWhiteCheckmate() {
         window.gamePanel.setGameState(GameState.WHITE_VICTORY_CHECKMATE);
         window.gamePanel.boardPanel.gameResultOverlay.setMessage("White wins by checkmate");
     }
 
-    public void processBlackCheckmate(Message message) {
+    /**
+     * processBlackCheckmate
+     * Displays a game-over overlay in the game panel for black checkmating white
+     */
+    public void processBlackCheckmate() {
         window.gamePanel.setGameState(GameState.BLACK_VICTORY_CHECKMATE);
         window.gamePanel.boardPanel.gameResultOverlay.setMessage("Black wins by checkmate");
     }
 
+    /**
+     * processStalemate
+     * Displays a game-over overlay in the game panel for stalemate
+     */
     public void processStalemate() {
         window.gamePanel.setGameState(GameState.STALEMATE);
         window.gamePanel.boardPanel.gameResultOverlay.setMessage("Stalemate");
     }
 
+    /**
+     * processOpponentResignation
+     * Displays a game-over overlay in the game panel for opponent resignation
+     */
     public void processOpponentResignation() {
-        if (window.gamePanel.getPlayerColour() == 0) {
+        if (window.gamePanel.getPlayerColour() == ChessConsts.WHITE) {
             window.gamePanel.setGameState(GameState.WHITE_VICTORY_RESIGN);
             window.gamePanel.boardPanel.gameResultOverlay.setMessage("Black has resigned");
         } else {
@@ -357,36 +406,52 @@ public class ConnectionHandler extends Thread {
         }
     }
 
-
+    /**
+     * processTakebackRequest
+     * Adds a takeback request from the opponent to the user's game panel
+     */
     public void processTakebackRequest(){
         window.gamePanel.addTakebackRequest();
     }
 
+    /**
+     * processTakebackAcceptance
+     * Undo moves on the user's chess game due to takebacks
+     */
     public void processTakebackAcceptance(){
         window.gamePanel.performTakeback();
     }
 
-
+    /**
+     * processDrawOffer
+     * Adds a draw offer from the opponent to the user's game panel
+     */
     public void processDrawOffer() {
         window.gamePanel.addDrawOffer();
     }
 
+    /**
+     * processDraw
+     * Displays a game-over overlay in the game panel for game draw
+     */
     public void processDraw() {
         window.gamePanel.setGameState(GameState.DRAW);
-
         window.gamePanel.boardPanel.gameResultOverlay.setMessage("Game Drawn");
     }
 
-
-
-
-
+    /**
+     * processPlayAgain
+     * Set a value indicating that the opponent would like to play again
+     */
     public void processPlayAgain() {
         window.gamePanel.setOpponentPlayAgain(true);
     }
 
-
-
+    /**
+     * displayLobbies
+     * Adds list of joinable lobbies for the user to see in the browse games panel
+     * @param message message containing list of lobbies
+     */
     public void displayLobbies(Message message) {
         ArrayList<Lobby> lobbies = new ArrayList<>();
         
@@ -396,11 +461,21 @@ public class ConnectionHandler extends Thread {
         window.browseGamesPanel.setLobbyList(lobbies);
     }
 
+    /**
+     * setLobbyVisibility
+     * Sets whether or not the player's lobby is public/private
+     * @param message message containing the lobby visibility
+     */
     public void setLobbyVisibility(Message message) {
         String visibility = message.getParam(0);
         window.gamePanel.setLobbyVisibility(visibility);
     }
 
+    /**
+     * setPlayersOnline
+     * Update the navigation bar display for how many players are online
+     * @param message message containing how many players are online
+     */
     public void setPlayersOnline(Message message) {
         int playersOnline = Integer.parseInt(message.getParam(0));
         window.navigationBar.setPlayersOnline(playersOnline);

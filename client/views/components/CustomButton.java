@@ -8,8 +8,9 @@ import java.awt.RenderingHints;
 
 /**
  * [CustomButton.java]
+ * A customizable JButton
  * 
- * @author
+ * @author Edison Du
  * @version 1.0 Jan 24, 2022
  */
 public class CustomButton extends JButton {
@@ -18,7 +19,11 @@ public class CustomButton extends JButton {
     private boolean isRound;
     private int borderRadius;
 
-    // Custom button constructor
+    /**
+     * CustomButton
+     * Sets intitial button settings
+     * @param text the text shown on the button
+     */
     public CustomButton (String text) {
         super(text);
         super.setContentAreaFilled(false);
@@ -28,7 +33,8 @@ public class CustomButton extends JButton {
 
     /**
      * setHoverColor
-     * @param color colour to set hover colour to
+     * Sets the colour of the button when hovered
+     * @param color the hover colour
      */
     public void setHoverColor(Color color) {
         this.hoverColor = color;
@@ -36,6 +42,7 @@ public class CustomButton extends JButton {
 
     /**
      * getHoverColor
+     * Gets the colour of the button when hovered
      * @return Color the current hover color
      */
     public Color getHoverColor() {
@@ -44,7 +51,8 @@ public class CustomButton extends JButton {
 
     /**
      * setPressedColor
-     * @param color set the pressed color
+     * Sets the colour of the button when pressed
+     * @param color the pressed colour
      */
     public void setPressedColor(Color color) {
         this.pressedColor = color;
@@ -52,7 +60,8 @@ public class CustomButton extends JButton {
 
     /**
      * getPressedColor
-     * @return Color the current pressed color
+     * Gets the colour of the button when pressed
+     * @return the pressed colour
      */
     public Color getPressedColor() {
         return this.pressedColor;
@@ -60,7 +69,8 @@ public class CustomButton extends JButton {
 
     /**
      * setRound
-     * @param isRound sets the isRound boolean
+     * Sets whether or not the button is round
+     * @param isRound whether or not the button is round
      */
     public void setRound(boolean isRound) {
         this.isRound = isRound;
@@ -68,20 +78,25 @@ public class CustomButton extends JButton {
 
     /**
      * setBorderRadius
-     * @param radius sets the radius of the border
+     * Sets the radius of the button's corners
+     * @param radius sets the radius of the button's corners
      */
     public void setBorderRadius(int radius) {
         this.borderRadius = radius;
     }
 
+    /**
+     * paintComponent
+     * Draws the custom button differently depending on if its hovered/pressed
+     * as well as if it's rounded or not
+     * @param g the graphics object to draw on
+     */
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
         
-        g2d.addRenderingHints(
-            new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-            RenderingHints.VALUE_ANTIALIAS_ON)
-        );
+        // Anti-aliasing
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Change appearance when hovered/pressed
         if (getModel().isPressed()) {
@@ -92,6 +107,7 @@ public class CustomButton extends JButton {
             g.setColor(getBackground());
         }
 
+        // Draw rounded rectangle if specified
         if (isRound) {
             g.fillRoundRect(0, 0, getWidth(), getHeight(), borderRadius, borderRadius);
         } else {

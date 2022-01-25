@@ -14,7 +14,7 @@ import config.Page;
 
 /**
  * [BotGameSetup.java]
- * Page where user selects difficulty level of 
+ * Page where user selects difficulty level of the chess engine
  * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
@@ -52,7 +52,7 @@ public class BotGameSetup extends ContentPanel implements ActionListener {
         instructionsLabel.setBounds(INSTRUCTION_LABEL_X, INSTRUCTION_LABEL_Y, INSTRUCTION_LABEL_WIDTH, INSTRUCTION_LABEL_HEIGHT);
         this.add(instructionsLabel);
 
-        createLowDepthGameBtn = new PanelButton(
+        this.createLowDepthGameBtn = new PanelButton(
             EASY_TEXT,
             BUTTON_X,
             EASY_BUTTON_Y
@@ -60,7 +60,7 @@ public class BotGameSetup extends ContentPanel implements ActionListener {
         createLowDepthGameBtn.addActionListener(this);
         this.add(createLowDepthGameBtn);
 
-        createMediumDepthGameBtn = new PanelButton(
+        this.createMediumDepthGameBtn = new PanelButton(
             MEDIUM_TEXT,
             BUTTON_X,
             MEDIUM_BUTTON_Y
@@ -68,7 +68,7 @@ public class BotGameSetup extends ContentPanel implements ActionListener {
         createMediumDepthGameBtn.addActionListener(this);
         this.add(createMediumDepthGameBtn);
 
-        createHighDepthGameBtn = new PanelButton(
+        this.createHighDepthGameBtn = new PanelButton(
             HARD_TEXT,
             BUTTON_X,
             HARD_BUTTON_Y
@@ -79,9 +79,7 @@ public class BotGameSetup extends ContentPanel implements ActionListener {
         this.backButton = new PanelButton("Back", UserInterface.BACK_BUTTON_X, UserInterface.BACK_BUTTON_Y);
         this.backButton.addActionListener(this);
         this.add(backButton);
-
     }
-
 
     /**
      * actionPerformed
@@ -107,7 +105,6 @@ public class BotGameSetup extends ContentPanel implements ActionListener {
             window.setInBotGame(true);
             window.playBotPanel.setDepth(HARD_DEPTH);
             window.changePage(Page.PLAY_BOT);     
-
         }
     }
 }

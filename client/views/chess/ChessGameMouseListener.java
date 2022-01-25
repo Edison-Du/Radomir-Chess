@@ -16,6 +16,7 @@ import sounds.SoundEffect;
 
 /**
  * [ChessGameMouseListener.java]
+ *
  * Mouse Listener for the chess board panel
  * @author Alex Zhu
  * @version 1.0 Jan 24, 2022

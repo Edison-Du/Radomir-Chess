@@ -13,7 +13,7 @@ import java.util.HashSet;
 
 import chesslogic.ChessGame;
 import chesslogic.Tile;
-import chesslogic.Constants;
+import chesslogic.ChessConsts;
 import config.PathConsts;
 import config.UserInterface;
 import sounds.SoundEffect;
@@ -22,6 +22,7 @@ import views.pages.AbstractGamePanel;
 
 /**
  * [ChessBoardPanel.java]
+ * 
  * Panel for the chess board itself
  * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
@@ -200,7 +201,7 @@ public class ChessBoardPanel extends ContentPanel {
         synchronized(possibleMoves) {
             for (String i : possibleMoves) {
                 // Determine coordinates for each colour
-                if (gamePanel.getPlayerColour() == Constants.WHITE) {
+                if (gamePanel.getPlayerColour() == ChessConsts.WHITE) {
                     xPos = (i.charAt(0) - 'a') * tileSize;
                     yPos = (8 - Character.getNumericValue(i.charAt(1))) * tileSize;
                 } else  {

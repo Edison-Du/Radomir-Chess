@@ -2,6 +2,8 @@ package network;
 
 import java.util.ArrayList;
 
+import chesslogic.ChessConsts;
+
 /**
  * [Lobby.java]
  * Class representing the lobby object that is received from the server
@@ -109,7 +111,7 @@ public class Lobby {
      * @return String colour of the host in lobby
      */
     public String getHostColourString() {
-        if (this.hostColour == 0) {
+        if (this.hostColour == ChessConsts.WHITE) {
             return "White";
         } else {
             return "Black";
@@ -155,7 +157,7 @@ public class Lobby {
      * @return String colour of the guest in lobby
      */
     public String getGuestColourString() {
-        if (this.hostColour == 0) {
+        if (this.hostColour == ChessConsts.WHITE) {
             return "Black";
         } else {
             return "White";

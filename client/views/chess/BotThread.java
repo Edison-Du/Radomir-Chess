@@ -8,6 +8,7 @@ import views.pages.BotPanel;
 
 /**
  * [BotThread.java]
+ * 
  * Uses SwingWorker to run the bot in the background
  * so that the UI is still responsive
  * @author Alex Zhu

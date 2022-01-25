@@ -39,8 +39,8 @@ public class ChessGame {
      */
     public void move(String t1, String t2, String p) {
         if(this.current.legal(t1, t2) && !(this.current.promotingMove(t1, t2) && !this.current.validPromotion(p))) {
-            int[] pos1 = Constants.chessToCoord(t1);
-            int[] pos2 = Constants.chessToCoord(t2);
+            int[] pos1 = ChessConsts.chessToCoord(t1);
+            int[] pos2 = ChessConsts.chessToCoord(t2);
             stringMoves.push(t1 + t2 + current.moveInfo(t1, t2, p));
             current.getPieces().get(current.getToMove()).remove(current.getTile(t1));
             current.getPieces().get(current.getToMove()).add(current.getTile(t2));
@@ -205,19 +205,19 @@ public class ChessGame {
     }
     
     public boolean whiteWins() {
-        return current.ended() && current.getKings()[Constants.BLACK].isChecked(current, current.getKingTiles()[Constants.BLACK]);
+        return current.ended() && current.getKings()[ChessConsts.BLACK].isChecked(current, current.getKingTiles()[ChessConsts.BLACK]);
     }
     
     public boolean blackWins() {
-        return current.ended() && current.getKings()[Constants.WHITE].isChecked(current, current.getKingTiles()[Constants.WHITE]);
+        return current.ended() && current.getKings()[ChessConsts.WHITE].isChecked(current, current.getKingTiles()[ChessConsts.WHITE]);
     }
     
     public boolean stalemate() {
         if(fiftyMoves == 100) {
             return true;
         }
-        else if(current.ended() && !current.getKings()[Constants.WHITE].isChecked(current, current.getKingTiles()[Constants.WHITE]) 
-        && !current.getKings()[Constants.BLACK].isChecked(current, current.getKingTiles()[Constants.BLACK])) {
+        else if(current.ended() && !current.getKings()[ChessConsts.WHITE].isChecked(current, current.getKingTiles()[ChessConsts.WHITE]) 
+        && !current.getKings()[ChessConsts.BLACK].isChecked(current, current.getKingTiles()[ChessConsts.BLACK])) {
             return true;
         }
         else if(drawByInsufficientPieces()) {

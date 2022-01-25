@@ -13,7 +13,6 @@ import views.Window;
  * @author Edison Du
  * @version 1.0 Jan 24, 2022
  */
-
 public class Application {
 
     public static Window window;

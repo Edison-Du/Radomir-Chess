@@ -253,10 +253,10 @@ public class RadomirBot extends Bot {
         private int score(Board b)  {
             int out = 0;
             if(b.ended()) {
-                if(b.getKings()[Constants.WHITE].isChecked(b, b.getKingTiles()[Constants.WHITE])) {
+                if(b.getKings()[ChessConsts.WHITE].isChecked(b, b.getKingTiles()[ChessConsts.WHITE])) {
                     out = -1000;
                 }
-                else if(b.getKings()[Constants.BLACK].isChecked(b, b.getKingTiles()[Constants.BLACK])) {
+                else if(b.getKings()[ChessConsts.BLACK].isChecked(b, b.getKingTiles()[ChessConsts.BLACK])) {
                     out = 1000;
                 }
                 else out = 0;
@@ -350,17 +350,17 @@ public class RadomirBot extends Bot {
         public ArrayList<Move> sortMoves(Board b, ArrayList<String> temp){
             ArrayList<Move> sortedMoves = new ArrayList<>();
             for (String move : temp){
-                int[] newPos = Constants.chessToCoord(move.substring(2, 4));
+                int[] newPos = ChessConsts.chessToCoord(move.substring(2, 4));
                 String promotion = move.substring(4, 5);
                 int score = 0;
                 if (b.getTiles()[newPos[0]][newPos[1]].getPiece() != null)
                     score += (b.getTiles()[newPos[0]][newPos[1]].getPiece().getPoints());
                 score += placementPoints[newPos[0]][newPos[1]];
                 if (promotion != null){
-                    if (promotion.equals("Q")) score += Constants.QUEEN_POINTS;
-                    if (promotion.equals("R")) score += Constants.ROOK_POINTS;
-                    if (promotion.equals("B")) score += Constants.BISHOP_POINTS;
-                    if (promotion.equals("N")) score += Constants.KNIGHT_POINTS;
+                    if (promotion.equals("Q")) score += ChessConsts.QUEEN_POINTS;
+                    if (promotion.equals("R")) score += ChessConsts.ROOK_POINTS;
+                    if (promotion.equals("B")) score += ChessConsts.BISHOP_POINTS;
+                    if (promotion.equals("N")) score += ChessConsts.KNIGHT_POINTS;
                 }
                 sortedMoves.add(new Move(move, score));
             }

@@ -18,7 +18,7 @@ import config.Consts;
 
 /**
  * [GameSetup.java]
- * 
+ * Page where players create chess games to be played
  * @author Nicholas Chew
  * @version 1.0 Jan 24, 2022
  */

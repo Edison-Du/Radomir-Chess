@@ -12,6 +12,7 @@ import config.UserInterface;
 /**
  * [SoundEffect.java]
  * 
+ * Class responsible for playing sound effects
  * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */

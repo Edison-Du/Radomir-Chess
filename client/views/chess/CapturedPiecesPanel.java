@@ -10,6 +10,7 @@ import views.components.ContentPanel;
 
 /**
  * [CapturedPiecesPanel.java]
+ * 
  * Panel for displaying pieces that have been captured
  * @author Alex Zhu
  * @version 1.0 Jan 24, 2022

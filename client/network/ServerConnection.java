@@ -44,7 +44,6 @@ public class ServerConnection {
             
         } catch (Exception e) {
             System.out.println("Couldn't connect to server.");
-            e.printStackTrace();
         }
     }
 
@@ -92,7 +91,6 @@ public class ServerConnection {
 
         } catch (Exception e) {
             System.out.println("Unable to read message from server.");
-            e.printStackTrace();
             return null;
         }
     }
@@ -109,7 +107,7 @@ public class ServerConnection {
             return instance.getInput().ready();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error checking server messages");
             return false;
         }
     }
@@ -126,7 +124,6 @@ public class ServerConnection {
             
         } catch (Exception e) {
             System.out.println("Unable to close input and output streams");
-            e.printStackTrace();
         }
     }
 

@@ -1,7 +1,6 @@
 package views.pages;
 
 import java.awt.event.ActionEvent;
-
 import chesslogic.*;
 import config.GameState;
 import config.Page;
@@ -10,8 +9,9 @@ import views.chess.BotThread;
 
 /**
  * [BotPanel.java]
- * 
+ * The panel for the game when user plays against the bot
  * @author Peter Gu
+ * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
 public class BotPanel extends AbstractGamePanel {
@@ -48,6 +48,10 @@ public class BotPanel extends AbstractGamePanel {
         resetChat();
     }
 
+    /**
+     * resetGame
+     * Reset the game, run before any chess game starts
+     */
     @Override
     public void resetGame() {
         
@@ -78,14 +82,19 @@ public class BotPanel extends AbstractGamePanel {
         if (getPlayerColour() == 1) {
             processMove("", "", "");
         }
-
         setGameState(GameState.ONGOING);
 
         playerLabel.setText(window.navigationBar.getUsername());
 
         this.revalidate();
     }
-    
+
+    /**
+     * Take the player's move, and make the bot make a corresponding move
+     * @param tile1 tile of first square of player move
+     * @param tile2 tile of second square of player move
+     * @param promotion tells whether pawn promotion or not
+     */
     @Override
     public void processMove(String tile1, String tile2, String promotion) {
 
@@ -95,13 +104,15 @@ public class BotPanel extends AbstractGamePanel {
                 chessGameClone.move(tile1, tile2, promotion);
             }
 
-            // bot move used to be here
             BotThread newBot = new BotThread(chessGame, chessGameClone, depthSearchBot, movesPanel, this);
             newBot.execute();
-
         }
     }
 
+    /**
+     * handleGameEnded
+     * Check if game ended and display correct overlay if so
+     */
     @Override
     public void handleGameEnded() {
         if(chessGame.stalemate()) {
@@ -144,14 +155,21 @@ public class BotPanel extends AbstractGamePanel {
         this.repaint();
     }
 
-    // Functions to handle each button when clicked
+    // Methods to handle each button when clicked
+    /**
+     * handleLeaveLobbyButton
+     * Exit the game and reset the game
+     */
     public void handleLeaveLobbyButton() {
         window.setInBotGame(false);
         window.changePage(Page.PLAY);
         resetGame();
     }
 
-
+    /**
+     * handleTakebackButton
+     * take back the appropriate number of moves
+     */
     public void handleTakebackButton() {
         // Make sure the user has made a move
         if (movesPanel.getNumMoves() > getPlayerColour()) {
@@ -171,23 +189,27 @@ public class BotPanel extends AbstractGamePanel {
         }
     }
 
-
+    /**
+     * handleDrawButton
+     * draw, display game result, and reset the game
+     */
     public void handleDrawButton() {
         setGameState(GameState.DRAW);
         setOpponentPlayAgain(true); // Bot always plays again
         boardPanel.gameResultOverlay.setMessage("Game Drawn");
     }
 
-
+    /**
+     * handleResignButton
+     * resign, display game result, and reset the game
+     */
     public void handleResignButton() {
         if (getPlayerColour() == 0) {
             setGameState(GameState.BLACK_VICTORY_RESIGN);
         } else {
             setGameState(GameState.WHITE_VICTORY_RESIGN);
         }
-
         setOpponentPlayAgain(true); // Bot always plays again
         boardPanel.gameResultOverlay.setMessage("You have resigned");
     }
-
 }

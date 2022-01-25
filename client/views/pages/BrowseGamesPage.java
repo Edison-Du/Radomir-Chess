@@ -34,7 +34,6 @@ import views.components.PanelButton;
  * [BrowseGamesPage.java]
  * Displays a list of public game lobbies and updates every ten seconds
  * Users can join lobbies through this page
- *
  * @author Nicholas Chew
  * @version 1.0 Jan 24, 2022
  */

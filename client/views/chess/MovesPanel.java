@@ -12,6 +12,7 @@ import views.components.ContentPanel;
 
 /**
  * [MovesPanel.java]
+ *
  * Display the moves of the game in algebraic move in live time
  * @author Alex Zhu
  * @version 1.0 Jan 24, 2022

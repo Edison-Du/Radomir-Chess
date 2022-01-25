@@ -23,6 +23,7 @@ import java.util.ArrayList;
  * 
  * @author Jeffrey Xu
  * @author Alex Zhu
+ * @author Edison Du
  * @version 1.0 Jan 24, 2022
  */
 public final class UserInterface {

@@ -8,14 +8,22 @@ import config.UserInterface;
 
 /**
  * [PlayMenuButton.java]
+ * A custom button used specifically on the play page
  * 
- * @author
+ * @author Edison Du
  * @version 1.0 Jan 24, 2022
  */
 public class PlayMenuButton extends CustomButton {
 
     private final EmptyBorder BUTTON_MARGIN = new EmptyBorder(15, 0, 0, 0);
 
+    /**
+     * PlayMenuButton
+     * Sets the button settings
+     * @param text the text displayed on the button
+     * @param x the x-coordinate of the button
+     * @param y the y-coordinate of the button
+     */
     public PlayMenuButton (String text, int x, int y) {
         super(text);
         this.setBounds(x, y, UserInterface.MENU_BUTTON_WIDTH, UserInterface.MENU_BUTTON_HEIGHT);

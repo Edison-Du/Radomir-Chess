@@ -10,16 +10,15 @@ import network.ServerConnection;
 
 /**
  * [MultiplayerPanel.java]
- * 
- * @author
+ * Chess game panel for multiplayer games
+ *
+ * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
-
 public class MultiplayerPanel extends AbstractGamePanel {
 
     private String otherClient;
     private boolean isAlone;
-
 
     public MultiplayerPanel() {
         setGameState(GameState.WAITING);
@@ -70,8 +69,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
         this.isAlone = isAlone;
     }
 
-    // Not sure if this will be redisgned when we get to chess
-    // For texting purposes this works.
     public void addOther(String clientName) {
         this.otherClient = clientName;
         this.opponentLabel.setText(clientName);

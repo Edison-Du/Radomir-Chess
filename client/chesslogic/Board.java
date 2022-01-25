@@ -25,15 +25,15 @@ public class Board {
      */
     public Board() {
         this.turn = 1;
-        this.toMove = Constants.WHITE;
+        this.toMove = ChessConsts.WHITE;
         this.tiles = new Tile[8][8];
         this.kings = new King[2];
-        this.kings[0] = new King(Constants.WHITE);
-        this.kings[1] = new King(Constants.BLACK);
+        this.kings[0] = new King(ChessConsts.WHITE);
+        this.kings[1] = new King(ChessConsts.BLACK);
         this.pieces = new ArrayList<ArrayList<Tile>>();
         this.pieces.add(new ArrayList<Tile>());
         this.pieces.add(new ArrayList<Tile>());
-        int col = Constants.WHITE;
+        int col = ChessConsts.WHITE;
         for(int i = 0; i < 8; i = i + 7) {
             this.tiles[0][i] = new Tile(0, i, new Rook(col));
             this.tiles[1][i] = new Tile(1, i, new Knight(col));
@@ -46,15 +46,15 @@ public class Board {
             for(int j = 0; j < 8; j++) {
                 this.pieces.get(col).add(this.tiles[j][i]);
             }
-            col = Constants.BLACK;
+            col = ChessConsts.BLACK;
         }
-        col = Constants.WHITE;
+        col = ChessConsts.WHITE;
         for(int i = 1; i < 8; i = i + 5) {
             for(int j = 0; j < 8; j++) {
                 this.tiles[j][i] = new Tile(j, i, new Pawn(col));
                 this.pieces.get(col).add(this.tiles[j][i]);
             }
-            col = Constants.BLACK;
+            col = ChessConsts.BLACK;
         }
         for(int i = 2; i < 6; i++) {
             for(int j = 0; j < 8; j++) {
@@ -127,7 +127,7 @@ public class Board {
     @param tileName name of tile (e.g. e4)
      */
     public Tile getTile(String tileName) {
-        int[] pos = Constants.chessToCoord(tileName);
+        int[] pos = ChessConsts.chessToCoord(tileName);
         return this.tiles[pos[0]][pos[1]];
     }
     
@@ -188,8 +188,8 @@ public class Board {
      * @
      */
     public boolean legal(String p1, String p2)  {
-        int[] pos1 = Constants.chessToCoord(p1);
-        int[] pos2 = Constants.chessToCoord(p2);
+        int[] pos1 = ChessConsts.chessToCoord(p1);
+        int[] pos2 = ChessConsts.chessToCoord(p2);
         //check if the position is on the board
         if(pos1[0] < 0 || pos1[0] > 7 || pos2[0] < 0 || pos2[0] > 7 || pos1[1] < 0 || pos1[1] > 7 || pos2[1] < 0 || pos2[1] > 7) {
             return false;
@@ -309,7 +309,7 @@ public class Board {
      * @return whether a pawn is moving to an end row using these tiles as the move
      */
     public boolean promotingMove(String t1, String t2)  {
-        return getTile(t1).getPiece() != null && getTile(t1).getPiece().getName().equals("p") && Constants.chessToCoord(t2)[1] == 7*(1 - toMove);
+        return getTile(t1).getPiece() != null && getTile(t1).getPiece().getName().equals("p") && ChessConsts.chessToCoord(t2)[1] == 7*(1 - toMove);
     }
     
     /**

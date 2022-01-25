@@ -6,7 +6,7 @@ import config.UserInterface;
 
 /**
  * [Rook.java]
- * @author 
+ * @author Leo Guan
  * @version 1.0 Jan 24, 2022
  */
 

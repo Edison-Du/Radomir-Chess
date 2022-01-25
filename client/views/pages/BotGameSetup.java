@@ -89,15 +89,11 @@ public class BotGameSetup extends ContentPanel implements ActionListener {
 
     }
 
-    public void displayError() {
-        this.add(createErrorLabel);
-        this.revalidate();
-    }
-
-    public void removeError() {
-        this.remove(createErrorLabel);
-    }
-
+    /**
+     * actionPerformed
+     * Action Listener for the buttons on the bot game setup page
+     * @param e the action that occurs (mouse click)
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {

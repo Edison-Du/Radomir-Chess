@@ -9,11 +9,10 @@ import config.Consts;
 
  /**
  * [ServerConnection.java]
+ * A singleton class containing a socket connecting to the server,
+ * and allows you to send/receive messages from the server.
  * 
- * THIS CLASS IS A SINGLETON, MEANING 
- * YOU CANNOT CONSTRUCT IT AND ONLY 
- * ONE INSTANCE EXISTS AT ALL TIMES
- * @author
+ * @author Edison Du
  * @version 1.0 Jan 24, 2022
  */
 public class ServerConnection {
@@ -24,6 +23,11 @@ public class ServerConnection {
     private BufferedReader input;
     private PrintWriter output;
     
+    /**
+     * ServerConnection
+     * Creates a socket connecting to the server and creates
+     * associated input/output readers
+     */
     private ServerConnection() {
         System.out.println("Attempting to connect to server.");
 
@@ -44,15 +48,21 @@ public class ServerConnection {
         }
     }
 
-
-    // Static methods
-
+    /**
+     * createInstance
+     * Creates an instance of server connection, containing 
+     * the socket and input/output readers
+     */
     public static void createInstance() {
         if (instance == null) {
             instance = new ServerConnection();
         }
     }
 
+    /**
+     * sendMessage
+     * Sends a message object to the server
+     */
     public static void sendMessage(Message message) {
 
         if (message == null) {
@@ -62,10 +72,16 @@ public class ServerConnection {
         // Make sure that an instance is active
         createInstance();
 
+        // Flush an output to the server
         instance.getOutput().println(message.getText());
         instance.getOutput().flush();
     }
 
+    /**
+     * getMessage
+     * Reads a message from the server
+     * @return the message received from the server
+     */
     public static Message getMessage() {
         createInstance();
 
@@ -81,6 +97,11 @@ public class ServerConnection {
         }
     }
 
+    /**
+     * hasMessage
+     * Checks if there is a message from the server
+     * @return whether or not there is a message from the server
+     */
     public static boolean hasMessage() {
 
         try {
@@ -93,6 +114,10 @@ public class ServerConnection {
         }
     }
 
+    /**
+     * close
+     * Closes input and output readers to the server
+     */
     public static void close() {
         try {
             instance.getInput().close();
@@ -105,11 +130,18 @@ public class ServerConnection {
         }
     }
 
-    // Instance methods
+    /**
+     * getInput
+     * Gets the input reader for the socket connecting to the server
+     */
     public BufferedReader getInput() {
         return this.input;
     }
 
+    /**
+     * getOutput
+     * Gets the output writer for the socket connecting to the server
+     */
     public PrintWriter getOutput() {
         return this.output;
     }

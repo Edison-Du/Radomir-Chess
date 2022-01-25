@@ -22,21 +22,19 @@ import views.pages.AbstractGamePanel;
 
 /**
  * [ChessBoardPanel.java]
- * 
- * @author
+ * Panel for the chess board itself
+ * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
 public class ChessBoardPanel extends ContentPanel {
 
     ChessGame game;
-    final int tileSize = 60;
+    int tileSize = 60;
 
     BufferedImage heldPieceImage;
     BufferedImage woodBoard, iceBoard;
-
-
-    private ChessGameMouseListener chessGameMouseListener;
-    private AbstractGamePanel gamePanel;
+    ChessGameMouseListener chessGameMouseListener;
+    AbstractGamePanel gamePanel;
 
     public GameResultOverlay gameResultOverlay;
 
@@ -44,7 +42,7 @@ public class ChessBoardPanel extends ContentPanel {
         this.game = game;
         this.gamePanel = gamePanel;
 
-        chessGameMouseListener = new ChessGameMouseListener(game, gamePanel);
+        this.chessGameMouseListener = new ChessGameMouseListener(game, gamePanel);
         addMouseListener(chessGameMouseListener);
         addMouseMotionListener(chessGameMouseListener);
 
@@ -52,13 +50,16 @@ public class ChessBoardPanel extends ContentPanel {
             woodBoard = ImageIO.read(new File(PathConsts.WOOD_THEME));
             iceBoard = ImageIO.read(new File(PathConsts.ICE_THEME));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Chess board images not found.");
         }
-
-        gameResultOverlay = new GameResultOverlay(gamePanel);
+        this.gameResultOverlay = new GameResultOverlay(gamePanel);
         gameResultOverlay.setBounds(0, 0, getWidth(), getHeight());
     }
 
+    /**
+     * Game result overlay toggle on or off
+     * @param visible if should show or not
+     */
     public void setOverlayVisible(boolean visible) {
         if (visible) {
             this.add(gameResultOverlay);
@@ -73,13 +74,17 @@ public class ChessBoardPanel extends ContentPanel {
         this.chessGameMouseListener.game = game;
     }
     
+    /**
+     * Make the opponent's move on this client's chess game
+     * @param t1 first tile of moved piece
+     * @param t2 second tile of moved piece
+     * @param p String that tells what piece it is promoting to, if any
+     */
     public void makeOpponentMove(String t1, String t2, String p) {
         String move = game.toAlgebraic(t1, t2, p);
 
         gamePanel.movesPanel.addMove(move);
-
         SoundEffect.playSound(t1, t2, p, game);
-
         this.game.move(t1, t2, p);
     }
 
@@ -87,6 +92,7 @@ public class ChessBoardPanel extends ContentPanel {
         this.game.undo();
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
         
@@ -101,7 +107,6 @@ public class ChessBoardPanel extends ContentPanel {
         } else if (UserInterface.activeTheme == UserInterface.ICE_BOARD) {
             g.drawImage(iceBoard, 0, 0, this);
         }
-
         drawBoard(g);
 
         // Draw possible moves for piece
@@ -109,34 +114,36 @@ public class ChessBoardPanel extends ContentPanel {
             drawPossibleMoves(g, game.getCurrentPos().getTile(chessGameMouseListener.t1));
         }
 
+        // Draw Held Piece when player is holding down on a piece
         heldPieceImage = chessGameMouseListener.getHeldPieceImage();
         if(heldPieceImage != null) {
             g.drawImage(heldPieceImage, chessGameMouseListener.getMouseX()-tileSize/2, chessGameMouseListener.getMouseY()-tileSize/2, this);
         }
 
+        // Show promotion options when required
         if(chessGameMouseListener.isPromoting) {
             BufferedImage promotionPlatter;
             try {
                 promotionPlatter = ImageIO.read(new File(PathConsts.PROMOTION_PLATTER));
                 g.drawImage(promotionPlatter, 110, 200, this);
             } catch (IOException e) {
-                System.out.println("Could not load promotion platter");
+                System.out.println("Could not load promotion platter.");
             }
         }
     }
 
     /**
      * Draws the chess board and pieces
-     * @param g
+     * @param g graphics
      */
     public void drawBoard(Graphics g) {
-  Tile[][] checkerBoard = game.getCurrentPos().getTiles();
+        Tile[][] checkerBoard = game.getCurrentPos().getTiles();
         
-        // traverse entire maze and draw coloured square for each symbol in maze
+        // Traverse entire maze and draw coloured square for each symbol in maze
         for (int x = 0; x < checkerBoard.length; x++) {
             for (int y = 0; y < checkerBoard[0].length; y++) {
 
-                // flip board
+                // Flip board
                 int xPos = (7 * gamePanel.getPlayerColour() + (1 - 2 * gamePanel.getPlayerColour()) * x) * tileSize;
                 int yPos = (7 * (1 - gamePanel.getPlayerColour()) + (2 * gamePanel.getPlayerColour() - 1) * y) * tileSize;
                 
@@ -150,7 +157,7 @@ public class ChessBoardPanel extends ContentPanel {
                     g.fillRect(xPos, yPos, tileSize, tileSize);
                 }
 
-                // write tile notation
+                // Write tile notation
                 if(x == 7) {
                     if((y+gamePanel.getPlayerColour()) % 2 == 0) g.setColor(UserInterface.lighterTile);
                     else g.setColor(UserInterface.darkerTile);
@@ -162,7 +169,7 @@ public class ChessBoardPanel extends ContentPanel {
                     g.drawString(Character.toString((char)(x + 'a')), xPos + 52, 479);
                 }
 
-                // change based on gamePanel.getPlayerColour()
+                // Change based on gamePanel.getPlayerColour()
                 if(checkerBoard[x][y].getPiece() != null) {
                     if (checkerBoard[x][y].getPiece() != chessGameMouseListener.getSelectedPiece()) {
                         g.drawImage(checkerBoard[x][y].getPiece().getImage(), xPos, yPos, this);
@@ -177,9 +184,9 @@ public class ChessBoardPanel extends ContentPanel {
  }
 
     /**
-     * Graphically displays relevant information for when user clicks on a piece
-     * @param g
-     * @param selectedPiecePos
+     * Graphically displays possible moves information for when user clicks on a piece
+     * @param g graphics
+     * @param selectedPiecePos Tile of selected piece
      */
     public void drawPossibleMoves(Graphics g, Tile selectedPiecePos) {
         Graphics2D g2d = (Graphics2D)g;

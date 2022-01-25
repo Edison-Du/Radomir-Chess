@@ -8,7 +8,7 @@ import config.UserInterface;
 /**
  * [King.java]
  * class for a King piece
- * @author 
+ * @author Leo Guan
  * @version 1.0 Jan 24, 2022
  */
 
@@ -172,6 +172,10 @@ public class King extends Piece {
     }
     
     @Override
+    /**
+     * this piece's points are calculated differently from the rest
+     * @return the number of points this piece is worth
+     */
     public int getPoints() {
         if(this.hasCastled) {
             return 50;
@@ -183,6 +187,7 @@ public class King extends Piece {
             return 0;
         }
     }
+    
     
     public void setCastled(boolean x) {
         this.hasCastled = x;

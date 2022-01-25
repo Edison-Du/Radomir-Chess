@@ -2,51 +2,69 @@ package chesslogic;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.lang.InterruptedException;
 
 /**
- * [DepthSearchBotP2.java]
- * second prototype for a depth search bot
- * @author Peter bro im gonna delete this file
- 
+ * [RunSearch.java]
+ * Search involved with Radomir Bot
+ * @author Peter Gu
+ * @author Leo Guan
  * @version 1.0 Jan 24, 2022
+ * Each thread added increases the speed marginally. Tested with intel i3-8130U, 12 GB RAM (not sure what type, too lazy to find out)
  */
 
-public class DepthSearchBotP2 extends Bot {
-    
-    private int depth;
-    private int side;
-    private int countUndos;
-    private int countMoves;
+private class RunSearch implements Runnable {
 
+    // Class Variables
+    
+    private ChessGame game;
+    private int depth;
+    private ArrayList<String> check;
+    
+    private String[] myMoves;
+    private int[] myScores;
+    private int mySection;
+    
     private int[][] attackPoints;
     private int[][] placementPoints;
     private int[] directionXOne, directionYOne, directionXTwo, directionYTwo;
-    private String move;
-    private OpeningTree opening;
 
+    /**
+     * Initializes a thread to search
+     */
     
-    public DepthSearchBotP2(int depth, int side){
-        opening = new OpeningTree();
+    RunSearch(ChessGame g, int depth, ArrayList<String> toCheck, String[] myMoves, int[] myScores, int mySection, int[] directionXOne, int[] directionYOne, int[] directionXTwo, int[] directionYTwo) {
         this.depth = depth;
-        this.side = side;
+        this.game = g;
+        this.check = toCheck;
+        this.myMoves = myMoves;
+        this.myScores = myScores;
+        this.mySection = mySection;
         placementPoints = new int[8][8];
         attackPoints = new int[8][8];
-        directionXOne = new int[] {-1, -1, 1, 1, 0, 0, -1, 1};
-        directionYOne = new int[] {1, -1, -1, 1, -1, 1, 0, 0};
-        directionXTwo = new int[] {-2, 2, -2, 2, 0, 0, -2, 2, -1, 1, -2, 2, -1, 1, -2, 2};
-        directionYTwo = new int[] {0, 0, -2, 2, -2, 2, 2, -2, 2, 2, -1, -1, -2, -2, 1, 1};
+        this.directionXOne = directionXOne;
+        this.directionYOne = directionYOne;
+        this.directionXTwo = directionXTwo;
+        this.directionYTwo = directionYTwo;
         resetPlacementPoints();
     }
-
-    public int getDepth(){
-        return this.depth;
-    }
-
+    
+    /**
+     * Checks a x position and a y position
+     * @param x a integer x
+     * @param y a integer y
+     * @return a boolean value
+     */
     public boolean check(int x, int y){
         if (x >= 0 && x < 8 && y >= 0 && y < 8) return true;
         return false;
     }
-
+    
+    /**
+     * Resets the attack heat map based on the position of enemy king
+     * @param x an integer x
+     * @param y an integer y
+     */
     public void resetAttackPoints(int x, int y){
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
@@ -77,7 +95,10 @@ public class DepthSearchBotP2 extends Bot {
             }
         }
     }
-
+    
+    /**
+     * Reset the heat map
+     */
     public void resetPlacementPoints(){
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
@@ -98,6 +119,11 @@ public class DepthSearchBotP2 extends Bot {
         }
     }
     
+    /**
+     * Scores the board
+     * @param b the board being scored
+     * @return the integer score of the board
+     */
     private int score(Board b)  {
         int out = 0;
         if(b.ended()) {
@@ -146,19 +172,38 @@ public class DepthSearchBotP2 extends Bot {
         return out * (b.getToMove() == 1 ? -1 : 1);
     }
     
+    /**
+     * Searches the chess position for an optimal move recursively using a min max tree
+     * Find the optimal move for side x, then recurses to find an optimal move for side y
+     * Returns the score of the best postion after recursing some z depth
+     * @param g the game
+     * @param depth the depth of the search
+     * @param alpha the alpha value of the search, i.e. the max
+     * @param beta the beta value of the search, i.e. the min
+     * @param cnt the cnt of the search
+     */
     public int search(ChessGame g, int depth, int alpha, int beta, int cnt) {
         if(g.getCurrentPos().ended()) {
             return score(g.getCurrentPos());
         }
         else if(depth == 0) {
+            // Return the score once the depth has reached 0
             return score(g.getCurrentPos());
         }
         else {
+            
             int temp;
-            ArrayList<Move> possibleMoves = sortMoves(g.getCurrentPos(), legalMoves(g.getCurrentPos()));
+            ArrayList<Move> possibleMoves; // All possible moves in the position
+            if(cnt == 0) {
+                possibleMoves = sortMoves(game.getCurrentPos(), check);
+            }
+            else {
+                possibleMoves = sortMoves(g.getCurrentPos(), legalMoves(g.getCurrentPos()));
+            }
             for(int i = 0; i < possibleMoves.size(); i++) {
                 String curMove = possibleMoves.get(i).move;
                 g.move(curMove.substring(0, 2), curMove.substring(2, 4), curMove.substring(4, 5));
+                // The idea 
                 temp = -search(g, depth - 1, -beta, -alpha, cnt+1);
                 g.undo();
                 if (temp >= beta){
@@ -167,18 +212,18 @@ public class DepthSearchBotP2 extends Bot {
                 if (temp > alpha){
                     alpha = temp;
                     if (cnt == 0){
-                        this.move = curMove;
+                        myMoves[mySection] = curMove;
+                        myScores[mySection] = alpha;
                     }
                 }
             }
         }
         return alpha;
     }
-
+    
     public ArrayList<Move> sortMoves(Board b, ArrayList<String> temp){
         ArrayList<Move> sortedMoves = new ArrayList<>();
         for (String move : temp){
-            int[] curPos = Constants.chessToCoord(move.substring(0, 2));
             int[] newPos = Constants.chessToCoord(move.substring(2, 4));
             String promotion = move.substring(4, 5);
             int score = 0;
@@ -196,15 +241,10 @@ public class DepthSearchBotP2 extends Bot {
         Collections.sort(sortedMoves);
         return sortedMoves;
     }
-
-    public String nextMove(ChessGame g){
-        if (g.getStringMoves().size() == 0) return opening.getMove("start").substring(0, 4) + " ";
-
-        String lastMove = g.getStringMoves().peek().substring(0, 4) + "-" + (g.getCurrentPos().getTurn()-1);
-        if (opening.checkMove(lastMove)){
-            return opening.getMove(lastMove).substring(0, 4) + " ";
-        }
-        this.search(g, this.depth, -999999, 999999, 0);
-        return this.move;
+    
+    @Override
+    public void run() {
+        search(game, this.depth, -99999, 99999, 0);
     }
+    
 }

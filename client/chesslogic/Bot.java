@@ -7,7 +7,8 @@ import java.util.Iterator;
 /**
  * [Bot.java]
  * abstract class for a chess engine/bot
- * @author 
+ * @author Leo Guan
+ * @author Peter Gu
  * @version 1.0 Jan 24, 2022
  */
 

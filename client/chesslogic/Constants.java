@@ -3,7 +3,8 @@ package chesslogic;
 /**
  * [Constants.java]
  * Class for constants and specific maps
- * @author 
+ * @author Leo Guan
+ * @author Peter Gu
  * @version 1.0 Jan 24, 2022
  */
 

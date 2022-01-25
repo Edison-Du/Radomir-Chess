@@ -7,7 +7,7 @@ import config.UserInterface;
 /**
  * [Pawn.java]
  * class for a Pawn piece
- * @author 
+ * @author Leo Guan
  * @version 1.0 Jan 24, 2022
  */
 

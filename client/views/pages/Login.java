@@ -17,11 +17,15 @@ import views.components.PanelButton;
 
 /**
  * Login.java]
- * 
- * @author
+ * Displays a login page for users to login into their accounts
+ * @author Peter Gu
+ * @author Nicholas Chew
+ * @author Jeffrey Xu
  * @version 1.0 Jan 24, 2022
  */
 public class Login extends ContentPanel implements ActionListener{
+
+    // Class Variables
 
     private final EmptyBorder TEXT_FIELD_MARGIN = new EmptyBorder(7, 5, 0, 5);
     private final int TEXT_FIELD_PLACEHOLDER_Y = 33;
@@ -128,16 +132,30 @@ public class Login extends ContentPanel implements ActionListener{
         errorLabel.setBounds(BUTTON_X, ERROR_LABEL_Y, USERNAME_WIDTH, ERROR_LABEL_HEIGHT);
     }
 
+    /**
+     * Displays error message 
+     * @param errorMessage
+     */
     public void displayError(String errorMessage) {
         errorLabel.setText(errorMessage);
         this.add(errorLabel);
         this.revalidate();
     }
 
+    /**
+     * Removes the error label 
+     */
     public void removeError() {
         this.remove(errorLabel);
     }
 
+    
+    /**
+     * actionPerformed
+     * Runs when an action is performed on a component
+     * @param e An action event
+     */
+    @Override
     public void actionPerformed(ActionEvent e){
         String username = usernameField.getText();
         String password = String.valueOf(passwordField.getPassword());
@@ -163,6 +181,11 @@ public class Login extends ContentPanel implements ActionListener{
         }
     }
 
+    /**
+     * Validates the user input
+     * @param input a string
+     * @return a boolean value
+     */
     public boolean validateInput(String input){
         if (input.length() > MAX_INPUT_LENGTH || input.length() < 1) {
             return false;

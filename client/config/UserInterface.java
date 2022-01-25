@@ -21,7 +21,8 @@ import java.util.ArrayList;
 /**
  * [UserInterface.java]
  * 
- * @author 
+ * @author Jeffrey Xu
+ * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
 public final class UserInterface {
@@ -30,10 +31,11 @@ public final class UserInterface {
     public static final String WINDOW_TITLE = "Radomir Chess";
     public static final int UPDATE_RATE = 10;
 
-    // Subject to change, not sure if we want any full screening or anything
+    /** Screen Size Constants **/
     public static final int WINDOW_WIDTH  = 1280;
     public static final int WINDOW_HEIGHT = 720;
 
+    // Navigation Bar
     public static final int NAVBAR_WIDTH  = WINDOW_WIDTH/5;
     public static final int CONTENT_WIDTH = WINDOW_WIDTH - NAVBAR_WIDTH;
     public static final int NAVBAR_BUTTON_HEIGHT = 80;
@@ -44,7 +46,7 @@ public final class UserInterface {
 
     public static final Color TRANSPARENT = new Color(0, 0, 0, 0);
 
-    // Navbar
+    // Navigation bar
     public static final Color NAVBAR_COLOUR = new Color(26,26,27);
     public static final Color NAVBAR_BUTTON_HOVER_COLOUR = new Color(38,39,39);
     public static final Border NAVBAR_BUTTON_MARGIN = new EmptyBorder(5, 30, 0, 0);
@@ -83,7 +85,6 @@ public final class UserInterface {
     public static final int BACK_BUTTON_Y = 20;
     public static final Color ERROR_COLOUR = new Color(255, 255, 0);
 
-
     public static final Color JOIN_GAME_BUTTON_BACKGROUND = new Color(200, 200, 200);
 
     public static final Color MENU_BUTTON_COLOUR = new Color(47, 78, 111);
@@ -101,7 +102,7 @@ public final class UserInterface {
     public static final int ABOUT_WIDTH = 994;
     public static final int ABOUT_HEIGHT = 480;
 
-    // Game board
+    // Game board themes/options
     public static int activeTheme = 0;
     public static final int ICE_BOARD = 1;
     public static final int WOOD_BOARD = 2;
@@ -110,6 +111,7 @@ public final class UserInterface {
         WOOD_BOARD
     };
     public static boolean isImageTheme = false;
+    // All colour names in settings page
     public static final Color[] LIGHTER_TILE_COLOURS = new Color[]{
         new Color(192, 192, 193),
         new Color(218, 226, 234),
@@ -161,7 +163,7 @@ public final class UserInterface {
 
     public static final ArrayList<BufferedImage[]> PIECES = new ArrayList<BufferedImage[]>();
     
-    // Piece/board highlights
+    // Piece/board highlights (all highlight names in settings page)
     public static final Color[] POSSIBLE_MOVE_COLOURS = new Color[]{
         new Color(61, 89, 169, 192),
         new Color(23, 213, 77, 192),
@@ -197,7 +199,7 @@ public final class UserInterface {
     public static final int GAME_SIDE_PANEL_WIDTH = 240;
     public static final int GAME_INFO_BORDER_RADIUS = 15;
     
-    // These are all greys, maybe just make a bunch of grey constsants GREY_1, GREY_2
+    // UI font related constants
     public static final Color CHAT_MESSAGE_COLOUR = new Color(230, 230, 230);
     public static final Color GAME_SIDE_BORDER_COLOR = new Color(128, 128, 128);
     public static final Color GAME_SIDE_HIGHLIGHT_COLOR = new Color(77, 77, 77);
@@ -211,8 +213,9 @@ public final class UserInterface {
     public static final Font LOBBY_INFO = new Font("Serif", Font.PLAIN, 40);
 
     /**
+     * changeBoard
      * Changes the colour/theme of the board
-     * @param theme
+     * @param int the theme chosen
      */
     public static void changeBoard(int theme) {
         activeTheme = theme;
@@ -228,6 +231,7 @@ public final class UserInterface {
     }
     
     /**
+     * readAllPieceImages
      * reads all the piece sets and stores them
      */
     public static void readAllPieceImages() {
@@ -245,8 +249,9 @@ public final class UserInterface {
     }
 
     /**
-     * Changes the chess set
-     * @param set
+     * changePieceSet
+     * Changes the active chess set
+     * @param int the chess set chosen
      */
     public static void changePieceSet(int set) {
         activeSetNum = set;
@@ -254,8 +259,9 @@ public final class UserInterface {
     }
 
     /**
+     * changeHighlights
      * Changes highlight colour
-     * @param colour
+     * @param int the colour chosen
      */
     public static void changeHighlights(int colour) {
         activeHighlight = colour;
@@ -263,8 +269,9 @@ public final class UserInterface {
     }
 
     /**
+     * toggleHighlight
      * Turns highlight on or off
-     * @param button
+     * @param CustomButton the highlight button
      */
     public static void toggleHighlight(CustomButton button) {
         highlightToggle ^= true;
@@ -279,6 +286,11 @@ public final class UserInterface {
         }
     }
 
+    /**
+     * toggleSound
+     * Turns sound on or off
+     * @param CustomButton the sound toggle button
+     */
     public static void toggleSound(CustomButton button) {
         soundOn ^= true;
         if (soundOn) {
@@ -293,6 +305,7 @@ public final class UserInterface {
     }
 
     /**
+     * getCurrentSettings
      * returns all the current settings states
      * @return int array containing state of all settings
      */
@@ -320,7 +333,10 @@ public final class UserInterface {
     public static Font orkney48;
     public static Font orkney96;
 
-    // Loading fonts
+    /**
+     * loadFonts
+     * read all external fonts
+     */
     public static void loadFonts() {
         if (readFonts()) {
             orkney12 = orkney.deriveFont(Font.PLAIN, 12);
@@ -335,6 +351,11 @@ public final class UserInterface {
         }
     }
 
+    /**
+     * readFonts
+     * read all external fonts
+     * @return boolean whether the read was successful
+     */
     public static boolean readFonts() {
         try {
             orkney = Font.createFont(Font.TRUETYPE_FONT, new File(PathConsts.ORKNEY_FONT));

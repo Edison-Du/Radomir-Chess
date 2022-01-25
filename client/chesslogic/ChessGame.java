@@ -5,7 +5,8 @@ import java.util.Stack;
 /**
  * [ChessGame.java]
  * Class for a game of chess
- * @author 
+ * @author Leo Guan
+ * @author Peter Gu
  * @version 1.0 Jan 24, 2022
  */
 
@@ -19,7 +20,6 @@ public class ChessGame {
     
     /**
      * Create a game
-     * @
      */
     public ChessGame()  {
         current = new Board();

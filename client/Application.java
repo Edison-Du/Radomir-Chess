@@ -7,8 +7,10 @@ import views.Window;
 
 /**
  * [Application.java]
+ * Contains main method that runs the client program,
+ * launching the window and connecting to the server
  * 
- * @author
+ * @author Edison Du
  * @version 1.0 Jan 24, 2022
  */
 
@@ -21,10 +23,10 @@ public class Application {
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                // Socket connecting to server
+                // Socket connection to server
                 ServerConnection.createInstance();
 
-                // Hook that runs when server shuts down
+                // Thread that runs when server shuts down
                 Runtime.getRuntime().addShutdownHook(new ShutdownHook());
 
                 // Initialize window and server connection thread

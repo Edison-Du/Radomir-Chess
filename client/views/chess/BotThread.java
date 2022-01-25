@@ -1,7 +1,6 @@
 package views.chess;
 
 import javax.swing.SwingWorker;
-
 import chesslogic.ChessGame;
 import config.GameState;
 import chesslogic.Bot;
@@ -9,8 +8,9 @@ import views.pages.BotPanel;
 
 /**
  * [BotThread.java]
- * 
- * @author
+ * Uses SwingWorker to run the bot in the background
+ * so that the UI is still responsive
+ * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
 public class BotThread extends SwingWorker<String, Void> {
@@ -32,21 +32,12 @@ public class BotThread extends SwingWorker<String, Void> {
 
     @Override
     protected String doInBackground() throws Exception {
-            System.out.println("started next move");
             synchronized(chessGameClone) {
                 synchronized(chessGame) {
                     botMove = bot.nextMove(chessGameClone);
                 }
             }
-            System.out.println(chessGame.toString());
-            
-            System.out.println("finished next move");
-
-            System.out.println(botMove);
-            System.out.println("Bot moved " + botMove.substring(0, 2) + ", " + botMove.substring(2, 4));
-
-            System.out.println(botMove.substring(0,2) + ", " + botMove.substring(2, 4) + ", " + botMove.substring(4, 5) + "stop");
-
+            // System.out.println("Bot moved " + botMove.substring(0, 2) + ", " + botMove.substring(2, 4));
             if (chessGame.getCurrentPos().getToMove() != gamePanel.getPlayerColour() && 
                 gamePanel.getGameState() == GameState.ONGOING) {
                 synchronized(chessGame) {
@@ -58,12 +49,9 @@ public class BotThread extends SwingWorker<String, Void> {
                         chessGame.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
 
                         gamePanel.handleGameEnded();
-
                     }
                 }
             }
-
         return null;
     }
-
 }

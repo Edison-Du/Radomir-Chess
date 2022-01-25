@@ -8,7 +8,7 @@ import config.UserInterface;
 /**
  * [Piece.java]
  * Class for a generic piece
- * @author 
+ * @author Leo Guan
  * @version 1.0 Jan 24, 2022
  */
 

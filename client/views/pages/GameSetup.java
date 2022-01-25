@@ -19,7 +19,7 @@ import config.Consts;
 /**
  * [GameSetup.java]
  * 
- * @author
+ * @author Nicholas Chew
  * @version 1.0 Jan 24, 2022
  */
 public class GameSetup extends ContentPanel implements ActionListener {
@@ -41,6 +41,10 @@ public class GameSetup extends ContentPanel implements ActionListener {
     private PanelButton createPrivateLobbyBtn;
     private PanelButton backButton;
 
+    /**
+     * GameSetup
+     * @param window
+     */
     public GameSetup(Window window) {
         this.window = window;
         this.setLayout(null);
@@ -81,15 +85,28 @@ public class GameSetup extends ContentPanel implements ActionListener {
         createErrorLabel.setBounds(INSTRUCTION_LABEL_X, CREATE_ERROR_Y, INSTRUCTION_LABEL_WIDTH, INSTRUCTION_LABEL_HEIGHT);
     }
 
+    /**
+     * displayError
+     * displays the error message to the page
+     */
     public void displayError() {
         this.add(createErrorLabel);
         this.revalidate();
     }
 
+    /**
+     * removeError
+     * removes the error label from the page
+     */
     public void removeError() {
         this.remove(createErrorLabel);
     }
 
+    /**
+     * actionPerformed
+     * Action Listener for the buttons on the game setup page
+     * @param e the action that occurs (mouse click)
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {

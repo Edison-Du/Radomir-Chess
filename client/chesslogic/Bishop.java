@@ -6,7 +6,7 @@ import config.UserInterface;
 /**
  * [Board.java]
  * class for a bishop
- * @author 
+ * @author Leo Guan
  * @version 1.0 Jan 24, 2022
  */
 
@@ -59,6 +59,10 @@ public class Bishop extends Piece {
     }
     
     @Override
+    /**
+     * make a copy of this piece
+     * @return a copy of this piece
+     */
     public Piece copy() {
         Bishop out = new Bishop(this.getColour());
         out.setMoved(this.getTurnMoved());

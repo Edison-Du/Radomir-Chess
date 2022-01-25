@@ -37,6 +37,11 @@ public class ContentPanel extends JPanel {
         this.repaint();
     }
 
+    /**
+     * getLogoImage
+     * reads the logo image
+     * @return Image logo image
+     */
     public static Image getLogoImage() {
         try {
             return ImageIO.read(new File(PathConsts.CHESS_LOGO)).getScaledInstance(UserInterface.LOGO_WIDTH, UserInterface.LOGO_HEIGHT, Image.SCALE_DEFAULT);

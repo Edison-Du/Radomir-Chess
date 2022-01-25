@@ -14,11 +14,11 @@ import views.Window;
 /**
  * [Settings.java]
  * 
- * @author
+ * @author Jeffrey Xu
  * @version 1.0 Jan 24, 2022
  */
 public class Settings extends ContentPanel implements ActionListener {
-    // Constants
+    // Combobox options
     private final String[] BOARDS = {
         "Greyscale",
         "Icy Sea",
@@ -60,6 +60,7 @@ public class Settings extends ContentPanel implements ActionListener {
         "Fuchsia"
     };
     
+    // Graphics location constants
     private final int SETTINGS_LEFT = 35;
     private final int COMBOBOX_WIDTH = 160;
     private final int COMBOBOX_HEIGHT = 37;
@@ -83,22 +84,25 @@ public class Settings extends ContentPanel implements ActionListener {
     private final CustomButton toggleHighlightButton = new CustomButton("Show Moves On");
     private final CustomButton toggleSoundButton = new CustomButton("Sound On");
 
+    // Window object
     Window window;
 
     public Settings(Window window) {
         this.window = window;
 
+        // Initialize comboboxes
         boardThemes = new JComboBox<>(BOARDS);
         pieceSets = new JComboBox<>(CHESS_PIECE_SETS);
         highlightThemes = new JComboBox<>(HIGHLIGHTS);
 
+        // Settings header label
         titleLabel.setFont(UserInterface.orkney36);
         titleLabel.setForeground(UserInterface.TEXT_COLOUR);
         titleLabel.setBounds(UserInterface.TITLE_BOUNDS);
         titleLabel.setBorder(ORKNEY_OFFSET);
         this.add(titleLabel);
 
-
+        // Board themes
         boardThemeLabel.setFont(UserInterface.orkney18);
         boardThemeLabel.setForeground(UserInterface.TEXT_COLOUR);
         boardThemeLabel.setBounds(SETTINGS_LEFT, LABEL_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
@@ -112,7 +116,7 @@ public class Settings extends ContentPanel implements ActionListener {
         boardThemes.addActionListener(this);
         this.add(boardThemes);
 
-
+        // Piece sets
         pieceSetLabel.setFont(UserInterface.orkney18);
         pieceSetLabel.setForeground(UserInterface.TEXT_COLOUR);
         pieceSetLabel.setBounds(SETTINGS_LEFT + COMBOBOX_GAP, LABEL_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
@@ -126,7 +130,7 @@ public class Settings extends ContentPanel implements ActionListener {
         pieceSets.addActionListener(this);
         this.add(pieceSets);
 
-        //change constant for width
+        // Highlight colours
         highlightLabel.setFont(UserInterface.orkney18);
         highlightLabel.setForeground(UserInterface.TEXT_COLOUR);
         highlightLabel.setBorder(ORKNEY_OFFSET);
@@ -150,6 +154,7 @@ public class Settings extends ContentPanel implements ActionListener {
         toggleHighlightButton.addActionListener(this);
         this.add(toggleHighlightButton);
 
+        // Sounds
         toggleSoundButton.setBounds(SETTINGS_LEFT + COMBOBOX_GAP, BUTTON_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         toggleSoundButton.setFont(UserInterface.orkney12);
         toggleSoundButton.setForeground(UserInterface.TEXT_COLOUR);
@@ -161,7 +166,12 @@ public class Settings extends ContentPanel implements ActionListener {
         this.add(toggleSoundButton);
     }
 
-    //@Override
+    /**
+     * actionPerformed
+     * action listener for the buttons and comboboxes in the settings page
+     * @param ActionEvent the event that occurs (mouse clicks)
+     */
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boardThemes) {
             UserInterface.changeBoard(boardThemes.getSelectedIndex());
@@ -173,13 +183,15 @@ public class Settings extends ContentPanel implements ActionListener {
             UserInterface.toggleHighlight(toggleHighlightButton);
         } else if (e.getSource() == toggleSoundButton) {
             UserInterface.toggleSound(toggleSoundButton);
-        }   
+        }
+        // Set change made variable to true so changes in settings can be sent to server
         if (window.isLoggedIn()) UserInterface.changeMade = true;
     }
 
     /**
-     * Updates toggle highlight button (specifically for when a user logs in)
-     * @param state
+     * updateAfterLogin
+     * updates buttons and combo boxes after log in
+     * @param states int array with all saved settings of the user
      */
     public void updateAfterLogin(int[] settingStates) {
         if (settingStates[2] != (UserInterface.highlightToggle?1:0)) {

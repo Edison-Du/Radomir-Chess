@@ -84,6 +84,7 @@ public class BrowseGamesPage extends ContentPanel implements ActionListener {
         lobbyList.setBorder(LOBBY_LIST_BORDER);
         lobbyList.setCellRenderer(getRenderer());
         lobbyList.addMouseListener(lobbyListMouseAdapter);
+
         pane = new JScrollPane(lobbyList);
         lobbyListPanel.add(pane);
         this.add(lobbyListPanel);
@@ -107,18 +108,10 @@ public class BrowseGamesPage extends ContentPanel implements ActionListener {
         this.add(backButton);
     }
 
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == joinButton) {
-            Message message = new Message(MessageTypes.JOIN_GAME);
-            message.addParam(joinGameCode);
-            ServerConnection.sendMessage(message);
-        } else if (e.getSource() == backButton) {
-            window.changePage(Page.PLAY);
-        }
-        this.revalidate();
-        this.repaint();
-    }
-
+    /**
+     * ListCellRenderer
+     * Cell Renderer for the lobby list
+     */
     private ListCellRenderer<? super String> getRenderer() {
         return new DefaultListCellRenderer(){
             @Override
@@ -131,6 +124,24 @@ public class BrowseGamesPage extends ContentPanel implements ActionListener {
                 return listCellRendererComponent;
             }
         };
+    }
+
+    /**
+     * actionPerformed
+     * Action Listener for the lobby list and buttons in the browse games page
+     * @param e the action that occurs (mouse click)
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == joinButton) {
+            Message message = new Message(MessageTypes.JOIN_GAME);
+            message.addParam(joinGameCode);
+            ServerConnection.sendMessage(message);
+        } else if (e.getSource() == backButton) {
+            window.changePage(Page.PLAY);
+        }
+        this.revalidate();
+        this.repaint();
     }
 
     /**

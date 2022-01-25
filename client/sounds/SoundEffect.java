@@ -12,7 +12,7 @@ import config.UserInterface;
 /**
  * [SoundEffect.java]
  * 
- * @author
+ * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
 public class SoundEffect {

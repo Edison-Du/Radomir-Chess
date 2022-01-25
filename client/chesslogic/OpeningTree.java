@@ -12,7 +12,8 @@ import java.util.Random;
 /**
  * [OpeningTree.java]
  * 
- * @author 
+ * @author Leo Guan
+ * @author Peter Gu
  * @version 1.0 Jan 24, 2022
  */
 public class OpeningTree {

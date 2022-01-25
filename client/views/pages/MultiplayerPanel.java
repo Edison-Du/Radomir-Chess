@@ -25,22 +25,47 @@ public class MultiplayerPanel extends AbstractGamePanel {
         setGameState(GameState.WAITING);
     }
 
+    /**
+     * setLobbyCode
+     * sets the lobby code
+     * @param String the lobby code
+     */
     public void setLobbyCode(String code) {
         lobbyInfoPanel.setlobbyTitle(code);
     }
 
+    /**
+     * setLobbyVisibility
+     * sets the lobby privacy/visibility
+     * @param String with the lobby visibility (public/private)
+     */
     public void setLobbyVisibility(String visibility) {
         lobbyInfoPanel.setlobbyType(visibility);
     }
 
+    /**
+     * setClient
+     * updates the name of the client
+     * @param String name of the client/player
+     */
     public void setClient(String clientName) {
         this.playerLabel.setText(clientName);
     }
-
+    
+    /**
+     * isAlone
+     * returns the isAlone variable
+     * return boolean whether the player is alone in the lobby
+     */
     public boolean isAlone() {
         return isAlone;
     }
 
+    /**
+     * setAlone
+     * updates the isAlone variable
+     * @param boolean if the player is alone
+     */
     public void setAlone(boolean isAlone) {
         this.isAlone = isAlone;
     }
@@ -54,19 +79,36 @@ public class MultiplayerPanel extends AbstractGamePanel {
         setGameState(GameState.ONGOING);
     }
 
+    /**
+     * removeOther
+     * remove the opponent client
+     */
     public void removeOther() {
         this.otherClient = null;
     }
 
+    /**
+     * getOpponent
+     * get opponent name
+     * @return String returns the opponent client's name
+     */
     public String getOpponent() {
         return this.otherClient;
     }
 
-    // Text
+    /**
+     * addMessageFromOther
+     * appends messages sent by opponent to chat
+     * @param String the message the opponent sent
+     */
     public void addMessageFromOther(String message) {
         messagePanel.addTextMessage(otherClient + ": " + message);
     }
 
+    /**
+     * addTakebackRequest
+     * if opponent sends take back, create accept/decline button
+     */
     public void addTakebackRequest() {
         opponentProposalPanel.setProposalText("Accept takeback?");
         this.add(opponentProposalPanel);
@@ -77,6 +119,10 @@ public class MultiplayerPanel extends AbstractGamePanel {
         this.revalidate();
     }
 
+    /**
+     * addDrawOffer
+     * if opponent offers a draw, create accept/decline button
+     */
     public void addDrawOffer() {
         opponentProposalPanel.setProposalText("Accept draw?");
         this.add(opponentProposalPanel);
@@ -87,6 +133,10 @@ public class MultiplayerPanel extends AbstractGamePanel {
         this.revalidate();
     }
 
+    /**
+     * performTakeback
+     * undos move once if opponent turn and twice if your turn
+     */
     public void performTakeback() {
         if (chessGame.getCurrentPos().getToMove() == getPlayerColour()) {
             undoMove();
@@ -96,6 +146,11 @@ public class MultiplayerPanel extends AbstractGamePanel {
         }
     }
 
+    /**
+     * processMove
+     * sends your move to other player
+     * @param String 3 strings: starting tile, ending tile, and whether the move was a promotion
+     */
     @Override
     public void processMove(String t1, String t2, String p) {
         Message message = new Message(MessageTypes.CHESS_MOVE);
@@ -105,7 +160,10 @@ public class MultiplayerPanel extends AbstractGamePanel {
         ServerConnection.sendMessage(message);
     }
 
-    // handle end of game
+    /**
+     * handleGameEnded
+     * Checks/handles the ending of a game (checks who wins)
+     */
     public void handleGameEnded() {
         if(chessGame.stalemate()) {
             setGameState(GameState.STALEMATE);
@@ -124,6 +182,11 @@ public class MultiplayerPanel extends AbstractGamePanel {
         }
     }
 
+    /**
+     * actionPerformed
+     * action listener for game panel
+     * @param ActionEvent the event that occured (mouse click)
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -162,13 +225,19 @@ public class MultiplayerPanel extends AbstractGamePanel {
         this.repaint();
     }
 
-    // Functions to handle each button when clicked
+    /**
+     * handleLeaveLobbyButton
+     * functions to handle the leave lobby button
+     */
     public void handleLeaveLobbyButton() {
         Message message = new Message(MessageTypes.LEAVE_GAME);
         ServerConnection.sendMessage(message);
     }
 
-
+    /**
+     * handleTakebackButton
+     * function to handle the takeback button
+     */
     public void handleTakebackButton() {
         // Make sure the user has made a move
         if (movesPanel.getNumMoves() > getPlayerColour()) {
@@ -177,13 +246,19 @@ public class MultiplayerPanel extends AbstractGamePanel {
         }
     }
 
-
+    /**
+     * handleDrawButton
+     * handles the draw button
+     */
     public void handleDrawButton() {
         ServerConnection.sendMessage(new Message(MessageTypes.DRAW_OFFERED));
         messagePanel.addTextMessage("Draw offer sent.");
     }
 
-
+    /**
+     * handleResignButton
+     * handles the game resignation
+     */
     public void handleResignButton() {
         if (getPlayerColour() == 0) {
             setGameState(GameState.BLACK_VICTORY_RESIGN);
@@ -195,14 +270,20 @@ public class MultiplayerPanel extends AbstractGamePanel {
         ServerConnection.sendMessage(new Message(MessageTypes.RESIGNATION));
     }
 
-
+    /**
+     * handleDrawAcceptance
+     * handles the draw acceptance
+     */
     public void handleDrawAcceptance() {
         boardPanel.gameResultOverlay.setMessage("Game Drawn");
         ServerConnection.sendMessage(new Message(MessageTypes.DRAW_ACCEPTED));
         setGameState(GameState.DRAW);
     }
 
-
+    /**
+     * handleTakeBackAcceptance
+     * handles the take back aceeptance
+     */
     public void handleTakeBackAcceptance() {
         ServerConnection.sendMessage(new Message(MessageTypes.TAKEBACK_ACCEPTED));
 

@@ -12,8 +12,8 @@ import views.components.ContentPanel;
 
 /**
  * [MovesPanel.java]
- * 
- * @author
+ * Display the moves of the game in algebraic move in live time
+ * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
 public class MovesPanel extends ContentPanel {
@@ -30,7 +30,6 @@ public class MovesPanel extends ContentPanel {
     private int numMoves = 0;
 
     public MovesPanel() {
-
         movesList = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -41,11 +40,9 @@ public class MovesPanel extends ContentPanel {
         for (String column : columnNames) {
             movesList.addColumn(column);
         }
-
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-        table = new JTable(movesList);
-
+        this.table = new JTable(movesList);
         table.setRowHeight(ROW_HEIGHT);
 
         // Table function removal
@@ -66,13 +63,16 @@ public class MovesPanel extends ContentPanel {
         table.getTableHeader().setForeground(UserInterface.CHAT_MESSAGE_COLOUR);
         table.getTableHeader().setBackground(UserInterface.GAME_MOVES_HEADER_BACKGROUND);
 
-        pane = new JScrollPane(table);           
+        this.pane = new JScrollPane(table);           
         pane.setBounds(TABLE_BOUNDS);
         pane.setBorder(UserInterface.EMPTY_BORDER);
-        
         this.add(pane);
     }
 
+    /**
+     * Add move to moves panel
+     * @param move String representing move
+     */
     public void addMove(String move) {
         if (numMoves % 2 == 0) {
             this.movesList.addRow(new Object[]{(numMoves/2 + 1) + ".", move, ""});
@@ -86,6 +86,10 @@ public class MovesPanel extends ContentPanel {
         numMoves++;
     }
 
+    /**
+     * Remove move to moves panel for a takeback
+     * @param move String representing move
+     */
     public void removeMove(){
         if (numMoves == 0) return;
         else if (numMoves % 2 == 0){

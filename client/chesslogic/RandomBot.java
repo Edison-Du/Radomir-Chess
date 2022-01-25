@@ -6,7 +6,8 @@ import java.util.Random;
 /**
  * [RandomBot.java]
  * class for a bot that makes random moves
- * @author 
+ * @author Leo Guan
+ * @author Peter Gu
  * @version 1.0 Jan 24, 2022
  */
 

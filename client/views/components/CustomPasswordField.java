@@ -16,7 +16,6 @@ public class CustomPasswordField extends JPasswordField{
     private String placeholder;
     private Color placeholderColour;
     private int placeholderY;
-    // private
 
     public CustomPasswordField() {
         this.placeholder = "";

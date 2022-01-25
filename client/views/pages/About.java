@@ -11,8 +11,8 @@ import config.UserInterface;
 
 /**
  * [About.java]
- * 
- * @author
+ * About page that tells you about the game
+ * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
 public class About extends ContentPanel implements ActionListener {
@@ -22,13 +22,12 @@ public class About extends ContentPanel implements ActionListener {
     private final JScrollPane scrollPane;
 
     public About() {
-
         titleLabel.setFont(UserInterface.orkney36);
         titleLabel.setForeground(UserInterface.TEXT_COLOUR);
         titleLabel.setBounds(UserInterface.TITLE_BOUNDS);
         this.add(titleLabel);
 
-        textArea = new JTextArea(
+        this.textArea = new JTextArea(
             "ICS4UE Summative: Radomir Chess\n\n" +
 
             "1. Overview\n\n" + 
@@ -78,7 +77,7 @@ public class About extends ContentPanel implements ActionListener {
         textArea.setOpaque(false);
         textArea.setBackground(UserInterface.FRAME_COLOUR);
 
-        scrollPane = new JScrollPane(textArea); 
+        this.scrollPane = new JScrollPane(textArea); 
         scrollPane.setBounds(UserInterface.ABOUT_PADDING, UserInterface.ABOUT_Y_BOUND, UserInterface.ABOUT_WIDTH, UserInterface.ABOUT_HEIGHT);
         scrollPane.getViewport().setOpaque(false);
         scrollPane.setOpaque(false);

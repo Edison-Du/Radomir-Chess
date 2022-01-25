@@ -2,6 +2,10 @@ package config;
 
 /**
  * [Page.java]
+ * The different pages a user can access on the application
+ * 
+ * @author Edison Du
+ * @version 1.0 Jan 24, 2022
  */
 public enum Page {
     PLAY,

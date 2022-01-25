@@ -25,7 +25,8 @@ import views.components.CustomButton;
 /**
  * [AbstractGamePanel.java]
  * 
- * @author
+ * @author Peter Gu
+ * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
 abstract public class AbstractGamePanel extends ContentPanel implements ActionListener {
@@ -51,9 +52,6 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     private final Rectangle PROPOSAL_BOUNDS = new Rectangle(435, 20, 165, 200);
     private final Rectangle LEAVE_BUTTON_BOUNDS = new Rectangle(660, 630, 240, 30);
 
-    // Chess game
-    public ChessGame chessGame;
-
     // Panels
     public final ChessBoardPanel boardPanel;
     public final MovesPanel movesPanel;
@@ -70,17 +68,16 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public final GamePanelButton resignButton;
     public final GamePanelButton takebackButton;
     public final CustomButton leaveLobby;
-
-    private boolean playAgain;
-    private boolean opponentPlayAgain;
-
     public final CapturedPiecesPanel capturedPiecesPanelWhite;
     public final CapturedPiecesPanel capturedPiecesPanelBlack;
+    public final OpponentProposalPanel opponentProposalPanel;
 
+    // Chess game
+    public ChessGame chessGame;
+    private boolean playAgain;
+    private boolean opponentPlayAgain;
     private int playerColour;
     private GameState gameState;
-
-    public final OpponentProposalPanel opponentProposalPanel;
     private String activeProposal;
 
     public AbstractGamePanel() {

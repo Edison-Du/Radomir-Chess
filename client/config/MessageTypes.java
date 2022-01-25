@@ -3,9 +3,11 @@ package config;
 /**
  * [MessageTypes.java]
  * Different types of messages that can be sent between
- * the servre and the client
+ * the server and the client
  * 
  * @author Edison Du
+ * @author Nicholas Chew
+ * @author Jeffrey Xu
  * @version 1.0 Jan 24, 2022
  */
 public final class MessageTypes {

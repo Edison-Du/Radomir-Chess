@@ -10,8 +10,8 @@ import views.components.ContentPanel;
 
 /**
  * [CapturedPiecesPanel.java]
- * 
- * @author
+ * Panel for displaying pieces that have been captured
+ * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
 public class CapturedPiecesPanel extends ContentPanel {
@@ -19,27 +19,19 @@ public class CapturedPiecesPanel extends ContentPanel {
     private ChessGame game;
 
     public int playerColour;
-
-    // public GameResultOverlay gameResultOverlay;
-
-    public Stack<Piece> capturedPieces;
-
     public int offset;
+    public Stack<Piece> capturedPieces;
     
-    // p B N R Q
+    // corresponds to p B N R Q
     public final Image[] pieceImages = new Image[5];
     public final int[] capturedPieceCount;    
 
     public CapturedPiecesPanel(ChessGame game, int playerColour) {
         this.game = game;
-
-        capturedPieces = game.getPiecesTaken();
-
-        offset = 0;
-
         this.playerColour = playerColour;
-
-        capturedPieceCount = new int[5];
+        this.offset = 0;
+        this.capturedPieces = game.getPiecesTaken();
+        this.capturedPieceCount = new int[5];
 
         for (int i = 0; i < capturedPieceCount.length; i++) {
             this.pieceImages[i] = UserInterface.PIECES.get(this.playerColour + i*2)[UserInterface.activeSetNum].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST);
@@ -52,7 +44,6 @@ public class CapturedPiecesPanel extends ContentPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        
         // Reset piece count array
         for (int i = 0; i < capturedPieceCount.length; i++) {
             capturedPieceCount[i] = 0;
@@ -69,7 +60,6 @@ public class CapturedPiecesPanel extends ContentPanel {
         }
 
         for(int i = 0; i < capturedPieceCount.length; i++) {
-
             int numPieces = capturedPieceCount[i];
             
             for(int j = 0; j < numPieces; j++) {
@@ -84,10 +74,12 @@ public class CapturedPiecesPanel extends ContentPanel {
         // Check if we need to update the piece set
         if (UserInterface.setChanged) {
             updatePieces();
+            UserInterface.setChanged = false;
         }
     }
 
     /**
+     * updatePieces
      * Updates the piece set theme
      */
     public void updatePieces() {

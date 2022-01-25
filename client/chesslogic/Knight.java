@@ -7,7 +7,7 @@ import config.UserInterface;
 /**
  * [Knight.java]
  * class for a Knight piece
- * @author 
+ * @author Leo Guan
  * @version 1.0 Jan 24, 2022
  */
 

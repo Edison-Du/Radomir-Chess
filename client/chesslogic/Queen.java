@@ -7,7 +7,7 @@ import config.UserInterface;
 /**
  * [Queen.java]
  * class for a Queen piece
- * @author 
+ * @author Leo Guan
  * @version 1.0 Jan 24, 2022
  */
 

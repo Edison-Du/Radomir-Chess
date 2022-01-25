@@ -10,8 +10,12 @@ import java.util.ArrayList;
 
 /**
  * [ConnectionHandler.java]
+ * An individual thread that manages messages received by the server
+ * and performs tasks depending on the message type
  * 
  * @author Edison Du
+ * @author Nicholas Chew
+ * @author Peter Gu
  * @version 1.0 Jan 24, 2022
  */
 public class ConnectionHandler extends Thread {
@@ -22,11 +26,20 @@ public class ConnectionHandler extends Thread {
     private int clientNum;
     private String clientName;
 
+    /**
+     * ConnectionHandler
+     * Initialize a connection handler between the server and client
+     * @param window the window associated with the connection handler
+     */
     public ConnectionHandler(Window window) {
         isActive = true;
         this.window = window;
     }
 
+    /**
+     * run
+     * Starts continuously reading and evaluating messages from the server
+     */
     @Override
     public void run() {
         try {
@@ -42,14 +55,38 @@ public class ConnectionHandler extends Thread {
         }
     }
 
+    /**
+     * evalMessage
+     * Performs tasks depending on the type of message sent by the server
+     * @param message the message sent by the server
+     */
     public void evalMessage(Message message) {
 
         if (message == null) {
             return;
 
+        // Starting and closing the program ----------------------------------------------
         } else if (message.getType().equals(MessageTypes.CONNECTION_ACCEPTED)) {
             setClientInfo(message);
 
+        } else if (message.getType().equals(MessageTypes.EXIT_PROGRAM)) {
+            isActive = false;
+            ServerConnection.close();
+
+        // Authentication related message ------------------------------------------------
+        } else if (message.getType().equals(MessageTypes.LOGIN_ACCEPTED)) {
+            login(message);
+
+        } else if (message.getType().equals(MessageTypes.LOGIN_FAILED)) {
+            handleLoginFailed();
+        
+        } else if (message.getType().equals(MessageTypes.REGISTER_FAILED)){
+            handleRegisterFailed();
+
+        } else if (message.getType().equals(MessageTypes.LOGOUT)){
+            logout();
+
+        // Joining and creating games ----------------------------------------------
         } else if (message.getType().equals(MessageTypes.GAME_CREATED)) { 
             createGame(message);
 
@@ -62,24 +99,29 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.JOIN_ERROR)) {
             processJoinError(message);
 
+        // Leaving a game
+        } else if (message.getType().equals(MessageTypes.LEFT_SUCCESFULLY)) {
+            leaveGame(message);
+
+        // The opponent player leaves/joins the game ------------------------------
         } else if (message.getType().equals(MessageTypes.GUEST_JOINED)) {
             guestJoined(message);
 
         } else if (message.getType().equals(MessageTypes.OPPONENT_LEFT)) {
             opponentLeft(message);
 
-        } else if (message.getType().equals(MessageTypes.LEFT_SUCCESFULLY)) {
-            leaveGame(message);
-
+        // Player colour in chess game ---------------------------------------------------
         } else if (message.getType().equals(MessageTypes.PLAYER_COLOUR)) {
             setPlayerColour(message);
 
+        // Communication between two players in a game -------------------------------------
         } else if (message.getType().equals(MessageTypes.SENT_TEXT)) {
             addTextMessage(message);
 
         } else if (message.getType().equals(MessageTypes.CHESS_MOVE)) {
             processOpponentChessMove(message);
 
+        // Game over states ----------------------------------------------------------------
         } else if(message.getType().equals(MessageTypes.WHITE_VICTORY_CHECKMATE)) {
             processWhiteCheckmate(message);
 
@@ -92,53 +134,88 @@ public class ConnectionHandler extends Thread {
         } else if (message.getType().equals(MessageTypes.RESIGNATION)) {
             processOpponentResignation();
 
-        } else if (message.getType().equals(MessageTypes.PLAY_AGAIN)) {
-            processPlayAgain();
-
+        // Take backs in chess game ---------------------------------------------------------
         } else if (message.getType().equals(MessageTypes.TAKEBACK_REQUESTED)){
             processTakebackRequest();
 
         } else if (message.getType().equals(MessageTypes.TAKEBACK_ACCEPTED)){
             processTakebackAcceptance();
 
+        // Draws in chess game --------------------------------------------------------------
         } else if (message.getType().equals(MessageTypes.DRAW_OFFERED)){
             processDrawOffer();
 
         } else if (message.getType().equals(MessageTypes.DRAW_ACCEPTED)){
             processDraw();
 
+        // Chess game rematch --------------------------------------------------------------
+        } else if (message.getType().equals(MessageTypes.PLAY_AGAIN)) {
+            processPlayAgain();
+
+        // Lobby related ------------------------------------------------------------------
         } else if (message.getType().equals(MessageTypes.DISPLAY_GAMES)) {
             displayLobbies(message);
 
         } else if (message.getType().equals(MessageTypes.LOBBY_VISIBILITY)) {
             setLobbyVisibility(message);
 
-        } else if (message.getType().equals(MessageTypes.LOGIN_ACCEPTED)) {
-            login(message);
-
-        } else if (message.getType().equals(MessageTypes.LOGIN_FAILED)) {
-            handleLoginFailed();
-        
-        } else if (message.getType().equals(MessageTypes.REGISTER_FAILED)){
-            handleRegisterFailed();
-    
-        } else if (message.getType().equals(MessageTypes.LOGOUT)){
-            logout();
-
-        } else if (message.getType().equals(MessageTypes.EXIT_PROGRAM)) {
-            isActive = false;
-            ServerConnection.close();
-
+        // Number of players online --------------------------------------------------------
         } else if (message.getType().equals(MessageTypes.GET_PLAYERS_ONLINE)) {
             setPlayersOnline(message);
         }
     }
 
+    /**
+     * setClientInfo
+     * Sets the client's name and number
+     * @param message the message containing the client's name and number
+     */
     public void setClientInfo(Message message) {
         clientNum = Integer.parseInt(message.getParam(0)); 
         clientName = "Guest " + clientNum;
         window.navigationBar.setUsername(clientName);
     }
+
+    /**
+     * login
+     * Logs the user in,
+     * @param message
+     */
+    public void login(Message message){
+        clientName = message.getParam(0);
+        window.navigationBar.setUsername(clientName);
+
+        int[] userPreferences = new int[UserInterface.NUM_SETTINGS];
+        for (int i = 0; i < UserInterface.NUM_SETTINGS; i++) {
+            userPreferences[i] = Integer.parseInt(message.getParam(i+1));
+        }
+        window.setCurrentSettings(userPreferences);
+
+        window.setLoggedIn(true);
+        window.changePage(Page.PLAY);
+    }
+
+    public void handleLoginFailed() {
+        window.loginPanel.displayError("Invalid credentials");
+    }
+
+    public void handleRegisterFailed() {
+        window.loginPanel.displayError("Username is taken");
+    }
+
+    public void logout() {
+        clientName = "Guest " + clientNum;
+        window.navigationBar.setUsername(clientName);
+
+        window.setLoggedIn(false);
+        window.changePage(Page.LOGIN);
+    }
+
+
+
+
+
+
 
     public void processJoinError(Message message) {
         window.joinGamePanel.displayError(message.getParam(0));
@@ -171,35 +248,7 @@ public class ConnectionHandler extends Thread {
         window.gamePanel.performTakeback();
     }
 
-    public void login(Message message){
-        clientName = message.getParam(0);
-        window.navigationBar.setUsername(clientName);
 
-        int[] userPreferences = new int[UserInterface.NUM_SETTINGS];
-        for (int i = 0; i < UserInterface.NUM_SETTINGS; i++) {
-            userPreferences[i] = Integer.parseInt(message.getParam(i+1));
-        }
-        window.setCurrentSettings(userPreferences);
-
-        window.setLoggedIn(true);
-        window.changePage(Page.PLAY);
-    }
-
-    public void logout() {
-        clientName = "Guest " + clientNum;
-        window.navigationBar.setUsername(clientName);
-
-        window.setLoggedIn(false);
-        window.changePage(Page.LOGIN);
-    }
-
-    public void handleLoginFailed() {
-        window.loginPanel.displayError("Invalid credentials");
-    }
-
-    public void handleRegisterFailed() {
-        window.loginPanel.displayError("Username is taken");
-    }
 
     public void createGame(Message message) {
         String code = message.getParam(0);

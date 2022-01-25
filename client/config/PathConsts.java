@@ -5,6 +5,9 @@ package config;
  * Paths to files used by the program
  * 
  * @author Edison Du
+ * @author Nicholas Chew
+ * @author Alex Zhu
+ * @author Jeffrey Xu
  * @version 1.0 Jan 24, 2022
  */
 public final class PathConsts {

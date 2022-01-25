@@ -16,28 +16,27 @@ import sounds.SoundEffect;
 
 /**
  * [ChessGameMouseListener.java]
- * 
- * @author
+ * Mouse Listener for the chess board panel
+ * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
 public class ChessGameMouseListener implements MouseListener, MouseMotionListener {
 
-    private AbstractGamePanel gamePanel;
+    AbstractGamePanel gamePanel;
     ChessGame game;
-    // int gamePanel.getPlayerColour();
+    
+    String t1;
+    String t2;
 
-    String t1 = "";
-    String t2 = "";
+    int mouseX;
+    int mouseY;
 
-    int mouseX = 0;
-    int mouseY = 0;
+    int posX;
+    int posY;
 
-    int posX = 0;
-    int posY = 0;
-
-    BufferedImage heldPieceImage = null;
-    Piece selectedPiece = null;
-    boolean isSelected = false;
+    BufferedImage heldPieceImage;
+    Piece selectedPiece;
+    boolean isSelected;
 
     public boolean isPromoting = false;
     private String promotionChoice;
@@ -45,13 +44,21 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     private String promotionT2;
 
     public ChessGameMouseListener(ChessGame game,  AbstractGamePanel gamePanel) {
-        this.game = game;
         this.gamePanel = gamePanel;
-
+        this.game = game;
+        this.t1 = "";
+        this.t2 = "";
+        this.mouseX = 0;
+        this.mouseY = 0;
+        this.posX = 0;
+        this.posY = 0;
+        this.heldPieceImage = null;
+        this.selectedPiece = null;
+        this.isSelected = null;
+        this.isPromoting = false;
     }
 
     public void mousePressed(MouseEvent e) {
-
         // Initialize mouse coordinates
         mouseX = e.getX();
         mouseY = e.getY();
@@ -82,7 +89,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             }
         }
 
-        // adjust tile coords for the tile array based on gamePanel.getPlayerColour()
+        // Adjust tile coords for the tile array based on gamePanel.getPlayerColour()
         posX = (7 * gamePanel.getPlayerColour()) + (1 - 2 * gamePanel.getPlayerColour()) * mouseX / 60;
         posY = (7 * (1 - gamePanel.getPlayerColour())) + (2 * gamePanel.getPlayerColour() - 1) * mouseY / 60;
 
@@ -91,13 +98,13 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             // Checking for which piece is currently being clicked
             if (mouseX < 480 && mouseY < 480) {
                 if (game.getCurrentPos().getTiles()[posX][posY].getPiece() != null) {
-                    // check if piece is correct colour
+                    // Check if piece is correct colour
                     if(game.getCurrentPos().getTiles()[posX][posY].getPiece().getColour() == gamePanel.getPlayerColour()) {
                         t1 = String.valueOf((char) (posX + 97)) + "" + (posY + 1);
                         selectedPiece = game.getCurrentPos().getTiles()[posX][posY].getPiece();
                         heldPieceImage = selectedPiece.getImage();
                         isSelected = true;
-                        System.out.print(t1);
+                        // System.out.print(t1);
                     }
                 }
             }
@@ -105,64 +112,50 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     }
 
     public void mouseReleased(MouseEvent e) {
-
         // Initialize mouse coordinates
         mouseX = e.getX();
         mouseY = e.getY();
 
-        // adjust tile coords for the tile array based on gamePanel.getPlayerColour()
+        // Adjust tile coords for the tile array based on gamePanel.getPlayerColour()
         posX = (7 * gamePanel.getPlayerColour()) + (1 - 2 * gamePanel.getPlayerColour()) * mouseX / 60;
         posY = (7 * (1 - gamePanel.getPlayerColour())) + (2 * gamePanel.getPlayerColour() - 1) * mouseY / 60;
 
-        // solve if piece dragged
+        // Solve t2
         t2 = String.valueOf((char) (posX + 'a')) + "" + (posY + 1);
 
         if (isSelected) {
             isSelected = false;
             selectedPiece = null;
             heldPieceImage = null;
-            System.out.println(", " + t2);
 
+            // Make move
             if(gamePanel.getGameState() == GameState.ONGOING && game.getCurrentPos().legal(t1, t2)) {
-
                 if(game.getCurrentPos().promotingMove(t1, t2)) {
                     isPromoting = true;
                     promotionT1 = t1;
                     promotionT2 = t2;
-                }
-                else {
+                } else {
                     gamePanel.movesPanel.addMove(game.toAlgebraic(t1, t2, ""));
-
                     SoundEffect.playSound(t1, t2, "", game);
                     game.move(t1, t2, "");
-
-                    System.out.println("processing the move");
                     gamePanel.processMove(t1, t2, "");
 
-                    // sleepy alex attempts to code again
-                    // check for end of game that happens in chess
                     if(game.ended()) {
                         gamePanel.handleGameEnded();
                     }
-
                 }
-
-                // add move to move list
             }
         }
-        // reset t1 and t2
+        // Reset t1 and t2
         t1 = "";
         t2 = "";
     }
 
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    public void mouseExited(MouseEvent e) {
-    }
-
-    public void mouseClicked(MouseEvent e) {
-    }
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {}
+    public void mouseMoved(MouseEvent e) {}
 
     public BufferedImage getHeldPieceImage() {
         return heldPieceImage;
@@ -176,10 +169,15 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
         return mouseY;
     }
     
+    public Piece getSelectedPiece() {
+        return selectedPiece;
+    }
+
     /**
-     * MouseMotionEventListener
+     * mouseDragged
      * A mouse motion listener that receives mouse motion inputs to
-     * have a table follow the user's cursor when dragged.
+     * have a chess piece follow the user's cursor when dragged.
+     * @param e MouseEvent
      */
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -189,14 +187,5 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             mouseX = e.getX();
             mouseY = e.getY();
         }
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        
-    }
-
-    public Piece getSelectedPiece() {
-        return selectedPiece;
     }
 }

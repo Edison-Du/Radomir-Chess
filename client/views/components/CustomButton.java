@@ -18,6 +18,7 @@ public class CustomButton extends JButton {
     private boolean isRound;
     private int borderRadius;
 
+    // Custom button constructor
     public CustomButton (String text) {
         super(text);
         super.setContentAreaFilled(false);
@@ -25,26 +26,50 @@ public class CustomButton extends JButton {
         isRound = false;
     }
 
+    /**
+     * setHoverColor
+     * @param color colour to set hover colour to
+     */
     public void setHoverColor(Color color) {
         this.hoverColor = color;
     }
 
+    /**
+     * getHoverColor
+     * @return Color the current hover color
+     */
     public Color getHoverColor() {
         return this.hoverColor;
     }
 
+    /**
+     * setPressedColor
+     * @param color set the pressed color
+     */
     public void setPressedColor(Color color) {
         this.pressedColor = color;
     }
 
+    /**
+     * getPressedColor
+     * @return Color the current pressed color
+     */
     public Color getPressedColor() {
         return this.pressedColor;
     }
 
+    /**
+     * setRound
+     * @param isRound sets the isRound boolean
+     */
     public void setRound(boolean isRound) {
         this.isRound = isRound;
     }
 
+    /**
+     * setBorderRadius
+     * @param radius sets the radius of the border
+     */
     public void setBorderRadius(int radius) {
         this.borderRadius = radius;
     }

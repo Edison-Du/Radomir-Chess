@@ -97,7 +97,6 @@ public class BotGameSetup extends ContentPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
-            removeError();
             window.changePage(Page.PLAY);
 
         } else if (e.getSource() == createLowDepthGameBtn) {

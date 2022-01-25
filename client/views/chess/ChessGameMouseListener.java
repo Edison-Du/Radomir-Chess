@@ -54,7 +54,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
         this.posY = 0;
         this.heldPieceImage = null;
         this.selectedPiece = null;
-        this.isSelected = null;
+        this.isSelected = false;
         this.isPromoting = false;
     }
 

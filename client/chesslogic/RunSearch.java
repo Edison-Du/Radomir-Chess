@@ -13,11 +13,12 @@ import java.lang.InterruptedException;
  * Each thread added increases the speed marginally. Tested with intel i3-8130U, 12 GB RAM (not sure what type, too lazy to find out)
  */
 
-private class RunSearch implements Runnable {
+public class RunSearch implements Runnable {
 
     // Class Variables
     
     private ChessGame game;
+    private Bot bot;
     private int depth;
     private ArrayList<String> check;
     
@@ -33,7 +34,8 @@ private class RunSearch implements Runnable {
      * Initializes a thread to search
      */
     
-    RunSearch(ChessGame g, int depth, ArrayList<String> toCheck, String[] myMoves, int[] myScores, int mySection, int[] directionXOne, int[] directionYOne, int[] directionXTwo, int[] directionYTwo) {
+    RunSearch(Bot bot, ChessGame g, int depth, ArrayList<String> toCheck, String[] myMoves, int[] myScores, int mySection, int[] directionXOne, int[] directionYOne, int[] directionXTwo, int[] directionYTwo) {
+        this.bot = bot;
         this.depth = depth;
         this.game = g;
         this.check = toCheck;
@@ -198,7 +200,7 @@ private class RunSearch implements Runnable {
                 possibleMoves = sortMoves(game.getCurrentPos(), check);
             }
             else {
-                possibleMoves = sortMoves(g.getCurrentPos(), legalMoves(g.getCurrentPos()));
+                possibleMoves = sortMoves(g.getCurrentPos(), bot.legalMoves(g.getCurrentPos()));
             }
             for(int i = 0; i < possibleMoves.size(); i++) {
                 String curMove = possibleMoves.get(i).move;

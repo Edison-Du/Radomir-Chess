@@ -47,6 +47,7 @@ public class MessagePanel extends ContentPanel implements ActionListener {
         messageList.setFont(UserInterface.orkney12);
         messageList.setBackground(UserInterface.NAVBAR_COLOUR);
         messageList.setForeground(UserInterface.CHAT_MESSAGE_COLOUR);
+        messageList.setEnabled(false);
 
         // Scroll pane containing message list
         pane = new JScrollPane(messageList);
@@ -59,6 +60,7 @@ public class MessagePanel extends ContentPanel implements ActionListener {
         messageListPanel.setLayout(new BoxLayout(messageListPanel, BoxLayout.X_AXIS));
         messageListPanel.setBorder(UserInterface.GAME_CHAT_BORDER);
         messageListPanel.setBackground(UserInterface.NAVBAR_COLOUR);
+        messageListPanel.setFocusable(false);
         messageListPanel.add(pane);   
         this.add(messageListPanel);
 

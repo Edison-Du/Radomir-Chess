@@ -1,39 +1,51 @@
 package views.pages;
 
-import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 
 import chesslogic.*;
 import config.GameState;
 import config.Page;
-
 import views.Window;
 import views.chess.BotThread;
 
+/**
+ * [BotPanel.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class BotPanel extends AbstractGamePanel {
 
-    final int tileSize = 60;
+    private final int INITIAL_DEPTH = 1;
+    private final String EASY_TEXT = "Jeffrey Bot: Easy";
+    private final String MEDIUM_TEXT = "Peter Bot: Medium";
+    private final String HARD_TEXT = "Radomir Bot: Hard";
+    private final int EASY_DEPTH = 1;
+    private final int MEDIUM_DEPTH = 3;
+    private final int HARD_DEPTH = 5;
+    private final String LOBBY_INFO_PANEL_TEXT = "Bot Game";
 
-    BufferedImage heldPieceImage;
-
-    Bot depthSearchBot;
-
+    private Bot depthSearchBot;
     private Window window;
-
-    BotThread threadBotP1;
-
-    ChessGame chessGameClone;
+    private ChessGame chessGameClone;
+    private int depth;
 
     public BotPanel(Window window) {
-
         this.window = window;
-        opponentLabel.setText("Radomir Bot");
-        lobbyInfoPanel.setlobbyTitle("Bot Game");
+        this.depth = INITIAL_DEPTH;
+
+        lobbyInfoPanel.setlobbyTitle(LOBBY_INFO_PANEL_TEXT);
         resetGame();
     }
 
     public void setPlayerName(String name) {
         this.playerLabel.setText(name);
+    }
+
+    public void setDepth(int depth){
+        this.depth = depth;
+        resetGame();
+        resetChat();
     }
 
     @Override
@@ -50,7 +62,17 @@ public class BotPanel extends AbstractGamePanel {
 
         setPlayerColour((int)(Math.random() * 2));
 
-        depthSearchBot = new DepthSearchBotP2(5, (getPlayerColour() + 1) % 2);
+        depthSearchBot = new DepthSearchBotP2(depth, (getPlayerColour() + 1) % 2);
+        
+        if(depth == EASY_DEPTH) {
+            opponentLabel.setText(EASY_TEXT);  
+
+        } else if(depth == MEDIUM_DEPTH) {
+            opponentLabel.setText(MEDIUM_TEXT);
+            
+        } else if(depth == HARD_DEPTH) {
+            opponentLabel.setText(HARD_TEXT);
+        }
 
         // Bot goes first
         if (getPlayerColour() == 1) {

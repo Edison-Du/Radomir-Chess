@@ -2,6 +2,13 @@ package network;
 
 import java.util.ArrayList;
 
+/**
+ * [Lobby.java]
+ * 
+ * @author Nicholas Chew
+ * @author Edison Du
+ * @version 1.0 Jan 24, 2022
+ */
 public class Lobby {
 
     private static char SEPARATOR = ',';
@@ -13,7 +20,6 @@ public class Lobby {
     private String guestName;
     private int guestColour;
     
-
     public Lobby() {
         lobbyIndex = 0;
         lobbyCode = "";
@@ -103,9 +109,6 @@ public class Lobby {
                 lastIndex = i+1;
             }
         }
-
-        System.out.println(lobbyInfo);
-
         lobby.setLobbyIndex(Integer.parseInt(lobbyInfo.get(0)));
         lobby.setLobbyCode(lobbyInfo.get(1));
         lobby.setHostName(lobbyInfo.get(2));

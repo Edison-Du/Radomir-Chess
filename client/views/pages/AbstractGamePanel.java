@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.Rectangle;
 
 import chesslogic.ChessGame;
+import config.UserInterface;
 import config.GameState;
 import config.MessageTypes;
 import views.chess.CapturedPiecesPanel;
@@ -16,12 +17,17 @@ import views.chess.MessagePanel;
 import views.chess.MovesPanel;
 import views.chess.OpponentProposalPanel;
 import views.chess.PlayerLabel;
-import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
 import views.components.ContentPanel;
 import views.components.CustomButton;
 
+/**
+ * [AbstractGamePanel.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 abstract public class AbstractGamePanel extends ContentPanel implements ActionListener {
 
     private final Rectangle MOVES_PANEL_BOUNDS = new Rectangle(660, 120, 240, 120);

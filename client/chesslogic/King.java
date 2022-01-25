@@ -6,9 +6,10 @@ import java.util.Iterator;
 import config.UserInterface;
 
 /**
+ * [King.java]
  * class for a King piece
- * @author JPANEL
- * @version 1.0
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
 
 public class King extends Piece {

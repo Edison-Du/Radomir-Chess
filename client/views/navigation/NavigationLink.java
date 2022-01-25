@@ -9,6 +9,12 @@ import javax.swing.SwingConstants;
 import config.UserInterface;
 import config.Page;
 
+/**
+ * [NavigationLink.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class NavigationLink extends JButton {
 
     private Page reference;

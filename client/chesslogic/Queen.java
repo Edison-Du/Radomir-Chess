@@ -5,9 +5,10 @@ import java.util.HashSet;
 import config.UserInterface;
 
 /**
+ * [Queen.java]
  * class for a Queen piece
- * @author JPANEL
- * @version 1.0
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
 
 public class Queen extends Piece {

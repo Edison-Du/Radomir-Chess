@@ -5,9 +5,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 /**
+ * [Bot.java]
  * abstract class for a chess engine/bot
- * @author JPANEL
- * @version 1.0
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
 
 public abstract class Bot {

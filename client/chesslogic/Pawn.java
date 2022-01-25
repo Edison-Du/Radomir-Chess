@@ -5,9 +5,10 @@ import java.util.HashSet;
 import config.UserInterface;
 
 /**
+ * [Pawn.java]
  * class for a Pawn piece
- * @author JPANEL
- * @version 1.0
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
 
 public class Pawn extends Piece {

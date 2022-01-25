@@ -15,6 +15,12 @@ import views.components.CustomPasswordField;
 import views.components.CustomTextField;
 import views.components.PanelButton;
 
+/**
+ * Login.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class Login extends ContentPanel implements ActionListener{
 
     private final EmptyBorder TEXT_FIELD_MARGIN = new EmptyBorder(7, 5, 0, 5);
@@ -26,6 +32,21 @@ public class Login extends ContentPanel implements ActionListener{
     private final int ERROR_LABEL_HEIGHT = 30;
     private final int MAX_INPUT_LENGTH = 16;
 
+    private final int USERNAME_X = UserInterface.CONTENT_WIDTH / 2 - 140;
+    private final int PASSWORD_X = UserInterface.CONTENT_WIDTH / 2 - 140;
+    private final int USERNAME_LABEL_Y = UserInterface.WINDOW_HEIGHT / 2 - 160;
+    private final int USERNAME_FIELD_Y = UserInterface.WINDOW_HEIGHT / 2 - 120;
+    private final int PASSWORD_LABEL_Y = UserInterface.WINDOW_HEIGHT / 2 - 50;
+    private final int PASSWORD_FIELD_Y = UserInterface.WINDOW_HEIGHT / 2 - 10;
+    private final int USERNAME_WIDTH = 280;
+    private final int PASSWORD_WIDTH = 280;
+    private final int LOGIN_LABEL_HEIGHT = 30;
+    private final int LOGIN_FIELD_HEIGHT = 50;
+    private final String REGISTER_BUTTON_TEXT = "Register";
+    private final String LOGIN_BUTTON_TEXT = "Login";
+    private final String USERNAME_LABEL_TEXT = "Username";
+    private final String PASSWORD_LABEL_TEXT = "Password";
+    private final String ERROR_TEXT = "Invalid username/password";
 
     private JLabel titleLabel = new JLabel("Login");
     private JLabel usernameLabel= new JLabel();
@@ -44,13 +65,13 @@ public class Login extends ContentPanel implements ActionListener{
         this.add(titleLabel);
 
         usernameLabel.setFont(UserInterface.orkney24);
-        usernameLabel.setText("Username");
+        usernameLabel.setText(USERNAME_LABEL_TEXT);
         usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
         usernameLabel.setBounds(
-            UserInterface.USERNAME_X,
-            UserInterface.USERNAME_LABEL_Y,
-            UserInterface.USERNAME_WIDTH,
-            UserInterface.LOGIN_LABEL_HEIGHT
+            USERNAME_X,
+            USERNAME_LABEL_Y,
+            USERNAME_WIDTH,
+            LOGIN_LABEL_HEIGHT
         );
         this.add(usernameLabel);
 
@@ -60,22 +81,22 @@ public class Login extends ContentPanel implements ActionListener{
         usernameField.setForeground(UserInterface.GAME_MOVES_HEADER_BACKGROUND);
         usernameField.setPlaceholderY(TEXT_FIELD_PLACEHOLDER_Y);
         usernameField.setBounds(
-            UserInterface.USERNAME_X,
-            UserInterface.USERNAME_FIELD_Y,
-            UserInterface.USERNAME_WIDTH,
-            UserInterface.LOGIN_FIELD_HEIGHT
+            USERNAME_X,
+            USERNAME_FIELD_Y,
+            USERNAME_WIDTH,
+            LOGIN_FIELD_HEIGHT
         );
         usernameField.addActionListener(this);
         this.add(usernameField);
 
         passwordLabel.setFont(UserInterface.orkney24);
-        passwordLabel.setText("Password");
+        passwordLabel.setText(PASSWORD_LABEL_TEXT);
         passwordLabel.setForeground(UserInterface.TEXT_COLOUR);
         passwordLabel.setBounds(
-            UserInterface.PASSWORD_X,
-            UserInterface.PASSWORD_LABEL_Y,
-            UserInterface.PASSWORD_WIDTH,
-            UserInterface.LOGIN_LABEL_HEIGHT
+            PASSWORD_X,
+            PASSWORD_LABEL_Y,
+            PASSWORD_WIDTH,
+            LOGIN_LABEL_HEIGHT
         );
         this.add(passwordLabel);
 
@@ -86,27 +107,25 @@ public class Login extends ContentPanel implements ActionListener{
         passwordField.setForeground(UserInterface.GAME_MOVES_HEADER_BACKGROUND);
         passwordField.setPlaceholderY(TEXT_FIELD_PLACEHOLDER_Y);
         passwordField.setBounds(
-            UserInterface.PASSWORD_X,
-            UserInterface.PASSWORD_FIELD_Y,
-            UserInterface.PASSWORD_WIDTH,
-            UserInterface.LOGIN_FIELD_HEIGHT
+            PASSWORD_X,
+            PASSWORD_FIELD_Y,
+            PASSWORD_WIDTH,
+            LOGIN_FIELD_HEIGHT
         );
         passwordField.addActionListener(this);
         this.add(passwordField);
 
-
-        registerButton = new PanelButton("Register", BUTTON_X, REGISTER_BUTTON_Y);
+        registerButton = new PanelButton(REGISTER_BUTTON_TEXT, BUTTON_X, REGISTER_BUTTON_Y);
         registerButton.addActionListener(this);
         this.add(registerButton);
 
-
-        loginButton = new PanelButton("Login", BUTTON_X, LOGIN_BUTTON_Y);
+        loginButton = new PanelButton(LOGIN_BUTTON_TEXT, BUTTON_X, LOGIN_BUTTON_Y);
         loginButton.addActionListener(this);
         this.add(loginButton);
 
         errorLabel.setFont(UserInterface.orkney18);
         errorLabel.setForeground(UserInterface.ERROR_COLOUR);
-        errorLabel.setBounds(BUTTON_X, ERROR_LABEL_Y, UserInterface.USERNAME_WIDTH, ERROR_LABEL_HEIGHT);
+        errorLabel.setBounds(BUTTON_X, ERROR_LABEL_Y, USERNAME_WIDTH, ERROR_LABEL_HEIGHT);
     }
 
     public void displayError(String errorMessage) {
@@ -140,7 +159,7 @@ public class Login extends ContentPanel implements ActionListener{
                 ServerConnection.sendMessage(m);
             }
         } else {
-            displayError("Invalid characters used");
+            displayError(ERROR_TEXT);
         }
     }
 

@@ -5,6 +5,12 @@ import javax.swing.BorderFactory;
 import config.UserInterface;
 import views.components.CustomButton;
 
+/**
+ * [GamePanelButton.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class GamePanelButton extends CustomButton{
     public GamePanelButton(String text) {
         super(text);

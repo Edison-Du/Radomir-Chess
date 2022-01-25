@@ -10,6 +10,12 @@ import javax.swing.table.DefaultTableModel;
 import config.UserInterface;
 import views.components.ContentPanel;
 
+/**
+ * [MovesPanel.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class MovesPanel extends ContentPanel {
     
     private final Rectangle TABLE_BOUNDS = new Rectangle(0, 0, 240, 120);

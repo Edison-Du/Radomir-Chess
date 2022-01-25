@@ -7,12 +7,15 @@ import java.net.Socket;
 
 import config.Consts;
 
-/**
+ /**
+ * [ServerConnection.java]
+ * 
  * THIS CLASS IS A SINGLETON, MEANING 
  * YOU CANNOT CONSTRUCT IT AND ONLY 
  * ONE INSTANCE EXISTS AT ALL TIMES
+ * @author
+ * @version 1.0 Jan 24, 2022
  */
-
 public class ServerConnection {
 
     private static ServerConnection instance = null;
@@ -58,9 +61,6 @@ public class ServerConnection {
 
         // Make sure that an instance is active
         createInstance();
-
-        // Debugging code
-        System.out.println("Sending message to server: " + message.getText());
 
         instance.getOutput().println(message.getText());
         instance.getOutput().flush();

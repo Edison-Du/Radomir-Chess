@@ -14,6 +14,12 @@ import java.awt.image.BufferedImage;
 
 import sounds.SoundEffect;
 
+/**
+ * [ChessGameMouseListener.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class ChessGameMouseListener implements MouseListener, MouseMotionListener {
 
     private AbstractGamePanel gamePanel;
@@ -61,8 +67,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                 } else if (mouseX > 300 && mouseX < 370) {
                     promotionChoice = "R";
                 }
-                System.out.println("checked for mouse");
-                System.out.println(promotionChoice);
 
                 gamePanel.movesPanel.addMove(game.toAlgebraic(promotionT1, promotionT2, promotionChoice));
                 
@@ -87,7 +91,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             // Checking for which piece is currently being clicked
             if (mouseX < 480 && mouseY < 480) {
                 if (game.getCurrentPos().getTiles()[posX][posY].getPiece() != null) {
-
                     // check if piece is correct colour
                     if(game.getCurrentPos().getTiles()[posX][posY].getPiece().getColour() == gamePanel.getPlayerColour()) {
                         t1 = String.valueOf((char) (posX + 97)) + "" + (posY + 1);
@@ -95,8 +98,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                         heldPieceImage = selectedPiece.getImage();
                         isSelected = true;
                         System.out.print(t1);
-                    } else {
-                        System.out.println("NOT YOUR PIECE!");
                     }
                 }
             }
@@ -184,7 +185,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     public void mouseDragged(MouseEvent e) {
 
         if (SwingUtilities.isLeftMouseButton(e) && isSelected) {
-            // System.out.println("DRAG");
             // Initialize mouse coordinates
             mouseX = e.getX();
             mouseY = e.getY();
@@ -193,12 +193,10 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        // TODO Auto-generated method stub
         
     }
 
     public Piece getSelectedPiece() {
         return selectedPiece;
     }
-
 }

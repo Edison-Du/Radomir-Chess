@@ -8,6 +8,12 @@ import views.Window;
 
 import java.util.ArrayList;
 
+/**
+ * [ConnectionHandler.java]
+ * 
+ * @author Edison Du
+ * @version 1.0 Jan 24, 2022
+ */
 public class ConnectionHandler extends Thread {
 
     private Window window;
@@ -28,10 +34,6 @@ public class ConnectionHandler extends Thread {
                 if (ServerConnection.hasMessage()) {
                     Message message = ServerConnection.getMessage();
                     evalMessage(message);
-                    // TODO we can remove this
-                    if (!message.getType().equals(MessageTypes.GET_PLAYERS_ONLINE) && !message.getType().equals(MessageTypes.DISPLAY_GAMES)) {
-                        System.out.println("Received message: " + message.getText());
-                    }
                 }
             }
         } catch (Exception e) {
@@ -208,6 +210,7 @@ public class ConnectionHandler extends Thread {
 
         window.gamePanel.resetGame();
         window.gamePanel.resetChat();
+        window.gamePanel.setGameState(GameState.WAITING);
         window.changePage(Page.GAME);
     }
 

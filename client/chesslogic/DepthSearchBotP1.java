@@ -3,9 +3,10 @@ package chesslogic;
 import java.util.ArrayList;
 
 /**
+ * [DepthSearchBotP1.java]
  * prototype class for a recursive depth-search bot
- * @author JPANEL
- * @version 1.0
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
 
 public class DepthSearchBotP1 extends Bot {

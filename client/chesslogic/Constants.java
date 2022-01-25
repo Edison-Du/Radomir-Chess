@@ -1,9 +1,10 @@
 package chesslogic;
 
 /**
+ * [Constants.java]
  * Class for constants and specific maps
- * @author JPANEL
- * @version 1.0
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
 
 public class Constants {

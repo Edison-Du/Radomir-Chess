@@ -1,9 +1,10 @@
 package chesslogic;
 
 /**
+ * [Move.java]
  * encapsulated class for a move and an approximation of how good it is
- * @author JPANEL
- * @version 1.0
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
 
 class Move implements Comparable<Move> {

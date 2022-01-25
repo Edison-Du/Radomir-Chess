@@ -3,6 +3,12 @@ package views.components;
 import java.awt.Color;
 import config.UserInterface;
 
+/**
+ * [PanelButton.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class PanelButton extends CustomButton {
 
     public PanelButton (String text, int x, int y) {

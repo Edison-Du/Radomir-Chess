@@ -14,6 +14,12 @@ import views.components.ContentPanel;
 import views.components.PlayMenuButton;
 import config.Page;
 
+/**
+ * [HomePage.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class HomePage extends ContentPanel implements ActionListener {
     
     private Window window;
@@ -27,7 +33,6 @@ public class HomePage extends ContentPanel implements ActionListener {
     private PlayMenuButton playBotBtn;
 
     private PlayMenuButton[] buttons;
-    private String joinLobbyCode;
 
     private String[] buttonText = {
         "Join Game",
@@ -95,11 +100,7 @@ public class HomePage extends ContentPanel implements ActionListener {
             window.changePage(Page.BROWSE_GAMES);
 
         } else if (e.getSource() == playBotBtn) {
-            window.changePage(Page.PLAY_BOT);
+            window.changePage(Page.BOT_GAME_SETUP);
         }
-    }
-
-    public String getjoinLobbyCode() {
-        return this.joinLobbyCode;
     }
 }

@@ -11,6 +11,12 @@ import java.awt.event.ActionEvent;
 
 import views.Window;
 
+/**
+ * [NavigationActionListener.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class NavigationActionListener implements ActionListener{
 
     private Window window;

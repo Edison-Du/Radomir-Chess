@@ -8,6 +8,13 @@ import config.MessageTypes;
 import network.Message;
 import network.ServerConnection;
 
+/**
+ * [MultiplayerPanel.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
+
 public class MultiplayerPanel extends AbstractGamePanel {
 
     private String otherClient;
@@ -15,7 +22,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
 
     public MultiplayerPanel() {
-
         setGameState(GameState.WAITING);
     }
 
@@ -26,10 +32,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
     public void setLobbyVisibility(String visibility) {
         lobbyInfoPanel.setlobbyType(visibility);
     }
-
-    // public void setHost(boolean isHost) {
-    //     this.isHost = isHost;
-    // }
 
     public void setClient(String clientName) {
         this.playerLabel.setText(clientName);
@@ -47,12 +49,13 @@ public class MultiplayerPanel extends AbstractGamePanel {
     // For texting purposes this works.
     public void addOther(String clientName) {
         this.otherClient = clientName;
-
         this.opponentLabel.setText(clientName);
-
         messagePanel.addTextMessage(clientName + " has joined the lobby.");
-
         setGameState(GameState.ONGOING);
+    }
+
+    public void removeOther() {
+        this.otherClient = null;
     }
 
     public String getOpponent() {
@@ -63,9 +66,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
     public void addMessageFromOther(String message) {
         messagePanel.addTextMessage(otherClient + ": " + message);
     }
-
-
-
 
     public void addTakebackRequest() {
         opponentProposalPanel.setProposalText("Accept takeback?");
@@ -107,8 +107,6 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     // handle end of game
     public void handleGameEnded() {
-        System.out.println("game ended!");
-
         if(chessGame.stalemate()) {
             setGameState(GameState.STALEMATE);
             ServerConnection.sendMessage(new Message(MessageTypes.STALEMATE));

@@ -6,6 +6,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
+/**
+ * [CustomButton.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class CustomButton extends JButton {
 
     private Color hoverColor, pressedColor;

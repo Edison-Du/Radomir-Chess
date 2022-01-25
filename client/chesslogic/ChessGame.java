@@ -3,9 +3,10 @@ package chesslogic;
 import java.util.Stack;
 
 /**
+ * [ChessGame.java]
  * Class for a game of chess
- * @author JPANEL
- * @version 1.0
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
 
 public class ChessGame {

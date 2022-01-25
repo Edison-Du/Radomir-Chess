@@ -4,9 +4,10 @@ import java.util.HashSet;
 import config.UserInterface;
 
 /**
+ * [Board.java]
  * class for a bishop
- * @author JPANEL
- * @version 1.0
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
 
 public class Bishop extends Piece {

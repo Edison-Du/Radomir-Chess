@@ -20,6 +20,12 @@ import java.awt.event.ActionEvent;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+/**
+ * [GameResultOverlay.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class GameResultOverlay extends JPanel implements ActionListener {
 
     private final Rectangle GAME_MESSAGE_BOUNDS = new Rectangle(45, 170, 390, 60);

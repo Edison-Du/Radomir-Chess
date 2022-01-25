@@ -14,12 +14,18 @@ import java.util.HashSet;
 import chesslogic.ChessGame;
 import chesslogic.Tile;
 import chesslogic.Constants;
-import config.PathsConsts;
+import config.PathConsts;
 import config.UserInterface;
 import sounds.SoundEffect;
 import views.components.ContentPanel;
 import views.pages.AbstractGamePanel;
 
+/**
+ * [ChessBoardPanel.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class ChessBoardPanel extends ContentPanel {
 
     ChessGame game;
@@ -43,8 +49,8 @@ public class ChessBoardPanel extends ContentPanel {
         addMouseMotionListener(chessGameMouseListener);
 
         try {
-            woodBoard = ImageIO.read(new File(PathsConsts.WOOD_THEME));
-            iceBoard = ImageIO.read(new File(PathsConsts.ICE_THEME));
+            woodBoard = ImageIO.read(new File(PathConsts.WOOD_THEME));
+            iceBoard = ImageIO.read(new File(PathConsts.ICE_THEME));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,9 +84,7 @@ public class ChessBoardPanel extends ContentPanel {
     }
 
     public void undoMove() {
-        System.out.println(this.game.toString());
         this.game.undo();
-        System.out.println(this.game.toString());
     }
 
     public void paintComponent(Graphics g) {
@@ -106,20 +110,17 @@ public class ChessBoardPanel extends ContentPanel {
         }
 
         heldPieceImage = chessGameMouseListener.getHeldPieceImage();
-        // System.out.println(heldPieceImage);
         if(heldPieceImage != null) {
-            // System.out.println(mouseEventListener.getMouseX() + ", " + mouseEventListener.getMouseY());
             g.drawImage(heldPieceImage, chessGameMouseListener.getMouseX()-tileSize/2, chessGameMouseListener.getMouseY()-tileSize/2, this);
         }
 
         if(chessGameMouseListener.isPromoting) {
             BufferedImage promotionPlatter;
             try {
-                promotionPlatter = ImageIO.read(new File(PathsConsts.PROMOTION_PLATTER));
+                promotionPlatter = ImageIO.read(new File(PathConsts.PROMOTION_PLATTER));
                 g.drawImage(promotionPlatter, 110, 200, this);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                System.out.println("Could not load promotion platter");
             }
         }
     }
@@ -189,20 +190,22 @@ public class ChessBoardPanel extends ContentPanel {
         int xPos = 0;
         int yPos = 0;
         g.setColor(UserInterface.activeHighlightColour); 
-        for (String i : possibleMoves) {
-            // Determine coordinates for each colour
-            if (gamePanel.getPlayerColour() == Constants.WHITE) {
-                xPos = (i.charAt(0) - 'a') * tileSize;
-                yPos = (8 - Character.getNumericValue(i.charAt(1))) * tileSize;
-            } else  {
-                xPos = (7 - i.charAt(0) + 'a') * tileSize;
-                yPos = Character.getNumericValue(i.charAt(1) - 1) * tileSize;
-            }
-            // Draw box around capturable pieces and dot for empty squares
-            if (game.getCurrentPos().getTile(i).getPiece() != null) {
-                g.drawOval(xPos + 2, yPos + 2, 56, 56);
-            } else {
-                g.fillOval(xPos + 23, yPos + 23, 14, 14);
+        synchronized(possibleMoves) {
+            for (String i : possibleMoves) {
+                // Determine coordinates for each colour
+                if (gamePanel.getPlayerColour() == Constants.WHITE) {
+                    xPos = (i.charAt(0) - 'a') * tileSize;
+                    yPos = (8 - Character.getNumericValue(i.charAt(1))) * tileSize;
+                } else  {
+                    xPos = (7 - i.charAt(0) + 'a') * tileSize;
+                    yPos = Character.getNumericValue(i.charAt(1) - 1) * tileSize;
+                }
+                // Draw box around capturable pieces and dot for empty squares
+                if (game.getCurrentPos().getTile(i).getPiece() != null) {
+                    g.drawOval(xPos + 2, yPos + 2, 56, 56);
+                } else {
+                    g.fillOval(xPos + 23, yPos + 23, 14, 14);
+                }
             }
         }
     }

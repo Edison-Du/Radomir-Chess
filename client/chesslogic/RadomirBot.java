@@ -5,9 +5,10 @@ import java.util.Collections;
 import java.lang.InterruptedException;
 
 /**
+ * [RadomirBot.java]
  * Multithreaded depth search bot
- * @author JPANEL
- * @version 1.0
+ * @author 
+ * @version 1.0 Jan 24, 2022
  * Each thread added increases the speed marginally. Tested with intel i3-8130U, 12 GB RAM (not sure what type, too lazy to find out)
  */
 

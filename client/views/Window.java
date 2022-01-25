@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import config.UserInterface;
 import config.Page;
-import config.PathsConsts;
+import config.PathConsts;
 import views.navigation.NavigationBar;
 import views.pages.*;
 
@@ -16,11 +16,17 @@ import config.MessageTypes;
 import network.ServerConnection;
 import network.Message;
 
+/**
+ * [Window.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class Window extends JFrame {
 
     public NavigationBar navigationBar;
     private Page currentPage;
-    private JPanel content;
+    public JPanel content;
     
     private boolean inGame = false;
     private boolean inBotGame = false;
@@ -30,8 +36,9 @@ public class Window extends JFrame {
     public HomePage homePagePanel;
     public JoinGame joinGamePanel;
     public GameSetup gameSetupPanel;
-    public BrowseGames browseGamesPanel;
+    public BrowseGamesPage browseGamesPanel;
     public BotPanel playBotPanel;
+    public BotGameSetup botGameSetupPanel;
     public MultiplayerPanel gamePanel;
     public Settings settingsPanel;
     public About aboutPanel;
@@ -48,7 +55,8 @@ public class Window extends JFrame {
         homePagePanel = new HomePage(this);
         joinGamePanel = new JoinGame(this);
         gameSetupPanel = new GameSetup(this);
-        browseGamesPanel = new BrowseGames(this);
+        botGameSetupPanel = new BotGameSetup(this);
+        browseGamesPanel = new BrowseGamesPage(this);
         gamePanel = new MultiplayerPanel();
         settingsPanel = new Settings(this);
         aboutPanel = new About();
@@ -56,6 +64,8 @@ public class Window extends JFrame {
 
         // Navigation bar
         navigationBar = new NavigationBar(this);
+
+        playBotPanel = new BotPanel(this);
 
         // Default page
         this.changePage(Page.PLAY);
@@ -70,7 +80,7 @@ public class Window extends JFrame {
         this.pack();
 
         // Add icon
-        ImageIcon img = new ImageIcon(PathsConsts.CHESS_ICON);
+        ImageIcon img = new ImageIcon(PathConsts.CHESS_ICON);
         this.setIconImage(img.getImage());
 
         // Repainting thread
@@ -141,11 +151,10 @@ public class Window extends JFrame {
             content = browseGamesPanel;
         
         } else if (currentPage == Page.PLAY_BOT) {
-            setInBotGame(true);
-            if (playBotPanel == null) {
-                playBotPanel = new BotPanel(this);
-            }
             content = playBotPanel;
+
+        } else if (currentPage == Page.BOT_GAME_SETUP) {
+            content = botGameSetupPanel;
 
         } else if (currentPage == Page.GAME) {
             content = gamePanel;

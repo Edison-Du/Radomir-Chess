@@ -6,6 +6,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
+/**
+ * [CustomPasswordField.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class CustomPasswordField extends JPasswordField{
     private String placeholder;
     private Color placeholderColour;

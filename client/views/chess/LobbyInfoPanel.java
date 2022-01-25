@@ -8,6 +8,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
+/**
+ * [LobbyInfoPanel.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class LobbyInfoPanel extends JPanel {
 
     private final int TITLE_X = 15;

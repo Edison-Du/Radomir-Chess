@@ -18,7 +18,13 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 
-public class UserInterface {
+/**
+ * [UserInterface.java]
+ * 
+ * @author 
+ * @version 1.0 Jan 24, 2022
+ */
+public final class UserInterface {
     
     // JFrame related
     public static final String WINDOW_TITLE = "Radomir Chess";
@@ -95,18 +101,6 @@ public class UserInterface {
     public static final int ABOUT_WIDTH = 994;
     public static final int ABOUT_HEIGHT = 480;
 
-    //Login page
-    public static final int USERNAME_X = CONTENT_WIDTH / 2 - 140;
-    public static final int PASSWORD_X = CONTENT_WIDTH / 2 - 140;
-    public static final int USERNAME_LABEL_Y = WINDOW_HEIGHT / 2 - 160;
-    public static final int USERNAME_FIELD_Y = WINDOW_HEIGHT / 2 - 120;
-    public static final int PASSWORD_LABEL_Y = WINDOW_HEIGHT / 2 - 50;
-    public static final int PASSWORD_FIELD_Y = WINDOW_HEIGHT / 2 - 10;
-    public static final int USERNAME_WIDTH = 280;
-    public static final int PASSWORD_WIDTH = 280;
-    public static final int LOGIN_LABEL_HEIGHT = 30;
-    public static final int LOGIN_FIELD_HEIGHT = 50; 
-
     // Game board
     public static int activeTheme = 0;
     public static final int ICE_BOARD = 1;
@@ -160,8 +154,8 @@ public class UserInterface {
     public static Color darkerTile = DARKER_TILE_COLOURS[activeTheme];
 
     // Chess Sets
-    public static int NUM_SETS = PathsConsts.PIECE_SETS.length;
-    private static int NUM_PIECES = PathsConsts.PIECE_NAMES.length;
+    public static int NUM_SETS = PathConsts.PIECE_SETS.length;
+    private static int NUM_PIECES = PathConsts.PIECE_NAMES.length;
     public static int activeSetNum = 0;
     public static boolean setChanged = false;
 
@@ -241,7 +235,7 @@ public class UserInterface {
             for (int piece = 0; piece < NUM_PIECES; piece++) {
                 BufferedImage[] allImages = new BufferedImage[NUM_SETS];
                 for (int set = 0; set < NUM_SETS; set++) {
-                    allImages[set] = ImageIO.read(new File(PathsConsts.PIECE_SETS[set] + PathsConsts.PIECE_NAMES[piece] + PathsConsts.PNG_FILE));
+                    allImages[set] = ImageIO.read(new File(PathConsts.PIECE_SETS[set] + PathConsts.PIECE_NAMES[piece] + PathConsts.PNG_FILE));
                 }
                 PIECES.add(allImages);
             }
@@ -343,7 +337,7 @@ public class UserInterface {
 
     public static boolean readFonts() {
         try {
-            orkney = Font.createFont(Font.TRUETYPE_FONT, new File(PathsConsts.ORKNEY_FONT));
+            orkney = Font.createFont(Font.TRUETYPE_FONT, new File(PathConsts.ORKNEY_FONT));
             return true;
             
         } catch (Exception e) {
@@ -352,4 +346,8 @@ public class UserInterface {
         }
         return false;
     }
+
+
+    // This class should never be constructed
+    private UserInterface() {}
 }

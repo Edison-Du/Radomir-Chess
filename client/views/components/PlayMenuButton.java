@@ -6,6 +6,12 @@ import javax.swing.border.EmptyBorder;
 
 import config.UserInterface;
 
+/**
+ * [PlayMenuButton.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class PlayMenuButton extends CustomButton {
 
     private final EmptyBorder BUTTON_MARGIN = new EmptyBorder(15, 0, 0, 0);

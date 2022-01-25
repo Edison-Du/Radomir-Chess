@@ -8,6 +8,12 @@ import java.awt.Rectangle;
 
 import config.UserInterface;
 
+/**
+ * [OpponentProposalPanel.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class OpponentProposalPanel extends JPanel {
 
     private final Rectangle ACCEPT_BOUNDS = new Rectangle(0, 40, 75, 45);

@@ -7,11 +7,12 @@ import config.GameState;
 import chesslogic.Bot;
 import views.pages.BotPanel;
 
-/*
- * idea: check each branch
- * create a queue of moves & feed the moves into different threads, use alpha-beta pruning on each branch
+/**
+ * [BotThread.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
  */
-
 public class BotThread extends SwingWorker<String, Void> {
 
     private ChessGame chessGame;

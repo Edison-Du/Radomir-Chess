@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
+ * [DepthSearchBotP2.java]
  * second prototype for a depth search bot
- * @author JPANEL
- * @version 1.0
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
 
 public class DepthSearchBotP2 extends Bot {

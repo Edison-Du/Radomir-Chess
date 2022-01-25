@@ -14,16 +14,25 @@ import views.Window;
 import views.components.ContentPanel;
 import views.components.PanelButton;
 import config.Page;
+import config.Consts;
 
+/**
+ * [GameSetup.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class GameSetup extends ContentPanel implements ActionListener {
 
     private final int INSTRUCTION_LABEL_X = UserInterface.CONTENT_WIDTH / 2 - 140;
     private final int INSTRUCTION_LABEL_Y = UserInterface.WINDOW_HEIGHT / 2 - 110;
     private final int INSTRUCTION_LABEL_WIDTH = 280;
     private final int INSTRUCTION_LABEL_HEIGHT = 50;
+    private final String INSTRUCTION_LABEL_TEXT = "Choose Lobby Type";
     private final int PUBLIC_BUTTON_Y = 340;
     private final int PRIVATE_BUTTON_Y = 430;
     private final int CREATE_ERROR_Y = INSTRUCTION_LABEL_Y + 30;
+    private final String BACK_BUTTON_TEXT = "Back";
 
     private Window window;
     private JLabel instructionsLabel = new JLabel();
@@ -37,13 +46,13 @@ public class GameSetup extends ContentPanel implements ActionListener {
         this.setLayout(null);
 
         instructionsLabel.setFont(UserInterface.orkney30);
-        instructionsLabel.setText("Choose Lobby Type");
+        instructionsLabel.setText(INSTRUCTION_LABEL_TEXT);
         instructionsLabel.setForeground(UserInterface.TEXT_COLOUR);
         instructionsLabel.setBounds(INSTRUCTION_LABEL_X, INSTRUCTION_LABEL_Y, INSTRUCTION_LABEL_WIDTH, INSTRUCTION_LABEL_HEIGHT);
         this.add(instructionsLabel);
 
         createPublicLobbyBtn = new PanelButton(
-            "Public",
+            Consts.PUBLIC_LOBBY_STATUS,
             INSTRUCTION_LABEL_X,
             PUBLIC_BUTTON_Y
         );
@@ -51,14 +60,18 @@ public class GameSetup extends ContentPanel implements ActionListener {
         this.add(createPublicLobbyBtn);
 
         createPrivateLobbyBtn = new PanelButton(
-            "Private",
+            Consts.PRIVATE_LOBBY_STATUS,
             INSTRUCTION_LABEL_X,
             PRIVATE_BUTTON_Y
         );
         createPrivateLobbyBtn.addActionListener(this);
         this.add(createPrivateLobbyBtn);
 
-        this.backButton = new PanelButton("Back", UserInterface.BACK_BUTTON_X, UserInterface.BACK_BUTTON_Y);
+        this.backButton = new PanelButton(
+            BACK_BUTTON_TEXT,
+            UserInterface.BACK_BUTTON_X,
+            UserInterface.BACK_BUTTON_Y
+        );
         this.backButton.addActionListener(this);
         this.add(backButton);
 
@@ -85,12 +98,12 @@ public class GameSetup extends ContentPanel implements ActionListener {
 
         } else if (e.getSource() == createPublicLobbyBtn) {
             Message createLobby = new Message(MessageTypes.CREATE_GAME);
-            createLobby.addParam("public");
+            createLobby.addParam(Consts.PUBLIC_LOBBY_STATUS);
             ServerConnection.sendMessage(createLobby);
 
         } else if (e.getSource() == createPrivateLobbyBtn) {
             Message createLobby = new Message(MessageTypes.CREATE_GAME);
-            createLobby.addParam("private");
+            createLobby.addParam(Consts.PRIVATE_LOBBY_STATUS);
             ServerConnection.sendMessage(createLobby);
         }
     }

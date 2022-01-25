@@ -5,6 +5,13 @@ import network.ServerConnection;
 import network.ShutdownHook;
 import views.Window;
 
+/**
+ * [Application.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
+
 public class Application {
 
     public static Window window;

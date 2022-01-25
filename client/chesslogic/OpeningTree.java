@@ -5,16 +5,16 @@ import java.util.HashMap;
 import java.io.File;
 import java.util.Scanner;
 
-import config.PathsConsts;
+import config.PathConsts;
 
 import java.util.Random;
 
 /**
- * An implementation of an opening tree
- * @author JPANEL
- * @version 1.0
+ * [OpeningTree.java]
+ * 
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
-
 public class OpeningTree {
 
     HashMap<String, ArrayList<String>> tree;
@@ -23,7 +23,7 @@ public class OpeningTree {
     public OpeningTree(){
         tree = new HashMap<>();
         try{ 
-            input = new File(PathsConsts.OPENING_FILE);
+            input = new File(PathConsts.OPENING_FILE);
             Scanner in = new Scanner(input);
             while (in.hasNextLine()){
                 String line = in.nextLine();

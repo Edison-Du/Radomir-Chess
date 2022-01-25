@@ -9,6 +9,12 @@ import java.awt.event.ActionListener;
 import views.components.ContentPanel;
 import config.UserInterface;
 
+/**
+ * [About.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class About extends ContentPanel implements ActionListener {
 
     private final JLabel titleLabel = new JLabel("About");

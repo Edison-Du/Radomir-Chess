@@ -6,9 +6,10 @@ import java.awt.image.BufferedImage;
 import config.UserInterface;
 
 /**
+ * [Piece.java]
  * Class for a generic piece
- * @author JPANEL
- * @version 1.0
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
 
 public abstract class Piece {

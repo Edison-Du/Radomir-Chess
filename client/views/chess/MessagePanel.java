@@ -19,6 +19,12 @@ import network.ServerConnection;
 import views.components.ContentPanel;
 import views.components.CustomTextField;
 
+/**
+ * [MessagePanel.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class MessagePanel extends ContentPanel implements ActionListener {
 
     private final EmptyBorder MESSAGE_FIELD_MARGIN = new EmptyBorder(5, 10, 0, 10);

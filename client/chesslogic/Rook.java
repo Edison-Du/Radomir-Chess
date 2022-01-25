@@ -5,9 +5,9 @@ import java.util.HashSet;
 import config.UserInterface;
 
 /**
- * class for a Rook piece
- * @author JPANEL
- * @version 1.0
+ * [Rook.java]
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
 
 public class Rook extends Piece {

@@ -1,5 +1,8 @@
 package config;
 
+/**
+ * [Page.java]
+ */
 public enum Page {
     PLAY,
     JOIN_GAME,
@@ -11,5 +14,6 @@ public enum Page {
     ABOUT,
     LOGIN,
     LOGOUT,
-    QUIT
+    QUIT,
+    BOT_GAME_SETUP
 }

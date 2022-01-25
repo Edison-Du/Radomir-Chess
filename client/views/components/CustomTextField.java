@@ -7,6 +7,12 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Color;
 
+/**
+ * [CustomTextField.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class CustomTextField extends JTextField {
     
     private String placeholder;

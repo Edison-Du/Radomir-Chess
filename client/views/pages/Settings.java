@@ -11,6 +11,12 @@ import views.components.CustomButton;
 import config.UserInterface;
 import views.Window;
 
+/**
+ * [Settings.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class Settings extends ContentPanel implements ActionListener {
     // Constants
     private final String[] BOARDS = {

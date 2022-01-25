@@ -5,9 +5,10 @@ import java.util.HashSet;
 import config.UserInterface;
 
 /**
+ * [Knight.java]
  * class for a Knight piece
- * @author JPANEL
- * @version 1.0
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
 
 public class Knight extends Piece {

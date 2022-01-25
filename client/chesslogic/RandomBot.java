@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
+ * [RandomBot.java]
  * class for a bot that makes random moves
- * @author JPANEL
- * @version 1.0
- * This bot is mostly for testing purposes.
+ * @author 
+ * @version 1.0 Jan 24, 2022
  */
 
 public class RandomBot extends Bot {

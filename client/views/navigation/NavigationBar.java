@@ -13,8 +13,14 @@ import javax.swing.JPanel;
 import views.Window;
 import config.UserInterface;
 import config.Page;
-import config.PathsConsts;
+import config.PathConsts;
 
+/**
+ * [NavigationBar.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class NavigationBar extends JPanel {
     
     private NavigationActionListener navigationActionListener;
@@ -30,12 +36,13 @@ public class NavigationBar extends JPanel {
     private final NavigationLink[] links;
     private final Image headerImage = getHeaderImage();
     private final int loginPage = 3;
+    private final int NAVBAR_BUTTON_OFFSET = 113;
 
 
     private JLabel playersOnlineLabel;
     private boolean numPlayersOdd;
     private JLabel usernameLabel;
-    private String username;
+    private String username = "";
     
     public NavigationBar (Window window) {
 
@@ -52,7 +59,7 @@ public class NavigationBar extends JPanel {
         for (int i = 0; i < navbarPages.length; i++) {
             int x = 0;
             //change
-            int y = i * UserInterface.NAVBAR_BUTTON_HEIGHT + UserInterface.NAVBAR_WIDTH / 2 - 15;
+            int y = i * UserInterface.NAVBAR_BUTTON_HEIGHT + NAVBAR_BUTTON_OFFSET;
             Page currentPage = navbarPages[i];
 
             links[i] = new NavigationLink(x, y, currentPage);
@@ -119,10 +126,9 @@ public class NavigationBar extends JPanel {
 
     public static Image getHeaderImage() {
         try {
-            return ImageIO.read(new File(PathsConsts.NAVBAR_HEADER));
-        } catch(IOException e) {
+            return ImageIO.read(new File(PathConsts.NAVBAR_HEADER));
+        } catch(Exception e) {
             System.out.println("File not found");
-            e.printStackTrace();
         }
         return null;
     }

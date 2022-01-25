@@ -8,6 +8,12 @@ import chesslogic.*;
 import config.UserInterface;
 import views.components.ContentPanel;
 
+/**
+ * [CapturedPiecesPanel.java]
+ * 
+ * @author
+ * @version 1.0 Jan 24, 2022
+ */
 public class CapturedPiecesPanel extends ContentPanel {
 
     private ChessGame game;

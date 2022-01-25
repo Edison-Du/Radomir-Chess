@@ -188,12 +188,19 @@ public class King extends Piece {
         }
     }
     
-    
+    /**
+     * set this piece's castled status
+     * @param x above
+     */
     public void setCastled(boolean x) {
         this.hasCastled = x;
     }
     
     @Override
+    /**
+     * make a copy of this piece
+     * @return a copy of this piece
+     */
     public Piece copy() {
         King out = new King(this.getColour());
         out.setCastled(this.hasCastled);

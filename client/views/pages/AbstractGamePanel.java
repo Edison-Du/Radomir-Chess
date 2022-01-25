@@ -24,7 +24,7 @@ import views.components.CustomButton;
 
 /**
  * [AbstractGamePanel.java]
- * 
+ * Abstract game panel for the other game panels to extend
  * @author Peter Gu
  * @author Alex Zhu
  * @version 1.0 Jan 24, 2022

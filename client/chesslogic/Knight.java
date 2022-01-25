@@ -56,6 +56,9 @@ public class Knight extends Piece {
     }
     
     @Override
+    /**
+    
+     */
     public Piece copy() {
         Knight out = new Knight(this.getColour());
         out.setMoved(this.getTurnMoved());

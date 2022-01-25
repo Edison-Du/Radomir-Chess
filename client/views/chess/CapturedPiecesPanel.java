@@ -73,9 +73,10 @@ public class CapturedPiecesPanel extends ContentPanel {
         offset = 0;
 
         // Check if we need to update the piece set
-        if (UserInterface.setChanged) {
+        if (UserInterface.setChanged[this.playerColour]) {
+            // Update for each player
             updatePieces();
-            UserInterface.setChanged = false;
+            UserInterface.setChanged[this.playerColour] = false;
         }
     }
 

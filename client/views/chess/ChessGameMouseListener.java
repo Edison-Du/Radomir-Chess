@@ -12,8 +12,6 @@ import views.pages.AbstractGamePanel;
 
 import java.awt.image.BufferedImage;
 
-import sounds.SoundEffect;
-
 /**
  * [ChessGameMouseListener.java]
  *

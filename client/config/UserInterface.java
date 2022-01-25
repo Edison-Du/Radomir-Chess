@@ -161,7 +161,7 @@ public final class UserInterface {
     public static int NUM_SETS = PathConsts.PIECE_SETS.length;
     private static int NUM_PIECES = PathConsts.PIECE_NAMES.length;
     public static int activeSetNum = 0;
-    public static boolean setChanged = false;
+    public static boolean[] setChanged = new boolean[]{false, false};
 
     public static final ArrayList<BufferedImage[]> PIECES = new ArrayList<BufferedImage[]>();
     
@@ -257,7 +257,8 @@ public final class UserInterface {
      */
     public static void changePieceSet(int set) {
         activeSetNum = set;
-        setChanged = true;
+        setChanged[0] = true;
+        setChanged[1] = true;
     }
 
     /**

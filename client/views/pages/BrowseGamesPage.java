@@ -34,6 +34,7 @@ import views.components.PanelButton;
  * [BrowseGamesPage.java]
  * Displays a list of public game lobbies and updates every ten seconds
  * Users can join lobbies through this page
+ * 
  * @author Nicholas Chew
  * @version 1.0 Jan 24, 2022
  */
@@ -94,11 +95,7 @@ public class BrowseGamesPage extends ContentPanel implements ActionListener {
         joinLabel.setBounds(JOIN_LABEL_DIMENSIONS);
         this.add(joinLabel);
 
-        joinButton = new PanelButton(
-            JOIN_BUTTON_TEXT,
-            JOIN_BUTTON_X,
-            JOIN_BUTTON_Y 
-        );
+        joinButton = new PanelButton(JOIN_BUTTON_TEXT, JOIN_BUTTON_X, JOIN_BUTTON_Y);
         joinButton.addActionListener(this);
         this.add(joinButton);
 

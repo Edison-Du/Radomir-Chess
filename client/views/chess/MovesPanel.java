@@ -98,7 +98,6 @@ public class MovesPanel extends ContentPanel {
         } else {
             this.movesList.removeRow(numMoves/2);
         }
-
         numMoves--;
     }
 

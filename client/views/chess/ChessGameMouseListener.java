@@ -76,11 +76,9 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                     promotionChoice = "R";
                 }
 
-                gamePanel.movesPanel.addMove(game.toAlgebraic(promotionT1, promotionT2, promotionChoice));
-                
-                SoundEffect.playSound(t1, t2, promotionChoice, game);
-
-                game.move(promotionT1, promotionT2, promotionChoice);
+                // gamePanel.movesPanel.addMove(game.toAlgebraic(promotionT1, promotionT2, promotionChoice));
+                // SoundEffect.playSound(t1, t2, promotionChoice, game);
+                // game.move(promotionT1, promotionT2, promotionChoice);
                 gamePanel.processMove(promotionT1, promotionT2, promotionChoice);
 
                 promotionT1 = null;
@@ -135,9 +133,9 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                     promotionT1 = t1;
                     promotionT2 = t2;
                 } else {
-                    gamePanel.movesPanel.addMove(game.toAlgebraic(t1, t2, ""));
-                    SoundEffect.playSound(t1, t2, "", game);
-                    game.move(t1, t2, "");
+                    // gamePanel.movesPanel.addMove(game.toAlgebraic(t1, t2, ""));
+                    // SoundEffect.playSound(t1, t2, "", game);
+                    // game.move(t1, t2, "");
                     gamePanel.processMove(t1, t2, "");
 
                     if(game.ended()) {

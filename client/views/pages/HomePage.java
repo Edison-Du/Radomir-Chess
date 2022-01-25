@@ -17,7 +17,7 @@ import config.Page;
 /**
  * [HomePage.java]
  * 
- * @author
+ * @author Nicholas Chew
  * @version 1.0 Jan 24, 2022
  */
 public class HomePage extends ContentPanel implements ActionListener {

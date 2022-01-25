@@ -49,21 +49,20 @@ public class SoundEffect {
 
             synchronized(game) {
                 game.move(t1, t2, p);
-            }
-            if(game.stalemate()) {
-                se.setFile(PathConsts.STALEMATE);
-                soundChosen = true;
-            } else if(current.getKings()[0].isChecked(current, current.getKingTiles()[0]) || current.getKings()[1].isChecked(current, current.getKingTiles()[1])) {
-                if(game.whiteWins() || game.blackWins()) {
-                    se.setFile(PathConsts.CHECKMATE);
+                
+                if(game.stalemate()) {
+                    se.setFile(PathConsts.STALEMATE);
                     soundChosen = true;
-                } else {
-                    se.setFile(PathConsts.CHECK);
-                    soundChosen = true;
+                } else if(current.getKings()[0].isChecked(current, current.getKingTiles()[0]) || current.getKings()[1].isChecked(current, current.getKingTiles()[1])) {
+                    if(game.whiteWins() || game.blackWins()) {
+                        se.setFile(PathConsts.CHECKMATE);
+                        soundChosen = true;
+                    } else {
+                        se.setFile(PathConsts.CHECK);
+                        soundChosen = true;
+                    }
                 }
-            }
 
-            synchronized(game) {
                 game.undo();
             }
 

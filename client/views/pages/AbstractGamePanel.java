@@ -263,6 +263,10 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.revalidate();
     }
 
+    /**
+     * isPlayingAgain
+     * @return boolean whether the player is playing again
+     */
     public boolean isPlayingAgain() {
         return playAgain;
     }

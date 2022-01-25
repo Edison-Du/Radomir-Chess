@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import chesslogic.*;
 import config.GameState;
 import config.Page;
+import sounds.SoundEffect;
 import views.Window;
 import views.chess.BotThread;
 
@@ -65,8 +66,9 @@ public class BotPanel extends AbstractGamePanel {
         capturedPiecesPanelWhite.setChessGame(chessGame);
 
         setPlayerColour((int)(Math.random() * 2));
+        // setPlayerColour(1);
 
-        depthSearchBot = new RadomirBot(depth, 4);
+        depthSearchBot = new RadomirBot(depth, 1);
         
         if(depth == EASY_DEPTH) {
             opponentLabel.setText(EASY_TEXT);  
@@ -100,12 +102,20 @@ public class BotPanel extends AbstractGamePanel {
 
         if(!chessGame.getCurrentPos().ended()) {
 
-            if(!tile1.equals("")) {
-                chessGameClone.move(tile1, tile2, promotion);
+            synchronized(chessGameClone) {
+                synchronized(chessGame) {
+                    if(!tile1.equals("")) {
+
+                        SoundEffect.playSound(tile1, tile2, "", chessGame);
+                        movesPanel.addMove(chessGame.toAlgebraic(tile1, tile2, ""));
+                        chessGame.move(tile1, tile2, "");
+                    }
+
+                    BotThread newBot = new BotThread(chessGame, depthSearchBot, movesPanel, this);
+                    newBot.execute();
+                }
             }
 
-            BotThread newBot = new BotThread(chessGame, chessGameClone, depthSearchBot, movesPanel, this);
-            newBot.execute();
         }
     }
 
@@ -171,18 +181,15 @@ public class BotPanel extends AbstractGamePanel {
      * take back the appropriate number of moves
      */
     public void handleTakebackButton() {
+        synchronized(chessGame) {
+            synchronized(chessGameClone) {
         // Make sure the user has made a move
-        if (movesPanel.getNumMoves() > getPlayerColour()) {
-            synchronized(chessGame) {
-                synchronized(chessGameClone) {
+                if (movesPanel.getNumMoves() > getPlayerColour()) {
                     if (chessGame.getCurrentPos().getToMove() == getPlayerColour()) {
                         undoMove();
                         undoMove();
-                        chessGameClone.undo();
-                        chessGameClone.undo();
                     } else {
                         undoMove();
-                        chessGameClone.undo();
                     }
                 }
             }

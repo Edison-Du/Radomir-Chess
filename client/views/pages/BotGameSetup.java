@@ -16,6 +16,7 @@ import config.Page;
  * [BotGameSetup.java]
  * Page where user selects difficulty level of the chess engine
  * @author Alex Zhu
+ * @author Nicholas Chew
  * @version 1.0 Jan 24, 2022
  */
 public class BotGameSetup extends ContentPanel implements ActionListener {

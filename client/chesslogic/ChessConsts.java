@@ -17,6 +17,11 @@ public class ChessConsts {
     public static final int BISHOP_POINTS = 40;
     public static final int KNIGHT_POINTS = 40;
     public static final int PAWN_POINTS = 15;
+    public static final int BOARD_LENGTH = 8;
+    public static final int CENTER_POINTS = 3;
+    public static final int INNER_POINTS = 2;
+    public static final int OUTER_POINTS = 1;
+    public static final int CHECKMATE_POINTS = 1000;
     
     /**
      * takes an integer array with two elements and converts it to chess coordinates

@@ -7,6 +7,7 @@ import config.GameState;
 import config.MessageTypes;
 import network.Message;
 import network.ServerConnection;
+import sounds.SoundEffect;
 
 /**
  * [MultiplayerPanel.java]
@@ -150,6 +151,11 @@ public class MultiplayerPanel extends AbstractGamePanel {
      */
     @Override
     public void processMove(String t1, String t2, String p) {
+
+        SoundEffect.playSound(t1, t2, "", chessGame);
+        movesPanel.addMove(chessGame.toAlgebraic(t1, t2, ""));
+        chessGame.move(t1, t2, "");
+
         Message message = new Message(MessageTypes.CHESS_MOVE);
         message.addParam(t1);
         message.addParam(t2);

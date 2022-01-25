@@ -27,6 +27,8 @@ public class RadomirBot extends Bot {
     private Thread[] threads;
     private String[] myMoves;
     private int[] myScores;
+    private ChessGame[] myGames;
+    private int myDepth;
     private int numThreads;
     
     private OpeningTreeV2 opening;
@@ -52,6 +54,12 @@ public class RadomirBot extends Bot {
         myMoves = new String[threads];
         myScores = new int[threads];
         this.numThreads = threads;
+        
+        this.myGames = new ChessGame[threads];
+        for(int i = 0; i < threads; i++) {
+            this.myGames[i] = new ChessGame();
+        }
+        myDepth = 1; //myDepth correponds to the turn number of each game
     }
     
     /**
@@ -68,6 +76,23 @@ public class RadomirBot extends Bot {
      * @return a string that represents the next move
      */
     public String nextMove(ChessGame g) {
+        // synchronize myGames (make all of them be at the same position as g)
+        for(int i = myDepth; i >= g.getCurrentPos().getTurn() && i > 1; i--) {
+            for(int j = 0; j < numThreads; j++) {
+                myGames[j].undo();
+            }
+        }
+        myDepth = g.getCurrentPos().getTurn() - 1;
+        if(g.getCurrentPos().getTurn() != 1) {
+            for(int i = 0; i < numThreads; i++) {
+                myGames[i].move(g.getStringMoves().peek().substring(0, 2), g.getStringMoves().peek().substring(2, 4), g.getStringMoves().peek().substring(7, 8));
+            }
+        }
+        else {
+            myDepth = 1;
+        }
+        
+        // Invoke the opening tree
         if(g.getStringMoves().isEmpty()) {
             isOpening = true;
         }
@@ -112,12 +137,14 @@ public class RadomirBot extends Bot {
         // Handling threads
         ArrayList<String> moves = legalMoves(g.getCurrentPos());
         ArrayList<ArrayList<String>> partition = new ArrayList<ArrayList<String>>();
+        // Partition the possible moves into groups of legal moves
         for(int i = 0; i < this.numThreads && i < moves.size(); i++) {
             partition.add(new ArrayList<String>());
         }
         for(int i = 0; i < moves.size(); i++) {
             partition.get(i%numThreads).add(moves.get(i));
         }
+        // Run the threads
         for(int i = 0; i < numThreads && i < moves.size(); i++) {
             runnables[i] = new RunSearch(g.copy(), this.depth, partition.get(i), this.myMoves, this.myScores, i, this.directionXOne, this.directionYOne, this.directionXTwo, this.directionYTwo);
             threads[i] = new Thread(runnables[i]);
@@ -128,6 +155,8 @@ public class RadomirBot extends Bot {
                 threads[i].join();
             } catch(InterruptedException e) {e.printStackTrace(); }
         }
+
+        // Choose the best move
         int index = 0;
         int temp = myScores[0];
         for(int i = 1; i < numThreads && i < moves.size(); i++) {
@@ -136,21 +165,28 @@ public class RadomirBot extends Bot {
                 index = i;
             }
         }
+        
+        // Resychronize 
+        for(int i = 0; i < numThreads; i++) {
+            myGames[i].move(myMoves[index].substring(0, 2), myMoves[index].substring(2, 4), myMoves[index].substring(4, 5));
+        }
         return myMoves[index];
     }
 
     private class RunSearch implements Runnable {
 
         // Class Variables
-        
         private ChessGame game;
         private int depth;
         private ArrayList<String> check;
         
+
+        // Thread related variables
         private String[] myMoves;
         private int[] myScores;
         private int mySection;
-        
+
+        // Heat Maps
         private int[][] attackPoints;
         private int[][] placementPoints;
         private int[] directionXOne, directionYOne, directionXTwo, directionYTwo;
@@ -158,7 +194,6 @@ public class RadomirBot extends Bot {
         /**
          * Initializes a thread to search
          */
-        
         private RunSearch(ChessGame g, int depth, ArrayList<String> toCheck, String[] myMoves, int[] myScores, int mySection, int[] directionXOne, int[] directionYOne, int[] directionXTwo, int[] directionYTwo) {
             this.depth = depth;
             this.game = g;
@@ -166,8 +201,8 @@ public class RadomirBot extends Bot {
             this.myMoves = myMoves;
             this.myScores = myScores;
             this.mySection = mySection;
-            placementPoints = new int[8][8];
-            attackPoints = new int[8][8];
+            placementPoints = new int[ChessConsts.BOARD_LENGTH][ChessConsts.BOARD_LENGTH];
+            attackPoints = new int[ChessConsts.BOARD_LENGTH][ChessConsts.BOARD_LENGTH];
             this.directionXOne = directionXOne;
             this.directionYOne = directionYOne;
             this.directionXTwo = directionXTwo;
@@ -182,7 +217,7 @@ public class RadomirBot extends Bot {
          * @return a boolean value
          */
         public boolean check(int x, int y){
-            if (x >= 0 && x < 8 && y >= 0 && y < 8) return true;
+            if (x >= 0 && x < ChessConsts.BOARD_LENGTH && y >= 0 && y < ChessConsts.BOARD_LENGTH) return true;
             return false;
         }
         
@@ -192,32 +227,32 @@ public class RadomirBot extends Bot {
          * @param y an integer y
          */
         public void resetAttackPoints(int x, int y){
-            for (int i = 0; i < 8; i++){
-                for (int j = 0; j < 8; j++){
-                    attackPoints[i][j] = 3;
+            for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++){
+                for (int j = 0; j < ChessConsts.BOARD_LENGTH; j++){
+                    attackPoints[i][j] = ChessConsts.CENTER_POINTS;
                 }
             }
-            for (int i = 0; i < 8; i++) {
-                attackPoints[i][0] = 1;
-                attackPoints[i][7] = 1;
-                attackPoints[0][i] = 1;
-                attackPoints[7][i] = 1;
+            for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++) {
+                attackPoints[i][0] = ChessConsts.OUTER_POINTS;
+                attackPoints[i][7] = ChessConsts.OUTER_POINTS;
+                attackPoints[0][i] = ChessConsts.OUTER_POINTS;
+                attackPoints[7][i] = ChessConsts.OUTER_POINTS;
             }
-            for (int i = 1; i < 7; i++) {
-                attackPoints[i][1] = 2;
-                attackPoints[i][6] = 2;
-                attackPoints[1][i] = 2;
-                attackPoints[6][i] = 2;
+            for (int i = 1; i < ChessConsts.CENTER_POINTS-1; i++) {
+                attackPoints[i][1] = ChessConsts.INNER_POINTS;
+                attackPoints[i][6] = ChessConsts.INNER_POINTS;
+                attackPoints[1][i] = ChessConsts.INNER_POINTS;
+                attackPoints[6][i] = ChessConsts.INNER_POINTS;
             }
             attackPoints[x][y] += 4;
-            for (int i = 0; i < 16; i++){
+            for (int i = 0; i < ChessConsts.BOARD_LENGTH*2; i++){
                 if (check(x + directionXTwo[i], y + directionYTwo[i])){
-                    attackPoints[x + directionXTwo[i]][y + directionYTwo[i]] += 2;
+                    attackPoints[x + directionXTwo[i]][y + directionYTwo[i]] += ChessConsts.OUTER_POINTS;
                 }
             }
-            for (int i = 0; i < 8; i++){
+            for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++){
                 if (check(x + directionXOne[i], y + directionYOne[i])){
-                    attackPoints[x + directionXOne[i]][y + directionYOne[i]] += 1;
+                    attackPoints[x + directionXOne[i]][y + directionYOne[i]] += ChessConsts.INNER_POINTS;
                 }
             }
         }
@@ -226,22 +261,22 @@ public class RadomirBot extends Bot {
          * Reset the heat map
          */
         public void resetPlacementPoints(){
-            for (int i = 0; i < 8; i++){
-                for (int j = 0; j < 8; j++){
-                    placementPoints[i][j] = 3;
+            for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++){
+                for (int j = 0; j < ChessConsts.BOARD_LENGTH; j++){
+                    placementPoints[i][j] = ChessConsts.CENTER_POINTS;
                 }
             }
-            for (int i = 0; i < 8; i++) {
-                placementPoints[i][0] = 1;
-                placementPoints[i][7] = 1;
-                placementPoints[0][i] = 1;
-                placementPoints[7][i] = 1;
+            for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++) {
+                placementPoints[i][0] = ChessConsts.OUTER_POINTS;
+                placementPoints[i][7] = ChessConsts.OUTER_POINTS;
+                placementPoints[0][i] = ChessConsts.OUTER_POINTS;
+                placementPoints[7][i] = ChessConsts.OUTER_POINTS;
             }
-            for (int i = 1; i < 7; i++) {
-                placementPoints[i][1] = 2;
-                placementPoints[i][6] = 2;
-                placementPoints[1][i] = 2;
-                placementPoints[6][i] = 2;
+            for (int i = 1; i < ChessConsts.CENTER_POINTS-1; i++) {
+                placementPoints[i][1] = ChessConsts.INNER_POINTS;
+                placementPoints[i][6] = ChessConsts.INNER_POINTS;
+                placementPoints[1][i] = ChessConsts.INNER_POINTS;
+                placementPoints[6][i] = ChessConsts.INNER_POINTS;
             }
         }
         
@@ -252,21 +287,24 @@ public class RadomirBot extends Bot {
          */
         private int score(Board b)  {
             int out = 0;
+            // Evaluating Checkmate
             if(b.ended()) {
                 if(b.getKings()[ChessConsts.WHITE].isChecked(b, b.getKingTiles()[ChessConsts.WHITE])) {
-                    out = -1000;
+                    out = ChessConsts.CHECKMATE_POINTS * -1;
                 }
                 else if(b.getKings()[ChessConsts.BLACK].isChecked(b, b.getKingTiles()[ChessConsts.BLACK])) {
-                    out = 1000;
+                    out = ChessConsts.CHECKMATE_POINTS;
                 }
-                else out = 0;
             }
+            // Evaluating the number of pieces on either side
             for(int i = 0; i < b.getPieces().get(0).size(); i++) {
                 out = out + b.getPieces().get(0).get(i).getPiece().getPoints();
             }
             for(int i = 0; i < b.getPieces().get(1).size(); i++) {
                 out = out - b.getPieces().get(1).get(i).getPiece().getPoints();
             }
+
+            // Evaluating the position of each piece
             for (int i = 0; i < 8; i++){
                 for (int j = 0; j < 8; j++){
                     if (b.getTiles()[i][j].getPiece() != null){
@@ -275,6 +313,8 @@ public class RadomirBot extends Bot {
                     }
                 }
             }
+
+            // Evaluating the attack tiles of all pieces 
             resetAttackPoints(b.getKingTiles()[1].getX(), b.getKingTiles()[1].getY());
             for (int i = 0; i < 8; i++){
                 for (int j = 0; j < 8; j++){
@@ -295,6 +335,7 @@ public class RadomirBot extends Bot {
                     }
                 }
             }
+            // If the score is negative it is in favour of black, if positive, it is in favour of white
             return out * (b.getToMove() == 1 ? -1 : 1);
         }
         
@@ -374,4 +415,5 @@ public class RadomirBot extends Bot {
         }
         
     }
+    
 }

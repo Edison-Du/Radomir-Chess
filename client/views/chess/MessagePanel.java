@@ -21,8 +21,9 @@ import views.components.CustomTextField;
 
 /**
  * [MessagePanel.java]
- * 
- * @author
+ * Display the chat box in a game
+ *
+ * @author Edison Du
  * @version 1.0 Jan 24, 2022
  */
 public class MessagePanel extends ContentPanel implements ActionListener {
@@ -40,6 +41,11 @@ public class MessagePanel extends ContentPanel implements ActionListener {
 
     private int numMessages = 0;
 
+    /**
+    * MessagePanel
+    * Creates a JList storing all text messages and a text
+    * field allowing users to enter messages
+    */
     public MessagePanel() {
 
         // JList to store messages
@@ -47,7 +53,6 @@ public class MessagePanel extends ContentPanel implements ActionListener {
         messageList.setFont(UserInterface.orkney12);
         messageList.setBackground(UserInterface.NAVBAR_COLOUR);
         messageList.setForeground(UserInterface.CHAT_MESSAGE_COLOUR);
-        messageList.setEnabled(false);
 
         // Scroll pane containing message list
         pane = new JScrollPane(messageList);
@@ -60,7 +65,6 @@ public class MessagePanel extends ContentPanel implements ActionListener {
         messageListPanel.setLayout(new BoxLayout(messageListPanel, BoxLayout.X_AXIS));
         messageListPanel.setBorder(UserInterface.GAME_CHAT_BORDER);
         messageListPanel.setBackground(UserInterface.NAVBAR_COLOUR);
-        messageListPanel.setFocusable(false);
         messageListPanel.add(pane);   
         this.add(messageListPanel);
 
@@ -80,16 +84,30 @@ public class MessagePanel extends ContentPanel implements ActionListener {
         this.add(messageField);
     }
 
+    /**
+    * addTextMessage
+    * Adds a message to the chat
+    */
     public void addTextMessage(String message) {
         allTexts.addElement(message);
         messageList.ensureIndexIsVisible(this.numMessages++);
         this.revalidate();
     }
 
+    /**
+    * clearMessage
+    * Removes all messages from the chat
+    */
     public void clearMessages() {
         allTexts.clear();
     }
 
+    /**
+    * actionPerformed
+    * Detects when a user enters a message and adds it to the chat,
+    * and sends it to the server to send to the other player
+    * @param e the even that occured
+    */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -97,11 +115,17 @@ public class MessagePanel extends ContentPanel implements ActionListener {
             String userMessage = messageField.getText();
             messageField.setText("");
 
-            Message message = new Message(MessageTypes.SENT_TEXT);
-            message.addParam(userMessage);
-            ServerConnection.sendMessage(message);
+            try {
+                Message message = new Message(MessageTypes.SENT_TEXT);
+                message.addParam(userMessage);
+                ServerConnection.sendMessage(message);
 
-            addTextMessage("You: " + userMessage);
+                addTextMessage("You: " + userMessage);
+                
+            } catch(Exception ex) {
+                System.out.println("Failed to create message");
+                ex.printStackTrace();
+            }
         }
     } 
 }

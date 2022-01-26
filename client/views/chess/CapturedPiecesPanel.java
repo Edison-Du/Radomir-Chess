@@ -13,6 +13,7 @@ import views.components.ContentPanel;
  * 
  * Panel for displaying pieces that have been captured
  * @author Alex Zhu
+ * @author Jeffrey Xu
  * @version 1.0 Jan 24, 2022
  */
 public class CapturedPiecesPanel extends ContentPanel {
@@ -50,14 +51,18 @@ public class CapturedPiecesPanel extends ContentPanel {
             capturedPieceCount[i] = 0;
         }
 
-        for (Piece piece : game.getPiecesTaken()) {
-            if(piece != null && piece.getColour() == playerColour) {
-                if (piece instanceof Pawn) capturedPieceCount[0]++;
-                if (piece instanceof Bishop) capturedPieceCount[1]++;
-                if (piece instanceof Knight) capturedPieceCount[2]++;
-                if (piece instanceof Rook) capturedPieceCount[3]++;
-                if (piece instanceof Queen) capturedPieceCount[4]++;
-            }
+        try {
+            for (Piece piece : game.getPiecesTaken()) {
+                if(piece != null && piece.getColour() == playerColour) {
+                    if (piece instanceof Pawn) capturedPieceCount[0]++;
+                    if (piece instanceof Bishop) capturedPieceCount[1]++;
+                    if (piece instanceof Knight) capturedPieceCount[2]++;
+                    if (piece instanceof Rook) capturedPieceCount[3]++;
+                    if (piece instanceof Queen) capturedPieceCount[4]++;
+                }
+            }   
+        } catch (Exception e) {
+            System.out.println("Warning! Error getting chess pieces.");
         }
 
         for(int i = 0; i < capturedPieceCount.length; i++) {

@@ -1,11 +1,9 @@
 package chesslogic;
 
 /**
- * [Constants.java]
  * Class for constants and specific maps
  * @author Leo Guan
- * @author Peter Gu
- * @version 1.0 Jan 24, 2022
+ * @version 1.0, Jan. 2022
  */
 
 public class ChessConsts {
@@ -18,10 +16,18 @@ public class ChessConsts {
     public static final int KNIGHT_POINTS = 40;
     public static final int PAWN_POINTS = 15;
     public static final int BOARD_LENGTH = 8;
-    public static final int CENTER_POINTS = 3;
-    public static final int INNER_POINTS = 2;
-    public static final int OUTER_POINTS = 1;
     public static final int CHECKMATE_POINTS = 1000;
+
+    public static final int OUTER_POINTS = 1;
+    public static final int INNER_POINTS = 2;
+    public static final int CENTER_POINTS = 3;
+    
+    public static final String QUEEN = "Q";
+    public static final String KING = "K";
+    public static final String ROOK = "R";
+    public static final String BISHOP = "B";
+    public static final String KNIGHT = "K";
+    public static final String PAWN = "P";
     
     /**
      * takes an integer array with two elements and converts it to chess coordinates

@@ -43,7 +43,7 @@ public class ChessBoardPanel extends ContentPanel {
         this.game = game;
         this.gamePanel = gamePanel;
 
-        this.chessGameMouseListener = new ChessGameMouseListener(game, gamePanel);
+        chessGameMouseListener = new ChessGameMouseListener(game, gamePanel);
         addMouseListener(chessGameMouseListener);
         addMouseMotionListener(chessGameMouseListener);
 
@@ -51,9 +51,10 @@ public class ChessBoardPanel extends ContentPanel {
             woodBoard = ImageIO.read(new File(PathConsts.WOOD_THEME));
             iceBoard = ImageIO.read(new File(PathConsts.ICE_THEME));
         } catch (IOException e) {
-            System.out.println("Chess board images not found.");
+            e.printStackTrace();
         }
-        this.gameResultOverlay = new GameResultOverlay(gamePanel);
+
+        gameResultOverlay = new GameResultOverlay(gamePanel);
         gameResultOverlay.setBounds(0, 0, getWidth(), getHeight());
     }
 
@@ -85,7 +86,9 @@ public class ChessBoardPanel extends ContentPanel {
         String move = game.toAlgebraic(t1, t2, p);
 
         gamePanel.movesPanel.addMove(move);
+
         SoundEffect.playSound(t1, t2, p, game);
+
         this.game.move(t1, t2, p);
     }
 
@@ -93,7 +96,6 @@ public class ChessBoardPanel extends ContentPanel {
         this.game.undo();
     }
 
-    @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
         
@@ -108,6 +110,7 @@ public class ChessBoardPanel extends ContentPanel {
         } else if (UserInterface.activeTheme == UserInterface.ICE_BOARD) {
             g.drawImage(iceBoard, 0, 0, this);
         }
+
         drawBoard(g);
 
         // Draw possible moves for piece
@@ -115,36 +118,34 @@ public class ChessBoardPanel extends ContentPanel {
             drawPossibleMoves(g, game.getCurrentPos().getTile(chessGameMouseListener.t1));
         }
 
-        // Draw Held Piece when player is holding down on a piece
         heldPieceImage = chessGameMouseListener.getHeldPieceImage();
         if(heldPieceImage != null) {
             g.drawImage(heldPieceImage, chessGameMouseListener.getMouseX()-tileSize/2, chessGameMouseListener.getMouseY()-tileSize/2, this);
         }
 
-        // Show promotion options when required
         if(chessGameMouseListener.isPromoting) {
             BufferedImage promotionPlatter;
             try {
                 promotionPlatter = ImageIO.read(new File(PathConsts.PROMOTION_PLATTER));
                 g.drawImage(promotionPlatter, 110, 200, this);
             } catch (IOException e) {
-                System.out.println("Could not load promotion platter.");
+                e.printStackTrace();
             }
         }
     }
 
     /**
      * Draws the chess board and pieces
-     * @param g graphics
+     * @param g
      */
     public void drawBoard(Graphics g) {
         Tile[][] checkerBoard = game.getCurrentPos().getTiles();
         
-        // Traverse entire maze and draw coloured square for each symbol in maze
+        // traverse entire maze and draw coloured square for each symbol in maze
         for (int x = 0; x < checkerBoard.length; x++) {
             for (int y = 0; y < checkerBoard[0].length; y++) {
 
-                // Flip board
+                // flip board
                 int xPos = (7 * gamePanel.getPlayerColour() + (1 - 2 * gamePanel.getPlayerColour()) * x) * tileSize;
                 int yPos = (7 * (1 - gamePanel.getPlayerColour()) + (2 * gamePanel.getPlayerColour() - 1) * y) * tileSize;
                 
@@ -158,7 +159,7 @@ public class ChessBoardPanel extends ContentPanel {
                     g.fillRect(xPos, yPos, tileSize, tileSize);
                 }
 
-                // Write tile notation
+                // write tile notation
                 if(x == 7) {
                     if((y+gamePanel.getPlayerColour()) % 2 == 0) g.setColor(UserInterface.lighterTile);
                     else g.setColor(UserInterface.darkerTile);
@@ -170,7 +171,7 @@ public class ChessBoardPanel extends ContentPanel {
                     g.drawString(Character.toString((char)(x + 'a')), xPos + 52, 479);
                 }
 
-                // Change based on gamePanel.getPlayerColour()
+                // change based on gamePanel.getPlayerColour()
                 if(checkerBoard[x][y].getPiece() != null) {
                     if (checkerBoard[x][y].getPiece() != chessGameMouseListener.getSelectedPiece()) {
                         g.drawImage(checkerBoard[x][y].getPiece().getImage(), xPos, yPos, this);
@@ -182,12 +183,12 @@ public class ChessBoardPanel extends ContentPanel {
                 }
             }
         }
- }
+    }
 
     /**
-     * Graphically displays possible moves information for when user clicks on a piece
-     * @param g graphics
-     * @param selectedPiecePos Tile of selected piece
+     * Graphically displays relevant information for when user clicks on a piece
+     * @param g
+     * @param selectedPiecePos
      */
     public void drawPossibleMoves(Graphics g, Tile selectedPiecePos) {
         Graphics2D g2d = (Graphics2D)g;
@@ -198,24 +199,21 @@ public class ChessBoardPanel extends ContentPanel {
         int xPos = 0;
         int yPos = 0;
         g.setColor(UserInterface.activeHighlightColour); 
-        synchronized(possibleMoves) {
-            for (String i : possibleMoves) {
-                // Determine coordinates for each colour
-                if (gamePanel.getPlayerColour() == ChessConsts.WHITE) {
-                    xPos = (i.charAt(0) - 'a') * tileSize;
-                    yPos = (8 - Character.getNumericValue(i.charAt(1))) * tileSize;
-                } else  {
-                    xPos = (7 - i.charAt(0) + 'a') * tileSize;
-                    yPos = Character.getNumericValue(i.charAt(1) - 1) * tileSize;
-                }
-                // Draw box around capturable pieces and dot for empty squares
-                if (game.getCurrentPos().getTile(i).getPiece() != null) {
-                    g.drawOval(xPos + 2, yPos + 2, 56, 56);
-                } else {
-                    g.fillOval(xPos + 23, yPos + 23, 14, 14);
-                }
+        for (String i : possibleMoves) {
+            // Determine coordinates for each colour
+            if (gamePanel.getPlayerColour() == ChessConsts.WHITE) {
+                xPos = (i.charAt(0) - 'a') * tileSize;
+                yPos = (8 - Character.getNumericValue(i.charAt(1))) * tileSize;
+            } else  {
+                xPos = (7 - i.charAt(0) + 'a') * tileSize;
+                yPos = Character.getNumericValue(i.charAt(1) - 1) * tileSize;
+            }
+            // Draw box around capturable pieces and dot for empty squares
+            if (game.getCurrentPos().getTile(i).getPiece() != null) {
+                g.drawOval(xPos + 2, yPos + 2, 56, 56);
+            } else {
+                g.fillOval(xPos + 23, yPos + 23, 14, 14);
             }
         }
     }
-
 }

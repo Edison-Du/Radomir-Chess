@@ -5,9 +5,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.Rectangle;
 
-import chesslogic.ChessConsts;
 import chesslogic.ChessGame;
-import config.UserInterface;
 import config.GameState;
 import config.MessageTypes;
 import views.chess.CapturedPiecesPanel;
@@ -18,6 +16,7 @@ import views.chess.MessagePanel;
 import views.chess.MovesPanel;
 import views.chess.OpponentProposalPanel;
 import views.chess.PlayerLabel;
+import config.UserInterface;
 import network.Message;
 import network.ServerConnection;
 import views.components.ContentPanel;
@@ -48,7 +47,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         UserInterface.GAME_BOARD_Y + UserInterface.GAME_BOARD_LENGTH + 10,
         UserInterface.GAME_BOARD_LENGTH,
         60);
-    private final Rectangle OPPONENT_CAPTURED_PIECES_BOUNDS = new Rectangle(120, 80,480,30);
+        private final Rectangle OPPONENT_CAPTURED_PIECES_BOUNDS = new Rectangle(120, 80,480,30);
     private final Rectangle PLAYER_CAPTURED_PIECES_BOUNDS = new Rectangle(120,650,480,30);
     private final Rectangle TAKEBACK_BOUNDS = new Rectangle(660, 239, 80, 62);
     private final Rectangle DRAW_BUTTON_BOUNDS = new Rectangle(740, 239, 80, 62);
@@ -89,10 +88,10 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
      * Creates the game panel with a chess game, a chat box,
      * a move history and appropriate player labels
      */
-    public AbstractGamePanel() {  
+    public AbstractGamePanel() {
         // Chess game and board
-        this.chessGame = new ChessGame();
-        this.boardPanel = new ChessBoardPanel(chessGame, this);
+        chessGame = new ChessGame();
+        boardPanel = new ChessBoardPanel(chessGame, this);
         boardPanel.setBounds(
             UserInterface.GAME_BOARD_X, 
             UserInterface.GAME_BOARD_Y, 
@@ -102,59 +101,59 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.add(boardPanel);
 
         // Captured pieces
-        this.capturedPiecesPanelWhite = new CapturedPiecesPanel(chessGame, 0);
+        capturedPiecesPanelWhite = new CapturedPiecesPanel(chessGame, 0);
         this.add(capturedPiecesPanelWhite);
 
-        this.capturedPiecesPanelBlack = new CapturedPiecesPanel(chessGame, 1);
+        capturedPiecesPanelBlack = new CapturedPiecesPanel(chessGame, 1);
         this.add(capturedPiecesPanelBlack);
 
         // Moves
-        this.movesPanel = new MovesPanel();
+        movesPanel = new MovesPanel();
         movesPanel.setBounds(MOVES_PANEL_BOUNDS);
         this.add(movesPanel, BorderLayout.CENTER);
 
         // Chat
-        this.messagePanel = new MessagePanel();
+        messagePanel = new MessagePanel();
         messagePanel.setBounds(CHAT_PANEL_BOUNDS);
         this.add(messagePanel);
 
         // Lobby Info
-        this.lobbyInfoPanel = new LobbyInfoPanel();
+        lobbyInfoPanel = new LobbyInfoPanel();
         lobbyInfoPanel.setBounds(BOARD_PANEL_BOUNDS);
         lobbyInfoPanel.setForeground(UserInterface.NAVBAR_COLOUR);
         lobbyInfoPanel.setBackground(Color.WHITE);
         this.add(lobbyInfoPanel);
 
         // Opponent label
-        this.opponentLabel = new PlayerLabel();
+        opponentLabel = new PlayerLabel();
         opponentLabel.setBounds(OPPONENT_LABEL_BOUNDS);
         this.add(opponentLabel);
 
         // Player label
-        this.playerLabel = new PlayerLabel();
+        playerLabel = new PlayerLabel();
         playerLabel.setBounds(PLAYER_LABEL_BOUNDS);
         this.add(playerLabel);
 
         // Takeback
-        this.takebackButton = new GamePanelButton("Takeback");
+        takebackButton = new GamePanelButton("Takeback");
         takebackButton.setBounds(TAKEBACK_BOUNDS);
         takebackButton.addActionListener(this);
         this.add(takebackButton);
 
         // Draw
-        this.drawButton = new GamePanelButton("Draw");
+        drawButton = new GamePanelButton("Draw");
         drawButton.setBounds(DRAW_BUTTON_BOUNDS);
         drawButton.addActionListener(this);
         this.add(drawButton);
 
         // Resign
-        this.resignButton = new GamePanelButton("Resign");
+        resignButton = new GamePanelButton("Resign");
         resignButton.setBounds(RESIGN_BOUNDS);
         resignButton.addActionListener(this);
         this.add(resignButton);
 
         // Leave Lobby
-        this.leaveLobby = new CustomButton("Leave Game");
+        leaveLobby = new CustomButton("Leave Game");
         leaveLobby.setFont(UserInterface.orkney18);
         leaveLobby.setBorder(UserInterface.FONT_OFFSET_BORDER);
         leaveLobby.setBounds(LEAVE_BUTTON_BOUNDS);
@@ -168,9 +167,12 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.add(leaveLobby);
 
         // Proposal Panel
-        this.opponentProposalPanel = new OpponentProposalPanel(this);
+        opponentProposalPanel = new OpponentProposalPanel(this);
         opponentProposalPanel.setBounds(PROPOSAL_BOUNDS);
     }
+
+    // Abstract method for processing player moves
+    public abstract void processMove(String tile1, String tile2, String promotion);
 
     /**
      * undoMove
@@ -196,18 +198,18 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
      * @param state the state of the game
      */
     public void setGameState(GameState state) {
-
-        // The game is no longer in the waiting stage, lock the lobby so others cannot join
+        
+        // Enter into game
         if (gameState == GameState.WAITING && state != GameState.WAITING) {
             ServerConnection.sendMessage(new Message(MessageTypes.LOCK_LOBBY));
 
-        // Game is in waiting stage, open the lobby and allow others to join
+        // Reverse above statement (leaving game into waiting room)
         } else if (gameState != GameState.WAITING && state == GameState.WAITING) {
             ServerConnection.sendMessage(new Message(MessageTypes.UNLOCK_LOBBY));
+
             opponentLabel.setText("Waiting for opponent . . .");
         }
 
-        // Show game over screen if the game has ended
         if ((state != GameState.WAITING) && (state != GameState.ONGOING)) {
             boardPanel.setOverlayVisible(true);
             removeProposal();
@@ -217,7 +219,6 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
             opponentPlayAgain = false;
             boardPanel.setOverlayVisible(false);
         }
-
         this.gameState = state;
         boardPanel.revalidate();
     }
@@ -266,7 +267,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public void setPlayerColour(int colour) {
         this.playerColour = colour;
 
-        if (playerColour == ChessConsts.WHITE)  {
+        if (playerColour == 0)  {
             capturedPiecesPanelWhite.setBounds(OPPONENT_CAPTURED_PIECES_BOUNDS);
             capturedPiecesPanelBlack.setBounds(PLAYER_CAPTURED_PIECES_BOUNDS);
         } else {
@@ -288,7 +289,7 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         capturedPiecesPanelWhite.setChessGame(chessGame);
         this.revalidate();
     }
-
+    
     /**
      * resetChat
      * Clear the chat
@@ -361,6 +362,4 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     // Abstract methods for handling the game ending
     public abstract void handleGameEnded();
 
-    // Abstract method for processing player moves
-    public abstract void processMove(String tile1, String tile2, String promotion);
 }

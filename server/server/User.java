@@ -5,8 +5,6 @@ import config.Consts;
 /**
  * [User.java]
  * This class represents a user by storing all relevant data
- * @author Jeffrey Xu
- * @version 1.0 Jan 24, 2022
  */
 public class User {
     private String username;
@@ -18,12 +16,7 @@ public class User {
     private int soundOn;
 
     /**
-     * User
-     * Creates a user object with a username, password and an array representing
-     * the user's preferred settings
-     * @param username the user's username
-     * @param password the user's password
-     * @param settingsPreferences the user's preferred settings
+     * User object constructor
      */
     public User(String username, String password, int[] settingsPreferences) {
         this.username = username;
@@ -36,119 +29,97 @@ public class User {
     }
 
     /**
-     * getUsername
-     * Getter for the username
-     * @return username
+     * returns username
      */
     public String getUsername() {
         return this.username;
     }
 
     /**
-     * getPassword
-     * Getter for the password
-     * @return the password
+     * returns password
      */
     public String getPassword() {
         return this.password;
     }
 
     /**
-     * getBoard
-     * Getter for the user's chess board preference
-     * @return the chess board preference
+     * returns board colour (index) as string
      */
     public String getBoard() {
         return Integer.toString(this.board);
     }
 
-
     /**
-     * setBoard
-     * Sets the user's chess board preference
-     * @param board the user's chess board preference
+     * updates the board variable
+     * @param board
      */
     public void setBoard(String board) {
         this.board = Integer.parseInt(board);
     }
 
     /**
-     * getChessSet
-     * Getter for the user's chess set preference
-     * @return the user's chess set preference
+     * returns chess set number as string
      */
     public String getChessSet() {
         return Integer.toString(this.chessSet);
     }
 
     /**
-     * setChessSet
-     * Sets the user's chess set preference
-     * @param chessSet the user's chess set preference
+     * updates the chess set variable
+     * @param chessSet
      */
     public void setChessSet(String chessSet) {
         this.chessSet = Integer.parseInt(chessSet);
     }
 
     /**
-     * getHighlightStatus
-     * Gets whether or not the user has highlights are on
-     * @return whether or not the user has highlights are on
+     * returns whether highlight is on or not (1 and 0 instead of boolean) as string
      */
     public String getHighlightStatus() {
         return Integer.toString(this.highlightsOn);
     }
     
     /**
-     * setHighlightStatus
-     * Sets whether or not the user has highlights are on
-     * @param status whether or not the user has highlights are on
+     * updates the highlight status variable
+     * @param status
      */
     public void setHighlightStatus(String status) {
         this.highlightsOn = Integer.parseInt(status);
     }
 
     /**
-     * getHighlight
-     * Getter for the user's highlight preference
-     * @return the user's highlight preference
+     * returns highlight colour (index) as a string
      */
     public String getHighlight() {
         return Integer.toString(this.highlight);
     }
     
     /**
-     * setHighlight
-     * Set the user's highlight preference
-     * @param highlight the user's highlight preference
+     * updates the highlight variable
+     * @param highlight
      */
     public void setHighlight(String highlight) {
         this.highlight = Integer.parseInt(highlight);
     }
 
     /**
-     * getSoundStatus
-     * Getter for whether the user has sound on
-     * @return whether the user has sound on
+     * returns whether sound is on or not (1 or 0 as boolean) as string
      */
     public String getSoundStatus() {
         return Integer.toString(this.soundOn);
     }
 
     /**
-     * setSoundStatus
-     * Setter for whether the user has sound on
-     * @param status whether the user has sound on
+     * updates the sound status variable
+     * @param status
      */
     public void setSoundStatus(String status) {
         this.soundOn = Integer.parseInt(status);
     }
 
     /**
-     * convertMessageToUser
-     * Converts a message object to a user object
-     * @param message the message object to convert from
-     * @return the converted user object
+     * Parse message containing entire data set for user object
+     * @param message
      */
     public static User convertMessageToUser(Message message) {
         int[] settings = new int[Consts.NUM_SETTINGS];
@@ -162,12 +133,6 @@ public class User {
         return new User(username, password, settings);
     }
 
-    /**
-     * settingsToArray
-     * Converts a message object containing the user's settings to an array
-     * @param message the message object to convert from
-     * @return the converted array
-     */
     public static int[] settingsToArray(Message message) {
         int[] settings = new int[Consts.NUM_SETTINGS];
         for (int i = 0; i < Consts.NUM_SETTINGS; i++) {
@@ -177,9 +142,7 @@ public class User {
     }
 
     /**
-     * toString
-     * Gets string representation of a user
-     * @return the string representation of a user
+     * returns all the data stored in this object as a string (separated by spaces)
      */
     @Override
     public String toString() {

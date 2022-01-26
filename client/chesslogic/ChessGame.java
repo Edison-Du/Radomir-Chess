@@ -1,14 +1,16 @@
 package chesslogic;
 
-import java.util.Stack;
+import java.lang.Integer;
 
 /**
- * [ChessGame.java]
  * Class for a game of chess
+ * Also holds main method
+ * 
  * @author Leo Guan
- * @author Peter Gu
- * @version 1.0 Jan 24, 2022
+ * @version 1.0, Jan. 2022
  */
+ 
+import java.util.Stack;
 
 public class ChessGame {
     private Board current;
@@ -19,6 +21,7 @@ public class ChessGame {
     private Stack<Integer> fiftyMoveStack;
     
     /**
+     * ChessGame
      * Create a game
      */
     public ChessGame()  {
@@ -31,6 +34,7 @@ public class ChessGame {
     }
     
     /**
+     * move
      * Make a move (change a piece's position, switch to next player's turn
      * Does nothing if the move is illegal
      * @param t1 position of piece to move
@@ -99,26 +103,54 @@ public class ChessGame {
         }
     }
     
+    /**
+     * setFiftyMoves
+     * set the fifty move counter
+     * @param x self explanatory
+     */
     protected void setFiftyMoves(int x) {
         this.fiftyMoves = x;
     }
     
+    /**
+     * getFiftyMoves
+     * get the fifty move counter
+     * @return above
+     */
     public int getFiftyMoves() {
         return this.fiftyMoves;
     }
     
+    /**
+     * setFiftyMoveStack
+     * pretty technical weird stuff
+     * @param x set a counter for fifty move rule undos
+     */
     protected void setFiftyMoveStack(Stack<Integer> x) {
         this.fiftyMoveStack = x;
     }
     
+    /**
+     * getFiftyMoveStack
+     * get the fifty move stack
+     * @return above
+     */
     public Stack<Integer> getFiftyMoveStack() {
         return this.fiftyMoveStack;
     }
     
+    /**
+     * set the current board (only for copying)
+     * @param b the board
+     */
     protected void setCurrentPos(Board b) {
         this.current = b;
     }
     
+    /**
+     * set the move stack
+     * @param s the move stack
+     */
     protected void setStringMoves(Stack<String> s) {
         this.stringMoves = s;
     }
@@ -131,18 +163,33 @@ public class ChessGame {
         return this.current;
     }
     
+    /**
+     * get the stack of moves
+     * @return above
+     */
     public Stack<String> getStringMoves() {
         return this.stringMoves;
     }
     
+    /**
+     * get a stack of all pieces taken
+     * @return above
+     */
     public Stack<Piece> getPiecesTaken() {
         return this.piecesTaken;
     }
     
+    /**
+     * get all pawns promoted
+     * @return above
+     */
     public Stack<Piece> getPawnsPromoted() {
         return this.pawnsPromoted;
     }
 
+    /**
+     * undo the previous move
+     */
     public void undo() {
         if(!this.stringMoves.isEmpty()) {
             Tile t = this.current.getTile(this.stringMoves.peek().substring(2, 4));
@@ -201,20 +248,28 @@ public class ChessGame {
         }
     }
     
+    /**
+     * @return whether white wins
+     */
     public boolean whiteWins() {
         return current.ended() && current.getKings()[ChessConsts.BLACK].isChecked(current, current.getKingTiles()[ChessConsts.BLACK]);
     }
     
+    /**
+     * @return whether black wins
+     */
     public boolean blackWins() {
         return current.ended() && current.getKings()[ChessConsts.WHITE].isChecked(current, current.getKingTiles()[ChessConsts.WHITE]);
     }
     
+    /**
+     * @return whether there is a stalemate
+     */
     public boolean stalemate() {
         if(fiftyMoves == 100) {
             return true;
         }
-        else if(current.ended() && !current.getKings()[ChessConsts.WHITE].isChecked(current, current.getKingTiles()[ChessConsts.WHITE]) 
-        && !current.getKings()[ChessConsts.BLACK].isChecked(current, current.getKingTiles()[ChessConsts.BLACK])) {
+        else if(current.ended() && (!current.getKings()[0].isChecked(current, current.getKingTiles()[0]) && !current.getKings()[1].isChecked(current, current.getKingTiles()[1]))) {
             return true;
         }
         else if(drawByInsufficientPieces()) {
@@ -223,10 +278,16 @@ public class ChessGame {
         return false;
     }
     
+    /**
+     * @return whether the game has ended
+     */
     public boolean ended() {
         return stalemate() || whiteWins() || blackWins();
     }
-
+    
+    /**
+     * @return whether there are insufficient pieces to draw
+     */
     private boolean drawByInsufficientPieces() {
         if(current.getPieces().get(0).size() > 2 || current.getPieces().get(1).size() > 2) {
             return false;
@@ -267,6 +328,9 @@ public class ChessGame {
         }
     }
     
+    /**
+     * @return the algebraic notation
+     */
     public String toAlgebraic(String t1, String t2, String p) {
         String out = "";
         if(this.current.getTile(t1).getPiece().getName().equals("K") && this.current.getTile(t2).getX() - this.current.getTile(t1).getX() == 2) {
@@ -316,6 +380,9 @@ public class ChessGame {
         return out;
     }
     
+    /**
+     * @return a deep copy of this game
+     */
     public ChessGame copy() {
         ChessGame out = new ChessGame();
         out.setCurrentPos(this.getCurrentPos().copy());

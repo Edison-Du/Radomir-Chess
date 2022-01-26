@@ -10,7 +10,8 @@ import java.awt.RenderingHints;
 
 /**
  * [LobbyInfoPanel.java]
- * Lobby info panel on the game panel
+ * Displays relevant information to a lobby, such as the lobby type and title
+ *
  * @author Edison Du
  * @version 1.0 Jan 24, 2022
  */
@@ -24,19 +25,38 @@ public class LobbyInfoPanel extends JPanel {
     private String lobbyTitle;
     private String lobbyType;
 
+    /**
+     * LobbyInfoPanel
+     * Initializes lobby info
+     */
     public LobbyInfoPanel() {
         lobbyTitle = "";
         lobbyType = "";
     }
-    
+
+    /**
+     * setLobbyTitle
+     * Sets the lobby title
+     * @param title the lobby title
+     */
     public void setlobbyTitle(String title) {
         lobbyTitle = title;
     }
 
+    /**
+     * setLobbyType
+     * Sets the lobby type
+     * @param type the lobby type
+     */
     public void setlobbyType(String type) {
         lobbyType = type;
     }
 
+    /**
+     * paintComponent
+     * Draws the lobby information panel
+     * @param g the graphics object to draw on
+     */
     @Override
     public void paintComponent(Graphics g) {
 

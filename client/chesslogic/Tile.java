@@ -1,11 +1,11 @@
 package chesslogic;
 
 /**
- * [Tile.java]
- * 
+ * Class for a tile
  * @author Leo Guan
- * @version 1.0 Jan 24, 2022
+ * @version 1.0, Jan. 2022
  */
+
 public class Tile {
     
     private Piece piece;

@@ -1,12 +1,11 @@
 package chesslogic;
 
 /**
- * [Move.java]
- * encapsulated class for a move and an approximation of how good it is
+ * Class for sorting moves
  * @author Peter Gu
- * @version 1.0 Jan 24, 2022
+ * @author Leo Guan
+ * @version 1.0, Jan. 2022
  */
-
 class Move implements Comparable<Move> {
 
     // Class Variables
@@ -14,7 +13,7 @@ class Move implements Comparable<Move> {
     int score;
 
     /**
-     * Intialize a move object
+     * Represents a move object with a move and score
      */
     public Move(String move, int score){
         this.move = move;
@@ -22,8 +21,7 @@ class Move implements Comparable<Move> {
     }
 
     /**
-     * Compares two objects
-     * @param int the integer value of the comparison
+     * Comparable method for objects
      */
     @Override
     public int compareTo(Move a)

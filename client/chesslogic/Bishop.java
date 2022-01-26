@@ -1,14 +1,13 @@
 package chesslogic;
 
+/**
+ * Class for a Bishop
+ * @author Leo Guan
+ * @version 1.0, Jan. 2022
+ */
+
 import java.util.HashSet;
 import config.UserInterface;
-
-/**
- * [Board.java]
- * class for a bishop
- * @author Leo Guan
- * @version 1.0 Jan 24, 2022
- */
 
 public class Bishop extends Piece {
 
@@ -18,7 +17,7 @@ public class Bishop extends Piece {
      * @
      */
     public Bishop(int col) {
-        super(col, "B", 55, UserInterface.PIECES.get(col + 2));
+        super(col, "B", 40, UserInterface.PIECES.get(col + 2));
     }
     
     @Override
@@ -57,12 +56,12 @@ public class Bishop extends Piece {
         }
         return output;
     }
-    
-    @Override
+
     /**
-     * make a copy of this piece
-     * @return a copy of this piece
+     * Copies a piece
+     * @return the piece
      */
+    @Override
     public Piece copy() {
         Bishop out = new Bishop(this.getColour());
         out.setMoved(this.getTurnMoved());

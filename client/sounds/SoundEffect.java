@@ -27,14 +27,13 @@ public class SoundEffect {
             clip = AudioSystem.getClip();
             clip.open(sound);
         } catch (Exception e) {
-            System.out.println("Audio file could not be opened");
+            System.out.println("Audio file not found.");
         }
     }
 
     public void play() {
         clip.setFramePosition(0);
         clip.start();
-
     }
 
     public static void playSound(String t1, String t2, String p, ChessGame game) {
@@ -49,20 +48,20 @@ public class SoundEffect {
 
             synchronized(game) {
                 game.move(t1, t2, p);
-                
-                if(game.stalemate()) {
-                    se.setFile(PathConsts.STALEMATE);
+            }
+            if(game.stalemate()) {
+                se.setFile(PathConsts.STALEMATE);
+                soundChosen = true;
+            } else if(current.getKings()[0].isChecked(current, current.getKingTiles()[0]) || current.getKings()[1].isChecked(current, current.getKingTiles()[1])) {
+                if(game.whiteWins() || game.blackWins()) {
+                    se.setFile(PathConsts.CHECKMATE);
                     soundChosen = true;
-                } else if(current.getKings()[0].isChecked(current, current.getKingTiles()[0]) || current.getKings()[1].isChecked(current, current.getKingTiles()[1])) {
-                    if(game.whiteWins() || game.blackWins()) {
-                        se.setFile(PathConsts.CHECKMATE);
-                        soundChosen = true;
-                    } else {
-                        se.setFile(PathConsts.CHECK);
-                        soundChosen = true;
-                    }
+                } else {
+                    se.setFile(PathConsts.CHECK);
+                    soundChosen = true;
                 }
-
+            }
+            synchronized(game) {
                 game.undo();
             }
 
@@ -75,7 +74,6 @@ public class SoundEffect {
                     se.setFile(PathConsts.MOVE);
                 }
             }
-
             se.play();
         }
     }

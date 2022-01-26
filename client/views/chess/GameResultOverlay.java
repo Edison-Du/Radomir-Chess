@@ -22,8 +22,9 @@ import java.awt.Rectangle;
 
 /**
  * [GameResultOverlay.java]
- * 
- * @author
+ * Panel that displays the game-over panel and a play again button 
+ *
+ * @author Edison Du
  * @version 1.0 Jan 24, 2022
  */
 public class GameResultOverlay extends JPanel implements ActionListener {
@@ -38,19 +39,23 @@ public class GameResultOverlay extends JPanel implements ActionListener {
     private final int OVERLAY_ARC = 20;
     private final Color OVERLAY_COLOUR = new Color(0, 0, 0, 127);
 
-
     public JLabel message;
     public final CustomButton playAgain;
 
     private AbstractGamePanel gamePanel;
 
+    /**
+    * GameResultOverlay
+    * Constructs a game over screen with a message and play again button
+    * @param gamePanel the game panel to display the game over screen on
+    */
     public GameResultOverlay(AbstractGamePanel gamePanel) {
         setOpaque(false);
         setLayout(null);
 
         this.gamePanel = gamePanel;
 
-        // Message
+        // Game over message
         message = new JLabel("", SwingConstants.CENTER);
         message.setForeground(Color.WHITE);
         message.setFont(UserInterface.orkney30);
@@ -58,7 +63,7 @@ public class GameResultOverlay extends JPanel implements ActionListener {
         message.setHorizontalAlignment(JLabel.CENTER);
         this.add(message);
 
-        // Play Again
+        // Play again button
         playAgain = new CustomButton("");
         playAgain.setBounds(PLAY_AGAIN_BOUNDS);
         playAgain.setFont(UserInterface.orkney18);
@@ -71,11 +76,21 @@ public class GameResultOverlay extends JPanel implements ActionListener {
         this.add(playAgain);
     }
 
+    /**
+     * setMessage
+     * Sets the game over message
+     * @param message the game over message
+     */
     public void setMessage(String message) {
         this.message.setText(message);
         this.revalidate();
     }
 
+    /**
+     * paintComponent
+     * Draws the game over panel
+     * @param g the graphics object to draw on
+     */
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -97,6 +112,11 @@ public class GameResultOverlay extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * actionPerformed
+     * Detects if the user has clicked play again
+     * @param e the action event that occurred
+     */
     @Override
     public void actionPerformed(ActionEvent e) { 
         if (e.getSource() == playAgain) {

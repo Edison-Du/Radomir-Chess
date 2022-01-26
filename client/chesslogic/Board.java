@@ -3,10 +3,10 @@ package chesslogic;
 import java.util.ArrayList;
 
 /**
- * [Board.java]
+ * A class for a board
  * Contains the player to move and all the tiles
  * @author Leo Guan
- * @version 1.0 Jan 24, 2022
+ * @version 1.0, Jan. 2022
  */
 
 import java.util.HashSet;
@@ -16,12 +16,13 @@ public class Board {
     
     private Tile[][] tiles;
     private Tile[] kingTiles; //tiles that the kings are on
-    private King[] kings;     //the kings themselves (kings have extra methods)
+    private King[] kings;     //the kings themselves
     private int turn;
     private int toMove;       //player to move (0 if white, 1 if black)
     private ArrayList<ArrayList<Tile>> pieces;
     /**
      * Create a new chessboard (the default starting position)
+     * @
      */
     public Board() {
         this.turn = 1;
@@ -66,10 +67,6 @@ public class Board {
         this.kingTiles[1] = this.tiles[4][7];
     }
     
-    /**
-     * return the pieces on this board
-     * @return pieces on this board
-     */
     public ArrayList<ArrayList<Tile>> getPieces() {
         return this.pieces;
     }
@@ -82,10 +79,6 @@ public class Board {
         return this.toMove;
     }
     
-    /**
-     * set whose turn it is
-     * @param toMove the turn to set to (0 or 1)
-     */
     public void setToMove(int toMove) {
         this.toMove = toMove;
     }
@@ -98,18 +91,10 @@ public class Board {
         this.turn++;
     }
     
-    /**
-     * get the turn number
-     * @return the turn number
-     */
     public int getTurn() {
         return this.turn;
     }
     
-    /**
-     * set the turn number
-     * @param turn turn number     
-     */
     public void setTurn(int turn) {
        this.turn = turn;
     }
@@ -122,10 +107,6 @@ public class Board {
         return this.tiles;
     }
     
-    /**
-    get a specified tile
-    @param tileName name of tile (e.g. e4)
-     */
     public Tile getTile(String tileName) {
         int[] pos = ChessConsts.chessToCoord(tileName);
         return this.tiles[pos[0]][pos[1]];
@@ -139,10 +120,6 @@ public class Board {
         return this.kingTiles;
     }
     
-    /**
-     * set the tiles containing the kings
-     * @param kT tiles containing the kings
-     */
     public void setKingTiles(Tile[] kT) {
         this.kingTiles = kT;
     }
@@ -260,13 +237,8 @@ public class Board {
         return true;
     }
     
-    /**
-    get additional info about a move
-     * @param t1 first tile
-     * @param t2 second tile
-     * @param p piece to a promote a pawn to, if applicable
-     * @return extra info about this move
-     */
+    //we assume that the move is legal
+    //this method does not return algebraic notation
     public String moveInfo(String t1, String t2, String p) {
         String out = "";
         if(getTile(t1).getPiece().getName().equals("K") && getTile(t2).getX() - getTile(t1).getX() == 2) {
@@ -302,20 +274,10 @@ public class Board {
         return out;
     }
     
-    /**
-     * check if this move promotes a pawn
-     * @param t1 first tile
-     * @param t2 second tile
-     * @return whether a pawn is moving to an end row using these tiles as the move
-     */
     public boolean promotingMove(String t1, String t2)  {
         return getTile(t1).getPiece() != null && getTile(t1).getPiece().getName().equals("p") && ChessConsts.chessToCoord(t2)[1] == 7*(1 - toMove);
     }
     
-    /**
-     * return whether this string gives a valid promotion
-     * @return whether a pawn can promote to the given piece
-     */
     public boolean validPromotion(String p)  {
         return p!= null && (p.equals("Q") || p.equals("R") || p.equals("B") || p.equals("N"));
     }
@@ -407,10 +369,7 @@ public class Board {
         return out;
     }
     
-    /**
-     * checks whether two boards are the same (pieces are on the same tiles)
-     * @return above
-     */
+    //O(n) time - loops through each arraylist once
     public boolean equals(Board b) {
         if(this.pieces.get(0).size() != b.getPieces().get(0).size()) {
             return false;
@@ -429,5 +388,4 @@ public class Board {
         }
         return true;
     }
-    
 }

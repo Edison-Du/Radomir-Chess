@@ -1,15 +1,13 @@
 package chesslogic;
 
-import java.util.HashSet;
-
-import config.UserInterface;
-
 /**
- * [Pawn.java]
- * class for a Pawn piece
+ * Class for a Pawn
  * @author Leo Guan
- * @version 1.0 Jan 24, 2022
+ * @version 1.0, Jan. 2022
  */
+
+import java.util.HashSet;
+import config.UserInterface;
 
 public class Pawn extends Piece {
     
@@ -67,6 +65,10 @@ public class Pawn extends Piece {
         return output;
     }
     
+    /**
+     * Copies a piece
+     * @return the piece
+     */
     @Override
     public Piece copy() {
         Pawn out = new Pawn(this.getColour());

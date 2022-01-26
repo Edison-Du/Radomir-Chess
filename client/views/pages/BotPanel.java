@@ -1,10 +1,11 @@
 package views.pages;
 
 import java.awt.event.ActionEvent;
+
 import chesslogic.*;
 import config.GameState;
 import config.Page;
-import sounds.SoundEffect;
+
 import views.Window;
 import views.chess.BotThread;
 
@@ -17,14 +18,12 @@ import views.chess.BotThread;
  */
 public class BotPanel extends AbstractGamePanel {
 
-    private final int INITIAL_DEPTH = 1;
     private final String EASY_TEXT = "Jeffrey Bot: Easy";
     private final String MEDIUM_TEXT = "Peter Bot: Medium";
     private final String HARD_TEXT = "Radomir Bot: Hard";
     private final int EASY_DEPTH = 1;
     private final int MEDIUM_DEPTH = 3;
     private final int HARD_DEPTH = 5;
-    private final String LOBBY_INFO_PANEL_TEXT = "Bot Game";
 
     private Bot depthSearchBot;
     private Window window;
@@ -32,10 +31,10 @@ public class BotPanel extends AbstractGamePanel {
     private int depth;
 
     public BotPanel(Window window) {
-        this.window = window;
-        this.depth = INITIAL_DEPTH;
 
-        lobbyInfoPanel.setlobbyTitle(LOBBY_INFO_PANEL_TEXT);
+        this.window = window;
+        opponentLabel.setText("Radomir Bot");
+        lobbyInfoPanel.setlobbyTitle("Bot Game");
         resetGame();
     }
 
@@ -90,8 +89,9 @@ public class BotPanel extends AbstractGamePanel {
 
         this.revalidate();
     }
-
+    
     /**
+     * processMove
      * Take the player's move, and make the bot make a corresponding move
      * @param tile1 tile of first square of player move
      * @param tile2 tile of second square of player move
@@ -102,19 +102,13 @@ public class BotPanel extends AbstractGamePanel {
 
         if(!chessGame.getCurrentPos().ended()) {
 
-            synchronized(chessGameClone) {
-                synchronized(chessGame) {
-                    if(!tile1.equals("")) {
-                        SoundEffect.playSound(tile1, tile2, "", chessGame);
-                        movesPanel.addMove(chessGame.toAlgebraic(tile1, tile2, ""));
-                        chessGame.move(tile1, tile2, "");
-                        chessGameClone.move(tile1, tile2, "");
-                    }
-
-                    BotThread newBot = new BotThread(chessGame, chessGameClone, depthSearchBot, movesPanel, this);
-                    newBot.execute();
-                }
+            if(!tile1.equals("")) {
+                chessGameClone.move(tile1, tile2, promotion);
             }
+
+            // bot move used to be here
+            BotThread newBot = new BotThread(chessGame, chessGameClone, depthSearchBot, movesPanel, this);
+            newBot.execute();
 
         }
     }
@@ -147,7 +141,6 @@ public class BotPanel extends AbstractGamePanel {
             handleLeaveLobbyButton();
             return;
         }
-
         if (getGameState() == GameState.ONGOING) {
 
             if (e.getSource() == takebackButton) {
@@ -165,7 +158,7 @@ public class BotPanel extends AbstractGamePanel {
         this.repaint();
     }
 
-    // Methods to handle each button when clicked
+    // Functions to handle each button when clicked
     /**
      * handleLeaveLobbyButton
      * Exit the game and reset the game
@@ -181,15 +174,18 @@ public class BotPanel extends AbstractGamePanel {
      * take back the appropriate number of moves
      */
     public void handleTakebackButton() {
-        synchronized(chessGame) {
-            synchronized(chessGameClone) {
         // Make sure the user has made a move
-                if (movesPanel.getNumMoves() > getPlayerColour()) {
+        if (movesPanel.getNumMoves() > getPlayerColour()) {
+            synchronized(chessGame) {
+                synchronized(chessGameClone) {
                     if (chessGame.getCurrentPos().getToMove() == getPlayerColour()) {
                         undoMove();
                         undoMove();
+                        chessGameClone.undo();
+                        chessGameClone.undo();
                     } else {
                         undoMove();
+                        chessGameClone.undo();
                     }
                 }
             }
@@ -216,6 +212,7 @@ public class BotPanel extends AbstractGamePanel {
         } else {
             setGameState(GameState.WHITE_VICTORY_RESIGN);
         }
+
         setOpponentPlayAgain(true); // Bot always plays again
         boardPanel.gameResultOverlay.setMessage("You have resigned");
     }

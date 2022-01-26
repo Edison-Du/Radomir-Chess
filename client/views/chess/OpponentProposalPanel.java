@@ -10,8 +10,9 @@ import config.UserInterface;
 
 /**
  * [OpponentProposalPanel.java]
- * 
- * @author
+ * Panel for display takeback and draw proposals from the opponent 
+ *
+ * @author Edison Du
  * @version 1.0 Jan 24, 2022
  */
 public class OpponentProposalPanel extends JPanel {
@@ -28,6 +29,11 @@ public class OpponentProposalPanel extends JPanel {
     public final GamePanelButton acceptButton;
     public final GamePanelButton declineButton;
 
+    /**
+    * OpponentProposalPanel
+    * Creates opponent panel, adding buttons for accepting and declining
+    * @param listener listener responding to button clicks
+    */
     public OpponentProposalPanel(ActionListener listener) {
 
         setLayout(null);
@@ -66,6 +72,11 @@ public class OpponentProposalPanel extends JPanel {
         this.add(declineButton);
     }
 
+    /**
+    * setProposalText
+    * Sets the text message of the proposal
+    * @param text the text message of the proposal
+    */
     public void setProposalText(String text) {
         this.proposalText.setText(text);
         this.revalidate();

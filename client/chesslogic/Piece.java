@@ -1,22 +1,22 @@
 package chesslogic;
 
-import java.util.HashSet;
-
-import java.awt.image.BufferedImage;
-import config.UserInterface;
-
 /**
- * [Piece.java]
  * Class for a generic piece
  * @author Leo Guan
- * @version 1.0 Jan 24, 2022
+ * @version 1.0, Jan. 2022
  */
+
+import java.util.HashSet;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import config.UserInterface;
 
 public abstract class Piece {
     private int colour;
     private int turnMoved;
     private String name;
     private BufferedImage[] images;
+    private Image smallImages[];
     private int points;
     
     /**
@@ -28,8 +28,10 @@ public abstract class Piece {
         this.colour = col;
         this.name = name;
         this.images = new BufferedImage[UserInterface.NUM_SETS];
+        this.smallImages = new Image[UserInterface.NUM_SETS];
         for (int i = 0; i < UserInterface.NUM_SETS; i++) {
             this.images[i] = images[i];
+            this.smallImages[i] = images[i].getScaledInstance(30, 30, java.awt.Image.SCALE_FAST);
         }
         this.turnMoved = 0;
         this.points = points;
@@ -104,10 +106,26 @@ public abstract class Piece {
     public void setMoved(int turn) {
         this.turnMoved = turn;
     }
+
+    /**
+     * Returns an image
+     * @return an image
+     */
+    public Image getSmallImage() {
+        return smallImages[UserInterface.activeSetNum];
+    }
     
+    /**
+     * Converts to string
+     * @return the string
+     */
     public String toString() {
         return this.name + " " + this.turnMoved;
     }
     
+    /**
+     * Copies a piece
+     * @return the piece
+     */
     public abstract Piece copy();
 }

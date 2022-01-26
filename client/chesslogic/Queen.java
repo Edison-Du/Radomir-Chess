@@ -1,15 +1,13 @@
 package chesslogic;
 
-import java.util.HashSet;
-
-import config.UserInterface;
-
 /**
- * [Queen.java]
- * class for a Queen piece
+ * Class for a Queen
  * @author Leo Guan
- * @version 1.0 Jan 24, 2022
+ * @version 1.0, Jan. 2022
  */
+
+import java.util.HashSet;
+import config.UserInterface;
 
 public class Queen extends Piece {
     
@@ -61,6 +59,10 @@ public class Queen extends Piece {
         return output;
     }
     
+    /**
+     * Copies a piece
+     * @return the piece
+     */
     @Override
     public Piece copy() {
         Queen out = new Queen(this.getColour());

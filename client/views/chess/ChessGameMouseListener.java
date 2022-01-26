@@ -12,6 +12,8 @@ import views.pages.AbstractGamePanel;
 
 import java.awt.image.BufferedImage;
 
+import sounds.SoundEffect;
+
 /**
  * [ChessGameMouseListener.java]
  *
@@ -37,7 +39,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     Piece selectedPiece;
     boolean isSelected;
 
-    public boolean isPromoting = false;
+    public boolean isPromoting;
     private String promotionChoice;
     private String promotionT1;
     private String promotionT2;
@@ -58,6 +60,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     }
 
     public void mousePressed(MouseEvent e) {
+
         // Initialize mouse coordinates
         mouseX = e.getX();
         mouseY = e.getY();
@@ -73,10 +76,11 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                 } else if (mouseX > 300 && mouseX < 370) {
                     promotionChoice = "R";
                 }
+                gamePanel.movesPanel.addMove(game.toAlgebraic(promotionT1, promotionT2, promotionChoice));
+                
+                SoundEffect.playSound(t1, t2, promotionChoice, game);
 
-                // gamePanel.movesPanel.addMove(game.toAlgebraic(promotionT1, promotionT2, promotionChoice));
-                // SoundEffect.playSound(t1, t2, promotionChoice, game);
-                // game.move(promotionT1, promotionT2, promotionChoice);
+                game.move(promotionT1, promotionT2, promotionChoice);
                 gamePanel.processMove(promotionT1, promotionT2, promotionChoice);
 
                 promotionT1 = null;
@@ -86,7 +90,7 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             }
         }
 
-        // Adjust tile coords for the tile array based on gamePanel.getPlayerColour()
+        // adjust tile coords for the tile array based on gamePanel.getPlayerColour()
         posX = (7 * gamePanel.getPlayerColour()) + (1 - 2 * gamePanel.getPlayerColour()) * mouseX / 60;
         posY = (7 * (1 - gamePanel.getPlayerColour())) + (2 * gamePanel.getPlayerColour() - 1) * mouseY / 60;
 
@@ -95,7 +99,8 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             // Checking for which piece is currently being clicked
             if (mouseX < 480 && mouseY < 480) {
                 if (game.getCurrentPos().getTiles()[posX][posY].getPiece() != null) {
-                    // Check if piece is correct colour
+
+                    // check if piece is correct colour
                     if(game.getCurrentPos().getTiles()[posX][posY].getPiece().getColour() == gamePanel.getPlayerColour()) {
                         t1 = String.valueOf((char) (posX + 97)) + "" + (posY + 1);
                         selectedPiece = game.getCurrentPos().getTiles()[posX][posY].getPiece();
@@ -108,15 +113,16 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
     }
 
     public void mouseReleased(MouseEvent e) {
+
         // Initialize mouse coordinates
         mouseX = e.getX();
         mouseY = e.getY();
 
-        // Adjust tile coords for the tile array based on gamePanel.getPlayerColour()
+        // adjust tile coords for the tile array based on gamePanel.getPlayerColour()
         posX = (7 * gamePanel.getPlayerColour()) + (1 - 2 * gamePanel.getPlayerColour()) * mouseX / 60;
         posY = (7 * (1 - gamePanel.getPlayerColour())) + (2 * gamePanel.getPlayerColour() - 1) * mouseY / 60;
 
-        // Solve t2
+        // solve if piece dragged
         t2 = String.valueOf((char) (posX + 'a')) + "" + (posY + 1);
 
         if (isSelected) {
@@ -124,25 +130,28 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             selectedPiece = null;
             heldPieceImage = null;
 
-            // Make move
             if(gamePanel.getGameState() == GameState.ONGOING && game.getCurrentPos().legal(t1, t2)) {
                 if(game.getCurrentPos().promotingMove(t1, t2)) {
                     isPromoting = true;
                     promotionT1 = t1;
                     promotionT2 = t2;
-                } else {
-                    // gamePanel.movesPanel.addMove(game.toAlgebraic(t1, t2, ""));
-                    // SoundEffect.playSound(t1, t2, "", game);
-                    // game.move(t1, t2, "");
+                }
+                else {
+                    gamePanel.movesPanel.addMove(game.toAlgebraic(t1, t2, ""));
+
+                    SoundEffect.playSound(t1, t2, "", game);
+                    game.move(t1, t2, "");
+
                     gamePanel.processMove(t1, t2, "");
 
+                    // check for end of game that happens in chess
                     if(game.ended()) {
                         gamePanel.handleGameEnded();
                     }
                 }
             }
         }
-        // Reset t1 and t2
+        // reset t1 and t2
         t1 = "";
         t2 = "";
     }
@@ -165,10 +174,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
         return mouseY;
     }
     
-    public Piece getSelectedPiece() {
-        return selectedPiece;
-    }
-
     /**
      * mouseDragged
      * A mouse motion listener that receives mouse motion inputs to
@@ -184,4 +189,9 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
             mouseY = e.getY();
         }
     }
+
+    public Piece getSelectedPiece() {
+        return selectedPiece;
+    }
+
 }

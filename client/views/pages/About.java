@@ -11,6 +11,7 @@ import config.UserInterface;
 
 /**
  * [About.java]
+ * 
  * About page that tells you about the game
  * @author Alex Zhu
  * @version 1.0 Jan 24, 2022

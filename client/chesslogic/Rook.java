@@ -1,14 +1,13 @@
 package chesslogic;
 
-import java.util.HashSet;
-
-import config.UserInterface;
-
 /**
- * [Rook.java]
+ * Class for a rook
  * @author Leo Guan
- * @version 1.0 Jan 24, 2022
+ * @version 1.0, Jan. 2022
  */
+
+import java.util.HashSet;
+import config.UserInterface;
 
 public class Rook extends Piece {
     
@@ -18,7 +17,7 @@ public class Rook extends Piece {
      * @
      */
     public Rook(int col) {
-        super(col, "R", 70, UserInterface.PIECES.get(col + 6));
+        super(col, "R", 60, UserInterface.PIECES.get(col + 6));
     }
     
     @Override
@@ -56,6 +55,10 @@ public class Rook extends Piece {
         return output;
     }
     
+    /**
+     * Copies a piece
+     * @return the piece
+     */
     @Override
     public Piece copy() {
         Rook out = new Rook(this.getColour());

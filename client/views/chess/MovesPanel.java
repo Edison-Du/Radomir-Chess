@@ -12,8 +12,8 @@ import views.components.ContentPanel;
 
 /**
  * [MovesPanel.java]
- *
  * Display the moves of the game in algebraic move in live time
+ *
  * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
@@ -30,7 +30,12 @@ public class MovesPanel extends ContentPanel {
     private DefaultTableModel movesList;
     private int numMoves = 0;
 
+    /**
+    * MovesPanel
+    * Creates panel with a table display chess move history of a game
+    */
     public MovesPanel() {
+
         movesList = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -41,9 +46,11 @@ public class MovesPanel extends ContentPanel {
         for (String column : columnNames) {
             movesList.addColumn(column);
         }
+
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-        this.table = new JTable(movesList);
+        table = new JTable(movesList);
+
         table.setRowHeight(ROW_HEIGHT);
 
         // Table function removal
@@ -64,13 +71,15 @@ public class MovesPanel extends ContentPanel {
         table.getTableHeader().setForeground(UserInterface.CHAT_MESSAGE_COLOUR);
         table.getTableHeader().setBackground(UserInterface.GAME_MOVES_HEADER_BACKGROUND);
 
-        this.pane = new JScrollPane(table);           
+        pane = new JScrollPane(table);           
         pane.setBounds(TABLE_BOUNDS);
         pane.setBorder(UserInterface.EMPTY_BORDER);
+        
         this.add(pane);
     }
 
     /**
+     * addMove
      * Add move to moves panel
      * @param move String representing move
      */
@@ -88,6 +97,7 @@ public class MovesPanel extends ContentPanel {
     }
 
     /**
+     * removeMove
      * Remove move to moves panel for a takeback
      * @param move String representing move
      */
@@ -98,14 +108,23 @@ public class MovesPanel extends ContentPanel {
         } else {
             this.movesList.removeRow(numMoves/2);
         }
+
         numMoves--;
     }
 
+    /**
+     * clearMoves
+     * Clears the move history of the game
+     */
     public void clearMoves() {
         numMoves = 0;
         movesList.setRowCount(0);
     }
 
+    /**
+     * getNumMoves
+     * Gets the number of moves in the chess game
+     */
     public int getNumMoves() {
         return this.numMoves;
     }

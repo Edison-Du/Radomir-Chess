@@ -1,15 +1,13 @@
 package chesslogic;
 
-import java.util.HashSet;
-
-import config.UserInterface;
-
 /**
- * [Knight.java]
- * class for a Knight piece
+ * Class for a Knight
  * @author Leo Guan
- * @version 1.0 Jan 24, 2022
+ * @version 1.0, Jan. 2022
  */
+
+import java.util.HashSet;
+import config.UserInterface;
 
 public class Knight extends Piece {
     
@@ -19,7 +17,7 @@ public class Knight extends Piece {
      * @
      */
     public Knight(int col) {
-        super(col, "N", 55, UserInterface.PIECES.get(col + 4));
+        super(col, "N", 40, UserInterface.PIECES.get(col + 4));
     }
     
     @Override
@@ -54,11 +52,12 @@ public class Knight extends Piece {
         }
         return output;
     }
-    
-    @Override
+
     /**
-    
+     * Copies a piece
+     * @return the piece
      */
+    @Override
     public Piece copy() {
         Knight out = new Knight(this.getColour());
         out.setMoved(this.getTurnMoved());

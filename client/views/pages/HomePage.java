@@ -23,8 +23,7 @@ import config.Page;
  * @author Nicholas Chew
  * @version 1.0 Jan 24, 2022
  */
-public class HomePage extends ContentPanel implements ActionListener {
-    
+public class HomePage extends ContentPanel implements ActionListener {   
 
     private final int TITLE_SIZE = 128;
     private final String[] BUTTON_TEXT = {

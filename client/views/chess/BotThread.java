@@ -33,17 +33,25 @@ public class BotThread extends SwingWorker<String, Void> {
 
     @Override
     protected String doInBackground() throws Exception {
-        if (chessGameClone.getCurrentPos().getToMove() != gamePanel.getPlayerColour() && 
+        synchronized(chessGameClone) {
+            synchronized(chessGame) {
+                botMove = bot.nextMove(chessGameClone);
+            }
+        }
+
+        if (chessGame.getCurrentPos().getToMove() != gamePanel.getPlayerColour() && 
             gamePanel.getGameState() == GameState.ONGOING) {
-            botMove = bot.nextMove(chessGameClone);
-            
-            String chessMove = chessGameClone.toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
+            synchronized(chessGame) {
+                synchronized(chessGameClone) {
+                    chessGameClone.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
+                    String chessMove = chessGame.toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
 
-            movesPanel.addMove(chessMove);
-            chessGameClone.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
-            chessGame.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
+                    movesPanel.addMove(chessMove);
+                    chessGame.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
 
-            gamePanel.handleGameEnded();
+                    gamePanel.handleGameEnded();
+                }
+            }
         }
         return null;
     }

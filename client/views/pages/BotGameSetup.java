@@ -1,6 +1,5 @@
 package views.pages;
 
-
 import javax.swing.JLabel;
 
 import java.awt.event.ActionListener;
@@ -15,6 +14,7 @@ import config.Page;
 /**
  * [BotGameSetup.java]
  * Page where user selects difficulty level of the chess engine
+ * 
  * @author Alex Zhu
  * @author Nicholas Chew
  * @version 1.0 Jan 24, 2022

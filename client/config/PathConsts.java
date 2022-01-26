@@ -8,6 +8,8 @@ package config;
  * @author Nicholas Chew
  * @author Alex Zhu
  * @author Jeffrey Xu
+ * @author Peter Gu
+ * @author Leo Guan
  * @version 1.0 Jan 24, 2022
  */
 public final class PathConsts {
@@ -66,8 +68,7 @@ public final class PathConsts {
     public static final String ORKNEY_FONT = FONTS + "Orkney-Regular.ttf";
 
     // Chess openings
-    public static final String OPENING_FILE = "chesslogic/openings/openings.txt";
-    public static final String OPENING_FILE_TWO = "chesslogic/openings/openings2.txt";
+    public static final String OPENING_FILE = "chessfiles/openings.txt";
 
     // This class should never be constructed
     private PathConsts() {}

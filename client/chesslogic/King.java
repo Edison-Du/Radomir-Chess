@@ -1,16 +1,15 @@
 package chesslogic;
 
+/**
+ * Class for a King
+ * @author Leo Guan
+ * @version 1.0, Jan. 2022
+ */
+
 import java.util.HashSet;
 import java.util.Iterator;
 
 import config.UserInterface;
-
-/**
- * [King.java]
- * class for a King piece
- * @author Leo Guan
- * @version 1.0 Jan 24, 2022
- */
 
 public class King extends Piece {
     
@@ -76,6 +75,7 @@ public class King extends Piece {
                && (!b.getTiles()[pos.getX() - 4][pos.getY()].getPiece().hasMoved()) 
                && (!isChecked(b, b.getTiles()[pos.getX() - 1][pos.getY()]))
                && (!isChecked(b, b.getTiles()[pos.getX() - 2][pos.getY()])) 
+               && (!isChecked(b, b.getTiles()[pos.getX() -3][pos.getY()])) 
                && (!isChecked(b, pos))) {
             output.add(b.getTiles()[pos.getX() - 2][pos.getY()]);
         }
@@ -171,11 +171,11 @@ public class King extends Piece {
         return false;
     }
     
-    @Override
     /**
-     * this piece's points are calculated differently from the rest
-     * @return the number of points this piece is worth
+     * Return the points for the king
+     * @param int points for king
      */
+    @Override
     public int getPoints() {
         if(this.hasCastled) {
             return 50;
@@ -189,18 +189,18 @@ public class King extends Piece {
     }
     
     /**
-     * set this piece's castled status
-     * @param x above
+     * Set whether or not the king castled
+     * @param boolean whether or not the king castled
      */
     public void setCastled(boolean x) {
         this.hasCastled = x;
     }
     
-    @Override
     /**
-     * make a copy of this piece
-     * @return a copy of this piece
+     * Copies a piece
+     * @return the piece
      */
+    @Override
     public Piece copy() {
         King out = new King(this.getColour());
         out.setCastled(this.hasCastled);

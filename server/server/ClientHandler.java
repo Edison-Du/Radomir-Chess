@@ -80,7 +80,7 @@ public class ClientHandler extends Thread {
             thread.start();
 
             // Continuously accept messages
-            while (userActive) {
+            while (userActive && input.read() != -1) {
                 if (input.ready()) {
                     String msg = input.readLine();
                     Message request = Message.parse(msg);
@@ -88,14 +88,19 @@ public class ClientHandler extends Thread {
                 }
             }
 
-            // Close streams once finished
+        } catch (Exception e) {
+            System.out.println("Disconnected client #" + clientNum);
+        }
+        
+        // Close socket streams
+        try {
             input.close();
             output.close();
-
         } catch (Exception e) {
-            System.out.println("Failed to receive message from client #" + clientNum);
-            e.printStackTrace();
+            System.out.println("Failed to close socket streams.");
         }
+
+        clientsOnline--;
     }
 
     /**
@@ -457,7 +462,6 @@ public class ClientHandler extends Thread {
      */
     private void disconnectClient(Message message) {
         this.userActive = false; 
-        clientsOnline--;
         if (lobby != null) {
             leaveGame();
         }

@@ -7,7 +7,7 @@ import java.lang.InterruptedException;
 /**
  * [RadomirBot.java]
  * Multithreaded Chess engine
- * Chess engine uses Depth first search on a min-max tree to calculate the next best move
+ * Chess engine uses depth first search on a min-max tree to calculate the next best move
  * Evaluation consists of heat maps, counting pieces and considering offensive positions
  * Search is optimized by alpha beta pruning as well as sorting moves based on initial evaluation
  * Time complexity is predicted to be O(b^(d/2)) where b is the number of branches and d is the depth
@@ -136,6 +136,7 @@ public class RadomirBot extends Bot {
         
         // Handling threads
         ArrayList<String> moves = legalMoves(g.getCurrentPos());
+        
         ArrayList<ArrayList<String>> partition = new ArrayList<ArrayList<String>>();
         // Partition the possible moves into groups of legal moves
         for(int i = 0; i < this.numThreads && i < moves.size(); i++) {
@@ -173,6 +174,14 @@ public class RadomirBot extends Bot {
         return myMoves[index];
     }
 
+    /**
+    * [RunSearch.java]
+    * A single thread that works on a seperate inital branch of the tree
+    * @author Peter Gu
+    * @author Leo Guan
+    * @version 1.0 Jan 24, 2022
+    * Each thread added increases the speed marginally. Tested with intel i3-8130U, 12 GB RAM 
+    */
     private class RunSearch implements Runnable {
 
         // Class Variables
@@ -258,7 +267,7 @@ public class RadomirBot extends Bot {
         }
         
         /**
-         * Reset the heat map
+         * Reset the placement heat map
          */
         public void resetPlacementPoints(){
             for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++){
@@ -297,57 +306,60 @@ public class RadomirBot extends Bot {
                 }
             }
             // Evaluating the number of pieces on either side
-            for(int i = 0; i < b.getPieces().get(0).size(); i++) {
-                out = out + b.getPieces().get(0).get(i).getPiece().getPoints();
+            for(int i = 0; i < b.getPieces().get(ChessConsts.WHITE).size(); i++) {
+                out = out + b.getPieces().get(ChessConsts.WHITE).get(i).getPiece().getPoints();
             }
-            for(int i = 0; i < b.getPieces().get(1).size(); i++) {
-                out = out - b.getPieces().get(1).get(i).getPiece().getPoints();
+            for(int i = 0; i < b.getPieces().get(ChessConsts.BLACK).size(); i++) {
+                out = out - b.getPieces().get(ChessConsts.BLACK).get(i).getPiece().getPoints();
             }
 
             // Evaluating the position of each piece
-            for (int i = 0; i < 8; i++){
-                for (int j = 0; j < 8; j++){
+            for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++){
+                for (int j = 0; j < ChessConsts.BOARD_LENGTH; j++){
                     if (b.getTiles()[i][j].getPiece() != null){
-                        if (b.getTiles()[i][j].getPiece().getColour() == 0) out += placementPoints[i][j];
+                        if (b.getTiles()[i][j].getPiece().getColour() == ChessConsts.WHITE) out += placementPoints[i][j];
                         else out -= placementPoints[i][j];
                     }
                 }
             }
 
-            // Evaluating the attack tiles of all pieces 
-            resetAttackPoints(b.getKingTiles()[1].getX(), b.getKingTiles()[1].getY());
-            for (int i = 0; i < 8; i++){
-                for (int j = 0; j < 8; j++){
-                    if (b.getTiles()[i][j].getPiece() != null && b.getTiles()[i][j].getPiece().getColour() == 0){
+            // Evaluating the attack tiles of all pieces for 
+            resetAttackPoints(b.getKingTiles()[ChessConsts.BLACK].getX(), b.getKingTiles()[ChessConsts.BLACK].getY());
+            for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++){
+                for (int j = 0; j < ChessConsts.BOARD_LENGTH; j++){
+                    if (b.getTiles()[i][j].getPiece() != null && b.getTiles()[i][j].getPiece().getColour() == ChessConsts.WHITE){
                         for (Tile t : b.getTiles()[i][j].getPiece().range(b, b.getTiles()[i][j])){
                             out += attackPoints[t.getX()][t.getY()];
                         }
                     }
                 }
             }
-            resetAttackPoints(b.getKingTiles()[0].getX(), b.getKingTiles()[0].getY());
-            for (int i = 0; i < 8; i++){
-                for (int j = 0; j < 8; j++){
-                    if (b.getTiles()[i][j].getPiece() != null && b.getTiles()[i][j].getPiece().getColour() == 1){
+
+            resetAttackPoints(b.getKingTiles()[ChessConsts.WHITE].getX(), b.getKingTiles()[ChessConsts.WHITE].getY());
+            for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++){
+                for (int j = 0; j < ChessConsts.BOARD_LENGTH; j++){
+                    if (b.getTiles()[i][j].getPiece() != null && b.getTiles()[i][j].getPiece().getColour() == ChessConsts.BLACK){
                         for (Tile t : b.getTiles()[i][j].getPiece().range(b, b.getTiles()[i][j])){
                             out -= attackPoints[t.getX()][t.getY()];
                         }
                     }
                 }
             }
+
             // If the score is negative it is in favour of black, if positive, it is in favour of white
-            return out * (b.getToMove() == 1 ? -1 : 1);
+            return out * (b.getToMove() == ChessConsts.BLACK ? -1 : 1);
         }
         
         /**
          * Searches the chess position for an optimal move recursively using a min max tree
-         * Find the optimal move for side x, then recurses to find an optimal move for side y
-         * Returns the score of the best postion after recursing some z depth
+         * Find the optimal move for black, then recurses to find an optimal move for white
+         * Returns the score of the best postion after recursing some x depth
          * @param g the game
          * @param depth the depth of the search
          * @param alpha the alpha value of the search, i.e. the max
          * @param beta the beta value of the search, i.e. the min
          * @param cnt the cnt of the search
+         * @return an integer value for the position
          */
         public int search(ChessGame g, int depth, int alpha, int beta, int cnt) {
             if(g.getCurrentPos().ended()) {
@@ -388,27 +400,42 @@ public class RadomirBot extends Bot {
             return alpha;
         }
         
+        /**
+         * Sort an arraylist of moves based on their predicted evaluation
+         * This immensely speeds up the search because branches that can be pruned will be theoretically pruned earlier
+         * @param b the board
+         * @param temp the arraylist of moves
+         * @return the sorted arraylist of moves
+         */
         public ArrayList<Move> sortMoves(Board b, ArrayList<String> temp){
             ArrayList<Move> sortedMoves = new ArrayList<>();
             for (String move : temp){
+                // Evaluate the move
                 int[] newPos = ChessConsts.chessToCoord(move.substring(2, 4));
                 String promotion = move.substring(4, 5);
                 int score = 0;
+
                 if (b.getTiles()[newPos[0]][newPos[1]].getPiece() != null)
                     score += (b.getTiles()[newPos[0]][newPos[1]].getPiece().getPoints());
                 score += placementPoints[newPos[0]][newPos[1]];
+
                 if (promotion != null){
                     if (promotion.equals("Q")) score += ChessConsts.QUEEN_POINTS;
                     if (promotion.equals("R")) score += ChessConsts.ROOK_POINTS;
                     if (promotion.equals("B")) score += ChessConsts.BISHOP_POINTS;
                     if (promotion.equals("N")) score += ChessConsts.KNIGHT_POINTS;
                 }
+
                 sortedMoves.add(new Move(move, score));
             }
+            // Sort the moves
             Collections.sort(sortedMoves);
             return sortedMoves;
         }
         
+        /**
+         * Runs the thread
+         */
         @Override
         public void run() {
             search(game, this.depth, -99999, 99999, 0);

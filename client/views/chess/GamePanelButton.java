@@ -7,8 +7,8 @@ import views.components.CustomButton;
 
 /**
  * [GamePanelButton.java]
- * 
- * @author
+ * Button for the game panel
+ * @author Edison Du
  * @version 1.0 Jan 24, 2022
  */
 public class GamePanelButton extends CustomButton{

@@ -18,14 +18,14 @@ import config.PathConsts;
  * @author Peter Gu
  * @version 1.0 Jan 24, 2022
  */
-public class OpeningTreeV2 {
+public class OpeningTree {
     
     Node head;
     Node current;
     Random r;
     int depth;
     
-    public OpeningTreeV2() {
+    public OpeningTree() {
         this.head = new Node(null, null);
         this.current = this.head;
         this.depth = 1;
@@ -33,7 +33,7 @@ public class OpeningTreeV2 {
         try {
             ChessGame c = new ChessGame();
             int detectAnomaly = 0;
-            Scanner in = new Scanner(new File(PathConsts.OPENING_FILE_TWO));
+            Scanner in = new Scanner(new File(PathConsts.OPENING_FILE));
             String curLine;
             Stack<String> moves = new Stack<String>();
             while(in.hasNext()) {
@@ -45,7 +45,7 @@ public class OpeningTreeV2 {
                     moves.push(curLine.substring(1, 6));
                     this.nextMove(curLine.substring(1, 6));
                     if(!c.getCurrentPos().legal(curLine.substring(1, 3), curLine.substring(3, 5))) {
-                        throw new TreeInvalidException("Illegal move detected at line " + detectAnomaly + " in file " + PathConsts.OPENING_FILE_TWO + "\n" + moves.toString());
+                        throw new TreeInvalidException("Illegal move detected at line " + detectAnomaly + " in file " + PathConsts.OPENING_FILE + "\n" + moves.toString());
                     }
                     else {
                         c.move(curLine.substring(1, 3), curLine.substring(3, 5), curLine.substring(5, 6));
@@ -63,7 +63,7 @@ public class OpeningTreeV2 {
                 }
             }
             if(this.current != this.head) {
-                throw new TreeInvalidException("Illegal move detected at line " + detectAnomaly + " in file " + PathConsts.OPENING_FILE_TWO);
+                throw new TreeInvalidException("Illegal move detected at line " + detectAnomaly + " in file " + PathConsts.OPENING_FILE);
             }
         } catch (IOException e) { 
             e.printStackTrace(); 

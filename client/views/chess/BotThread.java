@@ -17,13 +17,15 @@ import views.pages.BotPanel;
 public class BotThread extends SwingWorker<String, Void> {
 
     private ChessGame chessGame;
+    private ChessGame chessGameClone;
     private Bot bot;
     private MovesPanel movesPanel;
     private BotPanel gamePanel;
     private String botMove;
 
-    public BotThread(ChessGame chessGame, Bot bot, MovesPanel movesPanel, BotPanel gamePanel) {
+    public BotThread(ChessGame chessGame, ChessGame chessGameClone, Bot bot, MovesPanel movesPanel, BotPanel gamePanel) {
         this.chessGame = chessGame;
+        this.chessGameClone = chessGameClone;
         this.bot = bot;
         this.movesPanel = movesPanel;
         this.gamePanel = gamePanel;
@@ -31,18 +33,17 @@ public class BotThread extends SwingWorker<String, Void> {
 
     @Override
     protected String doInBackground() throws Exception {
-        if (chessGame.getCurrentPos().getToMove() != gamePanel.getPlayerColour() && 
+        if (chessGameClone.getCurrentPos().getToMove() != gamePanel.getPlayerColour() && 
             gamePanel.getGameState() == GameState.ONGOING) {
-            synchronized(chessGame) {
-                botMove = bot.nextMove(chessGame);
-                
-                String chessMove = chessGame.toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
+            botMove = bot.nextMove(chessGameClone);
+            
+            String chessMove = chessGameClone.toAlgebraic(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4));
 
-                movesPanel.addMove(chessMove);
-                chessGame.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
+            movesPanel.addMove(chessMove);
+            chessGameClone.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
+            chessGame.move(botMove.substring(0, 2), botMove.substring(2, 4), botMove.substring(4,5));
 
-                gamePanel.handleGameEnded();
-            }
+            gamePanel.handleGameEnded();
         }
         return null;
     }

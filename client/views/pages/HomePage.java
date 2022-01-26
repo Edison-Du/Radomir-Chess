@@ -16,35 +16,44 @@ import config.Page;
 
 /**
  * [HomePage.java]
+ * Page displayed by default, with buttons linking to pages that
+ * create/join games.
  * 
+ * @author Edison Du
  * @author Nicholas Chew
  * @version 1.0 Jan 24, 2022
  */
 public class HomePage extends ContentPanel implements ActionListener {
     
-    private Window window;
 
     private final int TITLE_SIZE = 128;
-    private final JLabel gameTitle = new JLabel();
-
-    private PlayMenuButton joinGameBtn;
-    private PlayMenuButton createGameBtn;
-    private PlayMenuButton browseGameBtn;
-    private PlayMenuButton playBotBtn;
-
-    private PlayMenuButton[] buttons;
-
-    private String[] buttonText = {
+    private final String[] BUTTON_TEXT = {
         "Join Game",
         "Create Game",
         "Browse Games",
         "Play Bot"
     };
 
+    // JComponents
+    private JLabel gameTitle = new JLabel();
+    private PlayMenuButton joinGameBtn;
+    private PlayMenuButton createGameBtn;
+    private PlayMenuButton browseGameBtn;
+    private PlayMenuButton playBotBtn;
+    private PlayMenuButton[] buttons;
+
+    private Window window;
+
+    /**
+     * HomePage
+     * Creates the home page panel with relevant buttons
+     * @param window the window the page is on
+     */
     public HomePage(Window window) {
         this.window = window;
         this.setLayout(null);
 
+        // Page title
         gameTitle.setText(UserInterface.WINDOW_TITLE);
         gameTitle.setBounds(0, 0, UserInterface.CONTENT_WIDTH, UserInterface.WINDOW_HEIGHT / 2);
         gameTitle.setFont(UserInterface.orkney.deriveFont(Font.PLAIN, TITLE_SIZE));
@@ -52,25 +61,27 @@ public class HomePage extends ContentPanel implements ActionListener {
         gameTitle.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(gameTitle);
 
+        // Various buttons leading to pages for joining/creating games
         joinGameBtn = new PlayMenuButton(
-            buttonText[0], 
+            BUTTON_TEXT[0], 
             UserInterface.MENU_BUTTON_MARGIN, 
             UserInterface.MENU_BUTTON_MARGIN + UserInterface.MENU_BUTTON_Y_OFFSET
         );
 
         createGameBtn = new PlayMenuButton(
-            buttonText[1], 
+            BUTTON_TEXT[1], 
             UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_WIDTH,
             UserInterface.MENU_BUTTON_MARGIN + UserInterface.MENU_BUTTON_Y_OFFSET
         );
 
         browseGameBtn = new PlayMenuButton(
-            buttonText[2], 
+            BUTTON_TEXT[2], 
             UserInterface.MENU_BUTTON_MARGIN,
             UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_HEIGHT + UserInterface.MENU_BUTTON_Y_OFFSET
         );
+
         playBotBtn = new PlayMenuButton(
-            buttonText[3], 
+            BUTTON_TEXT[3], 
             UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_WIDTH,
             UserInterface.MENU_BUTTON_MARGIN * 2 + UserInterface.MENU_BUTTON_HEIGHT + UserInterface.MENU_BUTTON_Y_OFFSET
         );
@@ -82,12 +93,18 @@ public class HomePage extends ContentPanel implements ActionListener {
             playBotBtn,
         };
 
+        // Add listeners to each button
         for (PlayMenuButton button : buttons) {
             button.addActionListener(this);
             this.add(button);
         }
     }
 
+    /**
+     * actionPerformed
+     * Detects which button has been clicked and redirect the user appropriately
+     * @param e the event that occurred
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == joinGameBtn) {

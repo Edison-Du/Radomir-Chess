@@ -18,6 +18,8 @@ import views.components.PanelButton;
 /**
  * Login.java]
  * Displays a login page for users to login into their accounts
+ * 
+ * @author Edison Du
  * @author Peter Gu
  * @author Nicholas Chew
  * @author Jeffrey Xu
@@ -25,8 +27,7 @@ import views.components.PanelButton;
  */
 public class Login extends ContentPanel implements ActionListener{
 
-    // Class Variables
-
+    // UI Constants
     private final EmptyBorder TEXT_FIELD_MARGIN = new EmptyBorder(7, 5, 0, 5);
     private final int TEXT_FIELD_PLACEHOLDER_Y = 33;
     private final int BUTTON_X = UserInterface.CONTENT_WIDTH / 2 - 140;
@@ -52,6 +53,7 @@ public class Login extends ContentPanel implements ActionListener{
     private final String PASSWORD_LABEL_TEXT = "Password";
     private final String ERROR_TEXT = "Invalid username/password";
 
+    // JComponents 
     private JLabel titleLabel = new JLabel("Login");
     private JLabel usernameLabel= new JLabel();
     private JLabel passwordLabel = new JLabel();
@@ -61,13 +63,19 @@ public class Login extends ContentPanel implements ActionListener{
     private PanelButton registerButton;
     private PanelButton loginButton;
     
+    /**
+     * Login
+     * Creates new login panel with necessary input fields
+     */
     public Login() {        
 
+        // Page title
         titleLabel.setFont(UserInterface.orkney36);
         titleLabel.setForeground(UserInterface.TEXT_COLOUR);
         titleLabel.setBounds(UserInterface.TITLE_BOUNDS);
         this.add(titleLabel);
 
+        // Username Label
         usernameLabel.setFont(UserInterface.orkney24);
         usernameLabel.setText(USERNAME_LABEL_TEXT);
         usernameLabel.setForeground(UserInterface.TEXT_COLOUR);
@@ -79,6 +87,7 @@ public class Login extends ContentPanel implements ActionListener{
         );
         this.add(usernameLabel);
 
+        // Username input field
         usernameField.setFont(UserInterface.orkney24);
         usernameField.setPlaceholderColour(UserInterface.GAME_CHAT_TEXTFIELD_COLOUR);
         usernameField.setBorder(TEXT_FIELD_MARGIN);
@@ -93,6 +102,7 @@ public class Login extends ContentPanel implements ActionListener{
         usernameField.addActionListener(this);
         this.add(usernameField);
 
+        // Password label
         passwordLabel.setFont(UserInterface.orkney24);
         passwordLabel.setText(PASSWORD_LABEL_TEXT);
         passwordLabel.setForeground(UserInterface.TEXT_COLOUR);
@@ -104,6 +114,7 @@ public class Login extends ContentPanel implements ActionListener{
         );
         this.add(passwordLabel);
 
+        // Password input field
         passwordField.setFont(UserInterface.orkney24);
         passwordField.setPlaceholderColour(UserInterface.GAME_CHAT_TEXTFIELD_COLOUR);
         passwordField.setFont(UserInterface.orkney24);
@@ -119,22 +130,26 @@ public class Login extends ContentPanel implements ActionListener{
         passwordField.addActionListener(this);
         this.add(passwordField);
 
+        // Register button
         registerButton = new PanelButton(REGISTER_BUTTON_TEXT, BUTTON_X, REGISTER_BUTTON_Y);
         registerButton.addActionListener(this);
         this.add(registerButton);
 
+        // Login button
         loginButton = new PanelButton(LOGIN_BUTTON_TEXT, BUTTON_X, LOGIN_BUTTON_Y);
         loginButton.addActionListener(this);
         this.add(loginButton);
 
+        // Error text for failed logins/registers
         errorLabel.setFont(UserInterface.orkney18);
         errorLabel.setForeground(UserInterface.ERROR_COLOUR);
         errorLabel.setBounds(BUTTON_X, ERROR_LABEL_Y, USERNAME_WIDTH, ERROR_LABEL_HEIGHT);
     }
 
     /**
+     * displayError
      * Displays error message 
-     * @param errorMessage
+     * @param errorMessage the error message to display
      */
     public void displayError(String errorMessage) {
         errorLabel.setText(errorMessage);
@@ -143,6 +158,7 @@ public class Login extends ContentPanel implements ActionListener{
     }
 
     /**
+     * removeError
      * Removes the error label 
      */
     public void removeError() {
@@ -152,29 +168,35 @@ public class Login extends ContentPanel implements ActionListener{
     
     /**
      * actionPerformed
-     * Runs when an action is performed on a component
-     * @param e An action event
+     * Validates user input and sends it to the server to create an account/verify for login
+     * @param e the action event that occured
      */
     @Override
     public void actionPerformed(ActionEvent e){
         String username = usernameField.getText();
         String password = String.valueOf(passwordField.getPassword());
+
+        // Ensure inputs have correct characteres
         if (validateInput(username) && validateInput(password)){
+            
+            // Send message for logging in user
             if (e.getSource() == loginButton){
-                Message m = new Message(MessageTypes.LOGIN);
-                m.addParam(username);
-                m.addParam(password);
-                ServerConnection.sendMessage(m);
+                Message message = new Message(MessageTypes.LOGIN);
+                message.addParam(username);
+                message.addParam(password);
+                ServerConnection.sendMessage(message);
+
+            // Send message for creating user
             } else if (e.getSource() == registerButton){
-                Message m = new Message(MessageTypes.REGISTER);
-                m.addParam(username);
-                m.addParam(password);
+                Message message = new Message(MessageTypes.REGISTER);
+                message.addParam(username);
+                message.addParam(password);
 
                 int[] settings = UserInterface.getCurrentSettings();
                 for (int i = 0; i < UserInterface.NUM_SETTINGS; i++) {
-                    m.addParam(Integer.toString(settings[i]));
+                    message.addParam(Integer.toString(settings[i]));
                 }
-                ServerConnection.sendMessage(m);
+                ServerConnection.sendMessage(message);
             }
         } else {
             displayError(ERROR_TEXT);
@@ -182,9 +204,10 @@ public class Login extends ContentPanel implements ActionListener{
     }
 
     /**
-     * Validates the user input
-     * @param input a string
-     * @return a boolean value
+     * validateInput
+     * Ensures user input is correct length and has no invalid characters
+     * @param input user input
+     * @return whether or not the input is valid
      */
     public boolean validateInput(String input){
         if (input.length() > MAX_INPUT_LENGTH || input.length() < 1) {

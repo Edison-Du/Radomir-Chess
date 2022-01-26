@@ -13,6 +13,7 @@ import views.Window;
 
 /**
  * [Settings.java]
+ * Settings page for user's to adjust their UI preferences
  * 
  * @author Jeffrey Xu
  * @version 1.0 Jan 24, 2022

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.Rectangle;
 
+import chesslogic.ChessConsts;
 import chesslogic.ChessGame;
 import config.UserInterface;
 import config.GameState;
@@ -25,12 +26,15 @@ import views.components.CustomButton;
 /**
  * [AbstractGamePanel.java]
  * Abstract game panel for the other game panels to extend
+ * 
+ * @author Edison Du
  * @author Peter Gu
  * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
 abstract public class AbstractGamePanel extends ContentPanel implements ActionListener {
 
+    // UI Constants
     private final Rectangle MOVES_PANEL_BOUNDS = new Rectangle(660, 120, 240, 120);
     private final Rectangle CHAT_PANEL_BOUNDS = new Rectangle(660, 300, 240, 330);
     private final Rectangle BOARD_PANEL_BOUNDS = new Rectangle(660, 30, 240, 60);
@@ -56,7 +60,6 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public final ChessBoardPanel boardPanel;
     public final MovesPanel movesPanel;
     public final MessagePanel messagePanel;
-
     public final LobbyInfoPanel lobbyInfoPanel;
 
     // Labels for player and opponent
@@ -73,13 +76,19 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
     public final OpponentProposalPanel opponentProposalPanel;
 
     // Chess game
-    public ChessGame chessGame;
     private boolean playAgain;
     private boolean opponentPlayAgain;
     private int playerColour;
     private GameState gameState;
     private String activeProposal;
 
+    public ChessGame chessGame;
+
+    /**
+     * AbstractGamePanel
+     * Creates the game panel with a chess game, a chat box,
+     * a move history and appropriate player labels
+     */
     public AbstractGamePanel() {  
         // Chess game and board
         this.chessGame = new ChessGame();
@@ -172,22 +181,33 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.movesPanel.removeMove();
     }
 
+    /**
+     * getGameState
+     * Getter for the state of the game
+     * @return the state of the game
+     */
     public GameState getGameState() {
         return this.gameState;
     }
 
+    /**
+     * setGameState
+     * Sets the state of the game
+     * @param state the state of the game
+     */
     public void setGameState(GameState state) {
-        // Enter into game
+
+        // The game is no longer in the waiting stage, lock the lobby so others cannot join
         if (gameState == GameState.WAITING && state != GameState.WAITING) {
             ServerConnection.sendMessage(new Message(MessageTypes.LOCK_LOBBY));
 
-        // Reverse above statement (leaving game into waiting room)
+        // Game is in waiting stage, open the lobby and allow others to join
         } else if (gameState != GameState.WAITING && state == GameState.WAITING) {
             ServerConnection.sendMessage(new Message(MessageTypes.UNLOCK_LOBBY));
-
             opponentLabel.setText("Waiting for opponent . . .");
         }
 
+        // Show game over screen if the game has ended
         if ((state != GameState.WAITING) && (state != GameState.ONGOING)) {
             boardPanel.setOverlayVisible(true);
             removeProposal();
@@ -197,21 +217,32 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
             opponentPlayAgain = false;
             boardPanel.setOverlayVisible(false);
         }
+
         this.gameState = state;
         boardPanel.revalidate();
     }
 
+    /**
+     * getActiveProposal
+     * Getter for the type of proposal active (draw/takeback)
+     * @return the type of proposal active
+     */
     public String getActiveProposal() {
         return this.activeProposal;
     }
 
+    /**
+     * setActiveProposal
+     * Sets the type of proposal active
+     * @param proposal the type of proposal active
+     */
     public void setActiveProposal(String proposal) {
         this.activeProposal = proposal;
     }
 
     /**
      * removeProposal
-     * Remove the proposal button if takeback or draw rejected
+     * Remove the proposal button if takeback or draw was rejected
      */
     public void removeProposal() {
         this.remove(opponentProposalPanel);
@@ -219,19 +250,23 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         this.revalidate();
     }
 
+    /**
+     * getPlayerColour
+     * Gets the colour the player is playing as
+     */
     public int getPlayerColour() {
         return this.playerColour;
     }
 
     /**
      * setPlayerColour
-     * Get player colour and set up the board based on it
-     * @param colour the player colour, either 0 or 1
+     * Sets the player colour and rearrange the board accordingly
+     * @param colour the player colour
      */
     public void setPlayerColour(int colour) {
         this.playerColour = colour;
 
-        if (playerColour == 0)  {
+        if (playerColour == ChessConsts.WHITE)  {
             capturedPiecesPanelWhite.setBounds(OPPONENT_CAPTURED_PIECES_BOUNDS);
             capturedPiecesPanelBlack.setBounds(PLAYER_CAPTURED_PIECES_BOUNDS);
         } else {
@@ -271,6 +306,11 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         return playAgain;
     }
 
+    /**
+     * opponentPlayingAgain
+     * Checks whether or not the opponent has chosen to play again
+     * @return whether or not the opponent is playing again
+     */
     public boolean opponentPlayingAgain() {
         return opponentPlayAgain;
     }
@@ -318,7 +358,9 @@ abstract public class AbstractGamePanel extends ContentPanel implements ActionLi
         ServerConnection.sendMessage(updateColour);
     }
 
-    // Abstract methods to be implemented based on if game is bot or multiplayer
+    // Abstract methods for handling the game ending
     public abstract void handleGameEnded();
+
+    // Abstract method for processing player moves
     public abstract void processMove(String tile1, String tile2, String promotion);
 }

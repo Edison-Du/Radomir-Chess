@@ -1,6 +1,5 @@
 package views.pages;
 
-
 import javax.swing.JLabel;
 
 import java.awt.event.ActionListener;
@@ -19,11 +18,13 @@ import config.Consts;
 /**
  * [GameSetup.java]
  * Page where players create chess games to be played
+ * 
  * @author Nicholas Chew
  * @version 1.0 Jan 24, 2022
  */
 public class GameSetup extends ContentPanel implements ActionListener {
 
+    // UI Constants
     private final int INSTRUCTION_LABEL_X = UserInterface.CONTENT_WIDTH / 2 - 140;
     private final int INSTRUCTION_LABEL_Y = UserInterface.WINDOW_HEIGHT / 2 - 110;
     private final int INSTRUCTION_LABEL_WIDTH = 280;
@@ -34,16 +35,19 @@ public class GameSetup extends ContentPanel implements ActionListener {
     private final int CREATE_ERROR_Y = INSTRUCTION_LABEL_Y + 30;
     private final String BACK_BUTTON_TEXT = "Back";
 
-    private Window window;
+    // JComponents
     private JLabel instructionsLabel = new JLabel();
     private JLabel createErrorLabel = new JLabel("Failed to create lobby");
     private PanelButton createPublicLobbyBtn;
     private PanelButton createPrivateLobbyBtn;
     private PanelButton backButton;
 
+    private Window window;
+
     /**
      * GameSetup
-     * @param window
+     * Creates the page with buttons for creating public and private lobbies
+     * @param window the window this page is on
      */
     public GameSetup(Window window) {
         this.window = window;
@@ -55,6 +59,7 @@ public class GameSetup extends ContentPanel implements ActionListener {
         instructionsLabel.setBounds(INSTRUCTION_LABEL_X, INSTRUCTION_LABEL_Y, INSTRUCTION_LABEL_WIDTH, INSTRUCTION_LABEL_HEIGHT);
         this.add(instructionsLabel);
 
+        // Public lobby button
         createPublicLobbyBtn = new PanelButton(
             Consts.PUBLIC_LOBBY_STATUS,
             INSTRUCTION_LABEL_X,
@@ -63,6 +68,7 @@ public class GameSetup extends ContentPanel implements ActionListener {
         createPublicLobbyBtn.addActionListener(this);
         this.add(createPublicLobbyBtn);
 
+        // Private lobby button
         createPrivateLobbyBtn = new PanelButton(
             Consts.PRIVATE_LOBBY_STATUS,
             INSTRUCTION_LABEL_X,
@@ -71,6 +77,7 @@ public class GameSetup extends ContentPanel implements ActionListener {
         createPrivateLobbyBtn.addActionListener(this);
         this.add(createPrivateLobbyBtn);
 
+        // Back button
         this.backButton = new PanelButton(
             BACK_BUTTON_TEXT,
             UserInterface.BACK_BUTTON_X,
@@ -104,7 +111,8 @@ public class GameSetup extends ContentPanel implements ActionListener {
 
     /**
      * actionPerformed
-     * Action Listener for the buttons on the game setup page
+     * Detects which type of lobby the user has selected, and sends a message to the server
+     * to create the specified lobby
      * @param e the action that occurs (mouse click)
      */
     @Override

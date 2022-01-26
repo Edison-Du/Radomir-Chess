@@ -40,6 +40,7 @@ import views.components.PanelButton;
  */
 public class BrowseGamesPage extends ContentPanel implements ActionListener {
 
+    // UI Constants
     private final String JOIN_LOBBY_TEXT = "Join Lobby: ";
     private final Rectangle JOIN_LABEL_DIMENSIONS = new Rectangle(20, UserInterface.WINDOW_HEIGHT / 2 - 240, 400, 400);
     private final Rectangle LOBBY_LIST_BOUNDS = new Rectangle(320, 0, UserInterface.CONTENT_WIDTH - 320, UserInterface.WINDOW_HEIGHT);
@@ -50,6 +51,7 @@ public class BrowseGamesPage extends ContentPanel implements ActionListener {
     private final String BACK_BUTTON_TEXT = "Back";
     private final String JOIN_BUTTON_TEXT = "Join";
 
+    // JComponents
     private JList<String> lobbyList;
     private JScrollPane pane;
     private DefaultListModel<String> allLobbies = new DefaultListModel<>();
@@ -64,18 +66,22 @@ public class BrowseGamesPage extends ContentPanel implements ActionListener {
 
     /**
      * BrowseGamesPage
-     * @param window 
+     * Creates a browse game page with the list of games and a join button
+     * @param window the window this page is on
      */
     public BrowseGamesPage(Window window) {
 
-        this.window = window;
         LobbyListMouseAdapter lobbyListMouseAdapter = new LobbyListMouseAdapter(this);
+
+        this.window = window;
     
+        // Panel for the lobby list
         lobbyListPanel = new JPanel();
         lobbyListPanel.setBounds(LOBBY_LIST_BOUNDS);
         lobbyListPanel.setLayout(new BoxLayout(lobbyListPanel, BoxLayout.X_AXIS));
         lobbyListPanel.setBorder(null);
         
+        // JList containing list elements
         lobbyList = new JList<>(allLobbies);
         lobbyList.setBackground(UserInterface.FRAME_COLOUR);
         lobbyList.setForeground(UserInterface.TEXT_COLOUR);
@@ -85,20 +91,24 @@ public class BrowseGamesPage extends ContentPanel implements ActionListener {
         lobbyList.setCellRenderer(getRenderer());
         lobbyList.addMouseListener(lobbyListMouseAdapter);
 
+        // Scroll pane for lobby list
         pane = new JScrollPane(lobbyList);
         lobbyListPanel.add(pane);
         this.add(lobbyListPanel);
 
+        // Join label
         joinLabel.setText(JOIN_LOBBY_TEXT);
         joinLabel.setForeground(UserInterface.TEXT_COLOUR);
         joinLabel.setFont(UserInterface.orkney36);
         joinLabel.setBounds(JOIN_LABEL_DIMENSIONS);
         this.add(joinLabel);
 
+        // Join button
         joinButton = new PanelButton(JOIN_BUTTON_TEXT, JOIN_BUTTON_X, JOIN_BUTTON_Y);
         joinButton.addActionListener(this);
         this.add(joinButton);
 
+        // Back button
         this.backButton = new PanelButton(BACK_BUTTON_TEXT, UserInterface.BACK_BUTTON_X, UserInterface.BACK_BUTTON_Y);
         this.backButton.addActionListener(this);
         this.add(backButton);

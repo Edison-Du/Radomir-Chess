@@ -105,13 +105,13 @@ public class BotPanel extends AbstractGamePanel {
             synchronized(chessGameClone) {
                 synchronized(chessGame) {
                     if(!tile1.equals("")) {
-
                         SoundEffect.playSound(tile1, tile2, "", chessGame);
                         movesPanel.addMove(chessGame.toAlgebraic(tile1, tile2, ""));
                         chessGame.move(tile1, tile2, "");
+                        chessGameClone.move(tile1, tile2, "");
                     }
 
-                    BotThread newBot = new BotThread(chessGame, depthSearchBot, movesPanel, this);
+                    BotThread newBot = new BotThread(chessGame, chessGameClone, depthSearchBot, movesPanel, this);
                     newBot.execute();
                 }
             }

@@ -13,6 +13,7 @@ import sounds.SoundEffect;
  * [MultiplayerPanel.java]
  * Chess game panel for multiplayer games
  *
+ * @author Edison Du
  * @author Alex Zhu
  * @version 1.0 Jan 24, 2022
  */
@@ -54,8 +55,8 @@ public class MultiplayerPanel extends AbstractGamePanel {
     
     /**
      * isAlone
-     * returns the isAlone variable
-     * return boolean whether the player is alone in the lobby
+     * Checks whether or not the player is alone in the lobby
+     * @return whether the player is alone in the lobby
      */
     public boolean isAlone() {
         return isAlone;
@@ -63,13 +64,18 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     /**
      * setAlone
-     * updates the isAlone variable
+     * Sets whether or not the user is alone in the lobby
      * @param boolean if the player is alone
      */
     public void setAlone(boolean isAlone) {
         this.isAlone = isAlone;
     }
 
+    /**
+     * addOther
+     * Adds an opponent player to this lobby
+     * @param clientName
+     */
     public void addOther(String clientName) {
         this.otherClient = clientName;
         this.opponentLabel.setText(clientName);
@@ -88,7 +94,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     /**
      * getOpponent
      * get opponent name
-     * @return String returns the opponent client's name
+     * @return the opponent client's name
      */
     public String getOpponent() {
         return this.otherClient;
@@ -97,7 +103,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
     /**
      * addMessageFromOther
      * appends messages sent by opponent to chat
-     * @param String the message the opponent sent
+     * @param message the message the opponent sent
      */
     public void addMessageFromOther(String message) {
         messagePanel.addTextMessage(otherClient + ": " + message);
@@ -147,7 +153,9 @@ public class MultiplayerPanel extends AbstractGamePanel {
     /**
      * processMove
      * sends your move to other player
-     * @param String 3 strings: starting tile, ending tile, and whether the move was a promotion
+     * @param t1 the starting tile of the move
+     * @param t2 the ending/target tile of the move
+     * @param p the promotion chosen
      */
     @Override
     public void processMove(String t1, String t2, String p) {
@@ -187,12 +195,13 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     /**
      * actionPerformed
-     * action listener for game panel
-     * @param ActionEvent the event that occured (mouse click)
+     * Checks for various button presses
+     * @param e the event that occured (mouse click)
      */
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        // Leave the game
         if (e.getSource() == leaveLobby) {
             handleLeaveLobbyButton();
             return;
@@ -200,15 +209,18 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
         if (getGameState() == GameState.ONGOING) {
 
+            // Buttons that send proposals to the opponent
             if (e.getSource() == takebackButton) {
                 handleTakebackButton();
 
             } else if (e.getSource() == drawButton) {
                 handleDrawButton();
 
+            // Resign button
             } else if (e.getSource() == resignButton) {
                 handleResignButton();
             
+            // Accepting opponent proposals
             } else if (e.getSource() == opponentProposalPanel.acceptButton) {
 
                 if (getActiveProposal().equals(MessageTypes.DRAW_OFFERED)) {
@@ -230,7 +242,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     /**
      * handleLeaveLobbyButton
-     * functions to handle the leave lobby button
+     * Sends a message to the server to alert them the user is leaving the lobby
      */
     public void handleLeaveLobbyButton() {
         Message message = new Message(MessageTypes.LEAVE_GAME);
@@ -239,7 +251,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     /**
      * handleTakebackButton
-     * function to handle the takeback button
+     * Sends a message to the server for takeback proposals
      */
     public void handleTakebackButton() {
         // Make sure the user has made a move
@@ -251,7 +263,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     /**
      * handleDrawButton
-     * handles the draw button
+     * Sends a message to the server for draw proposals
      */
     public void handleDrawButton() {
         ServerConnection.sendMessage(new Message(MessageTypes.DRAW_OFFERED));
@@ -260,7 +272,7 @@ public class MultiplayerPanel extends AbstractGamePanel {
 
     /**
      * handleResignButton
-     * handles the game resignation
+     * Sends a message to the server for resignation, and ends the game
      */
     public void handleResignButton() {
         if (getPlayerColour() == 0) {

@@ -23,7 +23,7 @@ public class BotPanel extends AbstractGamePanel {
     private final String HARD_TEXT = "Radomir Bot: Hard";
     private final int EASY_DEPTH = 1;
     private final int MEDIUM_DEPTH = 3;
-    private final int HARD_DEPTH = 5;
+    private final int HARD_DEPTH = 4;
 
     private Bot depthSearchBot;
     private Window window;

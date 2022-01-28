@@ -17,7 +17,7 @@ public class Bishop extends Piece {
      * @
      */
     public Bishop(int col) {
-        super(col, "B", 40, UserInterface.PIECES.get(col + 2));
+        super(col, "B", 50, UserInterface.PIECES.get(col + 2));
     }
     
     @Override
@@ -55,6 +55,10 @@ public class Bishop extends Piece {
             curY = pos.getY();
         }
         return output;
+    }
+
+    public int adjustPoints(){
+        return this.getPoints()+10;
     }
 
     /**

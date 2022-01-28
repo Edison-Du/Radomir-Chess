@@ -17,7 +17,7 @@ public class Rook extends Piece {
      * @
      */
     public Rook(int col) {
-        super(col, "R", 60, UserInterface.PIECES.get(col + 6));
+        super(col, "R", 70, UserInterface.PIECES.get(col + 6));
     }
     
     @Override

@@ -178,7 +178,7 @@ public class King extends Piece {
     @Override
     public int getPoints() {
         if(this.hasCastled) {
-            return 50;
+            return 10;
         }
         else if(this.hasMoved()) {
             return -10;

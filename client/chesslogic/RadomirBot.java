@@ -235,54 +235,67 @@ public class RadomirBot extends Bot {
         * @param b the board being scored
         * @return the integer score of the board
         */
-        private int score(Board b)  {
+        private int score(Board b, boolean onlyCaptured)  {
             int out = 0;
             // Evaluating Checkmate
             if(b.ended()) {
                 if(b.getKings()[ChessConsts.WHITE].isChecked(b, b.getKingTiles()[ChessConsts.WHITE])) {
-                    out = ChessConsts.CHECKMATE_POINTS * -1;
+                    out += ChessConsts.CHECKMATE_POINTS * -1;
                 }
                 else if(b.getKings()[ChessConsts.BLACK].isChecked(b, b.getKingTiles()[ChessConsts.BLACK])) {
-                    out = ChessConsts.CHECKMATE_POINTS;
+                    out += ChessConsts.CHECKMATE_POINTS;
                 }
             }
+
             // Evaluating the number of pieces on either side
             for(int i = 0; i < b.getPieces().get(ChessConsts.WHITE).size(); i++) {
-                out = out + b.getPieces().get(ChessConsts.WHITE).get(i).getPiece().getPoints();
+                if (b.getPieces().get(ChessConsts.WHITE).size() < 6 && 
+                b.getPieces().get(ChessConsts.WHITE).get(i).getPiece() instanceof Pawn ||
+                b.getPieces().get(ChessConsts.WHITE).get(i).getPiece() instanceof Bishop){
+                    out += b.getPieces().get(ChessConsts.WHITE).get(i).getPiece().adjustPoints();
+                }
+                else out += b.getPieces().get(ChessConsts.WHITE).get(i).getPiece().getPoints();
             }
             for(int i = 0; i < b.getPieces().get(ChessConsts.BLACK).size(); i++) {
-                out = out - b.getPieces().get(ChessConsts.BLACK).get(i).getPiece().getPoints();
-            }
-
-            // Evaluating the position of each piece
-            for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++){
-                for (int j = 0; j < ChessConsts.BOARD_LENGTH; j++){
-                    if (b.getTiles()[i][j].getPiece() != null){
-                        if (b.getTiles()[i][j].getPiece().getColour() == ChessConsts.WHITE) out += placementPoints[i][j];
-                        else out -= placementPoints[i][j];
-                    }
+                if (b.getPieces().get(ChessConsts.BLACK).size() < 6 && 
+                b.getPieces().get(ChessConsts.BLACK).get(i).getPiece() instanceof Pawn ||
+                b.getPieces().get(ChessConsts.BLACK).get(i).getPiece() instanceof Bishop){
+                    out -= b.getPieces().get(ChessConsts.BLACK).get(i).getPiece().adjustPoints();
                 }
+                else out -= b.getPieces().get(ChessConsts.BLACK).get(i).getPiece().getPoints();
             }
 
-            // Evaluating the attack tiles of all pieces for white
-            resetAttackPoints(b.getKingTiles()[ChessConsts.BLACK].getX(), b.getKingTiles()[ChessConsts.BLACK].getY());
-            for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++){
-                for (int j = 0; j < ChessConsts.BOARD_LENGTH; j++){
-                    if (b.getTiles()[i][j].getPiece() != null && b.getTiles()[i][j].getPiece().getColour() == ChessConsts.WHITE){
-                        for (Tile t : b.getTiles()[i][j].getPiece().range(b, b.getTiles()[i][j])){
-                            out += attackPoints[t.getX()][t.getY()];
+            if (!onlyCaptured){
+                // Evaluating the position of each piece
+                for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++){
+                    for (int j = 0; j < ChessConsts.BOARD_LENGTH; j++){
+                        if (b.getTiles()[i][j].getPiece() != null){
+                            if (b.getTiles()[i][j].getPiece().getColour() == ChessConsts.WHITE) out += placementPoints[i][j];
+                            else out -= placementPoints[i][j];
                         }
                     }
                 }
-            }
 
-            // Evaluating the attack tiles of all pieces for black
-            resetAttackPoints(b.getKingTiles()[ChessConsts.WHITE].getX(), b.getKingTiles()[ChessConsts.WHITE].getY());
-            for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++){
-                for (int j = 0; j < ChessConsts.BOARD_LENGTH; j++){
-                    if (b.getTiles()[i][j].getPiece() != null && b.getTiles()[i][j].getPiece().getColour() == ChessConsts.BLACK){
-                        for (Tile t : b.getTiles()[i][j].getPiece().range(b, b.getTiles()[i][j])){
-                            out -= attackPoints[t.getX()][t.getY()];
+                // Evaluating the attack tiles of all pieces for white
+                resetAttackPoints(b.getKingTiles()[ChessConsts.BLACK].getX(), b.getKingTiles()[ChessConsts.BLACK].getY());
+                for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++){
+                    for (int j = 0; j < ChessConsts.BOARD_LENGTH; j++){
+                        if (b.getTiles()[i][j].getPiece() != null && b.getTiles()[i][j].getPiece().getColour() == ChessConsts.WHITE){
+                            for (Tile t : b.getTiles()[i][j].getPiece().range(b, b.getTiles()[i][j])){
+                                out += attackPoints[t.getX()][t.getY()];
+                            }
+                        }
+                    }
+                }
+
+                // Evaluating the attack tiles of all pieces for black
+                resetAttackPoints(b.getKingTiles()[ChessConsts.WHITE].getX(), b.getKingTiles()[ChessConsts.WHITE].getY());
+                for (int i = 0; i < ChessConsts.BOARD_LENGTH; i++){
+                    for (int j = 0; j < ChessConsts.BOARD_LENGTH; j++){
+                        if (b.getTiles()[i][j].getPiece() != null && b.getTiles()[i][j].getPiece().getColour() == ChessConsts.BLACK){
+                            for (Tile t : b.getTiles()[i][j].getPiece().range(b, b.getTiles()[i][j])){
+                                out -= attackPoints[t.getX()][t.getY()];
+                            }
                         }
                     }
                 }
@@ -306,11 +319,11 @@ public class RadomirBot extends Bot {
         public int search(ChessGame g, int depth, int alpha, int beta, int cnt) {
             if(g.getCurrentPos().ended()) {
                 // Return the score if the position has no moves
-                return score(g.getCurrentPos());
+                return score(g.getCurrentPos(), false);
             }
             else if(depth == 0) {
                 // Return the score once the depth has reached 0
-                return score(g.getCurrentPos());
+                return QuiescenceSearch(g, alpha, beta);
             }
             else {
                 int temp;
@@ -349,7 +362,34 @@ public class RadomirBot extends Bot {
             }
             return alpha;
         }
-        
+
+        int QuiescenceSearch (ChessGame g, int alpha, int beta) {
+			int eval = score(g.getCurrentPos(), true);
+			if (eval >= beta) {
+				return beta;
+			}
+			if (eval > alpha) {
+				alpha = eval;
+			}
+			ArrayList<Move> possibleMoves = sortMoves(g.getCurrentPos(), legalMoves(g.getCurrentPos()));
+			for (int i = 0; i < possibleMoves.size(); i++) {
+                String curMove = possibleMoves.get(i).move;
+
+                g.move(curMove.substring(0, 2), curMove.substring(2, 4), curMove.substring(4, 5));
+
+                eval = -QuiescenceSearch(g, -beta, -alpha);
+
+                g.undo();
+
+				if (eval >= beta) {
+					return beta;
+				}
+				if (eval > alpha) {
+					alpha = eval;
+				}
+			}
+			return alpha;
+		}
         
         /**
         * Sort an arraylist of moves based on their predicted evaluation

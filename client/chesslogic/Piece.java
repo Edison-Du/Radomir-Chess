@@ -70,6 +70,10 @@ public abstract class Piece {
     public int getColour() {
         return this.colour;
     }
+
+    public int adjustPoints(){
+        return this.points;
+    }
     
     public int getPoints() {
         return this.points;

@@ -23,6 +23,8 @@ public class ServerConnection {
     private BufferedReader input;
     private PrintWriter output;
     
+    private static boolean connected = false;
+    
     /**
      * ServerConnection
      * Creates a socket connecting to the server and creates
@@ -39,6 +41,8 @@ public class ServerConnection {
             stream = new InputStreamReader(socket.getInputStream());
             input = new BufferedReader(stream);
             output = new PrintWriter(socket.getOutputStream());    
+
+            connected = true;
 
             System.out.println("Connected to server.");
             
@@ -63,13 +67,12 @@ public class ServerConnection {
      * Sends a message object to the server
      */
     public static void sendMessage(Message message) {
-
-        if (message == null) {
-            return;
-        }
-
         // Make sure that an instance is active
         createInstance();
+
+        if (message == null || !connected) {
+            return;
+        }
 
         // Flush an output to the server
         instance.getOutput().println(message.getText());
@@ -83,6 +86,8 @@ public class ServerConnection {
      */
     public static Message getMessage() {
         createInstance();
+
+        if (!connected) return null;
 
         try {
             String text = instance.getInput().readLine();
@@ -104,6 +109,9 @@ public class ServerConnection {
 
         try {
             createInstance();
+
+            if (!connected) return false;
+
             return instance.getInput().ready();
 
         } catch (Exception e) {

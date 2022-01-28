@@ -158,6 +158,9 @@ public class MultiplayerPanel extends AbstractGamePanel {
      */
     @Override
     public void processMove(String t1, String t2, String p) {
+        if (chessGame.ended()) {
+            handleGameEnded();
+        }
         Message message = new Message(MessageTypes.CHESS_MOVE);
         message.addParam(t1);
         message.addParam(t2);

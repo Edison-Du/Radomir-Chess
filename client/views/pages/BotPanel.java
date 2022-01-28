@@ -110,6 +110,8 @@ public class BotPanel extends AbstractGamePanel {
             BotThread newBot = new BotThread(chessGame, chessGameClone, depthSearchBot, movesPanel, this);
             newBot.execute();
 
+        } else {
+            handleGameEnded();
         }
     }
 

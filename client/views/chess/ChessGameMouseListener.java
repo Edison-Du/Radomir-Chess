@@ -143,11 +143,6 @@ public class ChessGameMouseListener implements MouseListener, MouseMotionListene
                     game.move(t1, t2, "");
 
                     gamePanel.processMove(t1, t2, "");
-
-                    // check for end of game that happens in chess
-                    if(game.ended()) {
-                        gamePanel.handleGameEnded();
-                    }
                 }
             }
         }

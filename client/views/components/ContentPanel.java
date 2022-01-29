@@ -22,7 +22,7 @@ import java.io.IOException;
  * @version 1.0 Jan 24, 2022
  */
 public class ContentPanel extends JPanel {
-    private final Image logoImage = getLogoImage();
+    private static final Image logoImage = getLogoImage();
 
     /**
      * ContentPanel
@@ -56,11 +56,10 @@ public class ContentPanel extends JPanel {
      * @return the logo image
      */
     public static Image getLogoImage() {
-        try {
-            return ImageIO.read(new File(PathConsts.CHESS_LOGO)).getScaledInstance(UserInterface.LOGO_WIDTH, UserInterface.LOGO_HEIGHT, Image.SCALE_DEFAULT);
-        } catch(IOException e) {
-            e.printStackTrace();
+        if (logoImage == null) {
+            return UserInterface.readImage(PathConsts.CHESS_LOGO).getScaledInstance(UserInterface.LOGO_WIDTH, UserInterface.LOGO_HEIGHT, Image.SCALE_DEFAULT);
+        } else {
+            return logoImage;
         }
-        return null;
     }
 }

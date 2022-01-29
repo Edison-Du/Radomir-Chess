@@ -9,11 +9,6 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Graphics;
 
-import javax.imageio.ImageIO;
-
-import java.io.File;
-import java.io.IOException;
-
 /**
  * [ContentPanel.java]
  * Any panel that is displayed to the right of the navigation bar

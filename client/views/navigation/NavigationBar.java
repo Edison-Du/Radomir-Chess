@@ -7,10 +7,6 @@ import java.awt.Graphics;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import javax.imageio.ImageIO;
-
-import java.io.File;
-
 import views.Window;
 import config.UserInterface;
 import config.Page;

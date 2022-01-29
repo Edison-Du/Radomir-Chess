@@ -66,7 +66,7 @@ public class Pawn extends Piece {
     }
     
     public int adjustPoints(){
-        return this.getPoints()+10;
+        return this.getPoints()+5;
     }
     /**
      * Copies a piece

@@ -17,6 +17,8 @@ package chesslogic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.lang.InterruptedException;
+import java.time.Instant;
+import java.time.Duration;
 
 public class RadomirBot extends Bot {
     
@@ -102,11 +104,14 @@ public class RadomirBot extends Bot {
         for(int i = 0; i < moves.size(); i++) {
             partition.get(i%numThreads).add(moves.get(i));
         }
+
         for(int i = 0; i < numThreads && i < moves.size(); i++) {
             runnables[i] = new RunSearch(g.copy(), this.depth, partition.get(i), this.myMoves, this.myScores, i, this.directionXOne, this.directionYOne, this.directionXTwo, this.directionYTwo);
+            
             threads[i] = new Thread(runnables[i]);
             threads[i].start();
         }
+
         for(int i = 0; i < numThreads && i < moves.size(); i++) {
             try {
                 threads[i].join();
@@ -126,8 +131,9 @@ public class RadomirBot extends Bot {
     // All calculations are done in separate threads
     private class RunSearch implements Runnable {
 
+        final long maxSearch = 4000;
+
         // Class variables
-        
         private ChessGame game;
         private int depth;
         private ArrayList<String> check;
@@ -135,6 +141,12 @@ public class RadomirBot extends Bot {
         private String[] myMoves;
         private int[] myScores;
         private int mySection;
+
+        private boolean searchEnd;
+        private Instant startTime;
+
+        private int curScore;
+        private String ourMove;
         
         private int[][] attackPoints;
         private int[][] placementPoints;
@@ -304,6 +316,12 @@ public class RadomirBot extends Bot {
             // If the score is negative it is in favour of black, if positive, it is in favour of white
             return out * (b.getToMove() == ChessConsts.BLACK ? -1 : 1);
         }
+
+        private boolean checkTime(){
+            Instant here = Instant.now();
+            Duration timeElapsed = Duration.between(this.startTime, here);
+            return timeElapsed.toMillis() > maxSearch;
+        }
         
         /**
         * Searches the chess position for an optimal move recursively using a min max tree
@@ -317,6 +335,8 @@ public class RadomirBot extends Bot {
         * @return an integer value for the position
         */
         public int search(ChessGame g, int depth, int alpha, int beta, int cnt) {
+            if (checkTime() && !searchEnd) this.searchEnd = true;
+            if (searchEnd) return 0;
             if(g.getCurrentPos().ended()) {
                 // Return the score if the position has no moves
                 return score(g.getCurrentPos(), false);
@@ -354,8 +374,8 @@ public class RadomirBot extends Bot {
                         alpha = temp;
                         if (cnt == 0){
                             // Storing the values in the respective threads
-                            myMoves[mySection] = curMove;
-                            myScores[mySection] = alpha;
+                            this.ourMove = curMove;
+                            this.curScore = alpha;
                         }
                     }
                 }
@@ -363,6 +383,11 @@ public class RadomirBot extends Bot {
             return alpha;
         }
 
+        /**
+         * Searches the position for captures until there are none left
+         * This helps the bot reduce the chances of making bad moves on low depth
+         * @return an integer value of the position
+         */
         int QuiescenceSearch (ChessGame g, int alpha, int beta) {
 			int eval = score(g.getCurrentPos(), true);
 			if (eval >= beta) {
@@ -426,7 +451,14 @@ public class RadomirBot extends Bot {
          */
         @Override
         public void run() {
-            search(game, this.depth, -99999, 99999, 0);
+            for (int i = 1; i <= this.depth; i++){
+                this.searchEnd = false;
+                this.startTime = Instant.now();
+                search(game, i, -99999, 99999, 0);
+                if (this.searchEnd) break;
+                this.myMoves[mySection] = this.ourMove;
+                this.myScores[mySection] = this.curScore;
+            }
         }
     }   
 }

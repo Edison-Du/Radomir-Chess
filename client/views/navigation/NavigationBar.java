@@ -7,10 +7,6 @@ import java.awt.Graphics;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import javax.imageio.ImageIO;
-
-import java.io.File;
-
 import views.Window;
 import config.UserInterface;
 import config.Page;
@@ -27,6 +23,8 @@ import config.PathConsts;
  * @version 1.0 Jan 24, 2022
  */
 public class NavigationBar extends JPanel {
+
+    private static final Image HEADER_IMAGE = getHeaderImage();
     
     // Listens for page changes
     private NavigationActionListener navigationActionListener;
@@ -41,7 +39,6 @@ public class NavigationBar extends JPanel {
     };
 
     private final NavigationLink[] LINKS;
-    private final Image HEADER_IMAGE = getHeaderImage();
     private final int LOGIN_PAGE = 3;
     private final int NAVBAR_BUTTON_OFFSET = 113;
 
@@ -151,12 +148,11 @@ public class NavigationBar extends JPanel {
      * @return Image image object with image of navbar image
      */
     public static Image getHeaderImage() {
-        try {
-            return ImageIO.read(new File(PathConsts.NAVBAR_HEADER));
-        } catch(Exception e) {
-            System.out.println("Could not load navigation bar icon");
+        if (HEADER_IMAGE == null) {
+            return UserInterface.readImage(PathConsts.NAVBAR_HEADER);
+        } else {
+            return HEADER_IMAGE;
         }
-        return null;
     }
 
     /**

@@ -68,7 +68,7 @@ public final class PathConsts {
     public static final String ORKNEY_FONT = FONTS + "Orkney-Regular.ttf";
 
     // Chess openings
-    public static final String OPENING_FILE = "chessfiles/openings.txt";
+    public static final String OPENING_FILE = ASSETS + "openings/openings.txt";
 
     // This class should never be constructed
     private PathConsts() {}

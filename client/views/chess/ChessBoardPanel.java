@@ -5,9 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 // import game.Pieces;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 
 import java.util.HashSet;
 
@@ -33,6 +30,7 @@ public class ChessBoardPanel extends ContentPanel {
     int tileSize = 60;
 
     BufferedImage heldPieceImage;
+    BufferedImage promotionPlatter;
     BufferedImage woodBoard, iceBoard;
     ChessGameMouseListener chessGameMouseListener;
     AbstractGamePanel gamePanel;
@@ -47,12 +45,9 @@ public class ChessBoardPanel extends ContentPanel {
         addMouseListener(chessGameMouseListener);
         addMouseMotionListener(chessGameMouseListener);
 
-        try {
-            woodBoard = ImageIO.read(new File(PathConsts.WOOD_THEME));
-            iceBoard = ImageIO.read(new File(PathConsts.ICE_THEME));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        woodBoard = UserInterface.readImage((PathConsts.WOOD_THEME));
+        iceBoard = UserInterface.readImage((PathConsts.ICE_THEME));
+        promotionPlatter = UserInterface.readImage((PathConsts.PROMOTION_PLATTER));
 
         gameResultOverlay = new GameResultOverlay(gamePanel);
         gameResultOverlay.setBounds(0, 0, getWidth(), getHeight());
@@ -124,13 +119,7 @@ public class ChessBoardPanel extends ContentPanel {
         }
 
         if(chessGameMouseListener.isPromoting) {
-            BufferedImage promotionPlatter;
-            try {
-                promotionPlatter = ImageIO.read(new File(PathConsts.PROMOTION_PLATTER));
-                g.drawImage(promotionPlatter, 110, 200, this);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            g.drawImage(promotionPlatter, 110, 200, this);
         }
     }
 

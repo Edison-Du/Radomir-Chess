@@ -30,7 +30,7 @@ public class BotGameSetup extends ContentPanel implements ActionListener {
     private final int MEDIUM_BUTTON_Y = 430;
     private final int HARD_BUTTON_Y = 520;
     private final int EASY_DEPTH = 1;
-    private final int MEDIUM_DEPTH = 3;
+    private final int MEDIUM_DEPTH = 4;
     private final int HARD_DEPTH = 10;
     private final String EASY_TEXT = "Easy";
     private final String MEDIUM_TEXT = "Medium";

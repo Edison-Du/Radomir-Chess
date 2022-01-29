@@ -238,16 +238,12 @@ public final class UserInterface {
      * reads all the piece sets and stores them
      */
     public static void readAllPieceImages() {
-        try {
-            for (int piece = 0; piece < NUM_PIECES; piece++) {
-                BufferedImage[] allImages = new BufferedImage[NUM_SETS];
-                for (int set = 0; set < NUM_SETS; set++) {
-                    allImages[set] = ImageIO.read(new File(PathConsts.PIECE_SETS[set] + PathConsts.PIECE_NAMES[piece] + PathConsts.PNG_FILE));
-                }
-                PIECES.add(allImages);
+        for (int piece = 0; piece < NUM_PIECES; piece++) {
+            BufferedImage[] allImages = new BufferedImage[NUM_SETS];
+            for (int set = 0; set < NUM_SETS; set++) {
+                allImages[set] = readImage(PathConsts.PIECE_SETS[set] + PathConsts.PIECE_NAMES[piece] + PathConsts.PNG_FILE);
             }
-        } catch(IOException e) {
-            e.printStackTrace();
+            PIECES.add(allImages);
         }
     }
 
@@ -372,6 +368,16 @@ public final class UserInterface {
         return false;
     }
 
+
+
+    public static BufferedImage readImage(String fileName) {
+        try {
+            return ImageIO.read(new File(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     // This class should never be constructed
     private UserInterface() {}

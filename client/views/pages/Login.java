@@ -31,18 +31,17 @@ public class Login extends ContentPanel implements ActionListener{
     private final EmptyBorder TEXT_FIELD_MARGIN = new EmptyBorder(7, 5, 0, 5);
     private final int TEXT_FIELD_PLACEHOLDER_Y = 33;
     private final int BUTTON_X = UserInterface.CONTENT_WIDTH / 2 - 140;
-    private final int REGISTER_BUTTON_Y = UserInterface.WINDOW_HEIGHT / 2 + 90;
-    private final int LOGIN_BUTTON_Y = UserInterface.WINDOW_HEIGHT / 2 + 180;
-    private final int ERROR_LABEL_Y = UserInterface.WINDOW_HEIGHT / 2 + 50;
+    private final int REGISTER_BUTTON_Y = UserInterface.WINDOW_HEIGHT / 2 + 40;
+    private final int LOGIN_BUTTON_Y = UserInterface.WINDOW_HEIGHT / 2 + 130;
+    private final int ERROR_LABEL_Y = UserInterface.WINDOW_HEIGHT / 2;
     private final int ERROR_LABEL_HEIGHT = 30;
     private final int MAX_INPUT_LENGTH = 16;
-
     private final int USERNAME_X = UserInterface.CONTENT_WIDTH / 2 - 140;
     private final int PASSWORD_X = UserInterface.CONTENT_WIDTH / 2 - 140;
-    private final int USERNAME_LABEL_Y = UserInterface.WINDOW_HEIGHT / 2 - 160;
-    private final int USERNAME_FIELD_Y = UserInterface.WINDOW_HEIGHT / 2 - 120;
-    private final int PASSWORD_LABEL_Y = UserInterface.WINDOW_HEIGHT / 2 - 50;
-    private final int PASSWORD_FIELD_Y = UserInterface.WINDOW_HEIGHT / 2 - 10;
+    private final int USERNAME_LABEL_Y = UserInterface.WINDOW_HEIGHT / 2 - 200;
+    private final int USERNAME_FIELD_Y = UserInterface.WINDOW_HEIGHT / 2 - 160;
+    private final int PASSWORD_LABEL_Y = UserInterface.WINDOW_HEIGHT / 2 - 90;
+    private final int PASSWORD_FIELD_Y = UserInterface.WINDOW_HEIGHT / 2 - 50;
     private final int USERNAME_WIDTH = 280;
     private final int PASSWORD_WIDTH = 280;
     private final int LOGIN_LABEL_HEIGHT = 30;

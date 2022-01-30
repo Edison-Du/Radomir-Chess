@@ -65,7 +65,7 @@ public class About extends ContentPanel implements ActionListener {
 
             "Thanks to Jeffrey for his expertise in UI implementation. Thanks to Peter for his work on the chess engine and the account system. Thanks to Alex for his networking and chess game UI/UX contributions. Thanks to Nicholas for his handling of game lobbies and UI design. Thanks to Edison for designing the overall client/server system, leading the project and lending a hand to everyone. And Thanks to Leo for his crafting of the chess engine and game logic.\n\n" + 
 
-            "Credit to Lichess and Chess.com, from which much inspiration and assets for features and graphics were sourced. Credit also to deer203A, the graphic designer who made the logo we turned into the Radomir Chess l.\n\n" + 
+            "Credit to Lichess and Chess.com, from which much inspiration and assets for features and graphics were sourced. Credit also to deer203A, the graphic designer who made the logo we turned into the Radomir Chess logo.\n\n" + 
 
             "We hope that you enjoy Radomir Chess!"
         );

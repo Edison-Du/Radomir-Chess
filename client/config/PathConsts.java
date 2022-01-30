@@ -45,8 +45,8 @@ public final class PathConsts {
 
     // Name of individual piece image file
     public static final String[] PIECE_NAMES = {
-        "p0", "p1",
-        "b0", "b1",
+        "P0", "P1",
+        "B0", "B1",
         "N0", "N1",
         "R0", "R1",
         "Q0", "Q1",

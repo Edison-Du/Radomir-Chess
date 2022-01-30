@@ -291,6 +291,10 @@ public class ClientHandler extends Thread {
      */
     private void joinGame(Message message) {
 
+        if (lobby != null) {
+            leaveGame();
+        }
+
         int code = Integer.parseInt(message.getParam(0));
         lobby = server.getLobbyManager().getLobby(code);
 
@@ -331,6 +335,10 @@ public class ClientHandler extends Thread {
      * @param message a message containing the lobby settings (public/private)
      */
     private void createGame(Message message) {
+
+        if (lobby != null) {
+            leaveGame();
+        }
 
         Message createGameMessage = new Message(MessageTypes.GAME_CREATED);
         Message colourMessage = new Message(MessageTypes.PLAYER_COLOUR);
